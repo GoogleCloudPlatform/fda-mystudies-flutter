@@ -8,7 +8,7 @@ source "$DIR/flutter_ci_script_shared.sh"
 flutter doctor -v
 
 declare -ar PROJECT_NAMES=(
-    "fda_mystudies"
+    "."
 )
 
 ci_projects "dev" "${PROJECT_NAMES[@]}"
