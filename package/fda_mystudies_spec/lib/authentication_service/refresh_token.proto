@@ -1,0 +1,14 @@
+syntax = "proto3";
+package fda_mystudies_spec.authentication_service;
+
+message RefreshTokenResponse {
+    string access_token = 1 [json_name = 'access_token'];
+
+    // number of seconds after which the refresh_token will expire.
+    int32 expires_in = 2 [json_name = 'expires_in'];
+    
+    string id_token = 3 [json_name = 'id_token'];
+    string refresh_token = 4 [json_name = 'refresh_token'];
+    string scope = 5 [json_name = 'scope'];
+    string token_type = 6 [json_name = 'token_type'];
+}
