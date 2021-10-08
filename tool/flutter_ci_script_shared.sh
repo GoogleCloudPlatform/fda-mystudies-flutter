@@ -15,7 +15,7 @@ function ci_projects () {
         dart analyze
 
         # Run the formatter on all the dart files to make sure everything's linted.
-        dart format --output none --set-exit-if-changed .
+        find . -name "*.dart" ! -path './package/fda_mystudies_spec/*' | xargs dart format --set-exit-if-changed
 
         if [ "${PROJECT_NAME}" == "package/fda_mystudies_spec" ]
         then
