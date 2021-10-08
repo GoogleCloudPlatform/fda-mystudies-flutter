@@ -19,6 +19,8 @@ function ci_projects () {
 
         if [ "${PROJECT_NAME}" == "package/fda_mystudies_spec" ]
         then
+            dart pub global activate protoc_plugin
+            
             find . -name "*.proto" | xargs -I {} protoc --dart_out=. --plugin=$PUB_CACHE/bin/protoc-gen-dart "{}" 
         fi
 
