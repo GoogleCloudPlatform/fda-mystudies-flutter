@@ -19,8 +19,7 @@ function ci_projects () {
 
         if [ "${PROJECT_NAME}" == "package/fda_mystudies_spec" ]
         then
-            export PATH=$PATH:$GOPATH/bin
-            find . -name "*.proto" | xargs -I {} protoc --dart_out=. "{}"
+            find . -name "*.proto" | xargs -I {} protoc --dart_out=. --plugin=protoc-gen-dart=$HOME/.pub-cache/bin/protoc-gen-dart "{}" 
         fi
 
         # Run the actual tests.
