@@ -29,4 +29,6 @@ jobs:
         with:
           channel: ${{ matrix.flutter_version }}
       - uses: arduino/setup-protoc@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: ./tool/flutter_ci_script_${{ matrix.flutter_version }}.sh
