@@ -1,0 +1,8 @@
+syntax = "proto3";
+package fda_mystudies_spec.authentication_service;
+
+message LogoutResponse {
+    string user_id = 1;
+    string temp_reg_id = 2;
+    int32 status = 3;
+}

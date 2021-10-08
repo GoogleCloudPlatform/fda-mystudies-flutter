@@ -1,0 +1,16 @@
+syntax = "proto3";
+package fda_mystudies_spec.common_specs;
+
+message CommonErrorResponse {
+    int32 status = 1 [json_name = 'status'];
+    string error_type = 2 [json_name = 'error_type'];
+    string error_code = 3 [json_name = 'error_code'];
+    string error_description = 4 [json_name = 'error_description'];
+    int64 timestamp = 5 [json_name = 'timestamp'];
+
+    message CommonErrorViolation {
+        string path = 1 [json_name = 'path'];
+        string message = 2 [json_name = 'message'];
+    }
+    repeated CommonErrorViolation violations = 6 [json_name = 'violations'];
+}

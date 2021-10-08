@@ -9,6 +9,7 @@ flutter doctor -v
 
 declare -ar PROJECT_NAMES=(
     "."
+    "package/fda_mystudies_spec"
 )
 
 ci_projects "beta" "${PROJECT_NAMES[@]}"
