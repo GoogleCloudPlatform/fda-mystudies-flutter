@@ -11,7 +11,10 @@ function ci_projects () {
         # Grab packages.
         flutter pub get
 
-        flutter pub run build_runner build --delete-conflicting-outputs
+        if [ "${PROJECT_NAME}" == "package/fda_mystudies_http_client" ]
+        then
+            flutter pub run build_runner build --delete-conflicting-outputs
+        fi
 
         # Run the analyzer to find any static analysis issues.
         dart analyze
