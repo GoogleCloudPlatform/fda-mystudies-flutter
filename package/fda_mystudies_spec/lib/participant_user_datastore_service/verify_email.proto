@@ -1,0 +1,9 @@
+syntax = "proto3";
+package fda_mystudies_spec.participant_user_datastore_service;
+
+message VerifyEmailRepsonse {
+    int32 code = 1;
+    string message = 2;
+    bool verified = 3;
+    string temp_reg_id = 4;
+}

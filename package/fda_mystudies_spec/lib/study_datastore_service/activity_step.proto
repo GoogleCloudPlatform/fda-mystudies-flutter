@@ -1,0 +1,116 @@
+syntax = "proto3";
+package fda_mystudies_spec.study_datastore_service;
+
+message ActivityStep {
+  string key = 1;
+  string result_type = 2;
+  bool skippable = 3;
+  string text = 4;
+  string title = 5;
+  string type = 6;
+  string group_name = 9;
+  bool repeatable = 10;
+  string repeatable_text = 11;
+  string health_data_key = 12;
+
+  // The 'format' field will contain one of these messages, but we can't use
+  // oneof directly here since it doesn't do one-to-many json mapping. We won't
+  // be able to use google.protobuf.Any here, since it requires a type_url field
+  // set to pick the right variant from multiple messages. We are going to parse
+  // json to this proto by ignoring the unknown field 'format', using jsonDecode
+  // to convert json string to map, extracting 'format' from that map and
+  // converting to one of these formats and then setting them here.
+  oneof format {
+    ContinuousScaleFormat continuous_scale = 20;
+    DateTimeFormat date_time = 21;
+    ImageChoiceFormat image_choice = 22;
+    NumericalFormat numerical_format = 23;
+    ScaleFormat scale_format = 24;
+    TextChoiceFormat text_choice = 25;
+  }
+
+  message StepDestination {
+    string condition = 1;
+    string destination = 2;
+    string operator = 3;
+  }
+  repeated StepDestination destinations = 8;
+
+  repeated ActivityStep steps = 13;
+  repeated string options = 14;
+}
+
+////////////////////////
+//      FORMATS       //
+////////////////////////
+
+message ContinuousScaleFormat {
+  double default = 1;
+  string max_desc = 2;
+  string max_image = 3;
+  string max_value = 4;
+  string min_desc = 5;
+  string min_image = 6;
+  string min_value = 7;
+  int32 max_fraction_digits = 8;
+  bool vertical = 9;
+}
+
+message DateTimeFormat {
+  string date_range = 1;
+  string default = 2;
+  string max_date = 3;
+  string min_date = 4;
+  string style = 5;
+}
+
+message ImageChoiceFormat {
+  message ImageChoiceItem {
+    string image = 1;
+    string select_image = 2;
+    string text = 3;
+    string value = 4;
+  }
+  repeated ImageChoiceItem image_choices = 1;
+}
+
+message NumericalFormat {
+  double max_value = 1;
+  double min_value = 2;
+  string placeholder = 3;
+  string style = 4;
+  string unit = 5;
+}
+
+message ScaleFormat {
+  int32 default = 1;
+  string max_desc = 2;
+  string max_image = 3;
+  int32 max_value = 4;
+  string min_desc = 5;
+  string min_image = 6;
+  int32 min_value = 7;
+  int32 step = 8;
+  bool vertical = 9;
+}
+
+message TextChoiceFormat {
+  int32 default = 1;
+  bool vertical = 2;
+  string selection_style = 3;
+
+  message TextChoice {
+    string detail = 1;
+    bool exclusive = 2;
+    string text = 3;
+    string value = 4;
+
+    message OtherTextChoice {
+      bool is_mandatory = 1;
+      string placeholder = 2;
+      bool textfield_req = 3;
+    }
+    OtherTextChoice other = 5;
+  }
+  repeated TextChoice text_choices = 4;
+}

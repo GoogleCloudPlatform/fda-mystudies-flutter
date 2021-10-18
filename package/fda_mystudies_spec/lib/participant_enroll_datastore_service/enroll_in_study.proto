@@ -1,0 +1,11 @@
+syntax = "proto3";
+package fda_mystudies_spec.participant_enroll_datastore_service;
+
+message EnrollInStudyResponse {
+    string app_token = 1;
+    int32 code = 2;
+    string hashed_token = 3;
+    string message = 4;
+    string participant_id = 5;
+    string site_id = 6;
+}

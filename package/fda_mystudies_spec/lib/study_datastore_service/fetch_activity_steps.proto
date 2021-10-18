@@ -1,0 +1,25 @@
+syntax = "proto3";
+package fda_mystudies_spec.study_datastore_service;
+
+import "lib/study_datastore_service/activity_step.proto";
+
+message FetchActivityStepsResponse {
+  string message = 1;
+
+  message ActivityWithMetadataAndSteps {
+    string type = 1;
+
+    message ActivityMetadata {
+      string activity_id = 1;
+      string end_date = 2;
+      string last_modified = 3;
+      string name = 4;
+      string start_date = 5;
+      string study_id = 6;
+      string version = 7;
+    }
+    ActivityMetadata metadata = 2;
+    repeated ActivityStep steps = 3;
+  }
+  ActivityWithMetadataAndSteps activity = 2;
+}
