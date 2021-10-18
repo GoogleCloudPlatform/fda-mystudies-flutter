@@ -27,6 +27,6 @@ class _LiveConfig implements Config {
   injectable.Environment get environment => live;
 
   @override
-  // This is done to avoid setting unnecessary values for live config demo. 
+  // This is done to avoid setting unnecessary values for live config demo.
   noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
