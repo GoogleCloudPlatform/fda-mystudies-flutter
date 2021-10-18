@@ -9,6 +9,12 @@ class AuthenticationServiceImpl implements AuthenticationService {
   AuthenticationServiceImpl(this.client);
 
   @override
+  Uri getSignInPageURI(String? tempRegId) {
+    // TODO: implement getSignInPageURI
+    throw UnimplementedError();
+  }
+
+  @override
   Future<Object> changePassword(String currentPassword, String newPassword) {
     // TODO: implement changePassword
     throw UnimplementedError();
