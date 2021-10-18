@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
+
+import '../service/config.dart';
 import 'injection.config.dart';
 
 final getIt = GetIt.instance;
@@ -10,5 +12,7 @@ final getIt = GetIt.instance;
   preferRelativeImports: true, // default
   asExtension: false, // default
 )
-void configureDependencies(Environment environment) =>
-    $initGetIt(getIt, environment: environment.name);
+void configureDependencies(Config config) {
+  getIt.registerSingleton<Config>(config);
+  $initGetIt(getIt, environment: config.environment.name);
+}

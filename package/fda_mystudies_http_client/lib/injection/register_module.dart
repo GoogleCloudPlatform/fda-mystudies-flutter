@@ -1,7 +1,8 @@
-import 'package:fda_mystudies_http_client/injection/environment.dart';
-import 'package:fda_mystudies_http_client/mock/mock_http_client.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
+
+import '../injection/environment.dart';
+import '../mock/mock_http_client.dart';
 
 @module
 abstract class RegisterModule {
