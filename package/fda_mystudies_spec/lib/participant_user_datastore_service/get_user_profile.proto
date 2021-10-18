@@ -1,0 +1,21 @@
+syntax = "proto3";
+package fda_mystudies_spec.participant_user_datastore_service;
+
+message GetUserProfileResponse {
+    string message = 1;
+
+    message UserProfile {
+        string email_id = 1;
+    }
+    UserProfile profile = 2;
+
+    message UserProfileSettings {
+        bool local_notifications = 1;
+        string locale = 2;
+        bool passcode = 3;
+        string reminder_lead_time = 4;
+        bool remote_notifications = 5;
+        bool touch_id = 6;
+    }
+    UserProfileSettings settings = 3;
+}

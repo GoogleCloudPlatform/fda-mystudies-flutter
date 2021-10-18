@@ -1,0 +1,43 @@
+syntax = "proto3";
+package fda_mystudies_spec.study_datastore_service;
+
+message GetStudyDashboardResponse {
+    string message = 1;
+
+    message Dashboard {
+        message Statistics {
+            string title = 1;
+            string display_name = 2;
+            string stat_type = 3;
+            string unit = 4;
+            string calculation = 5;
+            DataSource data_source = 6;
+        }
+        repeated Statistics statistics = 1;
+
+        message Chart {
+            string title = 1;
+            string display_name = 2;
+            string type = 3;
+            bool scrollable = 4;
+            DataSource data_source = 5;
+        }
+        repeated Chart charts = 2;
+    }
+    Dashboard dashboard = 2;
+}
+
+message DataSource {
+    string type = 1;
+    string key = 2;
+    
+    message Activity {
+        string activity_id = 1;
+        string version = 2;
+    }
+    Activity activity = 3;
+
+    string time_range = 4;
+    string start_time = 5;
+    string end_time = 6;
+}

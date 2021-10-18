@@ -1,0 +1,13 @@
+syntax = "proto3";
+package fda_mystudies_spec.participant_consent_datastore_service;
+
+message GetConentDocumentResponse {
+    message ConsentDocument {
+        string content = 1;
+        string type = 2;
+        string version = 3;
+    }
+    ConsentDocument consent = 1;
+    string message = 2;
+    string sharing = 3;
+}

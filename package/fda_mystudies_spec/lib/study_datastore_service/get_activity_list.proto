@@ -1,0 +1,31 @@
+syntax = "proto3";
+package fda_mystudies_spec.study_datastore_service;
+
+message GetActivityListResponse {
+    string message = 1;
+
+    message Activity {
+        string activity_id = 1;
+        string activity_version = 2;
+        string title = 3;
+        string type = 4;
+        string state = 5;
+        string scheduling_type = 6;
+        
+        message Frequency {
+            string type = 1;
+
+            message FrequencyRuns {
+                string start_time = 1;
+                string end_time = 2;
+            }
+            repeated FrequencyRuns runs = 2;
+        }
+        Frequency frequency = 7;
+
+        string start_time = 8;
+        string end_time = 9;
+        string last_modified = 10;
+    }
+    repeated Activity activities = 2;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+package fda_mystudies_spec.participant_enroll_datastore_service;
+
+message GetStudyStateResponse {
+    string message = 1;
+    message StudyState {
+        int32 adherence = 1;
+        int32 completion = 2;
+        string enroll_date = 3;
+        string hashed_token = 4;
+        string participant_id = 5;
+        string site_id = 6;
+        string status = 7;
+        string study_id = 8;
+    }
+    repeated StudyState studies = 2;
+}

@@ -1,0 +1,29 @@
+syntax = "proto3";
+package fda_mystudies_spec.response_datastore_service;
+
+message GetActivityStateResponse {
+    string message = 1;
+    
+    message ActivityState {
+        string activity_id = 1;
+
+        message ActivityRun {
+            int32 completed = 1;
+            int32 missed = 2;
+            int32 total = 3;
+        }
+        ActivityRun activity_run = 2;
+
+        string activity_run_id = 3;
+        string activity_state = 4;
+        string activity_version = 5;
+    }
+    repeated ActivityState activities = 2;
+}
+
+message GetActivityStatusFailedResponse {
+    int32 app_error_code = 1;
+    string user_message = 2;
+    string type = 3;
+    string detail_message = 4;
+}
