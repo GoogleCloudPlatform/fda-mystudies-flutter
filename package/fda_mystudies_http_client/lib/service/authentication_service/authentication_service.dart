@@ -1,4 +1,7 @@
+/// Service for communicating to auth-server
 abstract class AuthenticationService {
+  Uri getSignInPageURI(String? tempRegId);
+
   Future<Object> refreshTokenForUser();
 
   Future<Object> grantVerifiedUser();
