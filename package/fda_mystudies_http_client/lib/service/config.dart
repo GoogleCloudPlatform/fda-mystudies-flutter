@@ -29,7 +29,7 @@ abstract class Config {
   /// `auto-auth-server-client-id` secret in your GCP secrets project.
   String get hydraClientId;
 
-  /// Either `IOS` or `Android`.
+  /// Either `IOS` or `ANDROID`.
   String get platform;
 
   /// source should be `MOBILE APPS`.
@@ -40,4 +40,7 @@ abstract class Config {
 
   /// version of the client app.
   String get version;
+
+  /// mapping of scenarios to service.method
+  Map<String, String> get scenarios;
 }

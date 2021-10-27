@@ -1,0 +1,9 @@
+title: Default Response
+description: Success response
+code: 200
+response: |
+  {
+    "status": 200,
+    "code": "200",
+    "message": "success"
+  }

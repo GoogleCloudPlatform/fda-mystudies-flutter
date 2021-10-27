@@ -16,6 +16,8 @@ dependencies:
   http: ^0.13.4
   fda_mystudies_spec:
     path: '../fda_mystudies_spec'
+  uuid: ^3.0.5
+  yaml: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -32,7 +34,8 @@ dependency_overrides:
 
 # The following section is specific to Flutter.
 flutter:
-
+  assets:
+    - lib/mock/scenario/
   # To add assets to your package, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

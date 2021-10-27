@@ -1,6 +1,7 @@
 import 'package:fda_mystudies_http_client/mock/demo_config.dart';
 import 'package:fda_mystudies_http_client/service/sample_service/sample_service.dart';
 import 'package:fda_mystudies_http_client/injection/injection.dart';
+import 'package:fda_mystudies_http_client/service/util/proto_json.dart';
 import 'package:fda_mystudies_spec/sample_service/album.pbserver.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -17,7 +18,7 @@ void main() {
             ..id = 3
             ..title = 'test');
 
-      expect(album.toProto3Json(), {'userId': 3, 'id': 3, 'title': 'test'});
+      expect(album.toJson(), {'userId': 3, 'id': 3, 'title': 'test'});
     });
   });
 }

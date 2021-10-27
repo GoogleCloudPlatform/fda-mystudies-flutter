@@ -4,6 +4,8 @@ import '../injection/environment.dart';
 import '../service/config.dart';
 
 class DemoConfig implements Config {
+  Map<String, String> serviceMethodScenarioMap = {};
+
   @override
   String get apiKey => 'API_KEY';
 
@@ -36,4 +38,7 @@ class DemoConfig implements Config {
 
   @override
   String get source => 'MOBILE APPS';
+
+  @override
+  Map<String, String> get scenarios => serviceMethodScenarioMap;
 }
