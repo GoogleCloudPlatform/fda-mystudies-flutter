@@ -10,5 +10,6 @@ abstract class AuthenticationService {
 
   Future<Object> logout();
 
-  Future<Object> changePassword(String currentPassword, String newPassword);
+  Future<Object> changePassword(
+      String userId, String currentPassword, String newPassword);
 }
