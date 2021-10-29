@@ -1,0 +1,9 @@
+title: Default Response
+description: Success response
+code: 200
+response: |
+  {
+    "userId": "userId",
+    "tempRegId": "tempRegId",
+    "status": 200
+  }

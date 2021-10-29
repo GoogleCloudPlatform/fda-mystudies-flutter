@@ -10,6 +10,9 @@ class Session {
   final String codeChallenge;
   final String state;
 
+  String authToken = '';
+  String refreshToken = '';
+
   static Session _session = Session.reset();
   static Session get shared => _session;
 
