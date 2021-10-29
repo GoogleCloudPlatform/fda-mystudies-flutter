@@ -1,0 +1,13 @@
+repos:
+  - repo: local
+    hooks:
+      - id: format
+        name: format
+        entry: dart format
+        language: script
+        files: \.dart$
+      - id: analyze
+        name: analyze
+        entry: dart analyze
+        language: script
+        files: \.dart$
