@@ -1,17 +1,18 @@
 abstract class StudyDatastoreService {
-  Future<Object> getVersionInfo();
+  Future<Object> getVersionInfo(String userId);
 
-  Future<Object> getStudyList();
+  Future<Object> getStudyList(String userId);
 
-  Future<Object> fetchActivitySteps();
+  Future<Object> fetchActivitySteps(
+      String studyId, String activityId, String activityVersion, String userId);
 
-  Future<Object> getActivityList();
+  Future<Object> getActivityList(String studyId, String userId);
 
-  Future<Object> getEligibilityAndConsent();
+  Future<Object> getEligibilityAndConsent(String studyId, String userId);
 
-  Future<Object> getStudyInfo();
+  Future<Object> getStudyInfo(String studyId, String userId);
 
-  Future<Object> getConsentDocument();
+  Future<Object> getConsentDocument(String studyId, String userId);
 
-  Future<Object> getStudyDashboard();
+  Future<Object> getStudyDashboard(String studyId);
 }

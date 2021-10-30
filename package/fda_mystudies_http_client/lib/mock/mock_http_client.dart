@@ -20,7 +20,15 @@ class MockHttpClient implements http.Client {
         'lib/mock/scenario/authentication_service/reset_password',
     '/auth-server/users/userId/logout':
         'lib/mock/scenario/authentication_service/logout',
-    '/albums/1': 'lib/mock/scenario/sample_service'
+    '/albums/1': 'lib/mock/scenario/sample_service',
+    '/study-datastore/versionInfo':
+        'lib/mock/scenario/study_datastore_service/version_info',
+    '/study-datastore/studyList':
+        'lib/mock/scenario/study_datastore_service/study_list',
+    '/study-datastore/activity':
+        'lib/mock/scenario/study_datastore_service/activity_steps',
+    '/study-datastore/activityList':
+        'lib/mock/scenario/study_datastore_service/activity_list'
   };
 
   var urlPathToServiceMethod = {
@@ -28,7 +36,11 @@ class MockHttpClient implements http.Client {
         'authentication_service.change_password',
     '/auth-server/oauth2/token': 'authentication_service.grant_verified_user',
     '/auth-server/user/reset_password': 'authentication_service.reset_password',
-    '/auth-server/users/userId/logout': 'authentication_service.logout'
+    '/auth-server/users/userId/logout': 'authentication_service.logout',
+    '/study-datastore/versionInfo': 'study_datastore_service.version_info',
+    '/study-datastore/studyList': 'study_datastore_service.study_list',
+    '/study-datastore/activity': 'study_datastore_service.activity_steps',
+    '/study-datastore/activityList': 'study_datastore_service.activity_list'
   };
 
   @override

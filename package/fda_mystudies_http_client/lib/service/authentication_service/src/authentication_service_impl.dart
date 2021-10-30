@@ -62,13 +62,11 @@ class AuthenticationServiceImpl implements AuthenticationService {
       'currentPassword': currentPassword,
       'newPassword': newPassword
     };
-
-    Uri changePasswordUri = Uri.https(config.baseParticipantUrl,
+    Uri uri = Uri.https(config.baseParticipantUrl,
         '$authServer/users/$userId$changePasswordPath');
 
     return client
-        .put(changePasswordUri,
-            headers: headers.toHeaderJson(), body: jsonEncode(body))
+        .put(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse('change_password',
             response, () => ChangePasswordResponse()..fromJson(response.body)));
   }
@@ -77,7 +75,6 @@ class AuthenticationServiceImpl implements AuthenticationService {
   Future<Object> grantVerifiedUser(String userId, String code) {
     var headers = CommonRequestHeader()
       ..from(config, contentType: ContentType.fromUrlEncoded, userId: userId);
-
     Map<String, String> params = {
       'code': code,
       'grant_type': 'authorization_code',
@@ -87,30 +84,27 @@ class AuthenticationServiceImpl implements AuthenticationService {
       'code_verifier': Session.shared.codeVerifier,
       'userId': userId
     };
-
-    Uri grantVerifiedUserUri = Uri.https(
+    Uri uri = Uri.https(
         config.baseParticipantUrl, '$authServer$oauth2TokenPath', params);
-    return client
-        .post(grantVerifiedUserUri, headers: headers.toHeaderJson())
-        .then((response) => ResponseParser.parseHttpResponse(
-                'grant_verified_user', response, () {
-              var refreshTokenResponse = RefreshTokenResponse()
-                ..fromJson(response.body);
-              _updateSessionProperties(refreshTokenResponse);
-              return refreshTokenResponse;
-            }));
+
+    return client.post(uri, headers: headers.toHeaderJson()).then((response) =>
+        ResponseParser.parseHttpResponse('grant_verified_user', response, () {
+          var refreshTokenResponse = RefreshTokenResponse()
+            ..fromJson(response.body);
+          _updateSessionProperties(refreshTokenResponse);
+          return refreshTokenResponse;
+        }));
   }
 
   @override
   Future<Object> logout(String userId, String authToken) {
     var headers = CommonRequestHeader()
       ..from(config, authToken: Session.shared.authToken, userId: userId);
-
-    Uri logoutUri = Uri.https(
+    Uri uri = Uri.https(
         config.baseParticipantUrl, '$authServer/users/$userId$logoutPath');
 
-    return client.post(logoutUri, headers: headers.toHeaderJson()).then(
-        (response) => ResponseParser.parseHttpResponse('logout', response,
+    return client.post(uri, headers: headers.toHeaderJson()).then((response) =>
+        ResponseParser.parseHttpResponse('logout', response,
             () => LogoutResponse()..fromJson(response.body)));
   }
 
@@ -121,7 +115,6 @@ class AuthenticationServiceImpl implements AuthenticationService {
           contentType: ContentType.fromUrlEncoded,
           authToken: Session.shared.authToken,
           userId: userId);
-
     var body = {
       'client_id': config.hydraClientId,
       'grant_type': 'refresh_token',
@@ -130,12 +123,11 @@ class AuthenticationServiceImpl implements AuthenticationService {
       'refresh_token': Session.shared.refreshToken,
       'userId': userId
     };
-
-    Uri refreshTokenUri =
+    Uri uri =
         Uri.https(config.baseParticipantUrl, '$authServer$oauth2TokenPath');
 
     return client
-        .post(refreshTokenUri,
+        .post(uri,
             headers: headers.toHeaderJson(),
             body: body,
             encoding: Encoding.getByName('application/x-www-form-urlencoded'))
@@ -152,15 +144,12 @@ class AuthenticationServiceImpl implements AuthenticationService {
   Future<Object> resetPassword(String emailId) {
     var headers = CommonRequestHeader()
       ..from(config, contentType: ContentType.json);
-
     var body = {'appId': config.appId, 'email': emailId};
-
-    var resetPasswordUri =
+    var uri =
         Uri.https(config.baseParticipantUrl, '$authServer$resetPasswordPath');
 
     return client
-        .post(resetPasswordUri,
-            headers: headers.toHeaderJson(), body: json.encode(body))
+        .post(uri, headers: headers.toHeaderJson(), body: json.encode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'reset_password',
             response,

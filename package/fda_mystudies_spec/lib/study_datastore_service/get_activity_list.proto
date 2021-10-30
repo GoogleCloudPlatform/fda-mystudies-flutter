@@ -26,6 +26,10 @@ message GetActivityListResponse {
         string start_time = 8;
         string end_time = 9;
         string last_modified = 10;
+        bool branching = 11;
+        bool is_launch_study = 12;
+        bool is_study_life_time = 13;
+        string task_sub_type = 14;
     }
     repeated Activity activities = 2;
 }
