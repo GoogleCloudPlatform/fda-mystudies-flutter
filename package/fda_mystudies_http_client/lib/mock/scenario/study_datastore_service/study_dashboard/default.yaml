@@ -1,0 +1,43 @@
+title: Default Response
+description: Dashboard for displaying step-count and leg pain statistics.
+code: 200
+response: |
+  {
+      "message": "SUCCESS",
+      "dashboard": {
+          "statistics": [
+              {
+                  "title": "Step-Count",
+                  "displayName": "Step Count",
+                  "statType": "Activity",
+                  "unit": "steps",
+                  "calculation": "Average",
+                  "dataSource": {
+                      "type": "questionnaire",
+                      "key": "step-count",
+                      "activity": {
+                          "activityId": "daily-activity",
+                          "version": "1.0"
+                      }
+                  }
+              }
+          ],
+          "charts": [
+              {
+                  "title": "leg-pain",
+                  "displayName": "Leg Pain",
+                  "type": "line-chart",
+                  "scrollable": false,
+                  "dataSource": {
+                      "type": "questionnaire",
+                      "key": "leg-pain",
+                      "activity": {
+                          "activityId": "daily-survey",
+                          "version": "1.1"
+                      },
+                      "timeRangeType": "days_of_week"
+                  }
+              }
+          ]
+      }
+  }

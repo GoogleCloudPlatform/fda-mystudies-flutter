@@ -37,7 +37,7 @@ message DataSource {
     }
     Activity activity = 3;
 
-    string time_range = 4;
+    string time_range_type = 4;
     string start_time = 5;
     string end_time = 6;
 }

@@ -9,7 +9,7 @@ message GetEligibilityAndConsentResponse {
     message Eligibility {
         string type = 1;
         string token_title = 2;
-        repeated ActivityStep steps = 3;
+        repeated ActivityStep test = 3;
         repeated CorrectAnswers correct_answers = 4;
     }
     Eligibility eligibility = 2;
@@ -51,8 +51,11 @@ message GetEligibilityAndConsentResponse {
 message CorrectAnswers {
     string key = 1;
     
-    // This should be treated same as ActivityStep.Format
-    // dynamic answer = 2;
+    oneof answer {
+        bool bool_answer = 2;
+    }
+    // This should have been a part of oneof answer, but there is no support for repeated fields in oneof, yet.
+    repeated string text_choice_answer = 4;
 
     string evaluation = 3;
 }

@@ -28,7 +28,15 @@ class MockHttpClient implements http.Client {
     '/study-datastore/activity':
         'lib/mock/scenario/study_datastore_service/activity_steps',
     '/study-datastore/activityList':
-        'lib/mock/scenario/study_datastore_service/activity_list'
+        'lib/mock/scenario/study_datastore_service/activity_list',
+    '/study-datastore/consentDocument':
+        'lib/mock/scenario/study_datastore_service/consent_document',
+    '/study-datastore/studyInfo':
+        'lib/mock/scenario/study_datastore_service/study_info',
+    '/study-datastore/studyDashboard':
+        'lib/mock/scenario/study_datastore_service/study_dashboard',
+    '/study-datastore/eligibilityConsent':
+        'lib/mock/scenario/study_datastore_service/eligibility_and_consent'
   };
 
   var urlPathToServiceMethod = {
@@ -40,7 +48,14 @@ class MockHttpClient implements http.Client {
     '/study-datastore/versionInfo': 'study_datastore_service.version_info',
     '/study-datastore/studyList': 'study_datastore_service.study_list',
     '/study-datastore/activity': 'study_datastore_service.activity_steps',
-    '/study-datastore/activityList': 'study_datastore_service.activity_list'
+    '/study-datastore/activityList': 'study_datastore_service.activity_list',
+    '/study-datastore/consentDocument':
+        'study_datastore_service.consent_document',
+    '/study-datastore/studyInfo': 'study_datastore_service.study_info',
+    '/study-datastore/studyDashboard':
+        'study_datastore_service.study_dashboard',
+    '/study-datastore/eligibilityConsent':
+        'study_datastore_service.eligibility_and_consent'
   };
 
   @override

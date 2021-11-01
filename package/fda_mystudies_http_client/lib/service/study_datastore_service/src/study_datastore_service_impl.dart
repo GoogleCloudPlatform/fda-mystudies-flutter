@@ -92,7 +92,7 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
 
     return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
         ResponseParser.parseHttpResponse('eligibility_and_consent', response,
-            () => GetEligibilityAndConsentResponse()..fromJson(response.body)));
+            () => _getEligibilityAndConsentResponseFromJson(response.body)));
   }
 
   @override
@@ -155,18 +155,54 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
     return FetchActivityStepsResponse()..fromJson(jsonEncode(map));
   }
 
-  List<Map<String, dynamic>> _updateStepValue(List<dynamic> activityStepList) {
+  GetEligibilityAndConsentResponse _getEligibilityAndConsentResponseFromJson(
+      String json) {
+    Map<String, dynamic> map = jsonDecode(json);
+    map['eligibility']['test'] = _updateStepValue(map['eligibility']['test']);
+    map['eligibility']['correctAnswers'] =
+        _updateAnswerList(map['eligibility']['correctAnswers']);
+    map['consent']['comprehension']['questions'] =
+        _updateStepValue(map['consent']['comprehension']['questions']);
+    map['consent']['comprehension']['correctAnswers'] =
+        _updateAnswerList(map['consent']['comprehension']['correctAnswers']);
+    return GetEligibilityAndConsentResponse()..fromJson(jsonEncode(map));
+  }
+
+  List<Map<String, dynamic>> _updateStepValue(List<dynamic> activitySteps) {
     List<Map<String, dynamic>> updatedList = [];
-    for (var val in activityStepList) {
-      updatedList.add(_activityFromJson(val));
+    for (var step in activitySteps) {
+      updatedList.add(_updateStepFormat(step));
     }
     return updatedList;
   }
 
   // TODO(cg2092): add more formats
-  Map<String, dynamic> _activityFromJson(Map<String, dynamic> map) {
-    if (map['resultType'] == 'scale') {
-      map['scaleFormat'] = map['format'];
+  Map<String, dynamic> _updateStepFormat(Map<String, dynamic> map) {
+    var resultType = map['resultType'];
+    var format = map['format'];
+    if (resultType == 'scale') {
+      map['scaleFormat'] = format;
+    } else if (resultType == 'textChoice') {
+      map['textChoice'] = format;
+    }
+    return map;
+  }
+
+  List<Map<String, dynamic>> _updateAnswerList(List<dynamic> answers) {
+    List<Map<String, dynamic>> updatedList = [];
+    for (var ans in answers) {
+      updatedList.add(_updateAnswerValue(ans));
+    }
+    return updatedList;
+  }
+
+  // TODO(cg2092): add more formats
+  Map<String, dynamic> _updateAnswerValue(Map<String, dynamic> map) {
+    var answer = map['answer'];
+    if (answer is List) {
+      map['textChoiceAnswer'] = answer;
+    } else if (answer is bool) {
+      map['boolAnswer'] = answer;
     }
     return map;
   }

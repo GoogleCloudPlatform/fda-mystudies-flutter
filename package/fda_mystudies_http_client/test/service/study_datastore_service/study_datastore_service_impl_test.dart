@@ -5,7 +5,11 @@ import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/fetch_activity_steps.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_activity_list.pb.dart';
+import 'package:fda_mystudies_spec/study_datastore_service/get_consent_document.pb.dart';
+import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
+import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pbserver.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_list.pb.dart';
+import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -132,18 +136,142 @@ void main() {
   });
 
   group('get consent document tests', () {
-    test('test default scenario', () {});
+    test('test default scenario', () async {
+      var response =
+          await studyDatastoreService!.getConsentDocument('studyId', 'userId');
+
+      expect(
+          response,
+          GetConsentDocumentResponse()
+            ..message = 'SUCCESS'
+            ..consent = (GetConsentDocumentResponse_ConsentDocument()
+              ..version = '1.1'
+              ..type = 'text/html'
+              ..content = '<span>Sample Consent Form</span>'));
+    });
   });
 
   group('get eligibility and consent tests', () {
-    test('test default scenario', () {});
+    test('test default scenario', () async {
+      var response = await studyDatastoreService!
+          .getEligibilityAndConsent('studyId', 'userId');
+
+      expect(
+          response,
+          GetEligibilityAndConsentResponse()
+            ..message = 'SUCCESS'
+            ..eligibility = (GetEligibilityAndConsentResponse_Eligibility()
+              ..type = 'combined'
+              ..tokenTitle =
+                  'Participating in this study requires an invitation. If you have received one, please enter the token provided.'
+              ..test.add(ActivityStep()
+                ..type = 'Question'
+                ..resultType = 'boolean'
+                ..key = 'age'
+                ..title = 'Are you 18 years or older?'
+                ..text =
+                    'Answer these questions to determine your eligibility for the study'
+                ..skippable = false
+                ..repeatable = false)
+              ..correctAnswers.add(CorrectAnswers()
+                ..key = 'age'
+                ..boolAnswer = true))
+            ..consent = (GetEligibilityAndConsentResponse_Consent()
+              ..version = '1.1'
+              ..visualScreens.add(
+                  GetEligibilityAndConsentResponse_Consent_VisualScreen()
+                    ..type = 'overview'
+                    ..title =
+                        'Review this information and consent to participate in this study'
+                    ..text =
+                        'This consent form gives you important information about a research study.'
+                    ..html =
+                        'We are asking you to participate in this research study. Participation in this research study is voluntary.'
+                    ..visualStep = true)
+              ..comprehension =
+                  (GetEligibilityAndConsentResponse_Consent_Comprehension()
+                    ..passScore = 1
+                    ..questions.add(ActivityStep()
+                      ..type = 'Question'
+                      ..resultType = 'textChoice'
+                      ..key = '123'
+                      ..title =
+                          'I can choose not to participate in the study at any time.'
+                      ..text =
+                          'Take this comprehension test to assess your understanding of the study'
+                      ..skippable = false
+                      ..repeatable = false
+                      ..textChoice = (TextChoiceFormat()
+                        ..textChoices.addAll([
+                          (TextChoiceFormat_TextChoice()
+                            ..text = 'Yes'
+                            ..value = 'Yes'
+                            ..exclusive = false),
+                          (TextChoiceFormat_TextChoice()
+                            ..text = 'No'
+                            ..value = 'No'
+                            ..exclusive = false)
+                        ])
+                        ..selectionStyle = 'Multiple'))
+                    ..correctAnswers.add(CorrectAnswers()
+                      ..key = '123'
+                      ..evaluation = 'all'
+                      ..textChoiceAnswer.add("Yes")))));
+    });
   });
 
   group('get study dashboard tests', () {
-    test('test default scenario', () {});
+    test('test default scenario', () async {
+      var response = await studyDatastoreService!.getStudyDashboard('studyId');
+
+      expect(
+          response,
+          GetStudyDashboardResponse()
+            ..message = 'SUCCESS'
+            ..dashboard = (GetStudyDashboardResponse_Dashboard()
+              ..statistics.add(GetStudyDashboardResponse_Dashboard_Statistics()
+                ..title = 'Step-Count'
+                ..displayName = 'Step Count'
+                ..statType = 'Activity'
+                ..unit = 'steps'
+                ..calculation = 'Average'
+                ..dataSource = (DataSource()
+                  ..type = 'questionnaire'
+                  ..key = 'step-count'
+                  ..activity = (DataSource_Activity()
+                    ..activityId = 'daily-activity'
+                    ..version = '1.0')))
+              ..charts.add(GetStudyDashboardResponse_Dashboard_Chart()
+                ..title = 'leg-pain'
+                ..displayName = 'Leg Pain'
+                ..type = 'line-chart'
+                ..scrollable = false
+                ..dataSource = (DataSource()
+                  ..type = 'questionnaire'
+                  ..key = 'leg-pain'
+                  ..activity = (DataSource_Activity()
+                    ..activityId = 'daily-survey'
+                    ..version = '1.1')
+                  ..timeRangeType = 'days_of_week'))));
+    });
   });
 
   group('get study info tests', () {
-    test('test default scenario', () {});
+    test('test default scenario', () async {
+      var response =
+          await studyDatastoreService!.getStudyInfo('studyId', 'userId');
+
+      expect(
+          response,
+          StudyInfoResponse()
+            ..message = 'SUCCESS'
+            ..info.add(StudyInfoResponse_StudyInfoItem()
+              ..type = 'image'
+              ..image =
+                  'https://images.unsplash.com/photo-1529310399831-ed472b81d589?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80'
+              ..title = 'FDA MyStudies'
+              ..text =
+                  'The FDA MyStudies platform enables you to quickly build and deploy studies that interact with participants through apps on iOS and Android.'));
+    });
   });
 }

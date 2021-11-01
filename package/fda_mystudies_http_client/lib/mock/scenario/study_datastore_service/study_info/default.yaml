@@ -1,0 +1,15 @@
+title: Default Response
+description: Response with Sample Study Info
+code: 200
+response: |
+  {
+      "message": "SUCCESS",
+      "info": [
+          {
+              "type": "image",
+              "image": "https://images.unsplash.com/photo-1529310399831-ed472b81d589?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80",
+              "title": "FDA MyStudies",
+              "text": "The FDA MyStudies platform enables you to quickly build and deploy studies that interact with participants through apps on iOS and Android."
+          }
+      ]
+  }
