@@ -2,24 +2,24 @@ syntax = "proto3";
 package fda_mystudies_spec.study_datastore_service;
 
 message GetStudyListResponse {
-    string message = 1;
+  string message = 1;
 
-    message Study {
-        string category = 1;
-        string logo = 2;
+  message Study {
+    string category = 1;
+    string logo = 2;
 
-        message StudySettings {
-            bool enrolling = 1;
-            string platform = 2;
-        }
-        StudySettings settings = 3;
-
-        string sponsor_name = 4;
-        string status = 5;
-        string study_id = 6;
-        string study_version = 7;
-        string tag_line = 8;
-        string title = 9;
+    message StudySettings {
+      bool enrolling = 1;
+      string platform = 2;
     }
-    repeated Study studies = 2;
+    StudySettings settings = 3;
+
+    string sponsor_name = 4;
+    string status = 5;
+    string study_id = 6;
+    string study_version = 7;
+    string tag_line = 8;
+    string title = 9;
+  }
+  repeated Study studies = 2;
 }

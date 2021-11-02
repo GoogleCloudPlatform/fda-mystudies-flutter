@@ -2,6 +2,6 @@ syntax = "proto3";
 package fda_mystudies_spec.participant_user_datastore_service;
 
 message RegistrationResponse {
-    string temp_reg_id = 1;
-    string user_id = 2;
+  string temp_reg_id = 1;
+  string user_id = 2;
 }

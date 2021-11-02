@@ -2,16 +2,16 @@ syntax = "proto3";
 package fda_mystudies_spec.common_specs;
 
 message CommonRequestHeader {
-    string app_id = 1;
-    string application_id = 2;
-    string source = 3;
-    string app_name = 4;
-    string content_type = 5 [json_name = 'Content-Type'];
-    string correlation_id = 6;
-    string authorization = 7 [json_name = 'Authorization'];
-    string user_id = 8;
-    string mobile_platform = 9;
-    string app_version = 10;
-    string access_token = 11;
-    string participant_id = 12;
+  string app_id = 1;
+  string application_id = 2;
+  string source = 3;
+  string app_name = 4;
+  string content_type = 5 [json_name = "Content-Type"];
+  string correlation_id = 6;
+  string authorization = 7 [json_name = "Authorization"];
+  string user_id = 8;
+  string mobile_platform = 9;
+  string app_version = 10;
+  string access_token = 11;
+  string participant_id = 12;
 }

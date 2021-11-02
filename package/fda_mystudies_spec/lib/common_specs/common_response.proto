@@ -2,6 +2,6 @@ syntax = "proto3";
 package fda_mystudies_spec.common_specs;
 
 message CommonResponse {
-    int32 code = 1;
-    string message = 2;
+  int32 code = 1;
+  string message = 2;
 }

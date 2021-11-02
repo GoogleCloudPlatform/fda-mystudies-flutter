@@ -164,7 +164,7 @@ void main() {
               ..type = 'combined'
               ..tokenTitle =
                   'Participating in this study requires an invitation. If you have received one, please enter the token provided.'
-              ..test.add(ActivityStep()
+              ..tests.add(ActivityStep()
                 ..type = 'Question'
                 ..resultType = 'boolean'
                 ..key = 'age'
@@ -216,7 +216,7 @@ void main() {
                     ..correctAnswers.add(CorrectAnswers()
                       ..key = '123'
                       ..evaluation = 'all'
-                      ..textChoiceAnswer.add("Yes")))));
+                      ..textChoiceAnswers.add("Yes")))));
     });
   });
 
@@ -265,7 +265,7 @@ void main() {
           response,
           StudyInfoResponse()
             ..message = 'SUCCESS'
-            ..info.add(StudyInfoResponse_StudyInfoItem()
+            ..infos.add(StudyInfoResponse_StudyInfoItem()
               ..type = 'image'
               ..image =
                   'https://images.unsplash.com/photo-1529310399831-ed472b81d589?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=774&q=80'

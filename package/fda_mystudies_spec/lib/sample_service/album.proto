@@ -2,7 +2,7 @@ syntax = "proto3";
 package fda_mystudies_spec.sample_service;
 
 message Album {
-    int32 user_id = 1;
-    int32 id = 2;
-    string title = 3;
+  int32 user_id = 1;
+  int32 id = 2;
+  string title = 3;
 }

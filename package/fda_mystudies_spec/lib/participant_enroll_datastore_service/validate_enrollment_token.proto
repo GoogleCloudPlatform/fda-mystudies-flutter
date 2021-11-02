@@ -2,7 +2,7 @@ syntax = "proto3";
 package fda_mystudies_spec.participant_enroll_datastore_service;
 
 message ValidateEnrollmentTokenResponse {
-    int32 code = 1;
-    string message = 2;
-    string site_id = 3;
+  int32 code = 1;
+  string message = 2;
+  string site_id = 3;
 }

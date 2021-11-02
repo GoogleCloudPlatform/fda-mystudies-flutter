@@ -2,15 +2,15 @@ syntax = "proto3";
 package fda_mystudies_spec.study_datastore_service;
 
 message StudyInfoResponse {
-    string message = 1;
-    string study_website = 2;
+  string message = 1;
+  string study_website = 2;
 
-    message StudyInfoItem {
-        string type = 1;
-        string image = 2;
-        string title = 3;
-        string text = 4;
-        string video_link = 5;
-    }
-    repeated StudyInfoItem info = 3;
+  message StudyInfoItem {
+    string type = 1;
+    string image = 2;
+    string title = 3;
+    string text = 4;
+    string video_link = 5;
+  }
+  repeated StudyInfoItem infos = 3 [json_name = "info"];
 }
