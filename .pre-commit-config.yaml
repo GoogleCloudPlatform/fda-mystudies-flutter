@@ -5,6 +5,10 @@ repos:
       -   id: check-yaml
       -   id: end-of-file-fixer
       -   id: trailing-whitespace
+  -   repo: https://github.com/yoheimuta/protolint
+      rev: v0.35.1
+      hooks:
+      -   id: protolint
   - repo: local
     hooks:
       - id: format-and-analyze
