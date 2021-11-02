@@ -178,8 +178,8 @@ void main() {
                 ..boolAnswer = true))
             ..consent = (GetEligibilityAndConsentResponse_Consent()
               ..version = '1.1'
-              ..visualScreens.add(
-                  GetEligibilityAndConsentResponse_Consent_VisualScreen()
+              ..visualScreens
+                  .add(GetEligibilityAndConsentResponse_Consent_VisualScreen()
                     ..type = 'overview'
                     ..title =
                         'Review this information and consent to participate in this study'

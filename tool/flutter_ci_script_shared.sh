@@ -20,13 +20,13 @@ function ci_projects () {
         dart analyze
 
         # Run the formatter on all the dart files to make sure everything's linted.
-        find . -name "*.dart" ! -path './package/fda_mystudies_spec/*' | xargs dart format --set-exit-if-changed
+        find . -name "*.dart" ! -path './package/fda_mystudies_spec/*' | xargs flutter format --set-exit-if-changed
 
         if [ "${PROJECT_NAME}" == "package/fda_mystudies_spec" ]
         then
             dart pub global activate protoc_plugin
             echo "$PUB_CACHE/bin" >> $GITHUB_PATH
-            find . -name "*.proto" | xargs -I {} protoc --dart_out=. "{}" 
+            find . -name "*.proto" | xargs -I {} protoc --dart_out=. "{}"
         fi
 
         # Run the actual tests.
