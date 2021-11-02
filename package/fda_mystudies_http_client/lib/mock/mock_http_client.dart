@@ -14,12 +14,21 @@ class MockHttpClient implements http.Client {
   var urlPathToMockYamlPath = {
     '/auth-server/users/userId/change_password':
         'lib/mock/scenario/authentication_service/change_password',
+    '/auth-server/oauth2/token':
+        'lib/mock/scenario/authentication_service/grant_verified_user',
+    '/auth-server/user/reset_password':
+        'lib/mock/scenario/authentication_service/reset_password',
+    '/auth-server/users/userId/logout':
+        'lib/mock/scenario/authentication_service/logout',
     '/albums/1': 'lib/mock/scenario/sample_service'
   };
 
   var urlPathToServiceMethod = {
     '/auth-server/users/userId/change_password':
-        'authentication_service.change_password'
+        'authentication_service.change_password',
+    '/auth-server/oauth2/token': 'authentication_service.grant_verified_user',
+    '/auth-server/user/reset_password': 'authentication_service.reset_password',
+    '/auth-server/users/userId/logout': 'authentication_service.logout'
   };
 
   @override
@@ -33,11 +42,21 @@ class MockHttpClient implements http.Client {
     return _mapUrlPathToResponse(url.path);
   }
 
+  @override
+  Future<http.Response> post(Uri url,
+      {Map<String, String>? headers, Object? body, Encoding? encoding}) {
+    return _mapUrlPathToResponse(url.path);
+  }
+
   Future<http.Response> _mapUrlPathToResponse(String urlPath) {
     var yamlDir = urlPathToMockYamlPath[urlPath];
-    var yamlFile =
-        config.scenarios[urlPathToServiceMethod[urlPath]] ?? 'default';
-    var yamlPath = '$yamlDir/$yamlFile.yaml';
+    var code = config.scenarios[urlPathToServiceMethod[urlPath]] ?? 'default';
+    var yamlPath = '';
+    if (code.startsWith('common.')) {
+      yamlPath = 'lib/mock/scenario/common/${code.split('.').last}.yaml';
+    } else {
+      yamlPath = '$yamlDir/$code.yaml';
+    }
     return _yamlToHttpResponse(yamlPath);
   }
 
@@ -49,6 +68,5 @@ class MockHttpClient implements http.Client {
   }
 
   @override
-  // method to ignore overriding unnecessary methods.
   noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

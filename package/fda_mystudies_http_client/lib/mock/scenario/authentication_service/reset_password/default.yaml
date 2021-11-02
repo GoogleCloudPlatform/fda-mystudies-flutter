@@ -3,7 +3,6 @@ description: Success response
 code: 200
 response: |
   {
-    "userId": 3,
-    "id": 3,
-    "title": "test"
+    "code": 200,
+    "message": "success"
   }

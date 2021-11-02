@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'dart:developer' as developer;
 
 import 'package:fda_mystudies_spec/authentication_service/change_password.pbserver.dart';
-import 'package:fda_mystudies_spec/common_specs/common_error_response.pbserver.dart';
+import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
+import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
+import 'package:fda_mystudies_spec/common_specs/common_response.pbserver.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
@@ -11,6 +12,7 @@ import '../../../service/authentication_service/authentication_service.dart';
 import '../../../service/session.dart';
 import '../../../service/util/proto_json.dart';
 import '../../../service/util/request_header.dart';
+import '../../../service/util/response_parser.dart';
 import '../../config.dart';
 
 @Injectable(as: AuthenticationService)
@@ -31,7 +33,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
   AuthenticationServiceImpl(this.client, this.config);
 
   @override
-  Uri getSignInPageURI(String? tempRegId) {
+  Uri getSignInPageURI({String? tempRegId}) {
     Map<String, String> parameters = {
       'source': config.source,
       'client_id': config.hydraClientId, // HYDRA_CLIENT_ID
@@ -67,43 +69,116 @@ class AuthenticationServiceImpl implements AuthenticationService {
     return client
         .put(changePasswordUri,
             headers: headers.toHeaderJson(), body: jsonEncode(body))
-        .then((response) {
-      developer.log('CHANGE PASSWORD STATUS CODE : ${response.statusCode}');
-      developer.log('CHANGE PASSWORD RESPONSE : ${response.body}');
-      try {
-        if (response.statusCode == 200) {
-          return ChangePasswordResponse()..fromJson(response.body);
-        }
-        return CommonErrorResponse()..fromJson(response.body);
-      } on FormatException {
-        return CommonErrorResponse.create()
-          ..errorDescription =
-              'Invalid json received while making the change_password call!';
-      }
-    });
+        .then((response) => ResponseParser.parseHttpResponse('change_password',
+            response, () => ChangePasswordResponse()..fromJson(response.body)));
   }
 
   @override
-  Future<Object> grantVerifiedUser() {
-    // TODO: implement grantVerifiedUser
-    throw UnimplementedError();
+  Future<Object> grantVerifiedUser(String userId, String code) {
+    var headers = CommonRequestHeader()
+      ..from(config, contentType: ContentType.fromUrlEncoded, userId: userId);
+
+    Map<String, String> params = {
+      'code': code,
+      'grant_type': 'authorization_code',
+      'scope': 'openid offline',
+      'redirect_uri':
+          'https://${config.baseParticipantUrl}$authServer/callback',
+      'code_verifier': Session.shared.codeVerifier,
+      'userId': userId
+    };
+
+    Uri grantVerifiedUserUri = Uri.https(
+        config.baseParticipantUrl, '$authServer$oauth2TokenPath', params);
+    return client
+        .post(grantVerifiedUserUri, headers: headers.toHeaderJson())
+        .then((response) => ResponseParser.parseHttpResponse(
+                'grant_verified_user', response, () {
+              var refreshTokenResponse = RefreshTokenResponse()
+                ..fromJson(response.body);
+              _updateSessionProperties(refreshTokenResponse);
+              return refreshTokenResponse;
+            }));
   }
 
   @override
-  Future<Object> logout() {
-    // TODO: implement logout
-    throw UnimplementedError();
+  Future<Object> logout(String userId, String authToken) {
+    var headers = CommonRequestHeader()
+      ..from(config, authToken: Session.shared.authToken, userId: userId);
+
+    Uri logoutUri = Uri.https(
+        config.baseParticipantUrl, '$authServer/users/$userId$logoutPath');
+
+    return client.post(logoutUri, headers: headers.toHeaderJson()).then(
+        (response) => ResponseParser.parseHttpResponse('logout', response,
+            () => LogoutResponse()..fromJson(response.body)));
   }
 
   @override
-  Future<Object> refreshTokenForUser() {
-    // TODO: implement refreshTokenForUser
-    throw UnimplementedError();
+  Future<Object> refreshToken(String userId) {
+    var headers = CommonRequestHeader()
+      ..from(config,
+          contentType: ContentType.fromUrlEncoded,
+          authToken: Session.shared.authToken,
+          userId: userId);
+
+    var body = {
+      'client_id': config.hydraClientId,
+      'grant_type': 'refresh_token',
+      'redirect_uri':
+          'https://${config.baseParticipantUrl}$authServer/callback',
+      'refresh_token': Session.shared.refreshToken,
+      'userId': userId
+    };
+
+    Uri refreshTokenUri =
+        Uri.https(config.baseParticipantUrl, '$authServer$oauth2TokenPath');
+
+    return client
+        .post(refreshTokenUri,
+            headers: headers.toHeaderJson(),
+            body: body,
+            encoding: Encoding.getByName('application/x-www-form-urlencoded'))
+        .then((response) =>
+            ResponseParser.parseHttpResponse('refresh_token', response, () {
+              var refreshTokenResponse = RefreshTokenResponse()
+                ..fromJson(response.body);
+              _updateSessionProperties(refreshTokenResponse);
+              return refreshTokenResponse;
+            }));
   }
 
   @override
   Future<Object> resetPassword(String emailId) {
-    // TODO: implement resetPassword
-    throw UnimplementedError();
+    var headers = CommonRequestHeader()
+      ..from(config, contentType: ContentType.json);
+
+    var body = {'appId': config.appId, 'email': emailId};
+
+    var resetPasswordUri =
+        Uri.https(config.baseParticipantUrl, '$authServer$resetPasswordPath');
+
+    return client
+        .post(resetPasswordUri,
+            headers: headers.toHeaderJson(), body: json.encode(body))
+        .then((response) => ResponseParser.parseHttpResponse(
+            'reset_password',
+            response,
+            () => CommonResponse.create()
+              ..code = 200
+              ..message = 'success'));
+  }
+
+  void _updateSessionProperties(RefreshTokenResponse refreshTokenResponse) {
+    Session.shared.authToken = _generateAuthToken(refreshTokenResponse);
+    Session.shared.refreshToken = refreshTokenResponse.refreshToken;
+  }
+
+  String _generateAuthToken(RefreshTokenResponse refreshTokenResponse) {
+    String tokenType = refreshTokenResponse.tokenType;
+    String accessToken = refreshTokenResponse.accessToken;
+    String authToken =
+        '${tokenType[0].toUpperCase()}${tokenType.substring(1)} $accessToken';
+    return authToken;
   }
 }

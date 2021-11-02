@@ -29,7 +29,7 @@ extension RequestHeaderExtension on CommonRequestHeader {
       this.authorization = authorization;
     }
 
-    var contentTypeValue = contentType?.jsonValue();
+    var contentTypeValue = contentType?.stringValue();
     if (contentTypeValue != null) {
       this.contentType = contentTypeValue;
     }
@@ -43,14 +43,14 @@ extension RequestHeaderExtension on CommonRequestHeader {
       Config config, AuthorizationType? type, String? authToken) {
     if (type == AuthorizationType.basic) {
       return 'Basic ${const Base64Encoder().convert(utf8.encode(config.apiKey))}';
-    } else if (type == AuthorizationType.bearer || authToken != null) {
+    } else if (authToken != null) {
       return authToken;
     }
   }
 }
 
-extension _ContentTypeJsonValue on ContentType {
-  String? jsonValue() {
+extension _ContentTypeToString on ContentType {
+  String? stringValue() {
     switch (this) {
       case ContentType.json:
         return 'application/json';

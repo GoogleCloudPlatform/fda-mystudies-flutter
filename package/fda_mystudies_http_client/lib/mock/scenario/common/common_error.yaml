@@ -1,0 +1,10 @@
+title: Common Error response
+description: Forbidden error
+code: 403
+response: |
+  {
+    "status": 403,
+    "error_type": "Forbidden error",
+    "error_code": "403",
+    "error_description": "Mocked Forbidden error"
+  }

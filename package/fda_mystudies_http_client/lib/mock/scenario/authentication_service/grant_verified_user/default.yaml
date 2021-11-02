@@ -1,0 +1,12 @@
+title: Default Response
+description: Success response
+code: 200
+response: |
+  {
+    "access_token": "test_access_token",
+    "expires_in": 3600,
+    "id_token": "test_id_token",
+    "refresh_token": "test_refresh_token",
+    "scope": "offline",
+    "token_type": "basic"
+  }
