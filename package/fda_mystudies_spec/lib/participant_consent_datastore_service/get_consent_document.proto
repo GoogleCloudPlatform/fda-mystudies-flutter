@@ -1,7 +1,7 @@
 syntax = "proto3";
 package fda_mystudies_spec.participant_consent_datastore_service;
 
-message GetConentDocumentResponse {
+message GetConsentDocumentResponse {
   message ConsentDocument {
     string content = 1;
     string type = 2;

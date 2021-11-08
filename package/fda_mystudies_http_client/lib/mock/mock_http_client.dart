@@ -46,7 +46,11 @@ class MockHttpClient implements http.Client {
     '/participant-enroll-datastore/enroll':
         'lib/mock/scenario/participant_enroll_datastore_service/enroll',
     '/participant-enroll-datastore/validateEnrollmentToken':
-        'lib/mock/scenario/participant_enroll_datastore_service/validate_enrollment_token'
+        'lib/mock/scenario/participant_enroll_datastore_service/validate_enrollment_token',
+    '/participant-consent-datastore/consentDocument':
+        'lib/mock/scenario/participant_consent_datastore_service/consent_document',
+    '/participant-consent-datastore/updateEligibilityConsentStatus':
+        'lib/mock/scenario/participant_consent_datastore_service/update_eligibility_consent_status'
   };
 
   var urlPathToServiceMethod = {
@@ -75,7 +79,11 @@ class MockHttpClient implements http.Client {
     '/participant-enroll-datastore/enroll':
         'participant_enroll_datastore_service.enroll',
     '/participant-enroll-datastore/validateEnrollmentToken':
-        'participant_enroll_datastore_service.validate_enrollment_token'
+        'participant_enroll_datastore_service.validate_enrollment_token',
+    '/participant-consent-datastore/consentDocument':
+        'participant_consent_datastore_service.consent_document',
+    '/participant-consent-datastore/updateEligibilityConsentStatus':
+        'participant_consent_datastore_service.update_eligibility_consent_status'
   };
 
   @override
