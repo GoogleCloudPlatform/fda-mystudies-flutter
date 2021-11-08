@@ -36,7 +36,17 @@ class MockHttpClient implements http.Client {
     '/study-datastore/studyDashboard':
         'lib/mock/scenario/study_datastore_service/study_dashboard',
     '/study-datastore/eligibilityConsent':
-        'lib/mock/scenario/study_datastore_service/eligibility_and_consent'
+        'lib/mock/scenario/study_datastore_service/eligibility_and_consent',
+    '/participant-enroll-datastore/studyState':
+        'lib/mock/scenario/participant_enroll_datastore_service/study_state',
+    '/participant-enroll-datastore/updateStudyState':
+        'lib/mock/scenario/participant_enroll_datastore_service/update_study_state',
+    '/participant-enroll-datastore/withdrawfromstudy':
+        'lib/mock/scenario/participant_enroll_datastore_service/withdraw_from_study',
+    '/participant-enroll-datastore/enroll':
+        'lib/mock/scenario/participant_enroll_datastore_service/enroll',
+    '/participant-enroll-datastore/validateEnrollmentToken':
+        'lib/mock/scenario/participant_enroll_datastore_service/validate_enrollment_token'
   };
 
   var urlPathToServiceMethod = {
@@ -55,7 +65,17 @@ class MockHttpClient implements http.Client {
     '/study-datastore/studyDashboard':
         'study_datastore_service.study_dashboard',
     '/study-datastore/eligibilityConsent':
-        'study_datastore_service.eligibility_and_consent'
+        'study_datastore_service.eligibility_and_consent',
+    '/participant-enroll-datastore/studyState':
+        'participant_enroll_datastore_service.study_state',
+    '/participant-enroll-datastore/updateStudyState':
+        'participant_enroll_datastore_service.update_study_state',
+    '/participant-enroll-datastore/withdrawfromstudy':
+        'participant_enroll_datastore_service.withdraw_from_study',
+    '/participant-enroll-datastore/enroll':
+        'participant_enroll_datastore_service.enroll',
+    '/participant-enroll-datastore/validateEnrollmentToken':
+        'participant_enroll_datastore_service.validate_enrollment_token'
   };
 
   @override

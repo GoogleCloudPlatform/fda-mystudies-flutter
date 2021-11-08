@@ -1,0 +1,11 @@
+title: Unauthorized error
+description: Expired token
+code: 401
+response: |
+  {
+      "status": 401,
+      "error_type": "401 UNAUTHORIZED",
+      "error_code": "EC_0019",
+      "error_description": "Unauthorized or Invalid token",
+      "timestamp": 1635956195402
+  }

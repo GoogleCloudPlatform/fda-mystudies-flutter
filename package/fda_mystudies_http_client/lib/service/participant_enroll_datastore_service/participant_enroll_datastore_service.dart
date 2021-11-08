@@ -1,11 +1,20 @@
 abstract class ParticipantEnrollDatastoreService {
-  Future<Object> getStudyState();
+  Future<Object> getStudyState(String userId, String authToken);
 
-  Future<Object> validateEnrollmentToken();
+  Future<Object> validateEnrollmentToken(
+      String userId, String authToken, String studyId, String enrollmentToken);
 
-  Future<Object> updateStudyState();
+  Future<Object> updateStudyState(
+      String userId,
+      String authToken,
+      String studyId,
+      String studyStatus,
+      String? siteId,
+      String? participantId);
 
-  Future<Object> enrollInStudy();
+  Future<Object> enrollInStudy(
+      String userId, String authToken, String enrollmentToken, String studyId);
 
-  Future<Object> withdrawFromStudy();
+  Future<Object> withdrawFromStudy(
+      String userId, String authToken, String studyId, String participantId);
 }

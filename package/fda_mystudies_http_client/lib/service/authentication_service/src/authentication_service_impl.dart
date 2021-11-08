@@ -129,7 +129,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
     return client
         .post(uri,
             headers: headers.toHeaderJson(),
-            body: body,
+            body: jsonEncode(body),
             encoding: Encoding.getByName('application/x-www-form-urlencoded'))
         .then((response) =>
             ResponseParser.parseHttpResponse('refresh_token', response, () {
@@ -149,7 +149,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
         Uri.https(config.baseParticipantUrl, '$authServer$resetPasswordPath');
 
     return client
-        .post(uri, headers: headers.toHeaderJson(), body: json.encode(body))
+        .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'reset_password',
             response,

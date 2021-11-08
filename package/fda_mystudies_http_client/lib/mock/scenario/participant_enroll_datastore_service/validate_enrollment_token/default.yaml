@@ -1,0 +1,9 @@
+title: Validate enrollment token Response
+description: Response with Site Id
+code: 200
+response: |
+  {
+    "code": 200,
+    "message": "success",
+    "siteId": "site_id"
+  }

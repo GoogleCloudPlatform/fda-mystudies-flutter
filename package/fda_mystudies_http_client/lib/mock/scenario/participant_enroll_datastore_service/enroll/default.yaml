@@ -1,0 +1,12 @@
+title: Enroll in Study Success Response
+description: Response with Participant Id and Site Id
+code: 200
+response: |
+  {
+    "appToken": "app_token",
+    "code": 200,
+    "hashedToken": "hashed_token",
+    "message": "success",
+    "participantId": "participant_id",
+    "siteId": "site_id"
+  }
