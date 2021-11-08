@@ -1,0 +1,79 @@
+title: Default Response
+description: Response with eligibility token, eligibility test and comprehension test.
+code: 200
+response: |
+  {
+      "message": "SUCCESS",
+      "eligibility": {
+          "type": "combined",
+          "tokenTitle": "Participating in this study requires an invitation. If you have received one, please enter the token provided.",
+          "test": [
+              {
+                  "type": "Question",
+                  "resultType": "boolean",
+                  "key": "age",
+                  "title": "Are you 18 years or older?",
+                  "text": "Answer these questions to determine your eligibility for the study",
+                  "skippable": false,
+                  "repeatable": false
+              }
+          ],
+          "correctAnswers": [
+              {
+                  "answer": true,
+                  "key": "age"
+              }
+          ]
+      },
+      "consent": {
+          "version": "1.1",
+          "visualScreens": [
+              {
+                  "type": "overview",
+                  "title": "Review this information and consent to participate in this study",
+                  "text": "This consent form gives you important information about a research study.",
+                  "html": "We are asking you to participate in this research study. Participation in this research study is voluntary.",
+                  "visualStep": true
+              }
+          ],
+          "comprehension": {
+              "passScore": 1,
+              "questions": [
+                  {
+                      "type": "Question",
+                      "resultType": "textChoice",
+                      "key": "123",
+                      "title": "I can choose not to participate in the study at any time.",
+                      "text": "Take this comprehension test to assess your understanding of the study",
+                      "skippable": false,
+                      "repeatable": false,
+                      "destinations": [],
+                      "format": {
+                          "textChoices": [
+                              {
+                                  "text": "Yes",
+                                  "value": "Yes",
+                                  "exclusive": false
+                              },
+                              {
+                                  "text": "No",
+                                  "value": "No",
+                                  "exclusive": false
+                              }
+                          ],
+                          "selectionStyle": "Multiple"
+                      }
+                  }
+              ],
+              "correctAnswers": [
+                  {
+                      "key": "123",
+                      "answer": [
+                          "Yes"
+                      ],
+                      "evaluation": "all"
+                  }
+              ]
+          }
+      }
+  }

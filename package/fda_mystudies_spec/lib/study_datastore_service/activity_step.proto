@@ -45,7 +45,7 @@ message ActivityStep {
 ////////////////////////
 
 message ContinuousScaleFormat {
-  double default = 1;
+  double default_value = 1 [json_name = "default"];
   string max_desc = 2;
   string max_image = 3;
   string max_value = 4;
@@ -58,7 +58,7 @@ message ContinuousScaleFormat {
 
 message DateTimeFormat {
   string date_range = 1;
-  string default = 2;
+  string default_value = 2 [json_name = "default"];
   string max_date = 3;
   string min_date = 4;
   string style = 5;
@@ -83,7 +83,7 @@ message NumericalFormat {
 }
 
 message ScaleFormat {
-  int32 default = 1;
+  int32 default_value = 1 [json_name = "default"];
   string max_desc = 2;
   string max_image = 3;
   int32 max_value = 4;
@@ -95,7 +95,7 @@ message ScaleFormat {
 }
 
 message TextChoiceFormat {
-  int32 default = 1;
+  int32 default_value = 1 [json_name = "default"];
   bool vertical = 2;
   string selection_style = 3;
 

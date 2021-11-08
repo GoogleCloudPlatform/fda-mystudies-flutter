@@ -1,0 +1,12 @@
+title: Default Response
+description: Response with Sample Consent
+code: 200
+response: |
+  {
+    "message": "SUCCESS",
+    "consent": {
+      "version": "1.1",
+      "type": "text/html",
+      "content": "<span>Sample Consent Form</span>"
+    }
+  }

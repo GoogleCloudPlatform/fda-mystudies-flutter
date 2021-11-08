@@ -1,0 +1,23 @@
+title: Default Response
+description: Response with Sample Study
+code: 200
+response: |
+  {
+    "message": "success",
+    "studies": [
+      {
+        "category": "test",
+        "logo": "test_logo_url",
+        "sponsorName": "test_org",
+        "settings": {
+          "enrolling": true,
+          "platform": "all"
+        },
+        "status": "enrolling",
+        "studyId": "test_study_id",
+        "studyVersion": "1.0",
+        "tagLine": "Demo study to test the app",
+        "title": "Sample Study"
+      }
+    ]
+  }

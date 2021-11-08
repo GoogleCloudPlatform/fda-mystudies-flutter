@@ -1,0 +1,53 @@
+title: Default Response
+description: Activity with a single step - vertical scale
+code: 200
+response: |
+  {
+      "message": "SUCCESS",
+      "activity": {
+          "type": "questionnaire",
+          "metadata": {
+              "studyId": "demo-study",
+              "activityId": "test-activity",
+              "name": "Test Activity",
+              "version": "1.1",
+              "lastModified": "2021-05-06T10:23:29.000+0000",
+              "startDate": "2021-05-06T07:00:00.000+0000",
+              "endDate": "2024-01-29T23:59:59.000+0000"
+          },
+          "steps": [
+              {
+                  "type": "question",
+                  "resultType": "scale",
+                  "key": "vertical-scale",
+                  "title": "Vertical Scale",
+                  "text": "",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                      {
+                          "condition": "",
+                          "operator": "",
+                          "destination": "horizontal-scale"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "maxValue": 5,
+                      "minValue": 0,
+                      "step": 1,
+                      "default": 0,
+                      "vertical": true,
+                      "maxDesc": "",
+                      "minDesc": "",
+                      "maxImage": "",
+                      "minImage": ""
+                  },
+                  "steps": [],
+                  "options": []
+              }
+          ]
+      }
+  }

@@ -2,7 +2,7 @@ syntax = "proto3";
 package fda_mystudies_spec.participant_consent_datastore_service;
 
 message UpdateEligibilityConsentStatusResponse {
-    int32 code = 1;
-    string conent_document_file_name = 2;
-    string message = 3;
+  int32 code = 1;
+  string conent_document_file_name = 2;
+  string message = 3;
 }

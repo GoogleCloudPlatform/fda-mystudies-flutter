@@ -2,30 +2,34 @@ syntax = "proto3";
 package fda_mystudies_spec.study_datastore_service;
 
 message GetActivityListResponse {
-    string message = 1;
+  string message = 1;
 
-    message Activity {
-        string activity_id = 1;
-        string activity_version = 2;
-        string title = 3;
-        string type = 4;
-        string state = 5;
-        string scheduling_type = 6;
-        
-        message Frequency {
-            string type = 1;
+  message Activity {
+    string activity_id = 1;
+    string activity_version = 2;
+    string title = 3;
+    string type = 4;
+    string state = 5;
+    string scheduling_type = 6;
 
-            message FrequencyRuns {
-                string start_time = 1;
-                string end_time = 2;
-            }
-            repeated FrequencyRuns runs = 2;
-        }
-        Frequency frequency = 7;
+    message Frequency {
+      string type = 1;
 
-        string start_time = 8;
-        string end_time = 9;
-        string last_modified = 10;
+      message FrequencyRuns {
+        string start_time = 1;
+        string end_time = 2;
+      }
+      repeated FrequencyRuns runs = 2;
     }
-    repeated Activity activities = 2;
+    Frequency frequency = 7;
+
+    string start_time = 8;
+    string end_time = 9;
+    string last_modified = 10;
+    bool branching = 11;
+    bool is_launch_study = 12;
+    bool is_study_life_time = 13;
+    string task_sub_type = 14;
+  }
+  repeated Activity activities = 2;
 }
