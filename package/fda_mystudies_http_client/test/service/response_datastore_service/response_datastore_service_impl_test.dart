@@ -1,10 +1,11 @@
 import 'package:fda_mystudies_http_client/injection/injection.dart';
 import 'package:fda_mystudies_http_client/mock/demo_config.dart';
 import 'package:fda_mystudies_http_client/service/response_datastore_service/response_datastore_service.dart';
-import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/get_activity_state.pbserver.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pbserver.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../common/common_test_object.dart';
 
 void main() {
   ResponseDatastoreService? responseDatastoreService;
@@ -42,11 +43,7 @@ void main() {
       var response = await responseDatastoreService!
           .processResponse('userId', 'authToken', ActivityResponse());
 
-      expect(
-          response,
-          CommonResponse.create()
-            ..code = 200
-            ..message = 'success');
+      expect(response, CommonTestObject.commonSuccessResponse);
     });
   });
 
@@ -59,11 +56,7 @@ void main() {
           'participantId',
           GetActivityStateResponse_ActivityState());
 
-      expect(
-          response,
-          CommonResponse.create()
-            ..code = 200
-            ..message = 'success');
+      expect(response, CommonTestObject.commonSuccessResponse);
     });
   });
 }

@@ -1,11 +1,12 @@
 import 'package:fda_mystudies_http_client/injection/injection.dart';
 import 'package:fda_mystudies_http_client/mock/demo_config.dart';
 import 'package:fda_mystudies_http_client/service/participant_enroll_datastore_service/participant_enroll_datastore_service.dart';
-import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 import 'package:fda_mystudies_spec/participant_enroll_datastore_service/enroll_in_study.pbserver.dart';
 import 'package:fda_mystudies_spec/participant_enroll_datastore_service/get_study_state.pbserver.dart';
 import 'package:fda_mystudies_spec/participant_enroll_datastore_service/validate_enrollment_token.pb.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../common/common_test_object.dart';
 
 void main() {
   ParticipantEnrollDatastoreService? participantEnrollDatastoreService;
@@ -48,11 +49,7 @@ void main() {
           'siteId',
           'participantId');
 
-      expect(
-          response,
-          CommonResponse.create()
-            ..code = 200
-            ..message = 'success');
+      expect(response, CommonTestObject.commonSuccessResponse);
     });
   });
 
@@ -61,11 +58,7 @@ void main() {
       var response = await participantEnrollDatastoreService!
           .withdrawFromStudy('userId', 'authToken', 'studyId', 'participantId');
 
-      expect(
-          response,
-          CommonResponse.create()
-            ..code = 200
-            ..message = 'success');
+      expect(response, CommonTestObject.commonSuccessResponse);
     });
   });
 

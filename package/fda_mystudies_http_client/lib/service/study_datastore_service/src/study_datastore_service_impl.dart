@@ -1,9 +1,6 @@
 import 'dart:convert';
 
-import 'package:fda_mystudies_http_client/service/util/proto_json.dart';
-import 'package:fda_mystudies_http_client/service/util/response_parser.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
-import 'package:fda_mystudies_spec/common_specs/common_response.pbserver.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/fetch_activity_steps.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_activity_list.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_consent_document.pb.dart';
@@ -14,7 +11,10 @@ import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
+import '../../../service/util/common_responses.dart';
+import '../../../service/util/proto_json.dart';
 import '../../../service/util/request_header.dart';
+import '../../../service/util/response_parser.dart';
 import '../../config.dart';
 import '../study_datastore_service.dart';
 
@@ -139,14 +139,9 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
     var uri =
         Uri.https(config.baseStudiesUrl, '$studyDatastore$versionInfoPath');
 
-    return client
-        .get(uri, headers: headers.toHeaderJson())
-        .then((response) => ResponseParser.parseHttpResponse(
-            'version_info',
-            response,
-            () => CommonResponse.create()
-              ..code = 200
-              ..message = 'success'));
+    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
+        ResponseParser.parseHttpResponse(
+            'version_info', response, () => CommonResponses.successResponse));
   }
 
   FetchActivityStepsResponse _fetchActivityStepsResponseFromJson(String json) {

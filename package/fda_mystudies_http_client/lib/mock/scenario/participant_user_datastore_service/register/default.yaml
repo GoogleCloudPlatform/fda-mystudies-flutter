@@ -1,0 +1,8 @@
+title: Register User Response
+description: Success response with test user-id
+code: 200
+response: |
+  {
+    "tempRegId": "1234",
+    "userId": "test_user_id"
+  }

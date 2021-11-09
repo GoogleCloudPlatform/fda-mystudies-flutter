@@ -4,12 +4,12 @@ import 'package:fda_mystudies_spec/authentication_service/change_password.pbserv
 import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
-import 'package:fda_mystudies_spec/common_specs/common_response.pbserver.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
 import '../../../service/authentication_service/authentication_service.dart';
 import '../../../service/session.dart';
+import '../../../service/util/common_responses.dart';
 import '../../../service/util/proto_json.dart';
 import '../../../service/util/request_header.dart';
 import '../../../service/util/response_parser.dart';
@@ -151,11 +151,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
     return client
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
-            'reset_password',
-            response,
-            () => CommonResponse.create()
-              ..code = 200
-              ..message = 'success'));
+            'reset_password', response, () => CommonResponses.successResponse));
   }
 
   void _updateSessionProperties(RefreshTokenResponse refreshTokenResponse) {

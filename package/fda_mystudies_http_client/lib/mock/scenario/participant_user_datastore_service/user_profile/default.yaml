@@ -1,0 +1,16 @@
+title: Get User Profile Response
+description: Success response with default user
+code: 200
+response: |
+  {
+    "message": "success",
+    "profile": {
+      "emailId": "tester@fda-mystudies.com"
+    },
+    "settings": {
+      "localNotifications": true,
+      "passcode": false,
+      "remoteNotifications": true,
+      "touchId": false
+    }
+  }

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
-import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/get_user_profile.pb.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/registration.pbserver.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/update_user_profile.pbserver.dart';
@@ -11,6 +10,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../config.dart';
 import '../../../service/participant_user_datastore_service/participant_user_datastore_service.dart';
+import '../../../service/util/common_responses.dart';
 import '../../../service/util/proto_json.dart';
 import '../../../service/util/request_header.dart';
 import '../../../service/util/response_parser.dart';
@@ -54,11 +54,7 @@ class ParticipantUserDatastoreServiceImpl
     return client
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
-            'contact_us',
-            response,
-            () => CommonResponse.create()
-              ..code = 200
-              ..message = 'success'));
+            'contact_us', response, () => CommonResponses.successResponse));
   }
 
   @override
@@ -78,11 +74,7 @@ class ParticipantUserDatastoreServiceImpl
     return client
         .delete(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
-            'deactivate',
-            response,
-            () => CommonResponse.create()
-              ..code = 200
-              ..message = 'success'));
+            'deactivate', response, () => CommonResponses.successResponse));
   }
 
   @override
@@ -98,11 +90,7 @@ class ParticipantUserDatastoreServiceImpl
     return client
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
-            'feedback',
-            response,
-            () => CommonResponse.create()
-              ..code = 200
-              ..message = 'success'));
+            'feedback', response, () => CommonResponses.successResponse));
   }
 
   @override
@@ -144,9 +132,7 @@ class ParticipantUserDatastoreServiceImpl
         .then((response) => ResponseParser.parseHttpResponse(
             'resend_confirmation',
             response,
-            () => CommonResponse.create()
-              ..code = 200
-              ..message = 'success'));
+            () => CommonResponses.successResponse));
   }
 
   @override

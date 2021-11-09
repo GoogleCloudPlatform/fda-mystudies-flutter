@@ -56,7 +56,23 @@ class MockHttpClient implements http.Client {
     '/response-datastore/participant/process-response':
         'lib/mock/scenario/response_datastore_service/process_response',
     '/response-datastore/participant/update-activity-state':
-        'lib/mock/scenario/response_datastore_service/update_activity_state'
+        'lib/mock/scenario/response_datastore_service/update_activity_state',
+    '/participant-user-datastore/contactUs':
+        'lib/mock/scenario/participant_user_datastore_service/contact_us',
+    '/participant-user-datastore/deactivate':
+        'lib/mock/scenario/participant_user_datastore_service/deactivate',
+    '/participant-user-datastore/feedback':
+        'lib/mock/scenario/participant_user_datastore_service/feedback',
+    '/participant-user-datastore/userProfile':
+        'lib/mock/scenario/participant_user_datastore_service/user_profile',
+    '/participant-user-datastore/register':
+        'lib/mock/scenario/participant_user_datastore_service/register',
+    '/participant-user-datastore/resendConfirmation':
+        'lib/mock/scenario/participant_user_datastore_service/resend_confirmation',
+    '/participant-user-datastore/updateUserProfile':
+        'lib/mock/scenario/participant_user_datastore_service/update_user_profile',
+    '/participant-user-datastore/verifyEmailId':
+        'lib/mock/scenario/participant_user_datastore_service/verify_email'
   };
 
   var urlPathToServiceMethod = {
@@ -95,7 +111,23 @@ class MockHttpClient implements http.Client {
     '/response-datastore/participant/process-response':
         'response_datastore_service.process_response',
     '/response-datastore/participant/update-activity-state':
-        'response_datastore_service.update_activity_state'
+        'response_datastore_service.update_activity_state',
+    '/participant-user-datastore/contactUs':
+        'participant_user_datastore_service.contact_us',
+    '/participant-user-datastore/deactivate':
+        'participant_user_datastore_service.deactivate',
+    '/participant-user-datastore/feedback':
+        'participant_user_datastore_service.feedback',
+    '/participant-user-datastore/userProfile':
+        'participant_user_datastore_service.user_profile',
+    '/participant-user-datastore/register':
+        'participant_user_datastore_service.register',
+    '/participant-user-datastore/resendConfirmation':
+        'participant_user_datastore_service.resend_confirmation',
+    '/participant-user-datastore/updateUserProfile':
+        'participant_user_datastore_service.update_user_profile',
+    '/participant-user-datastore/verifyEmailId':
+        'participant_user_datastore_service.verify_email'
   };
 
   @override
@@ -111,6 +143,12 @@ class MockHttpClient implements http.Client {
 
   @override
   Future<http.Response> post(Uri url,
+      {Map<String, String>? headers, Object? body, Encoding? encoding}) {
+    return _mapUrlPathToResponse(url.path);
+  }
+
+  @override
+  Future<http.Response> delete(Uri url,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) {
     return _mapUrlPathToResponse(url.path);
   }

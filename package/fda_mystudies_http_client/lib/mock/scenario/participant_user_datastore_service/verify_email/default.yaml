@@ -1,0 +1,10 @@
+title: Verify Email Response
+description: Success response
+code: 200
+response: |
+  {
+    "code": 200,
+    "message": "success",
+    "verified": true,
+    "tempRegId": "1234"
+  }
