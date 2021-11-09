@@ -1,4 +1,4 @@
-import 'package:fda_mystudies_http_client/service/util/proto_json.dart';
+import 'package:fda_mystudies_http_client/src/service/util/proto_json.dart';
 import 'package:fda_mystudies_spec/sample_service/album.pb.dart';
 import 'package:flutter_test/flutter_test.dart';
 

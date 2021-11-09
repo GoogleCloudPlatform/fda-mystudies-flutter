@@ -2,7 +2,7 @@
 abstract class AuthenticationService {
   Uri getSignInPageURI({String? tempRegId});
 
-  Future<Object> refreshToken(String userId);
+  Future<Object> refreshToken(String userId, String authToken);
 
   Future<Object> grantVerifiedUser(String userId, String code);
 

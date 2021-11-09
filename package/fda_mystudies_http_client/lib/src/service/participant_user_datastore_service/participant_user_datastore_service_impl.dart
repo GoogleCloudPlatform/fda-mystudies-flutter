@@ -8,12 +8,12 @@ import 'package:fda_mystudies_spec/participant_user_datastore_service/verify_ema
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
-import '../../config.dart';
-import '../../../service/participant_user_datastore_service/participant_user_datastore_service.dart';
-import '../../../service/util/common_responses.dart';
-import '../../../service/util/proto_json.dart';
-import '../../../service/util/request_header.dart';
-import '../../../service/util/response_parser.dart';
+import '../config.dart';
+import '../../../participant_user_datastore_service.dart';
+import '../util/common_responses.dart';
+import '../util/proto_json.dart';
+import '../util/request_header.dart';
+import '../util/response_parser.dart';
 
 @Injectable(as: ParticipantUserDatastoreService)
 class ParticipantUserDatastoreServiceImpl

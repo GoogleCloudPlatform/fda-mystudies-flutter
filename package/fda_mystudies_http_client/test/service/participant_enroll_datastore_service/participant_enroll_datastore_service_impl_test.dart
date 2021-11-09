@@ -1,6 +1,5 @@
-import 'package:fda_mystudies_http_client/injection/injection.dart';
-import 'package:fda_mystudies_http_client/mock/demo_config.dart';
-import 'package:fda_mystudies_http_client/service/participant_enroll_datastore_service/participant_enroll_datastore_service.dart';
+import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
+import 'package:fda_mystudies_http_client/participant_enroll_datastore_service.dart';
 import 'package:fda_mystudies_spec/participant_enroll_datastore_service/enroll_in_study.pbserver.dart';
 import 'package:fda_mystudies_spec/participant_enroll_datastore_service/get_study_state.pbserver.dart';
 import 'package:fda_mystudies_spec/participant_enroll_datastore_service/validate_enrollment_token.pb.dart';

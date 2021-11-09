@@ -1,6 +1,5 @@
-import 'package:fda_mystudies_http_client/injection/injection.dart';
-import 'package:fda_mystudies_http_client/mock/demo_config.dart';
-import 'package:fda_mystudies_http_client/service/participant_user_datastore_service/participant_user_datastore_service.dart';
+import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
+import 'package:fda_mystudies_http_client/participant_user_datastore_service.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/get_user_profile.pb.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/registration.pbserver.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/update_user_profile.pbserver.dart';

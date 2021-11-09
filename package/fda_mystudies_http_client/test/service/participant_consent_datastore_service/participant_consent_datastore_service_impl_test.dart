@@ -1,6 +1,5 @@
-import 'package:fda_mystudies_http_client/injection/injection.dart';
-import 'package:fda_mystudies_http_client/mock/demo_config.dart';
-import 'package:fda_mystudies_http_client/service/participant_consent_datastore_service/participant_consent_datastore_service.dart';
+import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
+import 'package:fda_mystudies_http_client/participant_consent_datastore_service.dart';
 import 'package:fda_mystudies_spec/participant_consent_datastore_service/get_consent_document.pbserver.dart';
 import 'package:fda_mystudies_spec/participant_consent_datastore_service/update_eligibility_consent_status.pbserver.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -6,11 +6,11 @@ import 'package:fda_mystudies_spec/participant_consent_datastore_service/update_
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
-import '../../config.dart';
-import '../../../service/participant_consent_datastore_service/participant_consent_datastore_service.dart';
-import '../../../service/util/proto_json.dart';
-import '../../../service/util/request_header.dart';
-import '../../../service/util/response_parser.dart';
+import '../config.dart';
+import '../../../participant_consent_datastore_service.dart';
+import '../util/proto_json.dart';
+import '../util/request_header.dart';
+import '../util/response_parser.dart';
 
 @Injectable(as: ParticipantConsentDatastoreService)
 class ParticipantConsentDatastoreServiceImpl

@@ -11,12 +11,12 @@ import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
-import '../../../service/util/common_responses.dart';
-import '../../../service/util/proto_json.dart';
-import '../../../service/util/request_header.dart';
-import '../../../service/util/response_parser.dart';
-import '../../config.dart';
-import '../study_datastore_service.dart';
+import '../util/common_responses.dart';
+import '../util/proto_json.dart';
+import '../util/request_header.dart';
+import '../util/response_parser.dart';
+import '../config.dart';
+import '../../../study_datastore_service.dart';
 
 @Injectable(as: StudyDatastoreService)
 class StudyDataStoreServiceImpl implements StudyDatastoreService {
