@@ -1,0 +1,8 @@
+title: Update Activity State Success Response
+description: Success response
+code: 200
+response: |
+  {
+    "code": "200",
+    "message": "success"
+  }

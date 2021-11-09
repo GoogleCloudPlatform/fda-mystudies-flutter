@@ -50,7 +50,13 @@ class MockHttpClient implements http.Client {
     '/participant-consent-datastore/consentDocument':
         'lib/mock/scenario/participant_consent_datastore_service/consent_document',
     '/participant-consent-datastore/updateEligibilityConsentStatus':
-        'lib/mock/scenario/participant_consent_datastore_service/update_eligibility_consent_status'
+        'lib/mock/scenario/participant_consent_datastore_service/update_eligibility_consent_status',
+    '/response-datastore/participant/get-activity-state':
+        'lib/mock/scenario/response_datastore_service/activity_state',
+    '/response-datastore/participant/process-response':
+        'lib/mock/scenario/response_datastore_service/process_response',
+    '/response-datastore/participant/update-activity-state':
+        'lib/mock/scenario/response_datastore_service/update_activity_state'
   };
 
   var urlPathToServiceMethod = {
@@ -83,7 +89,13 @@ class MockHttpClient implements http.Client {
     '/participant-consent-datastore/consentDocument':
         'participant_consent_datastore_service.consent_document',
     '/participant-consent-datastore/updateEligibilityConsentStatus':
-        'participant_consent_datastore_service.update_eligibility_consent_status'
+        'participant_consent_datastore_service.update_eligibility_consent_status',
+    '/response-datastore/participant/get-activity-state':
+        'response_datastore_service.activity_state',
+    '/response-datastore/participant/process-response':
+        'response_datastore_service.process_response',
+    '/response-datastore/participant/update-activity-state':
+        'response_datastore_service.update_activity_state'
   };
 
   @override

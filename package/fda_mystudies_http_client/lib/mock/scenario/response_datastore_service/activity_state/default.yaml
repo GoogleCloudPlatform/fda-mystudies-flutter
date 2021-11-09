@@ -1,0 +1,20 @@
+title: Get acitvity state success response
+description: Response with test activity
+code: 200
+response: |
+  {
+    "message": "success",
+    "activities": [
+        {
+            "activityId": "activity_id",
+            "activityRun": {
+              "completed": 15,
+              "missed": 2,
+              "total": 17
+            },
+            "activityRunId": "18",
+            "activityState": "in-progress",
+            "activityVersion": "1.1"
+        }
+    ]
+  }
