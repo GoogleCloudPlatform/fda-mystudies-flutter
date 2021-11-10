@@ -1,0 +1,9 @@
+title: Update User Profile Response
+description: Success response
+code: 200
+response: |
+  {
+    "code": 200,
+    "message": "success",
+    "response": "success"
+  }

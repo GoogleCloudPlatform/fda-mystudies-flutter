@@ -1,7 +1,6 @@
 import 'package:fda_mystudies_http_client/injection/injection.dart';
 import 'package:fda_mystudies_http_client/mock/demo_config.dart';
 import 'package:fda_mystudies_http_client/service/study_datastore_service/study_datastore_service.dart';
-import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/fetch_activity_steps.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_activity_list.pb.dart';
@@ -11,6 +10,8 @@ import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.p
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_list.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../common/common_test_object.dart';
 
 void main() {
   StudyDatastoreService? studyDatastoreService;
@@ -24,11 +25,7 @@ void main() {
   group('get version info tests', () {
     test('test default scenario', () async {
       var response = await studyDatastoreService!.getVersionInfo('userId');
-      expect(
-          response,
-          CommonResponse.create()
-            ..code = 200
-            ..message = 'success');
+      expect(response, CommonTestObject.commonSuccessResponse);
     });
   });
 

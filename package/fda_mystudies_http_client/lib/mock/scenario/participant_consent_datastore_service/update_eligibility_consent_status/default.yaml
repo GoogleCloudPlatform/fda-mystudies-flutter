@@ -1,0 +1,9 @@
+title: Update Eligibility & Consent status Response
+description: Response with test pdf consent document
+code: 200
+response: |
+  {
+    "code": 200,
+    "message": "success",
+    "consentDocumentFileName": "test_consent_doc"
+  }

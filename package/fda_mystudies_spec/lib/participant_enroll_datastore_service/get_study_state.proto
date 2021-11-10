@@ -6,12 +6,13 @@ message GetStudyStateResponse {
   message StudyState {
     int32 adherence = 1;
     int32 completion = 2;
-    string enroll_date = 3;
+    string enrolled_date = 3;
     string hashed_token = 4;
     string participant_id = 5;
     string site_id = 6;
     string status = 7;
     string study_id = 8;
+    string bookmarked = 9;
   }
   repeated StudyState studies = 2;
 }

@@ -1,0 +1,38 @@
+syntax = "proto3";
+package fda_mystudies_spec.response_datastore_service;
+
+message ActivityResponse {
+  string type = 1;
+  string token_identifier = 2;
+  string participant_id = 3;
+
+  message Metadata {
+    string name = 1;
+    string study_id = 2;
+    string activity_run_id = 3;
+    string version = 4;
+    string activity_id = 5;
+    string study_version = 6;
+  }
+  Metadata metadata = 4;
+
+  string application_id = 5;
+
+  message Data {
+    string result_type = 1;
+    string start_time = 2;
+    string end_time = 3;
+
+    message StepResult {
+      string key = 1;
+      string start_time = 2;
+      string end_time = 3;
+      bool skipped = 4;
+      string result_type = 5;
+      // TODO(cg2092): Add dynamic value here
+    }
+  }
+  Data data = 6;
+
+  string site_id = 7;
+}

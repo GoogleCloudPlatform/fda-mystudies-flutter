@@ -5,7 +5,6 @@ import 'package:fda_mystudies_spec/authentication_service/change_password.pb.dar
 import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pbserver.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
-import 'package:fda_mystudies_spec/common_specs/common_response.pbserver.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../common/common_test_object.dart';
@@ -100,11 +99,7 @@ void main() {
       };
       var response =
           await authenticationService!.resetPassword('tester@domain.com');
-      expect(
-          response,
-          CommonResponse.create()
-            ..code = 200
-            ..message = 'success');
+      expect(response, CommonTestObject.commonSuccessResponse);
     });
   });
 

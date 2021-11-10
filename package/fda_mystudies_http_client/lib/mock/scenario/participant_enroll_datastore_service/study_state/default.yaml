@@ -1,0 +1,19 @@
+title: Default Response
+description: Response with Sample Study state
+code: 200
+response: |
+  {
+    "message": "SUCCESS",
+    "studies": [
+        {
+            "studyId": "test_study_id",
+            "status": "enrolled",
+            "enrolledDate": "2021-10-31T14:40:07.000+02:00",
+            "completion": 0,
+            "adherence": 10,
+            "participantId": "participant_id",
+            "hashedToken": "hashed_token",
+            "siteId": "test_site_id"
+        }
+    ]
+  }
