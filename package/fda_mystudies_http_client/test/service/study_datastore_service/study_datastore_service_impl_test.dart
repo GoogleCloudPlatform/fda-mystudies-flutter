@@ -5,7 +5,7 @@ import 'package:fda_mystudies_spec/study_datastore_service/fetch_activity_steps.
 import 'package:fda_mystudies_spec/study_datastore_service/get_activity_list.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_consent_document.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
-import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pbserver.dart';
+import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_list.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
 import 'package:flutter_test/flutter_test.dart';

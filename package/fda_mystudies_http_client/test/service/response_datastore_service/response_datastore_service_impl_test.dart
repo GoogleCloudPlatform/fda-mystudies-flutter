@@ -1,7 +1,7 @@
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/response_datastore_service.dart';
-import 'package:fda_mystudies_spec/response_datastore_service/get_activity_state.pbserver.dart';
-import 'package:fda_mystudies_spec/response_datastore_service/process_response.pbserver.dart';
+import 'package:fda_mystudies_spec/response_datastore_service/get_activity_state.pb.dart';
+import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../common/common_test_object.dart';

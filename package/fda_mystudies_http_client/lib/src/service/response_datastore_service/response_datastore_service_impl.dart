@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
-import 'package:fda_mystudies_spec/response_datastore_service/get_activity_state.pbserver.dart';
+import 'package:fda_mystudies_spec/response_datastore_service/get_activity_state.pb.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
-import '../config.dart';
 import '../../../response_datastore_service.dart';
+import '../../service/util/common_responses.dart';
+import '../config.dart';
 import '../util/proto_json.dart';
 import '../util/request_header.dart';
 import '../util/response_parser.dart';
@@ -83,8 +84,6 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
         .then((response) => ResponseParser.parseHttpResponse(
             'update_activity_state',
             response,
-            () => CommonResponse.create()
-              ..code = 200
-              ..message = 'success'));
+            () => CommonResponses.successResponse));
   }
 }

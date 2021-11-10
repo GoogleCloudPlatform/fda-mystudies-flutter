@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
-import 'package:fda_mystudies_spec/participant_consent_datastore_service/get_consent_document.pbserver.dart';
-import 'package:fda_mystudies_spec/participant_consent_datastore_service/update_eligibility_consent_status.pbserver.dart';
+import 'package:fda_mystudies_spec/participant_consent_datastore_service/get_consent_document.pb.dart';
+import 'package:fda_mystudies_spec/participant_consent_datastore_service/update_eligibility_consent_status.pb.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 

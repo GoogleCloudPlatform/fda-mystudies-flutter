@@ -1,5 +1,5 @@
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
-import 'package:fda_mystudies_spec/common_specs/common_response.pbserver.dart';
+import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 
 class CommonTestObject {
   static var commonSuccessResponse = CommonResponse()

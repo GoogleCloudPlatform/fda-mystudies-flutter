@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:fda_mystudies_spec/authentication_service/change_password.pbserver.dart';
+import 'package:fda_mystudies_spec/authentication_service/change_password.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';

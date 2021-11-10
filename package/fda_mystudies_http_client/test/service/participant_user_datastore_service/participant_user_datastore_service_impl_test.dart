@@ -1,9 +1,9 @@
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/participant_user_datastore_service.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/get_user_profile.pb.dart';
-import 'package:fda_mystudies_spec/participant_user_datastore_service/registration.pbserver.dart';
-import 'package:fda_mystudies_spec/participant_user_datastore_service/update_user_profile.pbserver.dart';
-import 'package:fda_mystudies_spec/participant_user_datastore_service/verify_email.pbserver.dart';
+import 'package:fda_mystudies_spec/participant_user_datastore_service/registration.pb.dart';
+import 'package:fda_mystudies_spec/participant_user_datastore_service/update_user_profile.pb.dart';
+import 'package:fda_mystudies_spec/participant_user_datastore_service/verify_email.pb.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../common/common_test_object.dart';
@@ -106,7 +106,7 @@ void main() {
 
       expect(
           response,
-          VerifyEmailRepsonse()
+          VerifyEmailResponse()
             ..code = 200
             ..message = 'success'
             ..verified = true
