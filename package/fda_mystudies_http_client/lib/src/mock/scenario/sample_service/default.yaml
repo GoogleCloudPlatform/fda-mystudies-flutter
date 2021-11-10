@@ -1,9 +1,0 @@
-title: Default Response
-description: Success response
-code: 200
-response: |
-  {
-    "userId": 3,
-    "id": 3,
-    "title": "test"
-  }
