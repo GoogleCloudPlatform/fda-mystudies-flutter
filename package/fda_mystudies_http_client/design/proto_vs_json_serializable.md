@@ -135,7 +135,7 @@ message GetUserProfileResponse {
 ### Advantages of protocol-buffer
 
 - The specs are much better at readability than in the JsonSerializable way.
-- No dart code needed, all the dart code is generated. No tests required at spec level. A good side-effect is protocol buffers are language agnostic, moving ahead if we decide to refactor the backend code, we can use the same specs to generate java code for the bacend.
+- No dart code needed, all the dart code is generated. No tests required at spec level. A good side-effect is protocol buffers are both language and platform neutral, moving ahead if we decide to refactor the backend code, we can use the same specs to generate java code.
 
 ## Disadvantage of protocol-buffer
 
