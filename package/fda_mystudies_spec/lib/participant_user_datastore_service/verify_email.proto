@@ -1,7 +1,7 @@
 syntax = "proto3";
 package fda_mystudies_spec.participant_user_datastore_service;
 
-message VerifyEmailRepsonse {
+message VerifyEmailResponse {
   int32 code = 1;
   string message = 2;
   bool verified = 3;

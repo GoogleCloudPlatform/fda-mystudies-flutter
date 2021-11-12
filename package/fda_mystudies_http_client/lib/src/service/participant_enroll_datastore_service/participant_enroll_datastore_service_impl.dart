@@ -1,18 +1,18 @@
 import 'dart:convert';
 
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
-import 'package:fda_mystudies_spec/participant_enroll_datastore_service/enroll_in_study.pbserver.dart';
-import 'package:fda_mystudies_spec/participant_enroll_datastore_service/get_study_state.pbserver.dart';
+import 'package:fda_mystudies_spec/participant_enroll_datastore_service/enroll_in_study.pb.dart';
+import 'package:fda_mystudies_spec/participant_enroll_datastore_service/get_study_state.pb.dart';
 import 'package:fda_mystudies_spec/participant_enroll_datastore_service/validate_enrollment_token.pb.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
-import '../../../service/participant_enroll_datastore_service/participant_enroll_datastore_service.dart';
-import '../../../service/util/common_responses.dart';
-import '../../../service/util/proto_json.dart';
-import '../../../service/util/request_header.dart';
-import '../../../service/util/response_parser.dart';
-import '../../config.dart';
+import '../../../participant_enroll_datastore_service.dart';
+import '../util/common_responses.dart';
+import '../util/proto_json.dart';
+import '../util/request_header.dart';
+import '../util/response_parser.dart';
+import '../config.dart';
 
 @Injectable(as: ParticipantEnrollDatastoreService)
 class ParticipantEnrollDatastoreServiceImpl

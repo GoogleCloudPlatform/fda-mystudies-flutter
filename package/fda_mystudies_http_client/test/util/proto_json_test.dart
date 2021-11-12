@@ -1,41 +1,31 @@
-import 'package:fda_mystudies_http_client/service/util/proto_json.dart';
-import 'package:fda_mystudies_spec/sample_service/album.pb.dart';
+import 'package:fda_mystudies_http_client/src/service/util/proto_json.dart';
+import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
+
 import 'package:flutter_test/flutter_test.dart';
+
+import '../common/common_test_object.dart';
 
 void main() {
   test('convert json string to proto', () {
     var jsonStr = '''
     {
-      "userId": 3,
-      "id": 3,
-      "title": "test"
+      "code": 200,
+      "message": "success"
     }
     ''';
+    var proto = CommonTestObject.commonSuccessResponse;
 
-    var proto = Album.create()
-      ..userId = 3
-      ..id = 3
-      ..title = 'test';
-
-    expect(Album()..fromJson(jsonStr), proto);
+    expect(CommonResponse()..fromJson(jsonStr), proto);
   });
   test('convert proto to map', () {
-    var proto = Album.create()
-      ..userId = 3
-      ..id = 3
-      ..title = 'test';
-
-    var map = {'userId': 3, 'id': 3, 'title': 'test'};
+    var proto = CommonTestObject.commonSuccessResponse;
+    var map = {'code': 200, 'message': 'success'};
 
     expect(proto.toJson(), map);
   });
   test('convert proto to string:string map', () {
-    var proto = Album.create()
-      ..userId = 3
-      ..id = 3
-      ..title = 'test';
-
-    var map = {'userId': '3', 'id': '3', 'title': 'test'};
+    var proto = CommonTestObject.commonSuccessResponse;
+    var map = {'code': '200', 'message': 'success'};
 
     expect(proto.toHeaderJson(), map);
   });

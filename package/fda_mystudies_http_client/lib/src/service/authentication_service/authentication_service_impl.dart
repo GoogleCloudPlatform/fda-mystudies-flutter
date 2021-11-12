@@ -1,19 +1,19 @@
 import 'dart:convert';
 
-import 'package:fda_mystudies_spec/authentication_service/change_password.pbserver.dart';
+import 'package:fda_mystudies_spec/authentication_service/change_password.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
-import '../../../service/authentication_service/authentication_service.dart';
-import '../../../service/session.dart';
-import '../../../service/util/common_responses.dart';
-import '../../../service/util/proto_json.dart';
-import '../../../service/util/request_header.dart';
-import '../../../service/util/response_parser.dart';
-import '../../config.dart';
+import '../../../authentication_service.dart';
+import '../session.dart';
+import '../util/common_responses.dart';
+import '../util/proto_json.dart';
+import '../util/request_header.dart';
+import '../util/response_parser.dart';
+import '../config.dart';
 
 @Injectable(as: AuthenticationService)
 class AuthenticationServiceImpl implements AuthenticationService {
@@ -99,7 +99,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
   @override
   Future<Object> logout(String userId, String authToken) {
     var headers = CommonRequestHeader()
-      ..from(config, authToken: Session.shared.authToken, userId: userId);
+      ..from(config, authToken: authToken, userId: userId);
     Uri uri = Uri.https(
         config.baseParticipantUrl, '$authServer/users/$userId$logoutPath');
 
@@ -109,11 +109,11 @@ class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @override
-  Future<Object> refreshToken(String userId) {
+  Future<Object> refreshToken(String userId, String authToken) {
     var headers = CommonRequestHeader()
       ..from(config,
           contentType: ContentType.fromUrlEncoded,
-          authToken: Session.shared.authToken,
+          authToken: authToken,
           userId: userId);
     var body = {
       'client_id': config.hydraClientId,

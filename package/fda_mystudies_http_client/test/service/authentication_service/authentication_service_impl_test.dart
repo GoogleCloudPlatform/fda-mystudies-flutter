@@ -1,9 +1,8 @@
-import 'package:fda_mystudies_http_client/injection/injection.dart';
-import 'package:fda_mystudies_http_client/mock/demo_config.dart';
-import 'package:fda_mystudies_http_client/service/authentication_service/authentication_service.dart';
+import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
+import 'package:fda_mystudies_http_client/authentication_service.dart';
 import 'package:fda_mystudies_spec/authentication_service/change_password.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
-import 'package:fda_mystudies_spec/authentication_service/refresh_token.pbserver.dart';
+import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -24,6 +23,7 @@ void main() {
       };
       var response = await authenticationService!
           .changePassword('userId', 'current', 'new');
+
       expect(
           response,
           ChangePasswordResponse.create()
@@ -38,6 +38,7 @@ void main() {
       };
       var response = await authenticationService!
           .changePassword('userId', 'current', 'new');
+
       expect(
           response,
           CommonErrorResponse.create()
@@ -51,6 +52,7 @@ void main() {
       };
       var response = await authenticationService!
           .changePassword('userId', 'current', 'new');
+
       expect(response, CommonTestObject.forbiddenError);
     });
   });
@@ -62,6 +64,7 @@ void main() {
       };
       var response =
           await authenticationService!.grantVerifiedUser('userId', 'code');
+
       expect(
           response,
           RefreshTokenResponse.create()
@@ -79,7 +82,9 @@ void main() {
       config.serviceMethodScenarioMap = {
         'authentication_service.grant_verified_user': 'default'
       };
-      var response = await authenticationService!.refreshToken('userId');
+      var response =
+          await authenticationService!.refreshToken('userId', 'authToken');
+
       expect(
           response,
           RefreshTokenResponse.create()
@@ -99,6 +104,7 @@ void main() {
       };
       var response =
           await authenticationService!.resetPassword('tester@domain.com');
+
       expect(response, CommonTestObject.commonSuccessResponse);
     });
   });
@@ -109,6 +115,7 @@ void main() {
         'authentication_service.logout': 'default'
       };
       var response = await authenticationService!.logout('userId', 'authToken');
+
       expect(
           response,
           LogoutResponse.create()

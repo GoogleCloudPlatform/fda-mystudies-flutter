@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:fda_mystudies_http_client/service/session.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 
 import '../config.dart';
+import '../../service/session.dart';
 
 enum AuthorizationType { basic, bearer }
 

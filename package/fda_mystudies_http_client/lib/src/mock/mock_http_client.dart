@@ -13,66 +13,66 @@ class MockHttpClient implements http.Client {
 
   var urlPathToMockYamlPath = {
     '/auth-server/users/userId/change_password':
-        'lib/mock/scenario/authentication_service/change_password',
+        'lib/src/mock/scenario/authentication_service/change_password',
     '/auth-server/oauth2/token':
-        'lib/mock/scenario/authentication_service/grant_verified_user',
+        'lib/src/mock/scenario/authentication_service/grant_verified_user',
     '/auth-server/user/reset_password':
-        'lib/mock/scenario/authentication_service/reset_password',
+        'lib/src/mock/scenario/authentication_service/reset_password',
     '/auth-server/users/userId/logout':
-        'lib/mock/scenario/authentication_service/logout',
-    '/albums/1': 'lib/mock/scenario/sample_service',
+        'lib/src/mock/scenario/authentication_service/logout',
+    '/albums/1': 'lib/src/mock/scenario/sample_service',
     '/study-datastore/versionInfo':
-        'lib/mock/scenario/study_datastore_service/version_info',
+        'lib/src/mock/scenario/study_datastore_service/version_info',
     '/study-datastore/studyList':
-        'lib/mock/scenario/study_datastore_service/study_list',
+        'lib/src/mock/scenario/study_datastore_service/study_list',
     '/study-datastore/activity':
-        'lib/mock/scenario/study_datastore_service/activity_steps',
+        'lib/src/mock/scenario/study_datastore_service/activity_steps',
     '/study-datastore/activityList':
-        'lib/mock/scenario/study_datastore_service/activity_list',
+        'lib/src/mock/scenario/study_datastore_service/activity_list',
     '/study-datastore/consentDocument':
-        'lib/mock/scenario/study_datastore_service/consent_document',
+        'lib/src/mock/scenario/study_datastore_service/consent_document',
     '/study-datastore/studyInfo':
-        'lib/mock/scenario/study_datastore_service/study_info',
+        'lib/src/mock/scenario/study_datastore_service/study_info',
     '/study-datastore/studyDashboard':
-        'lib/mock/scenario/study_datastore_service/study_dashboard',
+        'lib/src/mock/scenario/study_datastore_service/study_dashboard',
     '/study-datastore/eligibilityConsent':
-        'lib/mock/scenario/study_datastore_service/eligibility_and_consent',
+        'lib/src/mock/scenario/study_datastore_service/eligibility_and_consent',
     '/participant-enroll-datastore/studyState':
-        'lib/mock/scenario/participant_enroll_datastore_service/study_state',
+        'lib/src/mock/scenario/participant_enroll_datastore_service/study_state',
     '/participant-enroll-datastore/updateStudyState':
-        'lib/mock/scenario/participant_enroll_datastore_service/update_study_state',
+        'lib/src/mock/scenario/participant_enroll_datastore_service/update_study_state',
     '/participant-enroll-datastore/withdrawfromstudy':
-        'lib/mock/scenario/participant_enroll_datastore_service/withdraw_from_study',
+        'lib/src/mock/scenario/participant_enroll_datastore_service/withdraw_from_study',
     '/participant-enroll-datastore/enroll':
-        'lib/mock/scenario/participant_enroll_datastore_service/enroll',
+        'lib/src/mock/scenario/participant_enroll_datastore_service/enroll',
     '/participant-enroll-datastore/validateEnrollmentToken':
-        'lib/mock/scenario/participant_enroll_datastore_service/validate_enrollment_token',
+        'lib/src/mock/scenario/participant_enroll_datastore_service/validate_enrollment_token',
     '/participant-consent-datastore/consentDocument':
-        'lib/mock/scenario/participant_consent_datastore_service/consent_document',
+        'lib/src/mock/scenario/participant_consent_datastore_service/consent_document',
     '/participant-consent-datastore/updateEligibilityConsentStatus':
-        'lib/mock/scenario/participant_consent_datastore_service/update_eligibility_consent_status',
+        'lib/src/mock/scenario/participant_consent_datastore_service/update_eligibility_consent_status',
     '/response-datastore/participant/get-activity-state':
-        'lib/mock/scenario/response_datastore_service/activity_state',
+        'lib/src/mock/scenario/response_datastore_service/activity_state',
     '/response-datastore/participant/process-response':
-        'lib/mock/scenario/response_datastore_service/process_response',
+        'lib/src/mock/scenario/response_datastore_service/process_response',
     '/response-datastore/participant/update-activity-state':
-        'lib/mock/scenario/response_datastore_service/update_activity_state',
+        'lib/src/mock/scenario/response_datastore_service/update_activity_state',
     '/participant-user-datastore/contactUs':
-        'lib/mock/scenario/participant_user_datastore_service/contact_us',
+        'lib/src/mock/scenario/participant_user_datastore_service/contact_us',
     '/participant-user-datastore/deactivate':
-        'lib/mock/scenario/participant_user_datastore_service/deactivate',
+        'lib/src/mock/scenario/participant_user_datastore_service/deactivate',
     '/participant-user-datastore/feedback':
-        'lib/mock/scenario/participant_user_datastore_service/feedback',
+        'lib/src/mock/scenario/participant_user_datastore_service/feedback',
     '/participant-user-datastore/userProfile':
-        'lib/mock/scenario/participant_user_datastore_service/user_profile',
+        'lib/src/mock/scenario/participant_user_datastore_service/user_profile',
     '/participant-user-datastore/register':
-        'lib/mock/scenario/participant_user_datastore_service/register',
+        'lib/src/mock/scenario/participant_user_datastore_service/register',
     '/participant-user-datastore/resendConfirmation':
-        'lib/mock/scenario/participant_user_datastore_service/resend_confirmation',
+        'lib/src/mock/scenario/participant_user_datastore_service/resend_confirmation',
     '/participant-user-datastore/updateUserProfile':
-        'lib/mock/scenario/participant_user_datastore_service/update_user_profile',
+        'lib/src/mock/scenario/participant_user_datastore_service/update_user_profile',
     '/participant-user-datastore/verifyEmailId':
-        'lib/mock/scenario/participant_user_datastore_service/verify_email'
+        'lib/src/mock/scenario/participant_user_datastore_service/verify_email'
   };
 
   var urlPathToServiceMethod = {
@@ -158,7 +158,7 @@ class MockHttpClient implements http.Client {
     var code = config.scenarios[urlPathToServiceMethod[urlPath]] ?? 'default';
     var yamlPath = '';
     if (code.startsWith('common.')) {
-      yamlPath = 'lib/mock/scenario/common/${code.split('.').last}.yaml';
+      yamlPath = 'lib/src/mock/scenario/common/${code.split('.').last}.yaml';
     } else {
       yamlPath = '$yamlDir/$code.yaml';
     }

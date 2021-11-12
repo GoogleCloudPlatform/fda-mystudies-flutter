@@ -1,17 +1,21 @@
 repos:
-  -   repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.0.1
-      hooks:
-      -   id: check-yaml
-      -   id: end-of-file-fixer
-      -   id: trailing-whitespace
-  -   repo: https://github.com/yoheimuta/protolint
-      rev: v0.35.1
-      hooks:
-      -   id: protolint
-  -   repo: local
-      hooks:
-      -   id: format-and-analyze
-          name: format & analyze
-          entry: ./tool/pre_commit.sh
-          language: script
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/yoheimuta/protolint
+    rev: v0.35.1
+    hooks:
+      - id: protolint
+  - repo: local
+    hooks:
+      - id: format-and-analyze
+        name: format & analyze
+        entry: ./tool/pre_commit.sh
+        language: script
+  - repo: https://github.com/crate-ci/typos
+    rev: v1.2.1
+    hooks:
+      - id: typos
