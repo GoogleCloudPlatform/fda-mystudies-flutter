@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fda_mystudies_http_client/mock_scenario_service.dart';
 import 'package:injectable/injectable.dart';
+import 'package:path/path.dart' as p;
 
 @Injectable(as: MockScenarioService)
 class MockScenarioServiceImpl implements MockScenarioService {
@@ -38,7 +39,7 @@ class MockScenarioServiceImpl implements MockScenarioService {
       return Future.value([]);
     }
     return dir.list().toList().then((list) => list
-        .map((serviceDir) => serviceDir.path.split('/').last.split('.').first)
+        .map((serviceDir) => p.basename(p.withoutExtension(serviceDir.path)))
         .toList()
       ..sort());
   }
