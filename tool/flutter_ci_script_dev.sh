@@ -10,6 +10,7 @@ flutter doctor -v
 declare -ar PROJECT_NAMES=(
     "package/fda_mystudies_spec"
     "package/fda_mystudies_http_client"
+    "package/fda_mystudies_activity_ui_kit"
     "."
 )
 
