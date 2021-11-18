@@ -30,7 +30,16 @@ message ActivityResponse {
       bool skipped = 4;
       string result_type = 5;
       // TODO(cg2092): Add dynamic value here
+      oneof value {
+        int32 int_value = 6;
+        double double_value = 7;
+        string string_value = 8;
+        bool bool_value = 9;
+      }
+      // This is because repeated fields can't be in oneof fields.
+      repeated string list_values = 10 [json_name = "listValue"];
     }
+    repeated StepResult results = 4;
   }
   Data data = 6;
 

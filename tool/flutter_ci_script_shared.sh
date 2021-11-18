@@ -16,6 +16,11 @@ function ci_projects () {
             flutter pub run build_runner build --delete-conflicting-outputs
         fi
 
+        if [ "${PROJECT_NAME}" == "package/fda_mystudies_activity_ui_kit" ]
+        then
+            flutter pub run build_runner build --delete-conflicting-outputs
+        fi
+
         # Run the analyzer to find any static analysis issues.
         dart analyze
 
