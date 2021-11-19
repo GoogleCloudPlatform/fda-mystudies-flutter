@@ -8,7 +8,7 @@ import 'package:injectable/injectable.dart';
 @Injectable(as: ActivityBuilder)
 class ActivityBuilderImpl implements ActivityBuilder {
   @override
-  Widget buildActivity(List<ActivityStep> steps,
+  Widget buildActivity(List<ActivityStep> steps, bool allowExit,
       ActivityResponseProcessor activityResponseProcessor) {
     if (steps.isEmpty) {
       return activityResponseProcessor;

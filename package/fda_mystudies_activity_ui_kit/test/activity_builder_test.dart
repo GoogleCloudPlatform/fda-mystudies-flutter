@@ -18,7 +18,7 @@ void main() {
     test('no steps supplied, returns activityResponseProcessor', () {
       const responseProcessor = ActivityResponseProcessorSample();
       var returnedWidget =
-          activityBuilder!.buildActivity([], responseProcessor);
+          activityBuilder!.buildActivity([], true, responseProcessor);
 
       expect(returnedWidget, responseProcessor);
     });
@@ -32,11 +32,11 @@ void main() {
           ..type = 'question'
           ..resultType = 'scale'
           ..key = activityStepKey
-      ], responseProcessor);
+      ], true, responseProcessor);
       await tester.pumpWidget(TestUtils.createWidgetForTesting(returnedWidget));
 
       final scaffoldTitleFinder = find.text('Unimplemented $activityStepKey');
-      final bodyTextFinder = find.text('Unimplemented');
+      final bodyTextFinder = find.text(UnimplementedTemplate.pageContent);
 
       expect(returnedWidget is UnimplementedTemplate, true);
       expect(scaffoldTitleFinder, findsOneWidget);

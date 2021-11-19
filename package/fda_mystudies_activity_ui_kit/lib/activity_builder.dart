@@ -4,6 +4,6 @@ import 'package:flutter/material.dart';
 import 'activity_response_processor.dart';
 
 abstract class ActivityBuilder {
-  Widget buildActivity(List<ActivityStep> steps,
+  Widget buildActivity(List<ActivityStep> steps, bool allowExit,
       ActivityResponseProcessor activityResponseProcessor);
 }

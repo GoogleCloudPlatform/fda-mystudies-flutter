@@ -9,7 +9,7 @@ void main() {
         const UnimplementedTemplate('stepKey')));
 
     final scaffoldTitleFinder = find.text('Unimplemented stepKey');
-    final bodyTextFinder = find.text('Unimplemented');
+    final bodyTextFinder = find.text(UnimplementedTemplate.pageContent);
 
     expect(scaffoldTitleFinder, findsOneWidget);
     expect(bodyTextFinder, findsOneWidget);
