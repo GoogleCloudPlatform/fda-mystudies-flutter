@@ -5,13 +5,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'unimplemented_template.dart';
+
 class QuestionnaireTemplate extends StatelessWidget {
   final ActivityStep step;
   final bool allowExit;
   final String title;
+  final Map<String, Widget> widgetMap;
 
-  const QuestionnaireTemplate(this.step, this.allowExit, this.title, {Key? key})
+  const QuestionnaireTemplate(
+      this.step, this.allowExit, this.title, this.widgetMap,
+      {Key? key})
       : super(key: key);
+
+  Widget _findNextScreen() {
+    if (step.destinations.isEmpty) {
+      return widgetMap[''] ??
+          UnimplementedTemplate(step.destinations.first.destination);
+    } else if (step.destinations.length == 1) {
+      return widgetMap[step.destinations.first.destination] ??
+          UnimplementedTemplate(step.destinations.first.destination);
+    }
+    // TODO(cg2092): Implement branching
+    return widgetMap[step.destinations.first.destination] ??
+        UnimplementedTemplate(step.destinations.first.destination);
+  }
+
+  void _navigateToNextScreen(BuildContext context) {
+    Navigator.of(context).push<void>(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => _findNextScreen(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +68,7 @@ class QuestionnaireTemplate extends StatelessWidget {
             CupertinoButton.filled(
                 child: const Text('NEXT',
                     style: TextStyle(color: CupertinoColors.white)),
-                onPressed: () {}),
+                onPressed: () => _navigateToNextScreen(context)),
             const SizedBox(height: 18),
             Container(
                 decoration: BoxDecoration(
@@ -51,7 +77,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                 child: CupertinoButton(
                     child: const Text('SKIP',
                         style: TextStyle(color: CupertinoColors.activeBlue)),
-                    onPressed: () {}))
+                    onPressed: () => _navigateToNextScreen(context)))
           ])));
     }
     return Scaffold(
@@ -79,12 +105,12 @@ class QuestionnaireTemplate extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                 child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                   OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () => _navigateToNextScreen(context),
                       child: const Text('SKIP'),
                       style: Theme.of(context).textButtonTheme.style),
                   const SizedBox(width: 20),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => _navigateToNextScreen(context),
                     child: const Text('NEXT'),
                   )
                 ]))));
