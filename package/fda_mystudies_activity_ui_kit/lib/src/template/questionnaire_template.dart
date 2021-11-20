@@ -12,9 +12,10 @@ class QuestionnaireTemplate extends StatelessWidget {
   final bool allowExit;
   final String title;
   final Map<String, Widget> widgetMap;
+  final List<Widget> children;
 
   const QuestionnaireTemplate(
-      this.step, this.allowExit, this.title, this.widgetMap,
+      this.step, this.allowExit, this.title, this.widgetMap, this.children,
       {Key? key})
       : super(key: key);
 
@@ -60,25 +61,35 @@ class QuestionnaireTemplate extends StatelessWidget {
                               TextStyle(color: CupertinoColors.destructiveRed))
                       : const SizedBox(width: 0))),
           child: SafeArea(
-              child: ListView(padding: const EdgeInsets.all(20), children: [
-            Text(stepTitle, style: titleStyle),
-            const SizedBox(height: 12),
-            Text(subTitle, style: subTitleStyle),
-            const SizedBox(height: 100),
-            CupertinoButton.filled(
-                child: const Text('NEXT',
-                    style: TextStyle(color: CupertinoColors.white)),
-                onPressed: () => _navigateToNextScreen(context)),
-            const SizedBox(height: 18),
-            Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: CupertinoColors.activeBlue),
-                    borderRadius: const BorderRadius.all(Radius.circular(8.0))),
-                child: CupertinoButton(
-                    child: const Text('SKIP',
-                        style: TextStyle(color: CupertinoColors.activeBlue)),
-                    onPressed: () => _navigateToNextScreen(context)))
-          ])));
+              child: ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: [
+                        Text(stepTitle, style: titleStyle),
+                        const SizedBox(height: 12),
+                        Text(subTitle, style: subTitleStyle),
+                        const SizedBox(height: 36)
+                      ] +
+                      children +
+                      [
+                        const SizedBox(height: 36),
+                        CupertinoButton.filled(
+                            child: const Text('NEXT',
+                                style: TextStyle(color: CupertinoColors.white)),
+                            onPressed: () => _navigateToNextScreen(context)),
+                        const SizedBox(height: 18),
+                        Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: CupertinoColors.activeBlue),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(8.0))),
+                            child: CupertinoButton(
+                                child: const Text('SKIP',
+                                    style: TextStyle(
+                                        color: CupertinoColors.activeBlue)),
+                                onPressed: () =>
+                                    _navigateToNextScreen(context)))
+                      ])));
     }
     return Scaffold(
         appBar: AppBar(
@@ -95,11 +106,15 @@ class QuestionnaireTemplate extends StatelessWidget {
                   ]
                 : [],
             backgroundColor: Theme.of(context).colorScheme.surface),
-        body: ListView(padding: const EdgeInsets.all(20), children: [
-          Text(stepTitle, style: Theme.of(context).textTheme.headline4),
-          const SizedBox(height: 12),
-          Text(subTitle, style: Theme.of(context).textTheme.headline6)
-        ]),
+        body: ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+                  Text(stepTitle, style: Theme.of(context).textTheme.headline4),
+                  const SizedBox(height: 12),
+                  Text(subTitle, style: Theme.of(context).textTheme.headline6),
+                  const SizedBox(height: 24)
+                ] +
+                children),
         bottomNavigationBar: BottomAppBar(
             child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
