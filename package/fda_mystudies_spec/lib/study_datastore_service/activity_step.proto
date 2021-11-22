@@ -48,10 +48,10 @@ message ContinuousScaleFormat {
   double default_value = 1 [json_name = "default"];
   string max_desc = 2;
   string max_image = 3;
-  string max_value = 4;
+  double max_value = 4;
   string min_desc = 5;
   string min_image = 6;
-  string min_value = 7;
+  double min_value = 7;
   int32 max_fraction_digits = 8;
   bool vertical = 9;
 }

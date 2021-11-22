@@ -93,7 +93,7 @@ class QuestionnaireTemplate extends StatelessWidget {
     }
     return Scaffold(
         appBar: AppBar(
-            title: Text(title, style: const TextStyle(color: Colors.grey)),
+            title: Text(title),
             actions: allowExit
                 ? [
                     TextButton(

@@ -6,6 +6,8 @@ import '../activity_builder.dart';
 import '../activity_response_processor.dart';
 import 'template/questionnaire_template.dart';
 import 'template/questionnaire/boolean_template.dart';
+import 'template/questionnaire/horizontal_scale_template.dart';
+import 'template/questionnaire/vertical_scale_template.dart';
 import 'template/unimplemented_template.dart';
 
 @Injectable(as: ActivityBuilder)
@@ -35,14 +37,21 @@ class ActivityBuilderImpl implements ActivityBuilder {
     if (step.type == 'instruction') {
       return QuestionnaireTemplate(step, allowExit, title, widgetMap, const []);
     } else if (step.type == 'question') {
-      // if (step.resultType == 'scale') {
-      // } else if (step.resultType == 'continuousScale') {
-      // } else if (step.resultType == 'textScale') {
-      // } else if (step.resultType == 'valuePicker') {
-      // } else if (step.resultType == 'imageChoice') {
-      // } else if (step.resultType == 'textChoice') {
-      // } else
-      if (step.resultType == 'boolean') {
+      if (step.resultType == 'scale') {
+        if (step.scaleFormat.vertical) {
+          return VerticalScaleTemplate(step, allowExit, title, widgetMap);
+        }
+        return HorizontalScaleTemplate(step, allowExit, title, widgetMap);
+      } else if (step.resultType == 'continuousScale') {
+        if (step.continuousScale.vertical) {
+          return VerticalScaleTemplate(step, allowExit, title, widgetMap);
+        }
+        return HorizontalScaleTemplate(step, allowExit, title, widgetMap);
+        // } else if (step.resultType == 'textScale') {
+        // } else if (step.resultType == 'valuePicker') {
+        // } else if (step.resultType == 'imageChoice') {
+        // } else if (step.resultType == 'textChoice') {
+      } else if (step.resultType == 'boolean') {
         return BooleanTemplate(step, allowExit, title, widgetMap);
       }
       // else if (step.resultType == 'numeric') {
