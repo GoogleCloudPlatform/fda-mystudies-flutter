@@ -1,3 +1,4 @@
+import 'package:fda_mystudies_activity_ui_kit/src/template/questionnaire/horizontal_text_scale_template.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -49,9 +50,10 @@ class ActivityBuilderImpl implements ActivityBuilder {
         }
         return HorizontalScaleTemplate(step, allowExit, title, widgetMap);
       } else if (step.resultType == 'textScale') {
-        // if (step.textChoice.vertical) {
-        return VerticalTextScaleTemplate(step, allowExit, title, widgetMap);
-        // }
+        if (step.textChoice.vertical) {
+          return VerticalTextScaleTemplate(step, allowExit, title, widgetMap);
+        }
+        return HorizontalTextScaleTemplate(step, allowExit, title, widgetMap);
         // } else if (step.resultType == 'valuePicker') {
         // } else if (step.resultType == 'imageChoice') {
         // } else if (step.resultType == 'textChoice') {
