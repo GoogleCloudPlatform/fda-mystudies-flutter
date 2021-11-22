@@ -8,6 +8,7 @@ import 'template/questionnaire_template.dart';
 import 'template/questionnaire/boolean_template.dart';
 import 'template/questionnaire/horizontal_scale_template.dart';
 import 'template/questionnaire/vertical_scale_template.dart';
+import 'template/questionnaire/vertical_text_scale_template.dart';
 import 'template/unimplemented_template.dart';
 
 @Injectable(as: ActivityBuilder)
@@ -47,7 +48,10 @@ class ActivityBuilderImpl implements ActivityBuilder {
           return VerticalScaleTemplate(step, allowExit, title, widgetMap);
         }
         return HorizontalScaleTemplate(step, allowExit, title, widgetMap);
-        // } else if (step.resultType == 'textScale') {
+      } else if (step.resultType == 'textScale') {
+        // if (step.textChoice.vertical) {
+        return VerticalTextScaleTemplate(step, allowExit, title, widgetMap);
+        // }
         // } else if (step.resultType == 'valuePicker') {
         // } else if (step.resultType == 'imageChoice') {
         // } else if (step.resultType == 'textChoice') {
