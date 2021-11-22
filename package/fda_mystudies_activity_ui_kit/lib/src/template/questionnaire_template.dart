@@ -56,9 +56,8 @@ class QuestionnaireTemplate extends StatelessWidget {
                   padding: EdgeInsets.zero,
                   onPressed: () {},
                   child: allowExit
-                      ? const Text('EXIT',
-                          style:
-                              TextStyle(color: CupertinoColors.destructiveRed))
+                      ? const Icon(Icons.exit_to_app,
+                          color: CupertinoColors.destructiveRed)
                       : const SizedBox(width: 0))),
           child: SafeArea(
               child: ListView(
@@ -102,7 +101,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           primary: Colors.red,
                         ),
-                        child: const Text('EXIT'))
+                        child: const Icon(Icons.exit_to_app))
                   ]
                 : [],
             backgroundColor: Theme.of(context).colorScheme.surface),
