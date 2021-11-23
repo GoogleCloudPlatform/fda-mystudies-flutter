@@ -1,4 +1,3 @@
-import 'package:fda_mystudies_activity_ui_kit/src/template/questionnaire/horizontal_text_scale_template.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -8,6 +7,8 @@ import '../activity_response_processor.dart';
 import 'template/questionnaire_template.dart';
 import 'template/questionnaire/boolean_template.dart';
 import 'template/questionnaire/horizontal_scale_template.dart';
+import 'template/questionnaire/horizontal_text_scale_template.dart';
+import 'template/questionnaire/value_picker_template.dart';
 import 'template/questionnaire/vertical_scale_template.dart';
 import 'template/questionnaire/vertical_text_scale_template.dart';
 import 'template/unimplemented_template.dart';
@@ -54,7 +55,8 @@ class ActivityBuilderImpl implements ActivityBuilder {
           return VerticalTextScaleTemplate(step, allowExit, title, widgetMap);
         }
         return HorizontalTextScaleTemplate(step, allowExit, title, widgetMap);
-        // } else if (step.resultType == 'valuePicker') {
+      } else if (step.resultType == 'valuePicker') {
+        return ValuePickerTemplate(step, allowExit, title, widgetMap);
         // } else if (step.resultType == 'imageChoice') {
         // } else if (step.resultType == 'textChoice') {
       } else if (step.resultType == 'boolean') {
