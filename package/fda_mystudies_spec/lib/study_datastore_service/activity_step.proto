@@ -67,7 +67,7 @@ message DateTimeFormat {
 message ImageChoiceFormat {
   message ImageChoiceItem {
     string image = 1;
-    string select_image = 2;
+    string selected_image = 2;
     string text = 3;
     string value = 4;
   }
