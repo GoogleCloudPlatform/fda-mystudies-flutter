@@ -1,4 +1,3 @@
-import 'package:fda_mystudies_activity_ui_kit/src/template/questionnaire/image_choice_template.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -9,6 +8,8 @@ import 'template/questionnaire_template.dart';
 import 'template/questionnaire/boolean_template.dart';
 import 'template/questionnaire/horizontal_scale_template.dart';
 import 'template/questionnaire/horizontal_text_scale_template.dart';
+import 'template/questionnaire/image_choice_template.dart';
+import 'template/questionnaire/single_text_choice_template.dart';
 import 'template/questionnaire/value_picker_template.dart';
 import 'template/questionnaire/vertical_scale_template.dart';
 import 'template/questionnaire/vertical_text_scale_template.dart';
@@ -60,7 +61,10 @@ class ActivityBuilderImpl implements ActivityBuilder {
         return ValuePickerTemplate(step, allowExit, title, widgetMap);
       } else if (step.resultType == 'imageChoice') {
         return ImageChoiceTemplate(step, allowExit, title, widgetMap);
-        // } else if (step.resultType == 'textChoice') {
+      } else if (step.resultType == 'textChoice') {
+        if (step.textChoice.selectionStyle == 'Single') {
+          return SingleTextChoiceTemplate(step, allowExit, title, widgetMap);
+        }
       } else if (step.resultType == 'boolean') {
         return BooleanTemplate(step, allowExit, title, widgetMap);
       }

@@ -64,9 +64,9 @@ class QuestionnaireTemplate extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   children: [
                         Text(stepTitle, style: titleStyle),
-                        const SizedBox(height: 12),
+                        SizedBox(height: subTitle.isEmpty ? 0 : 12),
                         Text(subTitle, style: subTitleStyle),
-                        const SizedBox(height: 36)
+                        SizedBox(height: subTitle.isEmpty ? 12 : 36)
                       ] +
                       children +
                       [
@@ -109,7 +109,7 @@ class QuestionnaireTemplate extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             children: [
                   Text(stepTitle, style: Theme.of(context).textTheme.headline4),
-                  const SizedBox(height: 12),
+                  SizedBox(height: subTitle.isEmpty ? 0 : 12),
                   Text(subTitle, style: Theme.of(context).textTheme.headline6),
                   const SizedBox(height: 24)
                 ] +
