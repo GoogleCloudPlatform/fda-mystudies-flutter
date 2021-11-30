@@ -10,6 +10,7 @@ import 'template/questionnaire/horizontal_scale_template.dart';
 import 'template/questionnaire/horizontal_text_scale_template.dart';
 import 'template/questionnaire/image_choice_template.dart';
 import 'template/questionnaire/multiple_text_choice_template.dart';
+import 'template/questionnaire/numerical_text_template.dart';
 import 'template/questionnaire/single_text_choice_template.dart';
 import 'template/questionnaire/value_picker_template.dart';
 import 'template/questionnaire/vertical_scale_template.dart';
@@ -70,8 +71,9 @@ class ActivityBuilderImpl implements ActivityBuilder {
         }
       } else if (step.resultType == 'boolean') {
         return BooleanTemplate(step, allowExit, title, widgetMap);
+      } else if (step.resultType == 'numeric') {
+        return NumericalTextTemplate(step, allowExit, title, widgetMap);
       }
-      // else if (step.resultType == 'numeric') {
       // } else if (step.resultType == 'timeOfDay') {
       // } else if (step.resultType == 'date') {
       // } else if (step.resultType == 'text') {

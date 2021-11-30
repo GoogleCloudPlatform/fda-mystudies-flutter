@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:fda_mystudies_activity_ui_kit/src/template/questionnaire_template.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../questionnaire_template.dart';
 import 'cupertino_widget/cupertino_radio_list_tile.dart';
 
 class SingleTextChoiceTemplate extends StatefulWidget {

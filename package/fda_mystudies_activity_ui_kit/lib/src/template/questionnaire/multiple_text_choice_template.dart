@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../template/questionnaire_template.dart';
-import '../../template/questionnaire/cupertino_widget/cupertino_checkbox_list_tile.dart';
+import '../questionnaire_template.dart';
+import 'cupertino_widget/cupertino_checkbox_list_tile.dart';
 
 class MultipleTextChoiceTemplate extends StatefulWidget {
   final ActivityStep step;
