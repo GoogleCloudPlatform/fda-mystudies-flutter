@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../activity_builder.dart';
 import '../activity_response_processor.dart';
+import 'template/questionnaire/time_of_day_template.dart';
 import 'template/questionnaire_template.dart';
 import 'template/questionnaire/boolean_template.dart';
 import 'template/questionnaire/horizontal_scale_template.dart';
@@ -73,8 +74,9 @@ class ActivityBuilderImpl implements ActivityBuilder {
         return BooleanTemplate(step, allowExit, title, widgetMap);
       } else if (step.resultType == 'numeric') {
         return NumericalTextTemplate(step, allowExit, title, widgetMap);
+      } else if (step.resultType == 'timeOfDay') {
+        return TimeOfDayTemplate(step, allowExit, title, widgetMap);
       }
-      // } else if (step.resultType == 'timeOfDay') {
       // } else if (step.resultType == 'date') {
       // } else if (step.resultType == 'text') {
       // } else if (step.resultType == 'email') {
