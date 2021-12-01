@@ -30,13 +30,17 @@ class _DateTemplateState extends State<DateTemplate> {
     var time = DateTime.now();
     if (_selectedValue != null) {
       time = DateTime.parse(_selectedValue!);
+    } else {
+      _selectedValue = _dateTimeToString(DateTime.now());
     }
     if (Platform.isIOS) {
       widgetList = [
         SizedBox(
             height: 300,
             child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.date,
+                mode: widget.step.dateTime.style == 'Date'
+                    ? CupertinoDatePickerMode.date
+                    : CupertinoDatePickerMode.dateAndTime,
                 onDateTimeChanged: (dateTime) {
                   _selectedValue = _dateTimeToString(dateTime);
                 },
@@ -56,6 +60,25 @@ class _DateTemplateState extends State<DateTemplate> {
                   setState(() {
                     _selectedValue = _dateTimeToString(dateTime);
                   });
+                  if (widget.step.dateTime.style == 'Date-Time') {
+                    showTimePicker(
+                            context: context,
+                            initialTime:
+                                TimeOfDay(hour: time.hour, minute: time.minute))
+                        .then((value) {
+                      if (value != null) {
+                        setState(() {
+                          var updatedDateTime = DateTime(
+                              dateTime.year,
+                              dateTime.month,
+                              dateTime.day,
+                              value.hour,
+                              value.minute);
+                          _selectedValue = _dateTimeToString(updatedDateTime);
+                        });
+                      }
+                    });
+                  }
                 }
               });
             },
@@ -64,7 +87,6 @@ class _DateTemplateState extends State<DateTemplate> {
                 child: Text(_selectedValue ?? _dateTimeToString(time))))
       ];
     }
-
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
         widget.widgetMap, widgetList);
   }
@@ -73,6 +95,9 @@ class _DateTemplateState extends State<DateTemplate> {
     var yyyy = '${dateTime.year}'.padLeft(4, '0');
     var mm = '${dateTime.month}'.padLeft(2, '0');
     var dd = '${dateTime.day}'.padLeft(2, '0');
-    return '$yyyy-$mm-$dd';
+    var hh = '${dateTime.hour}'.padLeft(2, '0');
+    var m = '${dateTime.minute}'.padLeft(2, '0');
+    var ss = '${dateTime.second}'.padLeft(2, '0');
+    return '$yyyy-$mm-$dd${widget.step.dateTime.style == 'Date' ? '' : 'T$hh:$m:$ss'}';
   }
 }
