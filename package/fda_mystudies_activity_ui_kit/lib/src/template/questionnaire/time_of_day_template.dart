@@ -27,36 +27,33 @@ class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];
-    var time = TimeOfDay.now();
+    var time = DateTime.now();
     if (_selectedValue != null) {
       time = _selectedValueToTimeOfDay(_selectedValue!);
     }
     if (Platform.isIOS) {
       widgetList = [
-        CupertinoTimerPicker(
-            initialTimerDuration:
-                Duration(hours: time.hour, minutes: time.minute),
-            mode: CupertinoTimerPickerMode.hm,
-            onTimerDurationChanged: (duration) {
-              setState(() {
-                _selectedValue =
-                    _timeToHhMm(duration.inHours, duration.inMinutes % 60);
-              });
-            })
+        SizedBox(
+            height: 300,
+            child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.time,
+                initialDateTime: time,
+                onDateTimeChanged: (dateTime) {
+                  setState(() {
+                    _selectedValue =
+                        _timeToHhMm(dateTime.hour, dateTime.minute);
+                  });
+                }))
       ];
     } else if (Platform.isAndroid) {
       widgetList = [
         ElevatedButton(
             onPressed: () {
               showTimePicker(
-                  context: context,
-                  initialTime: time,
-                  builder: (context, child) {
-                    return MediaQuery(
-                        data: MediaQuery.of(context)
-                            .copyWith(alwaysUse24HourFormat: true),
-                        child: child!);
-                  }).then((value) {
+                      context: context,
+                      initialTime:
+                          TimeOfDay(hour: time.hour, minute: time.minute))
+                  .then((value) {
                 if (value != null) {
                   setState(() {
                     _selectedValue = _timeToHhMm(value.hour, value.minute);
@@ -81,9 +78,11 @@ class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
     return '$hh:$mm';
   }
 
-  TimeOfDay _selectedValueToTimeOfDay(String hhmm) {
+  DateTime _selectedValueToTimeOfDay(String hhmm) {
     var hh = hhmm.substring(0, 2);
     var mm = hhmm.substring(3, 5);
-    return TimeOfDay(hour: int.parse(hh), minute: int.parse(mm));
+    var time = DateTime.now();
+    return DateTime(
+        time.year, time.month, time.day, int.parse(hh), int.parse(mm));
   }
 }

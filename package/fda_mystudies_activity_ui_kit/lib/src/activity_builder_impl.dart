@@ -1,3 +1,4 @@
+import 'package:fda_mystudies_activity_ui_kit/src/template/questionnaire/date_template.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -76,8 +77,9 @@ class ActivityBuilderImpl implements ActivityBuilder {
         return NumericalTextTemplate(step, allowExit, title, widgetMap);
       } else if (step.resultType == 'timeOfDay') {
         return TimeOfDayTemplate(step, allowExit, title, widgetMap);
+      } else if (step.resultType == 'date') {
+        return DateTemplate(step, allowExit, title, widgetMap);
       }
-      // } else if (step.resultType == 'date') {
       // } else if (step.resultType == 'text') {
       // } else if (step.resultType == 'email') {
       // } else if (step.resultType == 'timeInterval') {}
