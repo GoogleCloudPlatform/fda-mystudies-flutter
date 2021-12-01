@@ -27,6 +27,7 @@ message ActivityStep {
     NumericalFormat numerical_format = 23;
     ScaleFormat scale_format = 24;
     TextChoiceFormat text_choice = 25;
+    TimeIntervalFormat time_interval = 26;
   }
 
   message StepDestination {
@@ -62,6 +63,11 @@ message DateTimeFormat {
   string max_date = 3;
   string min_date = 4;
   string style = 5;
+}
+
+message TimeIntervalFormat {
+  int32 default_value = 1 [json_name = "default"];
+  int32 step = 2;
 }
 
 message ImageChoiceFormat {
