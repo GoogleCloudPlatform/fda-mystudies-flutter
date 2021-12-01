@@ -1,20 +1,21 @@
-import 'package:fda_mystudies_activity_ui_kit/src/template/questionnaire/date_template.dart';
-import 'package:fda_mystudies_activity_ui_kit/src/template/questionnaire/time_interval_template.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import '../activity_builder.dart';
 import '../activity_response_processor.dart';
-import 'template/questionnaire/time_of_day_template.dart';
 import 'template/questionnaire_template.dart';
 import 'template/questionnaire/boolean_template.dart';
+import 'template/questionnaire/date_template.dart';
 import 'template/questionnaire/horizontal_scale_template.dart';
 import 'template/questionnaire/horizontal_text_scale_template.dart';
 import 'template/questionnaire/image_choice_template.dart';
 import 'template/questionnaire/multiple_text_choice_template.dart';
 import 'template/questionnaire/numerical_text_template.dart';
+import 'template/questionnaire/text_template.dart';
 import 'template/questionnaire/single_text_choice_template.dart';
+import 'template/questionnaire/time_interval_template.dart';
+import 'template/questionnaire/time_of_day_template.dart';
 import 'template/questionnaire/value_picker_template.dart';
 import 'template/questionnaire/vertical_scale_template.dart';
 import 'template/questionnaire/vertical_text_scale_template.dart';
@@ -80,8 +81,13 @@ class ActivityBuilderImpl implements ActivityBuilder {
         return TimeOfDayTemplate(step, allowExit, title, widgetMap);
       } else if (step.resultType == 'date') {
         return DateTemplate(step, allowExit, title, widgetMap);
-        // } else if (step.resultType == 'text') {
-        // } else if (step.resultType == 'email') {
+      } else if (step.resultType == 'text') {
+        return TextTemplate(step, allowExit, title, widgetMap);
+      } else if (step.resultType == 'email') {
+        step.textFormat
+          ..maxLength = 320
+          ..multipleLines = false;
+        return TextTemplate(step, allowExit, title, widgetMap);
       } else if (step.resultType == 'timeInterval') {
         return TimeIntervalTemplate(step, allowExit, title, widgetMap);
       }

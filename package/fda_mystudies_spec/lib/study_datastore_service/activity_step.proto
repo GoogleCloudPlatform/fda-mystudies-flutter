@@ -28,6 +28,7 @@ message ActivityStep {
     ScaleFormat scale_format = 24;
     TextChoiceFormat text_choice = 25;
     TimeIntervalFormat time_interval = 26;
+    TextFormat text_format = 27;
   }
 
   message StepDestination {
@@ -119,4 +120,12 @@ message TextChoiceFormat {
     OtherTextChoice other = 5;
   }
   repeated TextChoice text_choices = 4;
+}
+
+message TextFormat {
+  int32 max_length = 1;
+  string validation_regex = 2;
+  string invalid_message = 3;
+  bool multiple_lines = 4;
+  string placeholder = 5;
 }
