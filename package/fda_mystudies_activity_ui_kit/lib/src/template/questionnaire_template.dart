@@ -48,61 +48,84 @@ class QuestionnaireTemplate extends StatelessWidget {
       var titleStyle =
           CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle;
       var subTitleStyle = CupertinoTheme.of(context).textTheme.textStyle;
-      return CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(
-              middle: Text(title,
-                  style: const TextStyle(color: CupertinoColors.systemGrey)),
-              trailing: CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {},
-                  child: allowExit
-                      ? const Icon(Icons.exit_to_app,
-                          color: CupertinoColors.destructiveRed)
-                      : const SizedBox(width: 0))),
-          child: SafeArea(
+      return Stack(children: [
+        CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(
+                middle: Text(title,
+                    style: const TextStyle(color: CupertinoColors.systemGrey)),
+                trailing: CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () {},
+                    child: allowExit
+                        ? const Icon(Icons.exit_to_app,
+                            color: CupertinoColors.destructiveRed)
+                        : const SizedBox(width: 0))),
+            child: SafeArea(
               bottom: false,
-              child: Column(children: [
-                Expanded(
-                    child: ListView(
-                        padding: const EdgeInsets.all(20),
+              maintainBottomViewPadding: true,
+              child: ListView(
+                  padding: const EdgeInsets.all(20),
+                  children: [
+                        Text(stepTitle, style: titleStyle),
+                        SizedBox(height: subTitle.isEmpty ? 0 : 12),
+                        Text(subTitle, style: subTitleStyle),
+                        SizedBox(height: subTitle.isEmpty ? 12 : 36)
+                      ] +
+                      children +
+                      [
+                        // This sized box is to add padding to the bottom of
+                        // the scaffold view to allow it to scroll over the
+                        // view that holds the NEXT and SKIP buttons i.e. BOTTOM_VIEW.
+                        // We are using bottom viewInset to detect if keyboard is
+                        // showing. If keyboard is showing remove the extra padding
+                        // meant for scrolling over the BOTTOM_VIEW.
+                        //
+                        // 20 - Default padding so that widgets from this component
+                        //      doesn't stick to the BOTTOM_VIEW.
+                        // 142 + 40 x textScaleFactor - This Padding is to match the
+                        //      height of the BOTTOM_VIEW. Hacky solution, but it works
+                        //      at all textScaleFactors.
+                        SizedBox(
+                            height: 20 +
+                                (MediaQuery.of(context).viewInsets.bottom == 0
+                                    ? 142 +
+                                        40 *
+                                            MediaQuery.of(context)
+                                                .textScaleFactor
+                                    : 0))
+                      ]),
+            )),
+        Positioned(
+            bottom: 0,
+            width: MediaQuery.of(context).size.width,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: CupertinoTheme.of(context).barBackgroundColor),
+                child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                              Text(stepTitle, style: titleStyle),
-                              SizedBox(height: subTitle.isEmpty ? 0 : 12),
-                              Text(subTitle, style: subTitleStyle),
-                              SizedBox(height: subTitle.isEmpty ? 12 : 36)
-                            ] +
-                            children +
-                            [const SizedBox(height: 20)])),
-                Container(
-                    decoration: BoxDecoration(
-                        color: CupertinoTheme.of(context).barBackgroundColor),
-                    child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              CupertinoButton.filled(
-                                  child: const Text('NEXT',
+                          CupertinoButton.filled(
+                              child: const Text('NEXT',
+                                  style:
+                                      TextStyle(color: CupertinoColors.white)),
+                              onPressed: () => _navigateToNextScreen(context)),
+                          const SizedBox(height: 20),
+                          Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: CupertinoColors.activeBlue),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8.0))),
+                              child: CupertinoButton(
+                                  child: const Text('SKIP',
                                       style: TextStyle(
-                                          color: CupertinoColors.white)),
+                                          color: CupertinoColors.activeBlue)),
                                   onPressed: () =>
-                                      _navigateToNextScreen(context)),
-                              const SizedBox(height: 20),
-                              Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: CupertinoColors.activeBlue),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(8.0))),
-                                  child: CupertinoButton(
-                                      child: const Text('SKIP',
-                                          style: TextStyle(
-                                              color:
-                                                  CupertinoColors.activeBlue)),
-                                      onPressed: () =>
-                                          _navigateToNextScreen(context)))
-                            ])))
-              ])));
+                                      _navigateToNextScreen(context)))
+                        ]))))
+      ]);
     }
     return Scaffold(
         appBar: AppBar(
