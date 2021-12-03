@@ -60,35 +60,49 @@ class QuestionnaireTemplate extends StatelessWidget {
                           color: CupertinoColors.destructiveRed)
                       : const SizedBox(width: 0))),
           child: SafeArea(
-              child: ListView(
-                  padding: const EdgeInsets.all(20),
-                  children: [
-                        Text(stepTitle, style: titleStyle),
-                        SizedBox(height: subTitle.isEmpty ? 0 : 12),
-                        Text(subTitle, style: subTitleStyle),
-                        SizedBox(height: subTitle.isEmpty ? 12 : 36)
-                      ] +
-                      children +
-                      [
-                        const SizedBox(height: 36),
-                        CupertinoButton.filled(
-                            child: const Text('NEXT',
-                                style: TextStyle(color: CupertinoColors.white)),
-                            onPressed: () => _navigateToNextScreen(context)),
-                        const SizedBox(height: 18),
-                        Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: CupertinoColors.activeBlue),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(8.0))),
-                            child: CupertinoButton(
-                                child: const Text('SKIP',
-                                    style: TextStyle(
-                                        color: CupertinoColors.activeBlue)),
-                                onPressed: () =>
-                                    _navigateToNextScreen(context)))
-                      ])));
+              bottom: false,
+              child: Column(children: [
+                Expanded(
+                    child: ListView(
+                        padding: const EdgeInsets.all(20),
+                        children: [
+                              Text(stepTitle, style: titleStyle),
+                              SizedBox(height: subTitle.isEmpty ? 0 : 12),
+                              Text(subTitle, style: subTitleStyle),
+                              SizedBox(height: subTitle.isEmpty ? 12 : 36)
+                            ] +
+                            children +
+                            [const SizedBox(height: 20)])),
+                Container(
+                    decoration: BoxDecoration(
+                        color: CupertinoTheme.of(context).barBackgroundColor),
+                    child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              CupertinoButton.filled(
+                                  child: const Text('NEXT',
+                                      style: TextStyle(
+                                          color: CupertinoColors.white)),
+                                  onPressed: () =>
+                                      _navigateToNextScreen(context)),
+                              const SizedBox(height: 20),
+                              Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: CupertinoColors.activeBlue),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(8.0))),
+                                  child: CupertinoButton(
+                                      child: const Text('SKIP',
+                                          style: TextStyle(
+                                              color:
+                                                  CupertinoColors.activeBlue)),
+                                      onPressed: () =>
+                                          _navigateToNextScreen(context)))
+                            ])))
+              ])));
     }
     return Scaffold(
         appBar: AppBar(
