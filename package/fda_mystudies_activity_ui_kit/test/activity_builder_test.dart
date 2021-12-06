@@ -17,8 +17,8 @@ void main() {
   group('Activity Builder Unimpleted Widget Tests', () {
     test('no steps supplied, returns activityResponseProcessor', () {
       const responseProcessor = ActivityResponseProcessorSample();
-      var returnedWidget =
-          activityBuilder!.buildActivity([], true, responseProcessor);
+      var returnedWidget = activityBuilder!.buildActivity([], responseProcessor,
+          allowExit: true, exitRouteName: '/');
 
       expect(returnedWidget, responseProcessor);
     });
@@ -32,7 +32,7 @@ void main() {
           ..type = 'question'
           ..resultType = 'scale'
           ..key = activityStepKey
-      ], true, responseProcessor);
+      ], responseProcessor, allowExit: true, exitRouteName: '/');
       await tester.pumpWidget(TestUtils.createWidgetForTesting(returnedWidget));
 
       final scaffoldTitleFinder = find.text('Unimplemented $activityStepKey');

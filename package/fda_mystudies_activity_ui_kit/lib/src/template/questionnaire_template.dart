@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../activity_builder_impl.dart';
 import 'unimplemented_template.dart';
 
 class QuestionnaireTemplate extends StatelessWidget {
@@ -64,8 +65,10 @@ class QuestionnaireTemplate extends StatelessWidget {
                     trailing: CupertinoButton(
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          // Navigator.of(context).popUntil(ModalRoute.withName("pushActivity"));
-                          // Navigator.of(context).pop();
+                          if (ActivityBuilderImpl.exitRoute.isNotEmpty) {
+                            Navigator.of(context).popUntil(ModalRoute.withName(
+                                ActivityBuilderImpl.exitRoute));
+                          }
                         },
                         child: allowExit
                             ? const Icon(Icons.exit_to_app,
@@ -153,8 +156,11 @@ class QuestionnaireTemplate extends StatelessWidget {
                     ? [
                         TextButton(
                             onPressed: () {
-                              // Navigator.of(context).popUntil(ModalRoute.withName("pushActivity"));
-                              // Navigator.of(context).pop();
+                              if (ActivityBuilderImpl.exitRoute.isNotEmpty) {
+                                Navigator.of(context).popUntil(
+                                    ModalRoute.withName(
+                                        ActivityBuilderImpl.exitRoute));
+                              }
                             },
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.zero,

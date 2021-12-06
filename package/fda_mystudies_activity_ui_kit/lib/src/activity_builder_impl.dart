@@ -23,9 +23,15 @@ import 'template/unimplemented_template.dart';
 
 @Injectable(as: ActivityBuilder)
 class ActivityBuilderImpl implements ActivityBuilder {
+  static String exitRoute = '';
+
   @override
-  Widget buildActivity(List<ActivityStep> steps, bool allowExit,
-      ActivityResponseProcessor activityResponseProcessor) {
+  Widget buildActivity(List<ActivityStep> steps,
+      ActivityResponseProcessor activityResponseProcessor,
+      {bool allowExit = false, String? exitRouteName}) {
+    if (exitRouteName != null) {
+      exitRoute = exitRouteName;
+    }
     if (steps.isEmpty) {
       return activityResponseProcessor;
     }
