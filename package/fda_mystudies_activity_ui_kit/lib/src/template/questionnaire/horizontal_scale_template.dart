@@ -31,9 +31,10 @@ class _HorizontalScaleTemplateState extends State<HorizontalScaleTemplate> {
     var defaultValue = widget.step.hasScaleFormat()
         ? widget.step.scaleFormat.defaultValue
         : widget.step.continuousScale.defaultValue;
+    _selectedValue ??= defaultValue.toDouble();
     var selectedValueLabel = widget.step.hasScaleFormat()
-        ? '${(_selectedValue ?? defaultValue).toInt()}'
-        : '${_selectedValue ?? defaultValue}';
+        ? '${(_selectedValue!).toInt()}'
+        : '${_selectedValue!}';
     var maxValue = widget.step.hasScaleFormat()
         ? widget.step.scaleFormat.maxValue
         : widget.step.continuousScale.maxValue;
@@ -110,6 +111,7 @@ class _HorizontalScaleTemplateState extends State<HorizontalScaleTemplate> {
     }
 
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: _selectedValue);
   }
 }

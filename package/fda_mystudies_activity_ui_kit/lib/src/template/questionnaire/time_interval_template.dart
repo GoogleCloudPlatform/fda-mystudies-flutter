@@ -29,6 +29,7 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];
     var defaultSeconds = widget.step.timeInterval.defaultValue;
+    _selectedValue ??= defaultSeconds;
     var defaultHours = defaultSeconds ~/ 3600;
     var defaultMinutes = (defaultSeconds - defaultHours * 3600) ~/ 60;
     if (Platform.isIOS) {
@@ -67,11 +68,12 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
             },
             child: Padding(
                 padding: const EdgeInsets.all(10),
-                child: Text('${_selectedValue ?? defaultSeconds}')))
+                child: Text('${_selectedValue!}')))
       ];
     }
 
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: _selectedValue);
   }
 }

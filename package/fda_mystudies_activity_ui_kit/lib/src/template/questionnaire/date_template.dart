@@ -31,7 +31,7 @@ class _DateTemplateState extends State<DateTemplate> {
     if (_selectedValue != null) {
       time = DateTime.parse(_selectedValue!);
     } else {
-      _selectedValue = _dateTimeToString(DateTime.now());
+      _selectedValue = _dateTimeToString(time);
     }
     if (Platform.isIOS) {
       widgetList = [
@@ -88,7 +88,8 @@ class _DateTemplateState extends State<DateTemplate> {
       ];
     }
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: _selectedValue);
   }
 
   String _dateTimeToString(DateTime dateTime) {

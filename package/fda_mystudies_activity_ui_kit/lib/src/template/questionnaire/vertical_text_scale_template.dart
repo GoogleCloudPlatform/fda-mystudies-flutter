@@ -31,7 +31,8 @@ class _VerticalTextScaleTemplateState extends State<VerticalTextScaleTemplate> {
     var textChoiceList = widget.step.textChoice.textChoices;
     var defaultValue =
         textChoiceList[widget.step.textChoice.defaultValue - 1].value;
-    var selectedValueLabel = _selectedValue ?? defaultValue;
+    _selectedValue ??= defaultValue;
+    var selectedValueLabel = _selectedValue;
     var selectedValueIndex = textChoiceList
         .indexWhere((element) => element.value == selectedValueLabel);
 
@@ -138,6 +139,7 @@ class _VerticalTextScaleTemplateState extends State<VerticalTextScaleTemplate> {
     }
 
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: _selectedValue);
   }
 }

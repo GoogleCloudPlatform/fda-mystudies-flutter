@@ -40,7 +40,11 @@ class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
                     max(30 * MediaQuery.of(context).textScaleFactor, 30),
                 onSelectedItemChanged: (value) {
                   setState(() {
-                    _selectedValue = textChoiceList[value].value;
+                    if (value == 0) {
+                      _selectedValue = null;
+                    } else {
+                      _selectedValue = textChoiceList[value - 1].value;
+                    }
                   });
                 },
                 children: textChoiceList
@@ -48,7 +52,13 @@ class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
                         child: Text(e.text,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center)))
-                    .toList()))
+                    .toList()
+                  ..insert(
+                      0,
+                      const Center(
+                          child: Text('Select an item',
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center)))))
       ];
     } else if (Platform.isAndroid) {
       widgetList = [
@@ -71,6 +81,7 @@ class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
     }
 
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: _selectedValue);
   }
 }

@@ -70,7 +70,8 @@ class _MultipleTextChoiceTemplateState
     }
 
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: (_selectedValue.isEmpty ? null : _selectedValue));
   }
 
   void _updateState(TextChoiceFormat_TextChoice e) {

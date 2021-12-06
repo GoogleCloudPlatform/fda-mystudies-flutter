@@ -13,10 +13,11 @@ class QuestionnaireTemplate extends StatelessWidget {
   final String title;
   final Map<String, Widget> widgetMap;
   final List<Widget> children;
+  final dynamic selectedValue;
 
   const QuestionnaireTemplate(
       this.step, this.allowExit, this.title, this.widgetMap, this.children,
-      {Key? key})
+      {this.selectedValue, Key? key})
       : super(key: key);
 
   Widget _findNextScreen() {
@@ -33,11 +34,13 @@ class QuestionnaireTemplate extends StatelessWidget {
   }
 
   void _navigateToNextScreen(BuildContext context) {
-    Navigator.of(context).push<void>(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context) => _findNextScreen(),
-      ),
-    );
+    if (Platform.isIOS) {
+      Navigator.of(context).push(CupertinoPageRoute<void>(
+          builder: (BuildContext context) => _findNextScreen()));
+    } else if (Platform.isAndroid) {
+      Navigator.of(context).push<void>(MaterialPageRoute<void>(
+          builder: (BuildContext context) => _findNextScreen()));
+    }
   }
 
   @override
@@ -60,7 +63,10 @@ class QuestionnaireTemplate extends StatelessWidget {
                             const TextStyle(color: CupertinoColors.systemGrey)),
                     trailing: CupertinoButton(
                         padding: EdgeInsets.zero,
-                        onPressed: () {},
+                        onPressed: () {
+                          // Navigator.of(context).popUntil(ModalRoute.withName("pushActivity"));
+                          // Navigator.of(context).pop();
+                        },
                         child: allowExit
                             ? const Icon(Icons.exit_to_app,
                                 color: CupertinoColors.destructiveRed)
@@ -116,8 +122,9 @@ class QuestionnaireTemplate extends StatelessWidget {
                                   child: const Text('NEXT',
                                       style: TextStyle(
                                           color: CupertinoColors.white)),
-                                  onPressed: () =>
-                                      _navigateToNextScreen(context)),
+                                  onPressed: selectedValue == null
+                                      ? null
+                                      : () => _navigateToNextScreen(context)),
                               const SizedBox(height: 20),
                               Container(
                                   decoration: BoxDecoration(
@@ -145,7 +152,10 @@ class QuestionnaireTemplate extends StatelessWidget {
                 actions: allowExit
                     ? [
                         TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              // Navigator.of(context).popUntil(ModalRoute.withName("pushActivity"));
+                              // Navigator.of(context).pop();
+                            },
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.zero,
                               primary: Colors.red,
@@ -177,7 +187,9 @@ class QuestionnaireTemplate extends StatelessWidget {
                               style: Theme.of(context).textButtonTheme.style),
                           const SizedBox(width: 20),
                           ElevatedButton(
-                            onPressed: () => _navigateToNextScreen(context),
+                            onPressed: selectedValue == null
+                                ? null
+                                : () => _navigateToNextScreen(context),
                             child: const Text('NEXT'),
                           )
                         ])))));

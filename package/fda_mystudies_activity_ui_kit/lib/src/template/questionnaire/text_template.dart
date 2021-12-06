@@ -23,7 +23,7 @@ class TextTemplate extends StatefulWidget {
 }
 
 class _TextTemplateState extends State<TextTemplate> {
-  final _textController = TextEditingController();
+  String? _selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -31,24 +31,32 @@ class _TextTemplateState extends State<TextTemplate> {
     if (Platform.isIOS) {
       widgetList = [
         CupertinoTextField(
+            onChanged: (value) {
+              setState(() {
+                _selectedValue = value;
+              });
+            },
             maxLength: widget.step.textFormat.maxLength,
             keyboardType: widget.step.textFormat.multipleLines
                 ? TextInputType.multiline
                 : TextInputType.text,
             maxLines: widget.step.textFormat.multipleLines ? null : 1,
-            controller: _textController,
             inputFormatters: _inputFormatters(widget.step),
             placeholder: widget.step.textFormat.placeholder)
       ];
     } else if (Platform.isAndroid) {
       widgetList = [
         TextField(
+            onChanged: (value) {
+              setState(() {
+                _selectedValue = value;
+              });
+            },
             maxLength: widget.step.textFormat.maxLength,
             keyboardType: widget.step.textFormat.multipleLines
                 ? TextInputType.multiline
                 : TextInputType.text,
             maxLines: widget.step.textFormat.multipleLines ? null : 1,
-            controller: _textController,
             inputFormatters: _inputFormatters(widget.step),
             decoration:
                 InputDecoration(hintText: widget.step.textFormat.placeholder))
@@ -56,7 +64,8 @@ class _TextTemplateState extends State<TextTemplate> {
     }
 
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: _selectedValue);
   }
 
   List<TextInputFormatter>? _inputFormatters(ActivityStep step) {

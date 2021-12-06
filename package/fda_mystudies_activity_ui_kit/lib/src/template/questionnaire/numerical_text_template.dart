@@ -24,7 +24,7 @@ class NumericalTextTemplate extends StatefulWidget {
 }
 
 class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
-  final _textController = TextEditingController();
+  dynamic _selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,12 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
         Row(children: [
           Expanded(
               child: CupertinoTextField(
-                  controller: _textController,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedValue =
+                          _stringToSelectedValue(widget.step, value);
+                    });
+                  },
                   placeholder: widget.step.numericalFormat.placeholder,
                   keyboardType: _textInputType(widget.step),
                   inputFormatters: _inputFormatters(widget.step))),
@@ -49,7 +54,12 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
         Row(children: [
           Expanded(
               child: TextField(
-                  controller: _textController,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedValue =
+                          _stringToSelectedValue(widget.step, value);
+                    });
+                  },
                   decoration: InputDecoration(
                       hintText: widget.step.numericalFormat.placeholder),
                   keyboardType: _textInputType(widget.step),
@@ -60,9 +70,23 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
         ])
       ];
     }
-
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: _selectedValue);
+  }
+
+  dynamic _stringToSelectedValue(ActivityStep step, String value) {
+    if (value.isEmpty) {
+      return null;
+    }
+    if (step.hasNumericalFormat()) {
+      if (step.numericalFormat.style == 'Decimal') {
+        return double.parse(value);
+      } else if (step.numericalFormat.style == 'Integer') {
+        return int.parse(value);
+      }
+    }
+    return null;
   }
 
   List<TextInputFormatter>? _inputFormatters(ActivityStep step) {

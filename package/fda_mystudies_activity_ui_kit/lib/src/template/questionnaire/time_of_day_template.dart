@@ -28,9 +28,8 @@ class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];
     var time = DateTime.now();
-    if (_selectedValue != null) {
-      time = _selectedValueToTimeOfDay(_selectedValue!);
-    }
+    _selectedValue ??= _timeToHhMm(time.hour, time.minute);
+    time = _selectedValueToTimeOfDay(_selectedValue!);
     if (Platform.isIOS) {
       widgetList = [
         SizedBox(
@@ -69,7 +68,8 @@ class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
     }
 
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: _selectedValue);
   }
 
   String _timeToHhMm(int hours, int minutes) {

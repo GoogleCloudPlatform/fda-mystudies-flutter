@@ -25,7 +25,7 @@ class SingleTextChoiceTemplate extends StatefulWidget {
 }
 
 class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
-  String? _selectedValue;
+  List<String>? _selectedValue;
   bool? _showOtherOption;
   String? _otherPlaceholder;
   final _otherController = TextEditingController();
@@ -51,10 +51,12 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
                               e.text,
                               e.detail,
                               e.value,
-                              e.value == _selectedValue,
+                              _selectedValue == null
+                                  ? false
+                                  : e.value == _selectedValue!.first,
                               e == textChoiceList.last, onChanged: (value) {
                             setState(() {
-                              _selectedValue = e.value;
+                              _selectedValue = [value];
                               _showOtherOption = e.hasOther();
                               _otherPlaceholder =
                                   e.hasOther() ? e.other.placeholder : null;
@@ -80,12 +82,14 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
           .map((e) => RadioListTile(
               title: Text(e.text),
               subtitle: Text(e.detail),
-              selected: e.value == _selectedValue,
+              selected: _selectedValue == null
+                  ? false
+                  : e.value == _selectedValue!.first,
               value: e.value,
-              groupValue: _selectedValue,
+              groupValue: _selectedValue?.first,
               onChanged: (value) {
                 setState(() {
-                  _selectedValue = e.value;
+                  _selectedValue = [e.value];
                   _showOtherOption = e.hasOther();
                   _otherPlaceholder = e.hasOther() ? e.other.placeholder : null;
                 });
@@ -103,6 +107,7 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
     }
 
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: _selectedValue);
   }
 }

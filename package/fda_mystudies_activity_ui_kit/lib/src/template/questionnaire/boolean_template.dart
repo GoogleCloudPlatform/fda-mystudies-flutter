@@ -51,6 +51,7 @@ class _BooleanTemplateState extends State<BooleanTemplate> {
           })));
     }
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: _selectedValue);
   }
 }

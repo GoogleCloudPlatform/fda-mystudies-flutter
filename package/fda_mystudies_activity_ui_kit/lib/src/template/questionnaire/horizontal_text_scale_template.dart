@@ -32,7 +32,8 @@ class _HorizontalTextScaleTemplateState
     var textChoiceList = widget.step.textChoice.textChoices;
     var defaultValue =
         textChoiceList[widget.step.textChoice.defaultValue - 1].value;
-    var selectedValueLabel = _selectedValue ?? defaultValue;
+    _selectedValue ??= defaultValue;
+    var selectedValueLabel = _selectedValue;
     var selectedValueIndex = textChoiceList
         .indexWhere((element) => element.value == selectedValueLabel);
     var maxValueLabel = textChoiceList.last.text;
@@ -116,6 +117,7 @@ class _HorizontalTextScaleTemplateState
     }
 
     return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList);
+        widget.widgetMap, widgetList,
+        selectedValue: _selectedValue);
   }
 }
