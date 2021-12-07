@@ -41,8 +41,10 @@ class QuestionnaireTemplate extends StatelessWidget {
   }
 
   void _navigateToNextScreen(BuildContext context, bool skipped) {
-    var stepResult = _createStepResult(skipped);
-    // print(jsonEncode(stepResult.toProto3Json()));
+    if (step.type == 'question') {
+      var stepResult = _createStepResult(skipped);
+      // print(jsonEncode(stepResult.toProto3Json()));
+    }
     if (Platform.isIOS) {
       Navigator.of(context).push(CupertinoPageRoute<void>(
           builder: (BuildContext context) => _findNextScreen()));
@@ -61,11 +63,9 @@ class QuestionnaireTemplate extends StatelessWidget {
     var stepResult = ActivityResponse_Data_StepResult()
       ..key = step.key
       ..skipped = skipped
-      ..resultType = step.resultType;
-    if (step.type == 'question') {
-      stepResult.startTime = startTime;
-      stepResult.endTime = currentTimeToString();
-    }
+      ..resultType = step.resultType
+      ..startTime = startTime
+      ..endTime = currentTimeToString();
     if (!skipped) {
       if (selectedValue is int) {
         stepResult.intValue = selectedValue;
@@ -159,29 +159,37 @@ class QuestionnaireTemplate extends StatelessWidget {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              CupertinoButton.filled(
-                                  child: const Text('NEXT',
-                                      style: TextStyle(
-                                          color: CupertinoColors.white)),
-                                  onPressed: selectedValue == null
-                                      ? null
-                                      : () => _navigateToNextScreen(
-                                          context, false)),
-                              const SizedBox(height: 20),
-                              Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: CupertinoColors.activeBlue),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(8.0))),
-                                  child: CupertinoButton(
-                                      child: const Text('SKIP',
+                                  CupertinoButton.filled(
+                                      child: const Text('NEXT',
                                           style: TextStyle(
-                                              color:
-                                                  CupertinoColors.activeBlue)),
-                                      onPressed: () =>
-                                          _navigateToNextScreen(context, true)))
-                            ]))))
+                                              color: CupertinoColors.white)),
+                                      onPressed: selectedValue == null &&
+                                              step.type == 'question'
+                                          ? null
+                                          : () => _navigateToNextScreen(
+                                              context, false))
+                                ].cast<Widget>() +
+                                (step.skippable
+                                    ? [
+                                        const SizedBox(height: 20),
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: CupertinoColors
+                                                        .activeBlue),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(8.0))),
+                                            child: CupertinoButton(
+                                                child: const Text('SKIP',
+                                                    style: TextStyle(
+                                                        color: CupertinoColors
+                                                            .activeBlue)),
+                                                onPressed: () =>
+                                                    _navigateToNextScreen(
+                                                        context, true)))
+                                      ]
+                                    : [])))))
           ]));
     }
     return GestureDetector(
@@ -225,19 +233,27 @@ class QuestionnaireTemplate extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          OutlinedButton(
-                              onPressed: () =>
-                                  _navigateToNextScreen(context, true),
-                              child: const Text('SKIP'),
-                              style: Theme.of(context).textButtonTheme.style),
-                          const SizedBox(width: 20),
-                          ElevatedButton(
-                            onPressed: selectedValue == null
-                                ? null
-                                : () => _navigateToNextScreen(context, false),
-                            child: const Text('NEXT'),
-                          )
-                        ])))));
+                        children: (step.skippable
+                                ? [
+                                    OutlinedButton(
+                                        onPressed: () => _navigateToNextScreen(
+                                            context, true),
+                                        child: const Text('SKIP'),
+                                        style: Theme.of(context)
+                                            .textButtonTheme
+                                            .style)
+                                  ].cast<Widget>()
+                                : [].cast<Widget>()) +
+                            [
+                              const SizedBox(width: 20),
+                              ElevatedButton(
+                                onPressed: selectedValue == null &&
+                                        step.type == 'question'
+                                    ? null
+                                    : () =>
+                                        _navigateToNextScreen(context, false),
+                                child: const Text('NEXT'),
+                              )
+                            ])))));
   }
 }
