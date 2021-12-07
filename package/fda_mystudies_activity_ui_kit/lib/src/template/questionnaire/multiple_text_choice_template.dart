@@ -28,9 +28,15 @@ class _MultipleTextChoiceTemplateState
     extends State<MultipleTextChoiceTemplate> {
   final List<String> _selectedValue = [];
   bool _isExclusiveSelected = false;
+  String? _startTime;
 
   @override
   Widget build(BuildContext context) {
+    if (_startTime == null) {
+      setState(() {
+        _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
     var textChoiceList = widget.step.textChoice.textChoices;
     List<Widget> widgetList = [];
 
@@ -69,8 +75,13 @@ class _MultipleTextChoiceTemplateState
           .toList();
     }
 
-    return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList,
+    return QuestionnaireTemplate(
+        widget.step,
+        widget.allowExit,
+        widget.title,
+        widget.widgetMap,
+        widgetList,
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: (_selectedValue.isEmpty ? null : _selectedValue));
   }
 

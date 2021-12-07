@@ -23,9 +23,15 @@ class TimeOfDayTemplate extends StatefulWidget {
 
 class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
   String? _selectedValue;
+  String? _startTime;
 
   @override
   Widget build(BuildContext context) {
+    if (_startTime == null) {
+      setState(() {
+        _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
     List<Widget> widgetList = [];
     var time = DateTime.now();
     _selectedValue ??= _timeToHhMm(time.hour, time.minute);
@@ -67,8 +73,13 @@ class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
       ];
     }
 
-    return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList,
+    return QuestionnaireTemplate(
+        widget.step,
+        widget.allowExit,
+        widget.title,
+        widget.widgetMap,
+        widgetList,
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 

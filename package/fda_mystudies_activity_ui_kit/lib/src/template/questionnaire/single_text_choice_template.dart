@@ -29,9 +29,15 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
   bool? _showOtherOption;
   String? _otherPlaceholder;
   final _otherController = TextEditingController();
+  String? _startTime;
 
   @override
   Widget build(BuildContext context) {
+    if (_startTime == null) {
+      setState(() {
+        _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
     var textChoiceList = widget.step.textChoice.textChoices;
     List<Widget> widgetList = [];
 
@@ -106,8 +112,13 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
       }
     }
 
-    return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList,
+    return QuestionnaireTemplate(
+        widget.step,
+        widget.allowExit,
+        widget.title,
+        widget.widgetMap,
+        widgetList,
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }

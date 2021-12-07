@@ -22,9 +22,15 @@ class BooleanTemplate extends StatefulWidget {
 
 class _BooleanTemplateState extends State<BooleanTemplate> {
   bool? _selectedValue;
+  String? _startTime;
 
   @override
   Widget build(BuildContext context) {
+    if (_startTime == null) {
+      setState(() {
+        _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
     List<Widget> widgetList = [];
 
     if (Platform.isIOS) {
@@ -50,8 +56,13 @@ class _BooleanTemplateState extends State<BooleanTemplate> {
             });
           })));
     }
-    return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList,
+    return QuestionnaireTemplate(
+        widget.step,
+        widget.allowExit,
+        widget.title,
+        widget.widgetMap,
+        widgetList,
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }

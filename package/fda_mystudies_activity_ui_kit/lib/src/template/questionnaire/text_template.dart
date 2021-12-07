@@ -24,9 +24,15 @@ class TextTemplate extends StatefulWidget {
 
 class _TextTemplateState extends State<TextTemplate> {
   String? _selectedValue;
+  String? _startTime;
 
   @override
   Widget build(BuildContext context) {
+    if (_startTime == null) {
+      setState(() {
+        _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
     List<Widget> widgetList = [];
     if (Platform.isIOS) {
       widgetList = [
@@ -63,8 +69,13 @@ class _TextTemplateState extends State<TextTemplate> {
       ];
     }
 
-    return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList,
+    return QuestionnaireTemplate(
+        widget.step,
+        widget.allowExit,
+        widget.title,
+        widget.widgetMap,
+        widgetList,
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 

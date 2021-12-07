@@ -25,9 +25,15 @@ class ValuePickerTemplate extends StatefulWidget {
 
 class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
   String? _selectedValue;
+  String? _startTime;
 
   @override
   Widget build(BuildContext context) {
+    if (_startTime == null) {
+      setState(() {
+        _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
     var textChoiceList = widget.step.textChoice.textChoices;
     List<Widget> widgetList = [];
 
@@ -80,8 +86,13 @@ class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
       ];
     }
 
-    return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList,
+    return QuestionnaireTemplate(
+        widget.step,
+        widget.allowExit,
+        widget.title,
+        widget.widgetMap,
+        widgetList,
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }

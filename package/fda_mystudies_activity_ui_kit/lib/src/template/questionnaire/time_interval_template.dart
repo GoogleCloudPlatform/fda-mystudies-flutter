@@ -24,9 +24,15 @@ class TimeIntervalTemplate extends StatefulWidget {
 
 class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
   int? _selectedValue;
+  String? _startTime;
 
   @override
   Widget build(BuildContext context) {
+    if (_startTime == null) {
+      setState(() {
+        _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
     List<Widget> widgetList = [];
     var defaultSeconds = widget.step.timeInterval.defaultValue;
     _selectedValue ??= defaultSeconds;
@@ -72,8 +78,13 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
       ];
     }
 
-    return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList,
+    return QuestionnaireTemplate(
+        widget.step,
+        widget.allowExit,
+        widget.title,
+        widget.widgetMap,
+        widgetList,
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }

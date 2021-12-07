@@ -28,9 +28,15 @@ class ImageChoiceTemplate extends StatefulWidget {
 class _ImageChoiceTemplateState extends State<ImageChoiceTemplate> {
   String _selectedText = '';
   String? _selectedValue;
+  String? _startTime;
 
   @override
   Widget build(BuildContext context) {
+    if (_startTime == null) {
+      setState(() {
+        _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
     List<Widget> widgetList = [];
 
     if (Platform.isIOS) {
@@ -61,8 +67,13 @@ class _ImageChoiceTemplateState extends State<ImageChoiceTemplate> {
       }).toList(),
     ));
 
-    return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList,
+    return QuestionnaireTemplate(
+        widget.step,
+        widget.allowExit,
+        widget.title,
+        widget.widgetMap,
+        widgetList,
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }

@@ -1,23 +1,29 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 import '../activity_builder_impl.dart';
 import 'unimplemented_template.dart';
 
 class QuestionnaireTemplate extends StatelessWidget {
+  static var dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
   final ActivityStep step;
   final bool allowExit;
   final String title;
   final Map<String, Widget> widgetMap;
   final List<Widget> children;
   final dynamic selectedValue;
+  final String startTime;
 
-  const QuestionnaireTemplate(
-      this.step, this.allowExit, this.title, this.widgetMap, this.children,
+  const QuestionnaireTemplate(this.step, this.allowExit, this.title,
+      this.widgetMap, this.children, this.startTime,
       {this.selectedValue, Key? key})
       : super(key: key);
 
@@ -34,7 +40,9 @@ class QuestionnaireTemplate extends StatelessWidget {
         UnimplementedTemplate(step.destinations.first.destination);
   }
 
-  void _navigateToNextScreen(BuildContext context) {
+  void _navigateToNextScreen(BuildContext context, bool skipped) {
+    var stepResult = _createStepResult(skipped);
+    // print(jsonEncode(stepResult.toProto3Json()));
     if (Platform.isIOS) {
       Navigator.of(context).push(CupertinoPageRoute<void>(
           builder: (BuildContext context) => _findNextScreen()));
@@ -42,6 +50,36 @@ class QuestionnaireTemplate extends StatelessWidget {
       Navigator.of(context).push<void>(MaterialPageRoute<void>(
           builder: (BuildContext context) => _findNextScreen()));
     }
+  }
+
+  static String currentTimeToString() {
+    var currentTime = DateTime.now();
+    return '${dateFormat.format(currentTime)}.${currentTime.millisecond}';
+  }
+
+  ActivityResponse_Data_StepResult _createStepResult(bool skipped) {
+    var stepResult = ActivityResponse_Data_StepResult()
+      ..key = step.key
+      ..skipped = skipped
+      ..resultType = step.resultType;
+    if (step.type == 'question') {
+      stepResult.startTime = startTime;
+      stepResult.endTime = currentTimeToString();
+    }
+    if (!skipped) {
+      if (selectedValue is int) {
+        stepResult.intValue = selectedValue;
+      } else if (selectedValue is double) {
+        stepResult.doubleValue = selectedValue;
+      } else if (selectedValue is bool) {
+        stepResult.boolValue = selectedValue;
+      } else if (selectedValue is String) {
+        stepResult.stringValue = selectedValue;
+      } else if (selectedValue is List<String>) {
+        stepResult.listValues.addAll(selectedValue);
+      }
+    }
+    return stepResult;
   }
 
   @override
@@ -127,7 +165,8 @@ class QuestionnaireTemplate extends StatelessWidget {
                                           color: CupertinoColors.white)),
                                   onPressed: selectedValue == null
                                       ? null
-                                      : () => _navigateToNextScreen(context)),
+                                      : () => _navigateToNextScreen(
+                                          context, false)),
                               const SizedBox(height: 20),
                               Container(
                                   decoration: BoxDecoration(
@@ -141,7 +180,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                                               color:
                                                   CupertinoColors.activeBlue)),
                                       onPressed: () =>
-                                          _navigateToNextScreen(context)))
+                                          _navigateToNextScreen(context, true)))
                             ]))))
           ]));
     }
@@ -188,14 +227,15 @@ class QuestionnaireTemplate extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           OutlinedButton(
-                              onPressed: () => _navigateToNextScreen(context),
+                              onPressed: () =>
+                                  _navigateToNextScreen(context, true),
                               child: const Text('SKIP'),
                               style: Theme.of(context).textButtonTheme.style),
                           const SizedBox(width: 20),
                           ElevatedButton(
                             onPressed: selectedValue == null
                                 ? null
-                                : () => _navigateToNextScreen(context),
+                                : () => _navigateToNextScreen(context, false),
                             child: const Text('NEXT'),
                           )
                         ])))));

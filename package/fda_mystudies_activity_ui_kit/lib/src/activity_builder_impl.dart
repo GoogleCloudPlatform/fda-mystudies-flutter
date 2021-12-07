@@ -52,7 +52,8 @@ class ActivityBuilderImpl implements ActivityBuilder {
   Widget _generateUIForStep(ActivityStep step, Map<String, Widget> widgetMap,
       bool allowExit, String title) {
     if (step.type == 'instruction') {
-      return QuestionnaireTemplate(step, allowExit, title, widgetMap, const []);
+      return QuestionnaireTemplate(
+          step, allowExit, title, widgetMap, const [], '');
     } else if (step.type == 'question') {
       if (step.resultType == 'scale') {
         if (step.scaleFormat.vertical) {
@@ -97,7 +98,8 @@ class ActivityBuilderImpl implements ActivityBuilder {
       } else if (step.resultType == 'timeInterval') {
         return TimeIntervalTemplate(step, allowExit, title, widgetMap);
       }
-      return QuestionnaireTemplate(step, allowExit, title, widgetMap, const []);
+      return QuestionnaireTemplate(
+          step, allowExit, title, widgetMap, const [], '');
     }
     return UnimplementedTemplate(step.key);
   }

@@ -26,9 +26,15 @@ class HorizontalTextScaleTemplate extends StatefulWidget {
 class _HorizontalTextScaleTemplateState
     extends State<HorizontalTextScaleTemplate> {
   String? _selectedValue;
+  String? _startTime;
 
   @override
   Widget build(BuildContext context) {
+    if (_startTime == null) {
+      setState(() {
+        _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
     var textChoiceList = widget.step.textChoice.textChoices;
     var defaultValue =
         textChoiceList[widget.step.textChoice.defaultValue - 1].value;
@@ -116,8 +122,13 @@ class _HorizontalTextScaleTemplateState
       ];
     }
 
-    return QuestionnaireTemplate(widget.step, widget.allowExit, widget.title,
-        widget.widgetMap, widgetList,
+    return QuestionnaireTemplate(
+        widget.step,
+        widget.allowExit,
+        widget.title,
+        widget.widgetMap,
+        widgetList,
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }
