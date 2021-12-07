@@ -10,10 +10,11 @@ import 'template/questionnaire/date_template.dart';
 import 'template/questionnaire/horizontal_scale_template.dart';
 import 'template/questionnaire/horizontal_text_scale_template.dart';
 import 'template/questionnaire/image_choice_template.dart';
+import 'template/questionnaire/instruction_template.dart';
 import 'template/questionnaire/multiple_text_choice_template.dart';
 import 'template/questionnaire/numerical_text_template.dart';
-import 'template/questionnaire/text_template.dart';
 import 'template/questionnaire/single_text_choice_template.dart';
+import 'template/questionnaire/text_template.dart';
 import 'template/questionnaire/time_interval_template.dart';
 import 'template/questionnaire/time_of_day_template.dart';
 import 'template/questionnaire/value_picker_template.dart';
@@ -55,8 +56,7 @@ class ActivityBuilderImpl implements ActivityBuilder {
   Widget _generateUIForStep(ActivityStep step, Map<String, Widget> widgetMap,
       bool allowExit, String title) {
     if (step.type == 'instruction') {
-      return QuestionnaireTemplate(
-          step, allowExit, title, widgetMap, const [], '');
+      return InstructionTemplate(step, allowExit, title, widgetMap);
     } else if (step.type == 'question') {
       if (step.resultType == 'scale') {
         if (step.scaleFormat.vertical) {

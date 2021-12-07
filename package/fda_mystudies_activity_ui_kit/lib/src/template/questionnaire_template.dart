@@ -131,9 +131,13 @@ class QuestionnaireTemplate extends StatelessWidget {
                       children: [
                             Text(stepTitle, style: titleStyle),
                             SizedBox(height: subTitle.isEmpty ? 0 : 12),
-                            Text(subTitle, style: subTitleStyle),
-                            SizedBox(height: subTitle.isEmpty ? 12 : 36)
                           ] +
+                          (step.type == 'instruction'
+                              ? []
+                              : [
+                                  Text(subTitle, style: subTitleStyle),
+                                  SizedBox(height: subTitle.isEmpty ? 12 : 36)
+                                ]) +
                           children +
                           [
                             // This sized box is to add padding to the bottom of
@@ -234,10 +238,14 @@ class QuestionnaireTemplate extends StatelessWidget {
                       Text(stepTitle,
                           style: Theme.of(context).textTheme.headline4),
                       SizedBox(height: subTitle.isEmpty ? 0 : 12),
-                      Text(subTitle,
-                          style: Theme.of(context).textTheme.headline6),
-                      const SizedBox(height: 24)
                     ] +
+                    (step.type == 'instruction'
+                        ? []
+                        : [
+                            Text(subTitle,
+                                style: Theme.of(context).textTheme.headline6),
+                            const SizedBox(height: 24)
+                          ]) +
                     children),
             bottomNavigationBar: BottomAppBar(
                 child: Padding(

@@ -15,7 +15,8 @@ dependencies:
   get_it: ^7.2.0
   fda_mystudies_spec:
     path: '../fda_mystudies_spec'
-  intl: 0.17.0
+  intl: ^0.17.0
+  webview_flutter: ^2.6.0
 
 dev_dependencies:
   flutter_test:
