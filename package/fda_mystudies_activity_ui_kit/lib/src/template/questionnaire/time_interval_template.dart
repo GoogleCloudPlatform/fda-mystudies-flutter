@@ -74,7 +74,7 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
             },
             child: Padding(
                 padding: const EdgeInsets.all(10),
-                child: Text('${_selectedValue!}')))
+                child: Text(_formattedTimeInterval(_selectedValue!))))
       ];
     }
 
@@ -86,5 +86,12 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
         widgetList,
         _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
+  }
+
+  String _formattedTimeInterval(int seconds) {
+    var duration = Duration(seconds: seconds);
+    var hours = duration.inHours;
+    var minutes = (seconds - hours * 3600) ~/ 60;
+    return '$hours hours  $minutes min.';
   }
 }

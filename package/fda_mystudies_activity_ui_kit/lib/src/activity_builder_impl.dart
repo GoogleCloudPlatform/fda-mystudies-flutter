@@ -24,6 +24,7 @@ import 'template/unimplemented_template.dart';
 @Injectable(as: ActivityBuilder)
 class ActivityBuilderImpl implements ActivityBuilder {
   static String exitRoute = '';
+  static List<String> stepKeys = [];
 
   @override
   Widget buildActivity(List<ActivityStep> steps,
@@ -46,6 +47,8 @@ class ActivityBuilderImpl implements ActivityBuilder {
       widgetMap[steps[i].key] = _generateUIForStep(
           steps[i], widgetMap, allowExit, 'Step ${i + 1} of ${steps.length}');
     }
+    stepKeys.clear();
+    stepKeys.addAll(steps.map((e) => e.key).toList());
     return widgetMap[steps.first.key] ?? activityResponseProcessor;
   }
 

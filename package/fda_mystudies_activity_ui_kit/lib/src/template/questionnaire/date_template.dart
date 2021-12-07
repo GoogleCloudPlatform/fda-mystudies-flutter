@@ -4,6 +4,7 @@ import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 import '../questionnaire_template.dart';
 
@@ -24,6 +25,7 @@ class DateTemplate extends StatefulWidget {
 class _DateTemplateState extends State<DateTemplate> {
   String? _selectedValue;
   String? _startTime;
+  String? _selectedValueLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class _DateTemplateState extends State<DateTemplate> {
       time = DateTime.parse(_selectedValue!);
     } else {
       _selectedValue = _dateTimeToString(time);
+      _selectedValueLabel = _formattedDateTimeToString(time);
     }
     if (Platform.isIOS) {
       widgetList = [
@@ -65,6 +68,7 @@ class _DateTemplateState extends State<DateTemplate> {
                 if (dateTime != null) {
                   setState(() {
                     _selectedValue = _dateTimeToString(dateTime);
+                    _selectedValueLabel = _formattedDateTimeToString(dateTime);
                   });
                   if (widget.step.dateTime.style == 'Date-Time') {
                     showTimePicker(
@@ -81,6 +85,8 @@ class _DateTemplateState extends State<DateTemplate> {
                               value.hour,
                               value.minute);
                           _selectedValue = _dateTimeToString(updatedDateTime);
+                          _selectedValueLabel =
+                              _formattedDateTimeToString(updatedDateTime);
                         });
                       }
                     });
@@ -90,7 +96,7 @@ class _DateTemplateState extends State<DateTemplate> {
             },
             child: Padding(
                 padding: const EdgeInsets.all(10),
-                child: Text(_selectedValue ?? _dateTimeToString(time))))
+                child: Text(_selectedValueLabel!)))
       ];
     }
     return QuestionnaireTemplate(
@@ -111,5 +117,13 @@ class _DateTemplateState extends State<DateTemplate> {
     var m = '${dateTime.minute}'.padLeft(2, '0');
     var ss = '${dateTime.second}'.padLeft(2, '0');
     return '$yyyy-$mm-$dd${widget.step.dateTime.style == 'Date' ? '' : 'T$hh:$m:$ss'}';
+  }
+
+  String _formattedDateTimeToString(DateTime dateTime) {
+    var dateFormat = DateFormat.yMMMMd();
+    if (widget.step.dateTime.style != 'Date') {
+      dateFormat.add_jm();
+    }
+    return dateFormat.format(dateTime);
   }
 }

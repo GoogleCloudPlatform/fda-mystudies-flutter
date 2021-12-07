@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
@@ -8,11 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../activity_response_processor.dart';
 import '../activity_builder_impl.dart';
 import 'unimplemented_template.dart';
 
 class QuestionnaireTemplate extends StatelessWidget {
   static var dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
+  static Map<String, ActivityResponse_Data_StepResult> _answers = {};
 
   final ActivityStep step;
   final bool allowExit;
@@ -41,16 +42,26 @@ class QuestionnaireTemplate extends StatelessWidget {
   }
 
   void _navigateToNextScreen(BuildContext context, bool skipped) {
+    var nextScreen = _findNextScreen();
     if (step.type == 'question') {
       var stepResult = _createStepResult(skipped);
-      // print(jsonEncode(stepResult.toProto3Json()));
+      _answers[step.key] = stepResult;
+    }
+    if (nextScreen is ActivityResponseProcessor) {
+      List<ActivityResponse_Data_StepResult> stepResultList = [];
+      for (String key in ActivityBuilderImpl.stepKeys) {
+        if (_answers.containsKey(key)) {
+          stepResultList.add(_answers[key]!);
+        }
+      }
+      nextScreen.processResponses(stepResultList);
     }
     if (Platform.isIOS) {
       Navigator.of(context).push(CupertinoPageRoute<void>(
-          builder: (BuildContext context) => _findNextScreen()));
+          builder: (BuildContext context) => nextScreen));
     } else if (Platform.isAndroid) {
       Navigator.of(context).push<void>(MaterialPageRoute<void>(
-          builder: (BuildContext context) => _findNextScreen()));
+          builder: (BuildContext context) => nextScreen));
     }
   }
 
