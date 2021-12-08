@@ -114,10 +114,37 @@ class QuestionnaireTemplate extends StatelessWidget {
                     trailing: CupertinoButton(
                         padding: EdgeInsets.zero,
                         onPressed: () {
-                          if (ActivityBuilderImpl.exitRoute.isNotEmpty) {
-                            Navigator.of(context).popUntil(ModalRoute.withName(
-                                ActivityBuilderImpl.exitRoute));
-                          }
+                          showCupertinoModalPopup<void>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                CupertinoActionSheet(
+                              actions: <CupertinoActionSheetAction>[
+                                CupertinoActionSheetAction(
+                                  child: const Text('Save for Later'),
+                                  onPressed: () {
+                                    Navigator.of(context).popUntil(
+                                        ModalRoute.withName(
+                                            ActivityBuilderImpl.exitRoute));
+                                  },
+                                ),
+                                CupertinoActionSheetAction(
+                                  child: const Text('Discard Results'),
+                                  isDestructiveAction: true,
+                                  onPressed: () {
+                                    Navigator.of(context).popUntil(
+                                        ModalRoute.withName(
+                                            ActivityBuilderImpl.exitRoute));
+                                  },
+                                )
+                              ],
+                              cancelButton: CupertinoActionSheetAction(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  isDefaultAction: true,
+                                  child: const Text('Cancel')),
+                            ),
+                          );
                         },
                         child: allowExit
                             ? const Icon(Icons.exit_to_app,
@@ -218,11 +245,41 @@ class QuestionnaireTemplate extends StatelessWidget {
                     ? [
                         TextButton(
                             onPressed: () {
-                              if (ActivityBuilderImpl.exitRoute.isNotEmpty) {
-                                Navigator.of(context).popUntil(
-                                    ModalRoute.withName(
-                                        ActivityBuilderImpl.exitRoute));
-                              }
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (BuildContext buildContext) {
+                                    return AlertDialog(
+                                      content: const Text(
+                                          'Your responses are stored on the app if you `Save for Later` (unless you sign out) so you can resume and complete the activity before it expires.'),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).popUntil(
+                                                  ModalRoute.withName(
+                                                      ActivityBuilderImpl
+                                                          .exitRoute));
+                                            },
+                                            child:
+                                                const Text('Save for Later')),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context).popUntil(
+                                                  ModalRoute.withName(
+                                                      ActivityBuilderImpl
+                                                          .exitRoute));
+                                            },
+                                            child: const Text('Discard Results',
+                                                style: TextStyle(
+                                                    color: Colors.red))),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Cancel'))
+                                      ],
+                                    );
+                                  });
                             },
                             style: TextButton.styleFrom(
                               padding: EdgeInsets.zero,
