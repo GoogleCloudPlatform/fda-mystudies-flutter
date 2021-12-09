@@ -26,11 +26,16 @@ import 'template/unimplemented_template.dart';
 class ActivityBuilderImpl implements ActivityBuilder {
   static String exitRoute = '';
   static List<String> stepKeys = [];
+  static String prefixUniqueActivityStepId = '';
 
   @override
-  Widget buildActivity(List<ActivityStep> steps,
+  Widget buildActivity(
+      List<ActivityStep> steps,
       ActivityResponseProcessor activityResponseProcessor,
-      {bool allowExit = false, String? exitRouteName}) {
+      String uniqueActivityId,
+      {bool allowExit = false,
+      String? exitRouteName}) {
+    prefixUniqueActivityStepId = uniqueActivityId;
     if (exitRouteName != null) {
       exitRoute = exitRouteName;
     }

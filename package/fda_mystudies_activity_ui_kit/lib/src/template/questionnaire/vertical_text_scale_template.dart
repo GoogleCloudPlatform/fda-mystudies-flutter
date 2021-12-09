@@ -26,12 +26,23 @@ class VerticalTextScaleTemplate extends StatefulWidget {
 class _VerticalTextScaleTemplateState extends State<VerticalTextScaleTemplate> {
   String? _selectedValue;
   String? _startTime;
+  bool _defaultValueSet = false;
 
   @override
   Widget build(BuildContext context) {
     if (_startTime == null) {
       setState(() {
         _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
+    if (!_defaultValueSet) {
+      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+        if (value != null) {
+          setState(() {
+            _selectedValue = value;
+            _defaultValueSet = true;
+          });
+        }
       });
     }
     var textChoiceList = widget.step.textChoice.textChoices;

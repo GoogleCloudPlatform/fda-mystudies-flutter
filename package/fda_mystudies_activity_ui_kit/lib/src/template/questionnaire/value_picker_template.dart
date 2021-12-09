@@ -26,12 +26,23 @@ class ValuePickerTemplate extends StatefulWidget {
 class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
   String? _selectedValue;
   String? _startTime;
+  bool _defaultValueSet = false;
 
   @override
   Widget build(BuildContext context) {
     if (_startTime == null) {
       setState(() {
         _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
+    if (!_defaultValueSet) {
+      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+        if (value != null) {
+          setState(() {
+            _selectedValue = value;
+            _defaultValueSet = true;
+          });
+        }
       });
     }
     var textChoiceList = widget.step.textChoice.textChoices;
@@ -42,6 +53,13 @@ class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
         SizedBox(
             height: max(150 * MediaQuery.of(context).textScaleFactor, 150),
             child: CupertinoPicker(
+                key: UniqueKey(),
+                scrollController: FixedExtentScrollController(
+                    initialItem: (_selectedValue == null
+                        ? 0
+                        : (textChoiceList.indexWhere((element) =>
+                                (element.value == _selectedValue)) +
+                            1))),
                 itemExtent:
                     max(30 * MediaQuery.of(context).textScaleFactor, 30),
                 onSelectedItemChanged: (value) {

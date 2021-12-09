@@ -26,6 +26,8 @@ class NumericalTextTemplate extends StatefulWidget {
 class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
   dynamic _selectedValue;
   String? _startTime;
+  bool _defaultValueSet = false;
+  final _textEditController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +36,24 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
         _startTime = QuestionnaireTemplate.currentTimeToString();
       });
     }
+    if (!_defaultValueSet) {
+      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+        if (value != null) {
+          setState(() {
+            _selectedValue = value;
+            _defaultValueSet = true;
+            _textEditController.text = '$value';
+          });
+        }
+      });
+    }
     List<Widget> widgetList = [];
     if (Platform.isIOS) {
       widgetList = [
         Row(children: [
           Expanded(
               child: CupertinoTextField(
+                  controller: _textEditController,
                   onChanged: (value) {
                     setState(() {
                       _selectedValue =
@@ -60,6 +74,7 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
         Row(children: [
           Expanded(
               child: TextField(
+                  controller: _textEditController,
                   onChanged: (value) {
                     setState(() {
                       _selectedValue =

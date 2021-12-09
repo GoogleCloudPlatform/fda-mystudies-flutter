@@ -30,12 +30,23 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
   String? _otherPlaceholder;
   final _otherController = TextEditingController();
   String? _startTime;
+  bool _defaultValueSet = false;
 
   @override
   Widget build(BuildContext context) {
     if (_startTime == null) {
       setState(() {
         _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
+    if (!_defaultValueSet) {
+      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+        if (value != null) {
+          setState(() {
+            _selectedValue = value;
+            _defaultValueSet = true;
+          });
+        }
       });
     }
     var textChoiceList = widget.step.textChoice.textChoices;

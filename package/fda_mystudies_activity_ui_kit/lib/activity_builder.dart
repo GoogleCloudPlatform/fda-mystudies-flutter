@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'activity_response_processor.dart';
 
 abstract class ActivityBuilder {
-  Widget buildActivity(List<ActivityStep> steps,
+  Widget buildActivity(
+      List<ActivityStep> steps,
       ActivityResponseProcessor activityResponseProcessor,
-      {bool allowExit = false, String? exitRouteName});
+      String uniqueActivityId,
+      {bool allowExit = false,
+      String? exitRouteName});
 }

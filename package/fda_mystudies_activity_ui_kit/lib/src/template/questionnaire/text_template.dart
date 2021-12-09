@@ -25,6 +25,8 @@ class TextTemplate extends StatefulWidget {
 class _TextTemplateState extends State<TextTemplate> {
   String? _selectedValue;
   String? _startTime;
+  bool _defaultValueSet = false;
+  final _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +35,22 @@ class _TextTemplateState extends State<TextTemplate> {
         _startTime = QuestionnaireTemplate.currentTimeToString();
       });
     }
+    if (!_defaultValueSet) {
+      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+        if (value != null) {
+          setState(() {
+            _selectedValue = value;
+            _defaultValueSet = true;
+            _textEditingController.text = value;
+          });
+        }
+      });
+    }
     List<Widget> widgetList = [];
     if (Platform.isIOS) {
       widgetList = [
         CupertinoTextField(
+            controller: _textEditingController,
             onChanged: (value) {
               setState(() {
                 _selectedValue = value;
@@ -53,6 +67,7 @@ class _TextTemplateState extends State<TextTemplate> {
     } else if (Platform.isAndroid) {
       widgetList = [
         TextField(
+            controller: _textEditingController,
             onChanged: (value) {
               setState(() {
                 _selectedValue = value;

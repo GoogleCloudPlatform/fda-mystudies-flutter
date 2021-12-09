@@ -25,6 +25,7 @@ class TimeIntervalTemplate extends StatefulWidget {
 class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
   int? _selectedValue;
   String? _startTime;
+  bool _defaultValueSet = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +34,28 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
         _startTime = QuestionnaireTemplate.currentTimeToString();
       });
     }
+    if (!_defaultValueSet) {
+      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+        if (value != null) {
+          setState(() {
+            _selectedValue = value;
+            _defaultValueSet = true;
+          });
+        }
+      });
+    }
     List<Widget> widgetList = [];
     var defaultSeconds = widget.step.timeInterval.defaultValue;
     _selectedValue ??= defaultSeconds;
-    var defaultHours = defaultSeconds ~/ 3600;
-    var defaultMinutes = (defaultSeconds - defaultHours * 3600) ~/ 60;
+    var _selectedHours = _selectedValue! ~/ 3600;
+    var _selectedMinutes = (_selectedValue! - _selectedHours * 3600) ~/ 60;
     if (Platform.isIOS) {
       widgetList = [
         CupertinoTimerPicker(
+            key: UniqueKey(),
             mode: CupertinoTimerPickerMode.hm,
             initialTimerDuration:
-                Duration(seconds: widget.step.timeInterval.defaultValue),
+                Duration(seconds: _selectedValue ?? defaultSeconds),
             onTimerDurationChanged: (duration) {
               setState(() {
                 _selectedValue = duration.inSeconds;
@@ -58,7 +70,7 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
                   helpText: 'SELECT TIME INTERVAL',
                   context: context,
                   initialTime:
-                      TimeOfDay(hour: defaultHours, minute: defaultMinutes),
+                      TimeOfDay(hour: _selectedHours, minute: _selectedMinutes),
                   builder: (context, child) {
                     return MediaQuery(
                         data: MediaQuery.of(context)

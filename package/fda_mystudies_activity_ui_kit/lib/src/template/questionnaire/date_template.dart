@@ -26,12 +26,25 @@ class _DateTemplateState extends State<DateTemplate> {
   String? _selectedValue;
   String? _startTime;
   String? _selectedValueLabel;
+  bool _defaultValueSet = false;
 
   @override
   Widget build(BuildContext context) {
     if (_startTime == null) {
       setState(() {
         _startTime = QuestionnaireTemplate.currentTimeToString();
+      });
+    }
+    if (!_defaultValueSet) {
+      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+        if (value != null) {
+          setState(() {
+            _selectedValue = value;
+            _defaultValueSet = true;
+            _selectedValueLabel =
+                _formattedDateTimeToString(_stringToDateTime(value));
+          });
+        }
       });
     }
     List<Widget> widgetList = [];
@@ -47,11 +60,14 @@ class _DateTemplateState extends State<DateTemplate> {
         SizedBox(
             height: 300,
             child: CupertinoDatePicker(
+                key: UniqueKey(),
                 mode: widget.step.dateTime.style == 'Date'
                     ? CupertinoDatePickerMode.date
                     : CupertinoDatePickerMode.dateAndTime,
                 onDateTimeChanged: (dateTime) {
-                  _selectedValue = _dateTimeToString(dateTime);
+                  setState(() {
+                    _selectedValue = _dateTimeToString(dateTime);
+                  });
                 },
                 initialDateTime: time))
       ];
@@ -114,9 +130,9 @@ class _DateTemplateState extends State<DateTemplate> {
     var mm = '${dateTime.month}'.padLeft(2, '0');
     var dd = '${dateTime.day}'.padLeft(2, '0');
     var hh = '${dateTime.hour}'.padLeft(2, '0');
-    var m = '${dateTime.minute}'.padLeft(2, '0');
+    var min = '${dateTime.minute}'.padLeft(2, '0');
     var ss = '${dateTime.second}'.padLeft(2, '0');
-    return '$yyyy-$mm-$dd${widget.step.dateTime.style == 'Date' ? '' : 'T$hh:$m:$ss'}';
+    return '$yyyy-$mm-$dd${widget.step.dateTime.style == 'Date' ? '' : 'T$hh:$min:$ss'}';
   }
 
   String _formattedDateTimeToString(DateTime dateTime) {
@@ -125,5 +141,13 @@ class _DateTemplateState extends State<DateTemplate> {
       dateFormat.add_jm();
     }
     return dateFormat.format(dateTime);
+  }
+
+  DateTime _stringToDateTime(String dateTimeString) {
+    var dateFormat = DateFormat('yyyy-MM-dd');
+    if (widget.step.dateTime.style != 'Date') {
+      dateFormat = DateFormat('yyyy-MM-ddTHH:mm:ss');
+    }
+    return dateFormat.parse(dateTimeString);
   }
 }

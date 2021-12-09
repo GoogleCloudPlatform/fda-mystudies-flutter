@@ -17,6 +17,7 @@ dependencies:
     path: '../fda_mystudies_spec'
   intl: ^0.17.0
   webview_flutter: ^2.6.0
+  flutter_secure_storage: ^5.0.2
 
 dev_dependencies:
   flutter_test:

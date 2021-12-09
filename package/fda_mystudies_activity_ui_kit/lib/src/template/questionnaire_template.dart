@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:developer' as developer;
 
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 
 import '../../activity_response_processor.dart';
@@ -13,7 +16,7 @@ import 'unimplemented_template.dart';
 
 class QuestionnaireTemplate extends StatelessWidget {
   static var dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
-  static Map<String, ActivityResponse_Data_StepResult> _answers = {};
+  static final Map<String, ActivityResponse_Data_StepResult> _answers = {};
 
   final ActivityStep step;
   final bool allowExit;
@@ -42,6 +45,13 @@ class QuestionnaireTemplate extends StatelessWidget {
   }
 
   void _navigateToNextScreen(BuildContext context, bool skipped) {
+    if (!skipped) {
+      _saveTemporaryResult()
+          .then((value) => developer.log('TEMPORARY RESULT SAVED'));
+    } else {
+      _discardTemporaryResult()
+          .then((value) => developer.log('TEMPORARY RESULT DISCARDED'));
+    }
     var nextScreen = _findNextScreen();
     if (step.type == 'question') {
       var stepResult = _createStepResult(skipped);
@@ -54,7 +64,8 @@ class QuestionnaireTemplate extends StatelessWidget {
           stepResultList.add(_answers[key]!);
         }
       }
-      nextScreen.processResponses(stepResultList);
+      _savePastResult()
+          .then((value) => nextScreen.processResponses(stepResultList));
     }
     if (Platform.isIOS) {
       Navigator.of(context).push(CupertinoPageRoute<void>(
@@ -65,9 +76,86 @@ class QuestionnaireTemplate extends StatelessWidget {
     }
   }
 
+  static String _generateStepKey(bool temporary, String stepKey) {
+    return ActivityBuilderImpl.prefixUniqueActivityStepId +
+        (temporary ? 'temp' : '') +
+        stepKey;
+  }
+
+  Future<void> _saveTemporaryResult() {
+    var securedStorage = const FlutterSecureStorage();
+    var tempKey = _generateStepKey(true, step.key);
+    return securedStorage.write(
+        key: tempKey,
+        value: jsonEncode(_createStepResult(false).toProto3Json()));
+  }
+
+  Future<void> _discardTemporaryResult() {
+    var securedStorage = const FlutterSecureStorage();
+    var tempKey = _generateStepKey(true, step.key);
+    return securedStorage.delete(key: tempKey);
+  }
+
+  Future<void> _discardAllTemporaryResults() {
+    var securedStorage = const FlutterSecureStorage();
+    return Future.wait(ActivityBuilderImpl.stepKeys.map((curStepKey) {
+      var tempKey = _generateStepKey(true, curStepKey);
+      return securedStorage.delete(key: tempKey);
+    })).then((value) => developer.log('DISCARDED'));
+  }
+
+  Future<void> _savePastResult() {
+    var securedStorage = const FlutterSecureStorage();
+    return Future.wait(ActivityBuilderImpl.stepKeys.map((curStepKey) {
+      var tempKey = _generateStepKey(true, curStepKey);
+      return securedStorage.containsKey(key: tempKey).then((hasTemporaryValue) {
+        if (hasTemporaryValue) {
+          var permanentKey = _generateStepKey(false, curStepKey);
+          return securedStorage.read(key: tempKey).then((tempValue) =>
+              securedStorage.write(key: permanentKey, value: tempValue));
+        }
+      });
+    })).then((value) => developer.log('SAVED'));
+  }
+
+  static Future<dynamic> readSavedResult(String curKey) {
+    var securedStorage = const FlutterSecureStorage();
+    String tempKey = _generateStepKey(true, curKey);
+    return securedStorage.containsKey(key: tempKey).then((containsKey) {
+      if (containsKey) {
+        return securedStorage
+            .read(key: tempKey)
+            .then((jsonStr) => _valueFromStepResult(jsonStr));
+      }
+      String permKey = _generateStepKey(false, curKey);
+      return securedStorage
+          .read(key: permKey)
+          .then((jsonStr) => _valueFromStepResult(jsonStr));
+    });
+  }
+
   static String currentTimeToString() {
     var currentTime = DateTime.now();
     return '${dateFormat.format(currentTime)}.${currentTime.millisecond}';
+  }
+
+  static dynamic _valueFromStepResult(String? jsonStr) {
+    if (jsonStr != null) {
+      var stepResult = ActivityResponse_Data_StepResult.create()
+        ..mergeFromProto3Json(jsonDecode(jsonStr));
+      if (stepResult.hasIntValue()) {
+        return stepResult.intValue;
+      } else if (stepResult.hasDoubleValue()) {
+        return stepResult.doubleValue;
+      } else if (stepResult.hasBoolValue()) {
+        return stepResult.boolValue;
+      } else if (stepResult.hasStringValue()) {
+        return stepResult.stringValue;
+      } else if (stepResult.listValues.isNotEmpty) {
+        return stepResult.listValues;
+      }
+    }
+    return null;
   }
 
   ActivityResponse_Data_StepResult _createStepResult(bool skipped) {
@@ -131,6 +219,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                                   child: const Text('Discard Results'),
                                   isDestructiveAction: true,
                                   onPressed: () {
+                                    _discardAllTemporaryResults();
                                     Navigator.of(context).popUntil(
                                         ModalRoute.withName(
                                             ActivityBuilderImpl.exitRoute));
@@ -264,6 +353,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                                                 const Text('Save for Later')),
                                         TextButton(
                                             onPressed: () {
+                                              _discardAllTemporaryResults();
                                               Navigator.of(context).popUntil(
                                                   ModalRoute.withName(
                                                       ActivityBuilderImpl
