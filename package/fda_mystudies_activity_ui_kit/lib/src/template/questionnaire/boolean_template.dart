@@ -23,25 +23,24 @@ class BooleanTemplate extends StatefulWidget {
 class _BooleanTemplateState extends State<BooleanTemplate> {
   bool? _selectedValue;
   String? _startTime;
-  bool _defaultValueSet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _startTime = QuestionnaireTemplate.currentTimeToString();
+    });
+    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+      if (value != null) {
+        setState(() {
+          _selectedValue = value;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (_startTime == null) {
-      setState(() {
-        _startTime = QuestionnaireTemplate.currentTimeToString();
-      });
-    }
-    if (!_defaultValueSet) {
-      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
-        if (value != null) {
-          setState(() {
-            _selectedValue = value;
-            _defaultValueSet = true;
-          });
-        }
-      });
-    }
     List<Widget> widgetList = [];
 
     if (Platform.isIOS) {

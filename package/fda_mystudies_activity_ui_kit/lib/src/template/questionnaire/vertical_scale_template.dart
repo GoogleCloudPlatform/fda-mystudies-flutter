@@ -25,29 +25,28 @@ class VerticalScaleTemplate extends StatefulWidget {
 class _VerticalScaleTemplateState extends State<VerticalScaleTemplate> {
   double? _selectedValue;
   String? _startTime;
-  bool _defaultValueSet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _startTime = QuestionnaireTemplate.currentTimeToString();
+    });
+    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+      if (value != null) {
+        setState(() {
+          if (value is int) {
+            _selectedValue = value.toDouble();
+          } else {
+            _selectedValue = value;
+          }
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (_startTime == null) {
-      setState(() {
-        _startTime = QuestionnaireTemplate.currentTimeToString();
-      });
-    }
-    if (!_defaultValueSet) {
-      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
-        if (value != null) {
-          setState(() {
-            if (value is int) {
-              _selectedValue = value.toDouble();
-            } else {
-              _selectedValue = value;
-            }
-            _defaultValueSet = true;
-          });
-        }
-      });
-    }
     var defaultValue = widget.step.hasScaleFormat()
         ? widget.step.scaleFormat.defaultValue
         : widget.step.continuousScale.defaultValue;
@@ -70,7 +69,9 @@ class _VerticalScaleTemplateState extends State<VerticalScaleTemplate> {
         ? ((maxValue.toInt() - minValue.toInt()) ~/
             widget.step.scaleFormat.step)
         : null;
+
     List<Widget> widgetList = [];
+
     if (Platform.isIOS) {
       widgetList = [
         Center(

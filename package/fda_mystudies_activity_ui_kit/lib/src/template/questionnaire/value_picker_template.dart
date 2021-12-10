@@ -26,26 +26,30 @@ class ValuePickerTemplate extends StatefulWidget {
 class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
   String? _selectedValue;
   String? _startTime;
-  bool _defaultValueSet = false;
+  final _scrollController = FixedExtentScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _startTime = QuestionnaireTemplate.currentTimeToString();
+    });
+    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+      if (value != null) {
+        setState(() {
+          _selectedValue = value;
+          _scrollController.jumpToItem(widget.step.textChoice.textChoices
+                  .indexWhere((element) => element.value == value) +
+              1);
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (_startTime == null) {
-      setState(() {
-        _startTime = QuestionnaireTemplate.currentTimeToString();
-      });
-    }
-    if (!_defaultValueSet) {
-      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
-        if (value != null) {
-          setState(() {
-            _selectedValue = value;
-            _defaultValueSet = true;
-          });
-        }
-      });
-    }
     var textChoiceList = widget.step.textChoice.textChoices;
+
     List<Widget> widgetList = [];
 
     if (Platform.isIOS) {
@@ -53,13 +57,7 @@ class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
         SizedBox(
             height: max(150 * MediaQuery.of(context).textScaleFactor, 150),
             child: CupertinoPicker(
-                key: UniqueKey(),
-                scrollController: FixedExtentScrollController(
-                    initialItem: (_selectedValue == null
-                        ? 0
-                        : (textChoiceList.indexWhere((element) =>
-                                (element.value == _selectedValue)) +
-                            1))),
+                scrollController: _scrollController,
                 itemExtent:
                     max(30 * MediaQuery.of(context).textScaleFactor, 30),
                 onSelectedItemChanged: (value) {

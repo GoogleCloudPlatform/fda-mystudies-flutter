@@ -26,28 +26,28 @@ class NumericalTextTemplate extends StatefulWidget {
 class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
   dynamic _selectedValue;
   String? _startTime;
-  bool _defaultValueSet = false;
   final _textEditController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _startTime = QuestionnaireTemplate.currentTimeToString();
+    });
+    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+      if (value != null) {
+        setState(() {
+          _selectedValue = value;
+          _textEditController.text = '$value';
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (_startTime == null) {
-      setState(() {
-        _startTime = QuestionnaireTemplate.currentTimeToString();
-      });
-    }
-    if (!_defaultValueSet) {
-      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
-        if (value != null) {
-          setState(() {
-            _selectedValue = value;
-            _defaultValueSet = true;
-            _textEditController.text = '$value';
-          });
-        }
-      });
-    }
     List<Widget> widgetList = [];
+
     if (Platform.isIOS) {
       widgetList = [
         Row(children: [
@@ -91,6 +91,7 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
         ])
       ];
     }
+
     return QuestionnaireTemplate(
         widget.step,
         widget.allowExit,

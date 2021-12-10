@@ -25,34 +25,27 @@ class TimeIntervalTemplate extends StatefulWidget {
 class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
   int? _selectedValue;
   String? _startTime;
-  bool _defaultValueSet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _startTime = QuestionnaireTemplate.currentTimeToString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (_startTime == null) {
-      setState(() {
-        _startTime = QuestionnaireTemplate.currentTimeToString();
-      });
-    }
-    if (!_defaultValueSet) {
-      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
-        if (value != null) {
-          setState(() {
-            _selectedValue = value;
-            _defaultValueSet = true;
-          });
-        }
-      });
-    }
-    List<Widget> widgetList = [];
     var defaultSeconds = widget.step.timeInterval.defaultValue;
     _selectedValue ??= defaultSeconds;
     var _selectedHours = _selectedValue! ~/ 3600;
     var _selectedMinutes = (_selectedValue! - _selectedHours * 3600) ~/ 60;
+
+    List<Widget> widgetList = [];
+
     if (Platform.isIOS) {
       widgetList = [
         CupertinoTimerPicker(
-            key: UniqueKey(),
             mode: CupertinoTimerPickerMode.hm,
             initialTimerDuration:
                 Duration(seconds: _selectedValue ?? defaultSeconds),

@@ -25,28 +25,28 @@ class TextTemplate extends StatefulWidget {
 class _TextTemplateState extends State<TextTemplate> {
   String? _selectedValue;
   String? _startTime;
-  bool _defaultValueSet = false;
   final _textEditingController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _startTime = QuestionnaireTemplate.currentTimeToString();
+    });
+    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+      if (value != null) {
+        setState(() {
+          _selectedValue = value;
+          _textEditingController.text = value;
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (_startTime == null) {
-      setState(() {
-        _startTime = QuestionnaireTemplate.currentTimeToString();
-      });
-    }
-    if (!_defaultValueSet) {
-      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
-        if (value != null) {
-          setState(() {
-            _selectedValue = value;
-            _defaultValueSet = true;
-            _textEditingController.text = value;
-          });
-        }
-      });
-    }
     List<Widget> widgetList = [];
+
     if (Platform.isIOS) {
       widgetList = [
         CupertinoTextField(

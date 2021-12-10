@@ -26,28 +26,17 @@ class _DateTemplateState extends State<DateTemplate> {
   String? _selectedValue;
   String? _startTime;
   String? _selectedValueLabel;
-  bool _defaultValueSet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _startTime = QuestionnaireTemplate.currentTimeToString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (_startTime == null) {
-      setState(() {
-        _startTime = QuestionnaireTemplate.currentTimeToString();
-      });
-    }
-    if (!_defaultValueSet) {
-      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
-        if (value != null) {
-          setState(() {
-            _selectedValue = value;
-            _defaultValueSet = true;
-            _selectedValueLabel =
-                _formattedDateTimeToString(_stringToDateTime(value));
-          });
-        }
-      });
-    }
-    List<Widget> widgetList = [];
     var time = DateTime.now();
     if (_selectedValue != null) {
       time = DateTime.parse(_selectedValue!);
@@ -55,12 +44,14 @@ class _DateTemplateState extends State<DateTemplate> {
       _selectedValue = _dateTimeToString(time);
       _selectedValueLabel = _formattedDateTimeToString(time);
     }
+
+    List<Widget> widgetList = [];
+
     if (Platform.isIOS) {
       widgetList = [
         SizedBox(
             height: 300,
             child: CupertinoDatePicker(
-                key: UniqueKey(),
                 mode: widget.step.dateTime.style == 'Date'
                     ? CupertinoDatePickerMode.date
                     : CupertinoDatePickerMode.dateAndTime,

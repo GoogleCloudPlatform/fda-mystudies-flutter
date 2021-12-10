@@ -31,6 +31,9 @@ class _InstructionTemplateState extends State<InstructionTemplate> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      _startTime = QuestionnaireTemplate.currentTimeToString();
+    });
     if (Platform.isAndroid) {
       WebView.platform = SurfaceAndroidWebView();
     }
@@ -38,11 +41,6 @@ class _InstructionTemplateState extends State<InstructionTemplate> {
 
   @override
   Widget build(BuildContext context) {
-    if (_startTime == null) {
-      setState(() {
-        _startTime = QuestionnaireTemplate.currentTimeToString();
-      });
-    }
     WebViewController? webViewController;
     List<Widget> widgetList = [
       SizedBox(

@@ -24,35 +24,28 @@ class TimeOfDayTemplate extends StatefulWidget {
 class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
   String? _selectedValue;
   String? _startTime;
-  bool _defaultValueSet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _startTime = QuestionnaireTemplate.currentTimeToString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (_startTime == null) {
-      setState(() {
-        _startTime = QuestionnaireTemplate.currentTimeToString();
-      });
-    }
-    if (!_defaultValueSet) {
-      QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
-        if (value != null) {
-          setState(() {
-            _selectedValue = value;
-            _defaultValueSet = true;
-          });
-        }
-      });
-    }
-    List<Widget> widgetList = [];
     var time = DateTime.now();
     _selectedValue ??= _timeToHhMm(time.hour, time.minute);
     time = _selectedValueToTimeOfDay(_selectedValue!);
+
+    List<Widget> widgetList = [];
+
     if (Platform.isIOS) {
       widgetList = [
         SizedBox(
             height: 300,
             child: CupertinoDatePicker(
-                key: UniqueKey(),
                 mode: CupertinoDatePickerMode.time,
                 initialDateTime: time,
                 onDateTimeChanged: (dateTime) {
