@@ -18,30 +18,65 @@ class QuestionnaireTemplate extends StatelessWidget {
   static var dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
   static final Map<String, ActivityResponse_Data_StepResult> _answers = {};
 
-  final ActivityStep step;
-  final bool allowExit;
-  final String title;
-  final Map<String, Widget> widgetMap;
-  final List<Widget> children;
+  final ActivityStep _step;
+  final bool _allowExit;
+  final String _title;
+  final Map<String, Widget> _widgetMap;
+  final List<Widget> _children;
   final dynamic selectedValue;
-  final String startTime;
+  final String _startTime;
 
-  const QuestionnaireTemplate(this.step, this.allowExit, this.title,
-      this.widgetMap, this.children, this.startTime,
+  const QuestionnaireTemplate(this._step, this._allowExit, this._title,
+      this._widgetMap, this._children, this._startTime,
       {this.selectedValue, Key? key})
       : super(key: key);
 
-  Widget _findNextScreen() {
-    if (step.destinations.isEmpty) {
-      return widgetMap[''] ??
-          UnimplementedTemplate(step.destinations.first.destination);
-    } else if (step.destinations.length == 1) {
-      return widgetMap[step.destinations.first.destination] ??
-          UnimplementedTemplate(step.destinations.first.destination);
+  Widget _findNextScreen(bool skipped) {
+    if (_step.destinations.isEmpty) {
+      return _widgetMap[''] ??
+          UnimplementedTemplate(_step.destinations.first.destination);
+    } else if (_step.destinations.length == 1) {
+      return _widgetMap[_step.destinations.first.destination] ??
+          UnimplementedTemplate(_step.destinations.first.destination);
+    } else {
+      var val = '';
+      if (!skipped) {
+        if (selectedValue is List) {
+          if (selectedValue.length > 0) {
+            val = selectedValue.first.toString();
+          }
+        } else if (selectedValue is double) {
+          val = selectedValue.toInt().toString();
+        } else if (selectedValue is Map<String, dynamic>) {
+          val = selectedValue['other'] as String;
+        } else {
+          val = selectedValue.toString();
+        }
+      }
+      for (var destination in _step.destinations) {
+        var isConditionMet = false;
+        if (destination.operator == 'e' || destination.operator == '') {
+          isConditionMet = (val == destination.condition);
+          // TODO (cg2092): Add support for gt, lt, gte, lte operators for branching.
+          // } else if (destination.operator == 'gt') {
+          //   isConditionMet = (val > destination.condition);
+          // } else if (destination.operator == 'lt') {
+          //   isConditionMet = (val < destination.condition);
+          // } else if (destination.operator == 'gte') {
+          //   isConditionMet = (val >= destination.condition);
+          // } else if (destination.operator == 'lte') {
+          //   isConditionMet = (val <= destination.condition);
+        } else if (destination.operator == 'ne') {
+          isConditionMet = (val != destination.condition);
+        }
+        if (isConditionMet) {
+          return _widgetMap[destination.destination] ??
+              UnimplementedTemplate(_step.destinations.first.destination);
+        }
+      }
     }
-    // TODO(cg2092): Implement branching
-    return widgetMap[step.destinations.first.destination] ??
-        UnimplementedTemplate(step.destinations.first.destination);
+    return _widgetMap[_step.destinations.first.destination] ??
+        UnimplementedTemplate(_step.destinations.first.destination);
   }
 
   void _navigateToNextScreen(BuildContext context, bool skipped) {
@@ -52,10 +87,10 @@ class QuestionnaireTemplate extends StatelessWidget {
       _discardTemporaryResult()
           .then((value) => developer.log('TEMPORARY RESULT DISCARDED'));
     }
-    var nextScreen = _findNextScreen();
-    if (step.type == 'question') {
+    var nextScreen = _findNextScreen(skipped);
+    if (_step.type == 'question') {
       var stepResult = _createStepResult(skipped);
-      _answers[step.key] = stepResult;
+      _answers[_step.key] = stepResult;
     }
     if (nextScreen is ActivityResponseProcessor) {
       List<ActivityResponse_Data_StepResult> stepResultList = [];
@@ -84,7 +119,7 @@ class QuestionnaireTemplate extends StatelessWidget {
 
   Future<void> _saveTemporaryResult() {
     var securedStorage = const FlutterSecureStorage();
-    var tempKey = _generateStepKey(true, step.key);
+    var tempKey = _generateStepKey(true, _step.key);
     return securedStorage.write(
         key: tempKey,
         value: jsonEncode(_createStepResult(false).toProto3Json()));
@@ -92,7 +127,7 @@ class QuestionnaireTemplate extends StatelessWidget {
 
   Future<void> _discardTemporaryResult() {
     var securedStorage = const FlutterSecureStorage();
-    var tempKey = _generateStepKey(true, step.key);
+    var tempKey = _generateStepKey(true, _step.key);
     return securedStorage.delete(key: tempKey);
   }
 
@@ -160,10 +195,10 @@ class QuestionnaireTemplate extends StatelessWidget {
 
   ActivityResponse_Data_StepResult _createStepResult(bool skipped) {
     var stepResult = ActivityResponse_Data_StepResult()
-      ..key = step.key
+      ..key = _step.key
       ..skipped = skipped
-      ..resultType = step.resultType
-      ..startTime = startTime
+      ..resultType = _step.resultType
+      ..startTime = _startTime
       ..endTime = currentTimeToString();
     if (!skipped) {
       if (selectedValue is int) {
@@ -183,8 +218,8 @@ class QuestionnaireTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var stepTitle = step.title;
-    var subTitle = step.text;
+    var stepTitle = _step.title;
+    var subTitle = _step.text;
     if (Platform.isIOS) {
       var titleStyle =
           CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle;
@@ -196,7 +231,7 @@ class QuestionnaireTemplate extends StatelessWidget {
           child: Stack(children: [
             CupertinoPageScaffold(
                 navigationBar: CupertinoNavigationBar(
-                    middle: Text(title,
+                    middle: Text(_title,
                         style:
                             const TextStyle(color: CupertinoColors.systemGrey)),
                     trailing: CupertinoButton(
@@ -235,7 +270,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                             ),
                           );
                         },
-                        child: allowExit
+                        child: _allowExit
                             ? const Icon(Icons.exit_to_app,
                                 color: CupertinoColors.destructiveRed)
                             : const SizedBox(width: 0))),
@@ -248,13 +283,13 @@ class QuestionnaireTemplate extends StatelessWidget {
                             Text(stepTitle, style: titleStyle),
                             SizedBox(height: subTitle.isEmpty ? 0 : 12),
                           ] +
-                          (step.type == 'instruction'
+                          (_step.type == 'instruction'
                               ? []
                               : [
                                   Text(subTitle, style: subTitleStyle),
                                   SizedBox(height: subTitle.isEmpty ? 12 : 36)
                                 ]) +
-                          children +
+                          _children +
                           [
                             // This sized box is to add padding to the bottom of
                             // the scaffold view to allow it to scroll over the
@@ -295,12 +330,12 @@ class QuestionnaireTemplate extends StatelessWidget {
                                           style: TextStyle(
                                               color: CupertinoColors.white)),
                                       onPressed: selectedValue == null &&
-                                              step.type == 'question'
+                                              _step.type == 'question'
                                           ? null
                                           : () => _navigateToNextScreen(
                                               context, false))
                                 ].cast<Widget>() +
-                                (step.skippable
+                                (_step.skippable
                                     ? [
                                         const SizedBox(height: 20),
                                         Container(
@@ -329,8 +364,8 @@ class QuestionnaireTemplate extends StatelessWidget {
         },
         child: Scaffold(
             appBar: AppBar(
-                title: Text(title),
-                actions: allowExit
+                title: Text(_title),
+                actions: _allowExit
                     ? [
                         TextButton(
                             onPressed: () {
@@ -386,20 +421,20 @@ class QuestionnaireTemplate extends StatelessWidget {
                           style: Theme.of(context).textTheme.headline4),
                       SizedBox(height: subTitle.isEmpty ? 0 : 12),
                     ] +
-                    (step.type == 'instruction'
+                    (_step.type == 'instruction'
                         ? []
                         : [
                             Text(subTitle,
                                 style: Theme.of(context).textTheme.headline6),
                             const SizedBox(height: 24)
                           ]) +
-                    children),
+                    _children),
             bottomNavigationBar: BottomAppBar(
                 child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: (step.skippable
+                        children: (_step.skippable
                                 ? [
                                     OutlinedButton(
                                         onPressed: () => _navigateToNextScreen(
@@ -414,7 +449,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                               const SizedBox(width: 20),
                               ElevatedButton(
                                 onPressed: selectedValue == null &&
-                                        step.type == 'question'
+                                        _step.type == 'question'
                                     ? null
                                     : () =>
                                         _navigateToNextScreen(context, false),
