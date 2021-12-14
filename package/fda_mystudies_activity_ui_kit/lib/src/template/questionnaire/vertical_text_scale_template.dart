@@ -1,10 +1,10 @@
-import 'dart:io';
-
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../config.dart';
+import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class VerticalTextScaleTemplate extends StatefulWidget {
@@ -55,7 +55,7 @@ class _VerticalTextScaleTemplateState extends State<VerticalTextScaleTemplate> {
 
     List<Widget> widgetList = [];
 
-    if (Platform.isIOS) {
+    if (getIt<Config>().isIOS) {
       var labelList = Padding(
           padding: const EdgeInsets.fromLTRB(12, 4, 0, 12),
           child: Column(
@@ -108,7 +108,7 @@ class _VerticalTextScaleTemplateState extends State<VerticalTextScaleTemplate> {
                   Expanded(child: labelList)
                 ]))
       ];
-    } else if (Platform.isAndroid) {
+    } else if (getIt<Config>().isAndroid) {
       var labelList = Padding(
           padding: const EdgeInsets.fromLTRB(12, 12, 0, 18),
           child: Column(

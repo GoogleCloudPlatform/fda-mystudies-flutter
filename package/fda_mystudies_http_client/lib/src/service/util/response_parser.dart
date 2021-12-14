@@ -1,9 +1,8 @@
 import 'dart:developer' as developer;
 
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
+import 'package:fda_mystudies_spec/fda_mystudies_spec.dart';
 import 'package:http/http.dart' as http;
-
-import '../../service/util/proto_json.dart';
 
 class ResponseParser {
   static Object parseHttpResponse(String apiName, http.Response response,

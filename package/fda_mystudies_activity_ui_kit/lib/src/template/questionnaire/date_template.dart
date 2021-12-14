@@ -1,11 +1,11 @@
-import 'dart:io';
-
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../config.dart';
+import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class DateTemplate extends StatefulWidget {
@@ -47,7 +47,7 @@ class _DateTemplateState extends State<DateTemplate> {
 
     List<Widget> widgetList = [];
 
-    if (Platform.isIOS) {
+    if (getIt<Config>().isIOS) {
       widgetList = [
         SizedBox(
             height: 300,
@@ -62,7 +62,7 @@ class _DateTemplateState extends State<DateTemplate> {
                 },
                 initialDateTime: time))
       ];
-    } else if (Platform.isAndroid) {
+    } else if (getIt<Config>().isAndroid) {
       widgetList = [
         ElevatedButton(
             onPressed: () {

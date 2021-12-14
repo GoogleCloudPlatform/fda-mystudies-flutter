@@ -1,11 +1,11 @@
-import 'dart:io';
-
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../config.dart';
+import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class NumericalTextTemplate extends StatefulWidget {
@@ -48,7 +48,7 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];
 
-    if (Platform.isIOS) {
+    if (getIt<Config>().isIOS) {
       widgetList = [
         Row(children: [
           Expanded(
@@ -69,7 +69,7 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
                   style: CupertinoTheme.of(context).textTheme.textStyle))
         ])
       ];
-    } else if (Platform.isAndroid) {
+    } else if (getIt<Config>().isAndroid) {
       widgetList = [
         Row(children: [
           Expanded(

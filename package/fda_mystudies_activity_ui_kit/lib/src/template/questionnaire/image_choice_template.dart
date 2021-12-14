@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -8,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../config.dart';
+import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class ImageChoiceTemplate extends StatefulWidget {
@@ -49,14 +50,14 @@ class _ImageChoiceTemplateState extends State<ImageChoiceTemplate> {
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];
 
-    if (Platform.isIOS) {
+    if (getIt<Config>().isIOS) {
       widgetList = [
         Center(
             child: Text(_selectedText,
                 style: CupertinoTheme.of(context).textTheme.pickerTextStyle,
                 textAlign: TextAlign.center))
       ];
-    } else if (Platform.isAndroid) {
+    } else if (getIt<Config>().isAndroid) {
       widgetList = [
         Text(_selectedText,
             style: Theme.of(context).textTheme.headline6,

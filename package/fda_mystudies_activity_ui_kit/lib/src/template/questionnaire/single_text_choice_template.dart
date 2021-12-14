@@ -1,10 +1,10 @@
-import 'dart:io';
-
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../config.dart';
+import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 import 'cupertino_widget/cupertino_radio_list_tile.dart';
 
@@ -52,7 +52,7 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
 
     List<Widget> widgetList = [];
 
-    if (Platform.isIOS) {
+    if (getIt<Config>().isIOS) {
       widgetList = [
         Container(
             alignment: Alignment.centerLeft,
@@ -94,7 +94,7 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
                           ]
                         : [])))
       ];
-    } else if (Platform.isAndroid) {
+    } else if (getIt<Config>().isAndroid) {
       widgetList = textChoiceList
           .map((e) => RadioListTile(
               title: Text(e.text),

@@ -1,11 +1,11 @@
-import 'dart:io';
-
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../config.dart';
+import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class TextTemplate extends StatefulWidget {
@@ -47,7 +47,7 @@ class _TextTemplateState extends State<TextTemplate> {
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];
 
-    if (Platform.isIOS) {
+    if (getIt<Config>().isIOS) {
       widgetList = [
         CupertinoTextField(
             controller: _textEditingController,
@@ -64,7 +64,7 @@ class _TextTemplateState extends State<TextTemplate> {
             inputFormatters: _inputFormatters(widget.step),
             placeholder: widget.step.textFormat.placeholder)
       ];
-    } else if (Platform.isAndroid) {
+    } else if (getIt<Config>().isAndroid) {
       widgetList = [
         TextField(
             controller: _textEditingController,

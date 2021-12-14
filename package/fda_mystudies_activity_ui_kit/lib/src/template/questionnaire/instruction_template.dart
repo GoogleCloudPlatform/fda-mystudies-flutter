@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../config.dart';
+import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class InstructionTemplate extends StatefulWidget {
@@ -34,7 +35,7 @@ class _InstructionTemplateState extends State<InstructionTemplate> {
     setState(() {
       _startTime = QuestionnaireTemplate.currentTimeToString();
     });
-    if (Platform.isAndroid) {
+    if (getIt<Config>().isAndroid) {
       WebView.platform = SurfaceAndroidWebView();
     }
   }
@@ -76,7 +77,7 @@ class _InstructionTemplateState extends State<InstructionTemplate> {
     var bgColor = 'ffffff';
     var fgColor = '000000';
 
-    if (Platform.isIOS) {
+    if (getIt<Config>().isIOS) {
       bgColor = CupertinoTheme.of(context)
           .scaffoldBackgroundColor
           .value
@@ -89,7 +90,7 @@ class _InstructionTemplateState extends State<InstructionTemplate> {
           .value
           .toRadixString(16)
           .substring(2, 8);
-    } else if (Platform.isAndroid) {
+    } else if (getIt<Config>().isAndroid) {
       bgColor = Theme.of(context)
           .scaffoldBackgroundColor
           .toString()

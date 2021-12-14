@@ -11,7 +11,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 
 import '../../activity_response_processor.dart';
+import '../injection/injection.dart';
 import '../activity_builder_impl.dart';
+import '../config.dart';
 import 'unimplemented_template.dart';
 
 class QuestionnaireTemplate extends StatelessWidget {
@@ -102,10 +104,10 @@ class QuestionnaireTemplate extends StatelessWidget {
       _savePastResult()
           .then((value) => nextScreen.processResponses(stepResultList));
     }
-    if (Platform.isIOS) {
+    if (getIt<Config>().isIOS) {
       Navigator.of(context).push(CupertinoPageRoute<void>(
           builder: (BuildContext context) => nextScreen));
-    } else if (Platform.isAndroid) {
+    } else if (getIt<Config>().isAndroid) {
       Navigator.of(context).push<void>(MaterialPageRoute<void>(
           builder: (BuildContext context) => nextScreen));
     }
@@ -220,7 +222,7 @@ class QuestionnaireTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     var stepTitle = _step.title;
     var subTitle = _step.text;
-    if (Platform.isIOS) {
+    if (getIt<Config>().isIOS) {
       var titleStyle =
           CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle;
       var subTitleStyle = CupertinoTheme.of(context).textTheme.textStyle;

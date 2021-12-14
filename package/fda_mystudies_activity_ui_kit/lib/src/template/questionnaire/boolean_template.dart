@@ -1,9 +1,9 @@
-import 'dart:io';
-
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../config.dart';
+import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class BooleanTemplate extends StatefulWidget {
@@ -43,7 +43,7 @@ class _BooleanTemplateState extends State<BooleanTemplate> {
   Widget build(BuildContext context) {
     List<Widget> widgetList = [];
 
-    if (Platform.isIOS) {
+    if (getIt<Config>().isIOS) {
       widgetList = [
         CupertinoSegmentedControl(
             children: const {true: Text('Yes'), false: Text('No')},
@@ -54,7 +54,7 @@ class _BooleanTemplateState extends State<BooleanTemplate> {
             },
             groupValue: _selectedValue)
       ];
-    } else if (Platform.isAndroid) {
+    } else if (getIt<Config>().isAndroid) {
       widgetList = List<Widget>.of(['Yes', 'No'].map((e) => RadioListTile(
           title: Text(e),
           contentPadding: EdgeInsets.zero,
