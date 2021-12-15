@@ -4,13 +4,13 @@ import 'package:fda_mystudies_spec/authentication_service/change_password.pb.dar
 import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
+import 'package:fda_mystudies_spec/fda_mystudies_spec.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
 import '../../../authentication_service.dart';
 import '../session.dart';
 import '../util/common_responses.dart';
-import '../util/proto_json.dart';
 import '../util/request_header.dart';
 import '../util/response_parser.dart';
 import '../config.dart';

@@ -27,6 +27,8 @@ message ActivityStep {
     NumericalFormat numerical_format = 23;
     ScaleFormat scale_format = 24;
     TextChoiceFormat text_choice = 25;
+    TimeIntervalFormat time_interval = 26;
+    TextFormat text_format = 27;
   }
 
   message StepDestination {
@@ -48,10 +50,10 @@ message ContinuousScaleFormat {
   double default_value = 1 [json_name = "default"];
   string max_desc = 2;
   string max_image = 3;
-  string max_value = 4;
+  double max_value = 4;
   string min_desc = 5;
   string min_image = 6;
-  string min_value = 7;
+  double min_value = 7;
   int32 max_fraction_digits = 8;
   bool vertical = 9;
 }
@@ -64,10 +66,15 @@ message DateTimeFormat {
   string style = 5;
 }
 
+message TimeIntervalFormat {
+  int32 default_value = 1 [json_name = "default"];
+  int32 step = 2;
+}
+
 message ImageChoiceFormat {
   message ImageChoiceItem {
     string image = 1;
-    string select_image = 2;
+    string selected_image = 2;
     string text = 3;
     string value = 4;
   }
@@ -113,4 +120,12 @@ message TextChoiceFormat {
     OtherTextChoice other = 5;
   }
   repeated TextChoice text_choices = 4;
+}
+
+message TextFormat {
+  int32 max_length = 1;
+  string validation_regex = 2;
+  string invalid_message = 3;
+  bool multiple_lines = 4;
+  string placeholder = 5;
 }
