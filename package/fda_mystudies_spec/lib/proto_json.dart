@@ -19,7 +19,6 @@ extension ProtoJson on GeneratedMessage {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = toProto3Json() as Map<String, dynamic>;
     if (this is ActivityResponse_Data_StepResult) {
-      print('ActivityResponse_Data_StepResult');
       if (map['intValue'] != null) {
         map['value'] = map['intValue'];
         map.remove('intValue');
@@ -56,28 +55,21 @@ extension ProtoJson on GeneratedMessage {
   Map<String, dynamic> _updateStepFormat(Map<String, dynamic> map) {
     var resultType = map['resultType'];
     var format = map['format'];
-    if (resultType == 'scale') {
-      map['scaleFormat'] = format;
-    } else if (resultType == 'continuousScale') {
-      map['continuousScale'] = format;
-    } else if (resultType == 'textScale') {
-      map['textChoice'] = format;
-    } else if (resultType == 'valuePicker') {
-      map['textChoice'] = format;
-    } else if (resultType == 'imageChoice') {
-      map['imageChoice'] = format;
-    } else if (resultType == 'textChoice') {
-      map['textChoice'] = format;
-    } else if (resultType == 'numeric') {
-      map['numericalFormat'] = format;
-    } else if (resultType == 'date') {
-      map['dateTime'] = format;
-    } else if (resultType == 'timeInterval') {
-      map['timeInterval'] = format;
-    } else if (resultType == 'text') {
-      map['textFormat'] = format;
-    } else if (resultType == 'email') {
-      map['textFormat'] = format;
+    var resultTypeToFormatMapping = {
+      'scale': 'scaleFormat',
+      'continuousScale': 'continuousScale',
+      'textScale': 'textChoice',
+      'valuePicker': 'textChoice',
+      'imageChoice': 'imageChoice',
+      'textChoice': 'textChoice',
+      'numeric': 'numericalFormat',
+      'date': 'dateTime',
+      'timeInterval': 'timeInterval',
+      'text': 'textFormat',
+      'email': 'textFormat',
+    };
+    if (resultTypeToFormatMapping.containsKey(resultType)) {
+      map[resultTypeToFormatMapping[resultType]!] = format;
     }
     return map;
   }

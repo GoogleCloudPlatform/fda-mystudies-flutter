@@ -301,7 +301,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                             // meant for scrolling over the BOTTOM_VIEW.
                             //
                             // 20 - Default padding so that widgets from this component
-                            //      doesn't stick to the BOTTOM_VIEW.
+                            //      don't stick to the BOTTOM_VIEW.
                             // 142 + 40 x textScaleFactor - This Padding is to match the
                             //      height of the BOTTOM_VIEW. Hacky solution, but it works
                             //      at all textScaleFactors.
@@ -377,7 +377,10 @@ class QuestionnaireTemplate extends StatelessWidget {
                                   builder: (BuildContext buildContext) {
                                     return AlertDialog(
                                       content: const Text(
-                                          'Your responses are stored on the app if you `Save for Later` (unless you sign out) so you can resume and complete the activity before it expires.'),
+                                          'Your responses are stored on the app if you '
+                                          '`Save for Later` (unless you sign out) so you '
+                                          'can resume and complete the activity before it '
+                                          'expires.'),
                                       actions: [
                                         TextButton(
                                             onPressed: () {
