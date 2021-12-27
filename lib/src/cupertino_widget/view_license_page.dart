@@ -18,9 +18,10 @@ class ViewLicensePage extends StatelessWidget {
             : CupertinoColors.extraLightBackgroundGray,
         navigationBar:
             CupertinoNavigationBar(middle: Text(license.packageName)),
-        child: ListView(
-            children: license.licenses
-                .map((e) => CupertinoListTile(title: e, showChevron: false))
-                .toList()));
+        child: CupertinoScrollbar(
+            child: ListView(
+                children: license.licenses
+                    .map((e) => CupertinoListTile(title: e, showChevron: false))
+                    .toList())));
   }
 }

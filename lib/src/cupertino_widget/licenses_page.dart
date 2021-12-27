@@ -37,19 +37,21 @@ class LicensesPage extends StatelessWidget {
                                   ..apply(
                                       color: CupertinoColors.destructiveRed)));
                       } else {
-                        return ListView(
-                            children: licenses
-                                .map((e) => CupertinoListTile(
-                                    title: e.packageName,
-                                    subTitle:
-                                        '${e.numberOfLicenses} ${e.numberOfLicenses <= 1 ? 'license' : 'licenses'}',
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          CupertinoPageRoute<void>(
-                                              builder: (BuildContext context) =>
-                                                  ViewLicensePage(e)));
-                                    }))
-                                .toList());
+                        return CupertinoScrollbar(
+                            child: ListView(
+                                children: licenses
+                                    .map((e) => CupertinoListTile(
+                                        title: e.packageName,
+                                        subTitle:
+                                            '${e.numberOfLicenses} ${e.numberOfLicenses <= 1 ? 'license' : 'licenses'}',
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              CupertinoPageRoute<void>(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          ViewLicensePage(e)));
+                                        }))
+                                    .toList()));
                       }
                   }
                 })));
