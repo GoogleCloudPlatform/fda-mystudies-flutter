@@ -21,8 +21,21 @@ class FDAMyStudiesApp extends StatelessWidget {
     }
     return MaterialApp(
       title: 'FDA MyStudies',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
+      theme: ThemeData.light().copyWith(
+          appBarTheme: ThemeData.light().appBarTheme.copyWith(
+              textTheme: const TextTheme(
+                  subtitle1: TextStyle(color: Colors.black87, fontSize: 18),
+                  subtitle2: TextStyle(color: Colors.black54, fontSize: 14)),
+              foregroundColor: Colors.black87,
+              backgroundColor: Colors.white)),
+      darkTheme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: Colors.black,
+          cardColor: Colors.black,
+          bottomNavigationBarTheme: ThemeData.light()
+              .bottomNavigationBarTheme
+              .copyWith(backgroundColor: Colors.black),
+          appBarTheme: ThemeData.light().appBarTheme.copyWith(
+              foregroundColor: Colors.white, backgroundColor: Colors.black)),
       debugShowCheckedModeBanner: false,
       home: const StudyHome(),
     );

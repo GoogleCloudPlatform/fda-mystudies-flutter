@@ -31,11 +31,10 @@ class LicensesPage extends StatelessWidget {
                       if (snapshot.hasError) {
                         return Center(
                             child: Text('Failed to fetch licenses!',
+                                textAlign: TextAlign.center,
                                 style: CupertinoTheme.of(context)
                                     .textTheme
-                                    .navLargeTitleTextStyle
-                                  ..apply(
-                                      color: CupertinoColors.destructiveRed)));
+                                    .navLargeTitleTextStyle));
                       } else {
                         return CupertinoScrollbar(
                             child: ListView(
