@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
-import 'cupertino_list_tile.dart';
+import '../../cupertino_widget/cupertino_list_tile.dart';
 import 'cupertino_package_license.dart';
 import 'view_license_page.dart';
 

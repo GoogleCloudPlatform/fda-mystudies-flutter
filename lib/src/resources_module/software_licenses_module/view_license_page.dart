@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'cupertino_list_tile.dart';
+import '../../cupertino_widget/cupertino_list_tile.dart';
 import 'cupertino_package_license.dart';
 
 class ViewLicensePage extends StatelessWidget {
