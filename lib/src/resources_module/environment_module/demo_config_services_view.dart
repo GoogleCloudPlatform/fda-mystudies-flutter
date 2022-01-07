@@ -1,22 +1,22 @@
 import 'dart:io';
 
-import 'package:fda_mystudies/src/demo_config_scenarios_view.dart';
-import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
+import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart';
 import 'package:fda_mystudies_http_client/mock_scenario_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-import 'cupertino_widget/cupertino_list_tile.dart';
+import '../../cupertino_widget/cupertino_list_tile.dart';
+import 'demo_config_methods_view.dart';
 
-class DemoConfigMethodsView extends StatefulWidget {
-  final String serviceName;
-  const DemoConfigMethodsView(this.serviceName, {Key? key}) : super(key: key);
+class DemoConfigServicesView extends StatefulWidget {
+  const DemoConfigServicesView({Key? key}) : super(key: key);
 
   @override
-  _DemoConfigMethodsViewState createState() => _DemoConfigMethodsViewState();
+  _DemoConfigServicesViewState createState() => _DemoConfigServicesViewState();
 }
 
-class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
+class _DemoConfigServicesViewState extends State<DemoConfigServicesView> {
   @override
   Widget build(BuildContext context) {
     final MockScenarioService mockScenarioService =
@@ -25,17 +25,16 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     if (Platform.isIOS) {
       return CupertinoPageScaffold(
-          navigationBar:
-              CupertinoNavigationBar(middle: Text(widget.serviceName)),
+          navigationBar: const CupertinoNavigationBar(middle: Text('Services')),
           child: Container(
               decoration: BoxDecoration(
                   color: isDarkModeEnabled
                       ? CupertinoColors.black
                       : CupertinoColors.extraLightBackgroundGray),
               child: FutureBuilder<List<String>>(
-                  future: mockScenarioService.listMethods(widget.serviceName),
+                  future: mockScenarioService.listServices(),
                   builder: (context, snapshot) {
-                    var methods = snapshot.data ?? [];
+                    var services = snapshot.data ?? [];
 
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
@@ -52,7 +51,7 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
                         } else {
                           return CupertinoScrollbar(
                               child: ListView(
-                                  children: methods
+                                  children: services
                                       .map((e) => CupertinoListTile(
                                           title: e,
                                           onTap: () {
@@ -60,8 +59,7 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
                                                 CupertinoPageRoute<void>(
                                                     builder: (BuildContext
                                                             context) =>
-                                                        DemoConfigScenariosView(
-                                                            widget.serviceName,
+                                                        DemoConfigMethodsView(
                                                             e)));
                                           }))
                                       .toList()));
@@ -70,11 +68,11 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
                   })));
     }
     return Scaffold(
-        appBar: AppBar(title: Text(widget.serviceName)),
+        appBar: AppBar(title: const Text('Services')),
         body: FutureBuilder<List<String>>(
-            future: mockScenarioService.listMethods(widget.serviceName),
+            future: mockScenarioService.listServices(),
             builder: (context, snapshot) {
-              var methods = snapshot.data ?? [];
+              var services = snapshot.data ?? [];
 
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
@@ -89,7 +87,7 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
                   } else {
                     return Scrollbar(
                         child: ListView(
-                            children: methods
+                            children: services
                                 .map((e) => Column(children: [
                                       ListTile(
                                           title: Text(e),
@@ -101,8 +99,7 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
                                                 MaterialPageRoute<void>(
                                                     builder: (BuildContext
                                                             context) =>
-                                                        DemoConfigScenariosView(
-                                                            widget.serviceName,
+                                                        DemoConfigMethodsView(
                                                             e)));
                                           }),
                                       const Divider()

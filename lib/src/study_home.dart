@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 
 import 'activities.dart';
 import 'dashboard.dart';
-import 'resources.dart';
+import 'resources_module/resources.dart';
 
 class StudyHome extends StatefulWidget {
   const StudyHome({Key? key}) : super(key: key);

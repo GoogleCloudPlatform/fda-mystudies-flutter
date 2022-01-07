@@ -1,11 +1,12 @@
 import 'dart:io';
 
-import 'package:fda_mystudies/config/config_mapping.dart';
-import 'package:fda_mystudies/src/demo_config_services_view.dart';
 import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../../../config/config_mapping.dart';
+import 'demo_config_services_view.dart';
 
 class Environment extends StatefulWidget {
   const Environment({Key? key}) : super(key: key);

@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'cupertino_widget/cupertino_list_tile.dart';
-import 'cupertino_widget/licenses_page.dart';
-import 'environment.dart';
+import '../cupertino_widget/cupertino_list_tile.dart';
+import '../cupertino_widget/licenses_page.dart';
+import 'environment_module/environment.dart';
 import 'view_consent_pdf.dart';
 
 class Resources extends StatelessWidget {
