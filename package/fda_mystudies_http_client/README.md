@@ -37,7 +37,7 @@ authService.getSignInPageURI();
 
 ## Configuring Demo environment
 
-Demo environment is powered by mock sceanrios present under `lib/src/mock/scenario`.
+Demo environment is powered by mock sceanrios present under `assets/mock/scenario`.
 Every method in every service has a directory for it, and `yaml` files to
 represent the mocked scenarios.
 

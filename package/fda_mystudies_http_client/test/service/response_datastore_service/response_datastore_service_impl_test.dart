@@ -11,6 +11,7 @@ void main() {
   final config = DemoConfig();
 
   setUpAll(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
     configureDependencies(config);
     responseDatastoreService = getIt<ResponseDatastoreService>();
   });

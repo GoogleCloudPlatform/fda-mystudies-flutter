@@ -63,6 +63,7 @@ class _EnvironmentState extends State<Environment> {
                     .map((e) => RadioListTile(
                         title: Text(e),
                         value: e,
+                        selected: e == _selectedEnvironment,
                         groupValue: _selectedEnvironment,
                         onChanged: (String? value) {
                           if (value != null) {
@@ -79,7 +80,10 @@ class _EnvironmentState extends State<Environment> {
                         Padding(
                             padding: const EdgeInsets.all(24),
                             child: ElevatedButton(
-                                onPressed: () => {},
+                                onPressed: () => Navigator.of(context).push(
+                                    MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            const DemoConfigServicesView())),
                                 child: const Text('Configure Demo')))
                       ]
                     : [])));

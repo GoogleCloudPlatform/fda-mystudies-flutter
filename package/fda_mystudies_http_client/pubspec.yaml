@@ -15,7 +15,7 @@ dependencies:
   get_it: ^7.2.0
   http: ^0.13.4
   fda_mystudies_spec:
-    path: '../fda_mystudies_spec'
+    path: "../fda_mystudies_spec"
   uuid: ^3.0.5
   yaml: ^3.1.0
   path: ^1.8.0
@@ -36,7 +36,38 @@ dependency_overrides:
 # The following section is specific to Flutter.
 flutter:
   assets:
-    - lib/src/mock/scenario/
+    - assets/mock/scenario/
+    - assets/mock/scenario/authentication_service/change_password/
+    - assets/mock/scenario/authentication_service/grant_verified_user/
+    - assets/mock/scenario/authentication_service/logout/
+    - assets/mock/scenario/authentication_service/reset_password/
+    - assets/mock/scenario/common/
+    - assets/mock/scenario/participant_consent_datastore_service/consent_document/
+    - assets/mock/scenario/participant_consent_datastore_service/update_eligibility_consent_status/
+    - assets/mock/scenario/participant_enroll_datastore_service/enroll/
+    - assets/mock/scenario/participant_enroll_datastore_service/study_state/
+    - assets/mock/scenario/participant_enroll_datastore_service/update_study_state/
+    - assets/mock/scenario/participant_enroll_datastore_service/validate_enrollment_token/
+    - assets/mock/scenario/participant_enroll_datastore_service/withdraw_from_study/
+    - assets/mock/scenario/participant_user_datastore_service/contact_us/
+    - assets/mock/scenario/participant_user_datastore_service/deactivate/
+    - assets/mock/scenario/participant_user_datastore_service/feedback/
+    - assets/mock/scenario/participant_user_datastore_service/register/
+    - assets/mock/scenario/participant_user_datastore_service/resend_confirmation/
+    - assets/mock/scenario/participant_user_datastore_service/update_user_profile/
+    - assets/mock/scenario/participant_user_datastore_service/user_profile/
+    - assets/mock/scenario/participant_user_datastore_service/verify_email/
+    - assets/mock/scenario/response_datastore_service/activity_state/
+    - assets/mock/scenario/response_datastore_service/process_response/
+    - assets/mock/scenario/response_datastore_service/update_activity_state/
+    - assets/mock/scenario/study_datastore_service/activity_list/
+    - assets/mock/scenario/study_datastore_service/activity_steps/
+    - assets/mock/scenario/study_datastore_service/consent_document/
+    - assets/mock/scenario/study_datastore_service/eligibility_and_consent/
+    - assets/mock/scenario/study_datastore_service/study_dashboard/
+    - assets/mock/scenario/study_datastore_service/study_info/
+    - assets/mock/scenario/study_datastore_service/study_list/
+    - assets/mock/scenario/study_datastore_service/version_info/
   # To add assets to your package, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

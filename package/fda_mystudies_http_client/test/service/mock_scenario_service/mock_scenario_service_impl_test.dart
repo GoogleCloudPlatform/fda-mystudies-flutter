@@ -7,6 +7,7 @@ void main() {
   final config = DemoConfig();
 
   setUpAll(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
     configureDependencies(config);
     mockScenarioService = getIt<MockScenarioService>();
   });
@@ -36,7 +37,7 @@ void main() {
     var response = await mockScenarioService!
         .listScenarios('authentication_service', 'change_password');
 
-    expect(response, [
+    expect(response.map((e) => e.scenarioCode), [
       'default',
       'common.common_error',
       'common.internal_server_error',
