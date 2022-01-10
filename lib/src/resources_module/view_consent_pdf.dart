@@ -1,40 +1,42 @@
 import 'dart:convert';
-import 'dart:io';
 
+import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
+import 'package:fda_mystudies_http_client/participant_consent_datastore_service.dart';
+import 'package:fda_mystudies_spec/participant_consent_datastore_service/get_consent_document.pbserver.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:printing/printing.dart';
 
-class ViewConsentPdf extends StatelessWidget {
-  final String base64EncodedPdfString;
+import '../common/future_loading_page.dart';
 
-  const ViewConsentPdf(this.base64EncodedPdfString, {Key? key})
-      : super(key: key);
+class ViewConsentPdf extends StatelessWidget {
+  static const scaffoldTitle = 'Signed Consent Document';
+
+  const ViewConsentPdf({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    const scaffoldTitle = 'Signed Consent Document';
-    var pdfPreviewWidget = PdfPreview(
-        maxPageWidth: MediaQuery.of(context).size.width,
-        build: (format) {
-          return base64Decode(base64EncodedPdfString);
-        },
-        padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
-        allowSharing: false,
-        canDebug: false,
-        dynamicLayout: false,
-        allowPrinting: false,
-        canChangeOrientation: false,
-        canChangePageFormat: false);
-    if (Platform.isIOS) {
-      return CupertinoPageScaffold(
-          navigationBar:
-              const CupertinoNavigationBar(middle: Text(scaffoldTitle)),
-          child: SafeArea(child: pdfPreviewWidget));
-    }
-    return Scaffold(
-        appBar: AppBar(title: const Text(scaffoldTitle)),
-        body: pdfPreviewWidget);
+    ParticipantConsentDatastoreService participantConsentDatastoreService =
+        getIt<ParticipantConsentDatastoreService>();
+    var futureObject = participantConsentDatastoreService.getConsentDocument(
+        'userId', 'authToken', 'studyId');
+    return FutureLoadingPage(scaffoldTitle, futureObject,
+        (BuildContext context, AsyncSnapshot<Object> snapshot) {
+      var consentForm =
+          (snapshot.data as GetConsentDocumentResponse).consent.content;
+      return PdfPreview(
+          maxPageWidth: MediaQuery.of(context).size.width,
+          build: (format) {
+            return base64Decode(consentForm);
+          },
+          padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
+          allowSharing: false,
+          canDebug: false,
+          dynamicLayout: false,
+          allowPrinting: false,
+          canChangeOrientation: false,
+          canChangePageFormat: false);
+    });
   }
 }
