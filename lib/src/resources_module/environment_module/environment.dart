@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../config/config_mapping.dart';
+import '../../common/widget_util.dart';
 import 'demo_config_services_view.dart';
 
 class Environment extends StatefulWidget {
@@ -16,6 +17,8 @@ class Environment extends StatefulWidget {
 }
 
 class _EnvironmentState extends State<Environment> {
+  static const configureDemo = 'Configure Demo';
+
   String _selectedEnvironment = ConfigMapping.defaultEnvironment;
 
   @override
@@ -44,16 +47,11 @@ class _EnvironmentState extends State<Environment> {
                               Padding(
                                   padding: const EdgeInsets.all(12),
                                   child: CupertinoButton.filled(
-                                      child: const Text('Configure Demo',
+                                      child: const Text(configureDemo,
                                           style: TextStyle(
                                               color: CupertinoColors.white)),
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                            CupertinoPageRoute<void>(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    const DemoConfigServicesView()));
-                                      }))
+                                      onPressed: () => push(context,
+                                          const DemoConfigServicesView())))
                             ]
                           : []))));
     }
@@ -81,11 +79,9 @@ class _EnvironmentState extends State<Environment> {
                         Padding(
                             padding: const EdgeInsets.all(24),
                             child: ElevatedButton(
-                                onPressed: () => Navigator.of(context).push(
-                                    MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            const DemoConfigServicesView())),
-                                child: const Text('Configure Demo')))
+                                onPressed: () => push(
+                                    context, const DemoConfigServicesView()),
+                                child: const Text(configureDemo)))
                       ]
                     : [])));
   }

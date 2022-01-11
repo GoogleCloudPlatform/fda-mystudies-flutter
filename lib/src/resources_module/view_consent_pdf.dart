@@ -21,8 +21,7 @@ class ViewConsentPdf extends StatelessWidget {
         getIt<ParticipantConsentDatastoreService>();
     var futureObject = participantConsentDatastoreService.getConsentDocument(
         'userId', 'authToken', 'studyId');
-    return FutureLoadingPage(scaffoldTitle, futureObject,
-        (BuildContext context, AsyncSnapshot<Object> snapshot) {
+    return FutureLoadingPage(scaffoldTitle, futureObject, (context, snapshot) {
       var consentForm =
           (snapshot.data as GetConsentDocumentResponse).consent.content;
       return PdfPreview(

@@ -7,8 +7,9 @@ import 'package:flutter/widgets.dart';
 
 import '../common/widget_util.dart';
 import '../cupertino_widget/cupertino_list_tile.dart';
-import 'software_licenses_module/licenses_page.dart';
+import 'about_study.dart';
 import 'environment_module/environment.dart';
+import 'software_licenses_module/licenses_page.dart';
 import 'view_consent_pdf.dart';
 
 class Resources extends StatelessWidget {
@@ -34,17 +35,20 @@ class Resources extends StatelessWidget {
                   : CupertinoColors.extraLightBackgroundGray),
           child: ListView(
             children: [
-              const CupertinoListTile(title: aboutTheStudyTitle),
+              CupertinoListTile(
+                  title: aboutTheStudyTitle,
+                  onTap: () => push(context, const AboutStudy())),
               CupertinoListTile(
                   title: softwareLicensesTitle,
                   onTap: () => push(context, const LicensesPage())),
               CupertinoListTile(
                   title: consentPDFTitle,
                   onTap: () => push(context, const ViewConsentPdf())),
-              const CupertinoListTile(
+              CupertinoListTile(
                   title: leaveStudyTitle,
                   subTitle: leaveStudySubtitle,
-                  showChevron: false),
+                  showChevron: false,
+                  onTap: () => _showAlert(context)),
               const SizedBox(height: 48),
               CupertinoListTile(
                   title: environmentTitle,
@@ -56,9 +60,10 @@ class Resources extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
       children: [
-        const ListTile(
-            title: Text(aboutTheStudyTitle),
-            trailing: Icon(Icons.arrow_forward_ios_outlined, size: 16)),
+        ListTile(
+            title: const Text(aboutTheStudyTitle),
+            trailing: const Icon(Icons.arrow_forward_ios_outlined, size: 16),
+            onTap: () => push(context, const AboutStudy())),
         const Divider(),
         ListTile(
             title: const Text(softwareLicensesTitle),
@@ -71,8 +76,10 @@ class Resources extends StatelessWidget {
             trailing: const Icon(Icons.arrow_forward_ios_outlined, size: 16),
             onTap: () => push(context, const ViewConsentPdf())),
         const Divider(),
-        const ListTile(
-            title: Text(leaveStudyTitle), subtitle: Text(leaveStudySubtitle)),
+        ListTile(
+            title: const Text(leaveStudyTitle),
+            subtitle: const Text(leaveStudySubtitle),
+            onTap: () => _showAlert(context)),
         const Divider(),
         const SizedBox(height: 48),
         const Divider(),
@@ -83,5 +90,47 @@ class Resources extends StatelessWidget {
             onTap: () => push(context, const Environment()))
       ],
     );
+  }
+
+  void _showAlert(BuildContext context) {
+    const alertTitle = 'Are you sure you want to leave the study?';
+    if (Platform.isIOS) {
+      showCupertinoDialog(
+          context: context,
+          builder: (BuildContext context) => CupertinoAlertDialog(
+                title: const Text(alertTitle),
+                actions: [
+                  CupertinoDialogAction(
+                      child: const Text('Yes'),
+                      onPressed: () {
+                        // TODO (cg2092): Call Leave study API.
+                      }),
+                  CupertinoDialogAction(
+                      child: const Text('Cancel'),
+                      onPressed: () => Navigator.of(context).pop()),
+                ],
+              ));
+    } else {
+      var alertDialog = AlertDialog(
+        title: const Text(alertTitle),
+        actions: [
+          TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
+          TextButton(
+              child: const Text('Yes'),
+              onPressed: () {
+                // TODO (cg2092): Call Leave study API.
+              }),
+        ],
+      );
+      showDialog(
+          context: context,
+          builder: (context) {
+            return alertDialog;
+          });
+    }
   }
 }
