@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/mock_scenario_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +25,7 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
         widget.serviceName, mockScenarioService.listMethods(widget.serviceName),
         (context, snapshot) {
       var methods = (snapshot.data ?? []) as List<String>;
-      if (Platform.isIOS) {
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
         return CupertinoScrollbar(
             child: ListView(
                 children: methods

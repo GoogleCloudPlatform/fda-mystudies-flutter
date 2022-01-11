@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart'
     as http_client;
@@ -43,7 +41,7 @@ class _DemoConfigScenariosViewState extends State<DemoConfigScenariosView> {
         mockScenarioService.listScenarios(
             widget.serviceName, widget.methodName), (context, snapshot) {
       var scenarios = (snapshot.data ?? []) as List<Scenario>;
-      if (Platform.isIOS) {
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
         return CupertinoScrollbar(
             child: ListView(
                 children: scenarios

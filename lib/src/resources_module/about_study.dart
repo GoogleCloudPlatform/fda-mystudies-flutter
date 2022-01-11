@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -52,7 +51,7 @@ class AboutStudy extends StatelessWidget {
   }
 
   TextStyle _titleStyle(BuildContext context) {
-    if (Platform.isIOS) {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       return CupertinoTheme.of(context)
           .textTheme
           .navLargeTitleTextStyle
@@ -62,7 +61,7 @@ class AboutStudy extends StatelessWidget {
   }
 
   TextStyle _subtitleStyle(BuildContext context) {
-    if (Platform.isIOS) {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       return CupertinoTheme.of(context)
           .textTheme
           .pickerTextStyle

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +22,7 @@ class _EnvironmentState extends State<Environment> {
   @override
   Widget build(BuildContext context) {
     var environments = ConfigMapping.configMap.keys;
-    if (Platform.isIOS) {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       return CupertinoPageScaffold(
           navigationBar:
               const CupertinoNavigationBar(middle: Text('Environment')),

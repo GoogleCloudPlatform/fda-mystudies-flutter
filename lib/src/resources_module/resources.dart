@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +25,7 @@ class Resources extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDarkModeEnabled =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
-    if (Platform.isIOS) {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       return Container(
           decoration: BoxDecoration(
               color: isDarkModeEnabled
@@ -94,7 +92,7 @@ class Resources extends StatelessWidget {
 
   void _showAlert(BuildContext context) {
     const alertTitle = 'Are you sure you want to leave the study?';
-    if (Platform.isIOS) {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       showCupertinoDialog(
           context: context,
           builder: (BuildContext context) => CupertinoAlertDialog(

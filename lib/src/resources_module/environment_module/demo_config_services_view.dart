@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart';
 import 'package:fda_mystudies_http_client/mock_scenario_service.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,7 +24,7 @@ class _DemoConfigServicesViewState extends State<DemoConfigServicesView> {
     return FutureLoadingPage('Services', mockScenarioService.listServices(),
         (context, snapshot) {
       var services = (snapshot.data ?? []) as List<String>;
-      if (Platform.isIOS) {
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
         return CupertinoScrollbar(
             child: ListView(
                 children: services

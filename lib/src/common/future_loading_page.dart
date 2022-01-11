@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +16,7 @@ class FutureLoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Platform.isIOS) {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
       return CupertinoPageScaffold(
           navigationBar: CupertinoNavigationBar(middle: Text(scaffoldTitle)),
           child: SafeArea(
