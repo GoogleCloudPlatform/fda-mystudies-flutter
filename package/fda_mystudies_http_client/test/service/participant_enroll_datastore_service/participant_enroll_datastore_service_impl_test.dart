@@ -12,6 +12,7 @@ void main() {
   final config = DemoConfig();
 
   setUpAll(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
     configureDependencies(config);
     participantEnrollDatastoreService =
         getIt<ParticipantEnrollDatastoreService>();
