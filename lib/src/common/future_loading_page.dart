@@ -9,17 +9,18 @@ class FutureLoadingPage extends StatelessWidget {
   final String scaffoldTitle;
   final Future<Object>? future;
   final Widget Function(BuildContext, AsyncSnapshot<Object>) builder;
+  final bool wrapInScaffold;
 
   const FutureLoadingPage(this.scaffoldTitle, this.future, this.builder,
-      {Key? key})
+      {this.wrapInScaffold = true, Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
-      return CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(middle: Text(scaffoldTitle)),
-          child: SafeArea(
+      return _wrapWidgetInScaffold(
+          context,
+          SafeArea(
               child: FutureBuilder<Object>(
                   future: future,
                   builder: (BuildContext buildContext,
@@ -40,11 +41,12 @@ class FutureLoadingPage extends StatelessWidget {
                           return builder(buildContext, snapshot);
                         }
                     }
-                  })));
+                  })),
+          wrapInScaffold);
     }
-    return Scaffold(
-        appBar: AppBar(title: Text(scaffoldTitle)),
-        body: FutureBuilder<Object>(
+    return _wrapWidgetInScaffold(
+        context,
+        FutureBuilder<Object>(
             future: future,
             builder:
                 (BuildContext buildContext, AsyncSnapshot<Object> snapshot) {
@@ -62,6 +64,20 @@ class FutureLoadingPage extends StatelessWidget {
                     return builder(buildContext, snapshot);
                   }
               }
-            }));
+            }),
+        wrapInScaffold);
+  }
+
+  Widget _wrapWidgetInScaffold(
+      BuildContext context, Widget widget, bool shouldWrap) {
+    if (shouldWrap) {
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
+        return CupertinoPageScaffold(
+            navigationBar: CupertinoNavigationBar(middle: Text(scaffoldTitle)),
+            child: widget);
+      }
+      return Scaffold(appBar: AppBar(title: Text(scaffoldTitle)), body: widget);
+    }
+    return widget;
   }
 }
