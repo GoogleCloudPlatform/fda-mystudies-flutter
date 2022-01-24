@@ -20,6 +20,8 @@ class CupertinoActivityResponseProcessor extends StatelessWidget
   Widget build(BuildContext context) {
     return Stack(children: [
       CupertinoPageScaffold(
+          navigationBar:
+              const CupertinoNavigationBar(middle: SizedBox.shrink()),
           child: Padding(
               padding: const EdgeInsets.all(12),
               child: Column(

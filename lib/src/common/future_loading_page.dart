@@ -20,28 +20,25 @@ class FutureLoadingPage extends StatelessWidget {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       return _wrapWidgetInScaffold(
           context,
-          SafeArea(
-              child: FutureBuilder<Object>(
-                  future: future,
-                  builder: (BuildContext buildContext,
-                      AsyncSnapshot<Object> snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return const Center(
-                            child: CupertinoActivityIndicator());
-                      default:
-                        if (snapshot.hasError) {
-                          return CommonErrorWidget(snapshot.error.toString());
-                        } else if (snapshot.data is CommonErrorResponse) {
-                          var errorResponse =
-                              (snapshot.data as CommonErrorResponse)
-                                  .errorDescription;
-                          return CommonErrorWidget(errorResponse);
-                        } else {
-                          return builder(buildContext, snapshot);
-                        }
+          FutureBuilder<Object>(
+              future: future,
+              builder:
+                  (BuildContext buildContext, AsyncSnapshot<Object> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const Center(child: CupertinoActivityIndicator());
+                  default:
+                    if (snapshot.hasError) {
+                      return CommonErrorWidget(snapshot.error.toString());
+                    } else if (snapshot.data is CommonErrorResponse) {
+                      var errorResponse = (snapshot.data as CommonErrorResponse)
+                          .errorDescription;
+                      return CommonErrorWidget(errorResponse);
+                    } else {
+                      return builder(buildContext, snapshot);
                     }
-                  })),
+                }
+              }),
           wrapInScaffold);
     }
     return _wrapWidgetInScaffold(
