@@ -13,6 +13,8 @@ import '../common/future_loading_page.dart';
 import '../common/widget_util.dart';
 import 'cupertino_activity_response_processor.dart';
 import 'cupertino_activity_tile.dart';
+import 'material_activity_response_processor.dart';
+import 'material_activity_tile.dart';
 
 class Activities extends StatefulWidget {
   const Activities({Key? key}) : super(key: key);
@@ -42,24 +44,36 @@ class _ActivitiesState extends State<Activities> {
         (context, snapshot) {
       var response = snapshot.data as GetActivityListResponse;
       return ListView(
-          children: response.activities.map((e) => Text(e.title)).toList());
+          children: response.activities
+              .map((e) =>
+                  MaterialActivityTile(e, () => _openActivityUI(context, e)))
+              .toList());
     }, wrapInScaffold: false);
   }
 
   void _openActivityUI(
       BuildContext context, GetActivityListResponse_Activity activity) {
     var studyDatastoreService = getIt<StudyDatastoreService>();
+    var platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
+    var userId = 'userId';
+    var studyId = 'studyId';
+    var activityId = activity.activityId;
+    var activityVersion = activity.activityVersion;
+    var uniqueId = '$userId:$studyId:$activityId';
     push(
         context,
         FutureLoadingPage(
             '',
             studyDatastoreService.fetchActivitySteps(
-                'studyId', activity.activityId, 'activityVersion', 'userId'),
+                studyId, activity.activityId, activityVersion, userId),
             (context, snapshot) {
           var response = snapshot.data as FetchActivityStepsResponse;
           var activityBuilder = ui_kit.getIt<ActivityBuilder>();
-          return activityBuilder.buildActivity(response.activity.steps,
-              const CupertinoActivityResponseProcessor(), 'uniqueActivityId');
+          return platformIsIos
+              ? activityBuilder.buildActivity(response.activity.steps,
+                  const CupertinoActivityResponseProcessor(), uniqueId)
+              : activityBuilder.buildActivity(response.activity.steps,
+                  const MaterialActivityResponseProcessor(), uniqueId);
         }, wrapInScaffold: false));
   }
 }
