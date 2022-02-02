@@ -172,9 +172,12 @@ class MockHttpClient implements http.Client {
   Future<http.Response> _mapUrlToActivityStepsResponse(Uri url) {
     var yamlDir = urlPathToMockYamlPath[url.path];
     var activityId = url.queryParameters['activityId'] ?? 'default';
-    var code = config.scenarios[urlPathToServiceMethod[url.path]] ??
-        activityId ??
-        'default';
+    var code = config.scenarios[urlPathToServiceMethod[url.path]];
+    if (code == null && activityId != null) {
+      code = activityId;
+    } else {
+      code = 'default';
+    }
     var yamlPath = '';
     if (code.startsWith('common.')) {
       yamlPath = 'assets/mock/scenario/common/${code.split('.').last}.yaml';
