@@ -54,7 +54,7 @@ void main() {
   group('fetch activity steps tests', () {
     test('test default scenario', () async {
       var response = await studyDatastoreService!
-          .fetchActivitySteps('study_id', 'activity_id', '1.0', 'userId');
+          .fetchActivitySteps('study_id', 'default', '1.0', 'userId');
 
       expect(
           response,
@@ -85,7 +85,7 @@ void main() {
                     ..destinations.add(ActivityStep_StepDestination()
                       ..condition = ''
                       ..operator = ''
-                      ..destination = 'horizontal-scale')
+                      ..destination = '')
                     ..healthDataKey = ''
                     ..scaleFormat = (ScaleFormat()
                       ..maxValue = 5
@@ -109,26 +109,44 @@ void main() {
           response,
           GetActivityListResponse()
             ..message = 'SUCCESS'
-            ..activities.add(GetActivityListResponse_Activity()
-              ..activityId = 'ui-test'
-              ..activityVersion = '1.1'
-              ..title = 'Questionnaire to test all the UI Elements'
-              ..type = 'questionnaire'
-              ..startTime = '2021-05-06T07:00:00.000+0000'
-              ..endTime = '2024-01-29T23:59:59.000+0000'
-              ..branching = false
-              ..isLaunchStudy = false
-              ..isStudyLifeTime = false
-              ..lastModified = '2021-05-06T10:23:29.000+0000'
-              ..state = 'active'
-              ..taskSubType = ''
-              ..schedulingType = 'Regular'
-              ..frequency = (GetActivityListResponse_Activity_Frequency()
-                ..type = 'Daily'
-                ..runs.add(
-                    GetActivityListResponse_Activity_Frequency_FrequencyRuns()
-                      ..startTime = '07:00:00'
-                      ..endTime = '23:59:59'))));
+            ..activities.addAll([
+              GetActivityListResponse_Activity()
+                ..activityId = 'ui-test'
+                ..activityVersion = '1.1'
+                ..title = 'Questionnaire to test all the UI Elements'
+                ..type = 'questionnaire'
+                ..startTime = '2021-05-06T07:00:00.000+0000'
+                ..endTime = '2024-01-29T23:59:59.000+0000'
+                ..branching = false
+                ..isLaunchStudy = false
+                ..isStudyLifeTime = false
+                ..lastModified = '2021-05-06T10:23:29.000+0000'
+                ..state = 'active'
+                ..taskSubType = ''
+                ..schedulingType = 'Regular'
+                ..frequency = (GetActivityListResponse_Activity_Frequency()
+                  ..type = 'Daily'
+                  ..runs.add(
+                      GetActivityListResponse_Activity_Frequency_FrequencyRuns()
+                        ..startTime = '07:00:00'
+                        ..endTime = '23:59:59')),
+              GetActivityListResponse_Activity()
+                ..activityId = 'default'
+                ..activityVersion = '1.2'
+                ..title = 'Study Tasks'
+                ..type = 'questionnaire'
+                ..startTime = '2021-04-06T00:00:00.000+0000'
+                ..endTime = ''
+                ..branching = true
+                ..isLaunchStudy = true
+                ..isStudyLifeTime = true
+                ..lastModified = '2021-04-09T10:35:06.000+0000'
+                ..state = 'active'
+                ..taskSubType = ''
+                ..schedulingType = 'Regular'
+                ..frequency = (GetActivityListResponse_Activity_Frequency()
+                  ..type = 'One time'),
+            ]));
     });
   });
 
