@@ -2,7 +2,10 @@ import 'package:fda_mystudies_activity_ui_kit/activity_builder.dart';
 import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart'
     as ui_kit;
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
+import 'package:fda_mystudies_http_client/response_datastore_service.dart';
 import 'package:fda_mystudies_http_client/study_datastore_service.dart';
+import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
+import 'package:fda_mystudies_spec/response_datastore_service/get_activity_state.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/fetch_activity_steps.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_activity_list.pb.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +18,7 @@ import 'cupertino_activity_response_processor.dart';
 import 'cupertino_activity_tile.dart';
 import 'material_activity_response_processor.dart';
 import 'material_activity_tile.dart';
+import 'pb_activity.dart';
 
 class Activities extends StatefulWidget {
   const Activities({Key? key}) : super(key: key);
@@ -26,29 +30,68 @@ class Activities extends StatefulWidget {
 class _ActivitiesState extends State<Activities> {
   @override
   Widget build(BuildContext context) {
-    var studyDatastoreService = getIt<StudyDatastoreService>();
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
-      return FutureLoadingPage('Study Activities',
-          studyDatastoreService.getActivityList('studyId', 'userId'),
-          (context, snapshot) {
-        var response = snapshot.data as GetActivityListResponse;
-        return ListView(
-            children: response.activities
-                .map((e) =>
-                    CupertinoActivityTile(e, () => _openActivityUI(context, e)))
-                .toList());
-      }, wrapInScaffold: false);
-    }
-    return FutureLoadingPage('Activities',
-        studyDatastoreService.getActivityList('studyId', 'userId'),
-        (context, snapshot) {
-      var response = snapshot.data as GetActivityListResponse;
+    return FutureLoadingPage(
+        'Activities',
+        _fetchActivityListWithState(
+            userId: 'userId',
+            studyId: 'studyId',
+            authToken: 'authToken',
+            participantId: 'participantId'), (context, snapshot) {
+      var pbActivityList = snapshot.data as List<PbActivity>;
       return ListView(
-          children: response.activities
-              .map((e) =>
-                  MaterialActivityTile(e, () => _openActivityUI(context, e)))
-              .toList());
+          children: pbActivityList.map((e) {
+        if (Theme.of(context).platform == TargetPlatform.iOS) {
+          return CupertinoActivityTile(
+              e, () => _openActivityUI(context, e.activity));
+        }
+        return MaterialActivityTile(
+            e, () => _openActivityUI(context, e.activity));
+      }).toList());
     }, wrapInScaffold: false);
+  }
+
+  Future<Object> _fetchActivityListWithState(
+      {required String userId,
+      required String studyId,
+      required String authToken,
+      required String participantId}) {
+    var studyDatastoreService = getIt<StudyDatastoreService>();
+    var responseDatastoreService = getIt<ResponseDatastoreService>();
+
+    return Future.wait([
+      studyDatastoreService.getActivityList(studyId, userId),
+      responseDatastoreService.getActivityState(
+          userId, authToken, studyId, participantId)
+    ]).then((responses) {
+      var activityListResponse = responses[0];
+      var activityStateResponse = responses[1];
+
+      if (activityListResponse is CommonErrorResponse) {
+        return activityListResponse;
+      } else if (activityStateResponse is CommonErrorResponse) {
+        return activityStateResponse;
+      }
+      var activityList =
+          (activityListResponse as GetActivityListResponse).activities;
+      var activityStateList =
+          (activityStateResponse as GetActivityStateResponse).activities;
+      List<PbActivity> pbActivityList = [];
+      for (GetActivityListResponse_Activity activity in activityList) {
+        activityStateList
+            .where((element) => element.activityId == activity.activityId)
+            .any((state) {
+          pbActivityList.add(PbActivity(activity.activityId, activity, state));
+          return true;
+        });
+      }
+      if (pbActivityList.isEmpty) {
+        return CommonErrorResponse(
+            status: 404,
+            errorDescription:
+                'No valid states found for activities in this study.');
+      }
+      return pbActivityList;
+    });
   }
 
   void _openActivityUI(

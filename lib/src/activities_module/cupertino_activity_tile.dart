@@ -1,9 +1,10 @@
-import 'package:fda_mystudies_spec/study_datastore_service/get_activity_list.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
+import 'pb_activity.dart';
+
 class CupertinoActivityTile extends StatelessWidget {
-  final GetActivityListResponse_Activity activity;
+  final PbActivity activity;
   final void Function()? onTap;
 
   const CupertinoActivityTile(this.activity, this.onTap, {Key? key})
@@ -17,6 +18,20 @@ class CupertinoActivityTile extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: GestureDetector(
             onTap: () {
+              var status = activity.status;
+              if (status.inactiveActivityText != null) {
+                showCupertinoDialog(
+                    context: context,
+                    builder: (BuildContext context) => CupertinoAlertDialog(
+                          title: Text(status.inactiveActivityText!),
+                          actions: [
+                            CupertinoDialogAction(
+                                child: const Text('OK'),
+                                onPressed: () => Navigator.of(context).pop()),
+                          ],
+                        ));
+                return;
+              }
               if (onTap != null) {
                 onTap!();
               }
@@ -35,24 +50,46 @@ class CupertinoActivityTile extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                        Text(activity.title,
+                        Text(activity.activity.title,
                             style: TextStyle(
                                 fontWeight: FontWeight.w300,
                                 color: isDarkModeEnabled
                                     ? CupertinoColors.white
                                     : CupertinoColors.black)),
                         const SizedBox(height: 8),
-                        _frequencyTypeTag(context),
+                        Row(children: [
+                          _frequencyTypeTag(context),
+                          const SizedBox(width: 8),
+                          _statusTag(context)
+                        ]),
                         const SizedBox(height: 8),
-                        activity.frequency.type == 'One time'
+                        activity.activity.frequency.type == 'One time'
                             ? const SizedBox.shrink()
                             : _dailyStartTimeText(context),
                         const SizedBox(height: 8),
-                        activity.frequency.type == 'One time'
+                        activity.activity.frequency.type == 'One time'
                             ? const SizedBox.shrink()
                             : _startDateEndDateText(context)
                       ]))
                 ])));
+  }
+
+  Widget _statusTag(context) {
+    var fontSize =
+        CupertinoTheme.of(context).textTheme.textStyle.fontSize! * 0.7;
+    var fontFamily = CupertinoTheme.of(context).textTheme.textStyle.fontFamily;
+    var status = activity.status;
+    return Container(
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+            color: status.badgeBackground,
+            borderRadius: const BorderRadius.all(Radius.circular(5))),
+        child: Text(status.name,
+            style: TextStyle(
+                fontFamily: fontFamily,
+                fontWeight: FontWeight.bold,
+                fontSize: fontSize,
+                color: status.badgeText)));
   }
 
   Widget _frequencyTypeTag(context) {
@@ -64,7 +101,7 @@ class CupertinoActivityTile extends StatelessWidget {
         decoration: const BoxDecoration(
             color: CupertinoColors.activeBlue,
             borderRadius: BorderRadius.all(Radius.circular(5))),
-        child: Text(activity.frequency.type,
+        child: Text(activity.activity.frequency.type,
             style: TextStyle(
                 fontFamily: fontFamily,
                 fontWeight: FontWeight.bold,
@@ -80,8 +117,9 @@ class CupertinoActivityTile extends StatelessWidget {
         : CupertinoColors.darkBackgroundGray;
     var fontSize =
         CupertinoTheme.of(context).textTheme.textStyle.fontSize! * 0.8;
-    var startTime = '${_formattedTime(activity.frequency.runs[0].startTime)} ';
-    if (activity.frequency.type == 'Daily') {
+    var startTime =
+        '${_formattedTime(activity.activity.frequency.runs[0].startTime)} ';
+    if (activity.activity.frequency.type == 'Daily') {
       startTime += 'everyday';
     }
     return Text(startTime,
@@ -97,7 +135,7 @@ class CupertinoActivityTile extends StatelessWidget {
     var fontSize =
         CupertinoTheme.of(context).textTheme.textStyle.fontSize! * 0.8;
     return Text(
-        '${_formattedDate(activity.startTime)} to ${_formattedDate(activity.endTime)}',
+        '${_formattedDate(activity.activity.startTime)} to ${_formattedDate(activity.activity.endTime)}',
         style: TextStyle(
             fontWeight: FontWeight.w200, fontSize: fontSize, color: textColor));
   }

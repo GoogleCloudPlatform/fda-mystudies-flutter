@@ -6,15 +6,26 @@ response: |
     "message": "success",
     "activities": [
         {
-            "activityId": "activity_id",
+            "activityId": "ui-test",
             "activityRun": {
               "completed": 15,
               "missed": 2,
-              "total": 17
+              "total": 100
             },
             "activityRunId": "18",
-            "activityState": "in-progress",
+            "activityState": "inProgress",
             "activityVersion": "1.1"
+        },
+        {
+            "activityId": "default",
+            "activityRun": {
+              "completed": 1,
+              "missed": 0,
+              "total": 1
+            },
+            "activityRunId": "1",
+            "activityState": "completed",
+            "activityVersion": "1.2"
         }
     ]
   }
