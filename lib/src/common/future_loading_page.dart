@@ -17,30 +17,7 @@ class FutureLoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
-      return _wrapWidgetInScaffold(
-          context,
-          FutureBuilder<Object>(
-              future: future,
-              builder:
-                  (BuildContext buildContext, AsyncSnapshot<Object> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const Center(child: CupertinoActivityIndicator());
-                  default:
-                    if (snapshot.hasError) {
-                      return CommonErrorWidget(snapshot.error.toString());
-                    } else if (snapshot.data is CommonErrorResponse) {
-                      var errorResponse = (snapshot.data as CommonErrorResponse)
-                          .errorDescription;
-                      return CommonErrorWidget(errorResponse);
-                    } else {
-                      return builder(buildContext, snapshot);
-                    }
-                }
-              }),
-          wrapInScaffold);
-    }
+    var platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
     return _wrapWidgetInScaffold(
         context,
         FutureBuilder<Object>(
@@ -49,7 +26,10 @@ class FutureLoadingPage extends StatelessWidget {
                 (BuildContext buildContext, AsyncSnapshot<Object> snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: (platformIsIos
+                          ? const CupertinoActivityIndicator()
+                          : const CircularProgressIndicator()));
                 default:
                   if (snapshot.hasError) {
                     return CommonErrorWidget(snapshot.error.toString());

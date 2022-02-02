@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:clock/clock.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/get_activity_state.pbserver.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_activity_list.pb.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,7 @@ class PbActivity {
       return PbActivityStatus.inPorgress;
     }
     var dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    var nowDateTimeString = dateFormat.format(DateTime.now());
+    var nowDateTimeString = dateFormat.format(clock.now());
     if (activity.endTime.isNotEmpty &&
         _countDays(nowDateTimeString, activity.endTime.substring(0, 19)) <= 0) {
       return PbActivityStatus.ended;
