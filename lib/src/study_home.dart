@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'activities_module/activities.dart';
-import 'dashboard.dart';
+import 'dashboard_module/dashboard.dart';
 import 'resources_module/resources.dart';
 
 class StudyHome extends StatefulWidget {
