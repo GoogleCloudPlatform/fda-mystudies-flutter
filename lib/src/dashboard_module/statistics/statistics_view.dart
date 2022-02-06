@@ -1,12 +1,17 @@
 import 'package:clock/clock.dart';
-import 'package:fda_mystudies/src/dashboard_module/statistics/time_mode_button.dart';
+import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import 'statistics_tile_view.dart';
+import 'time_mode_button.dart';
+
 class StatisticsView extends StatefulWidget {
-  const StatisticsView({Key? key}) : super(key: key);
+  final List<GetStudyDashboardResponse_Dashboard_Statistics> statistics;
+
+  const StatisticsView(this.statistics, {Key? key}) : super(key: key);
 
   @override
   _StatisticsViewState createState() => _StatisticsViewState();
@@ -26,7 +31,7 @@ class _StatisticsViewState extends State<StatisticsView> {
     final platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
     return Container(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-        height: 250,
+        height: 230,
         decoration: BoxDecoration(
             color: platformIsIos
                 ? CupertinoTheme.of(context).barBackgroundColor
@@ -49,6 +54,7 @@ class _StatisticsViewState extends State<StatisticsView> {
                         }))
                     .toList())
           ]),
+          const SizedBox(height: 8),
           _divider(context),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             _iconButton(
@@ -93,6 +99,13 @@ class _StatisticsViewState extends State<StatisticsView> {
                       })
           ]),
           _divider(context),
+          const SizedBox(height: 8),
+          Expanded(
+              child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: widget.statistics
+                      .map((e) => StatisticsTileView(e))
+                      .toList()))
         ]));
   }
 
@@ -137,7 +150,7 @@ class _StatisticsViewState extends State<StatisticsView> {
   Divider _divider(BuildContext context) {
     final platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
     return Divider(
-        height: 16,
+        height: 1,
         thickness: 1,
         color: (platformIsIos
             ? CupertinoTheme.of(context).scaffoldBackgroundColor
