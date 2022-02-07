@@ -1,7 +1,8 @@
-import 'package:fda_mystudies/src/dashboard_module/donut_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import 'donut_chart.dart';
 
 class AdherenceCompletionView extends StatelessWidget {
   final double studyCompletionPercent;
@@ -25,6 +26,7 @@ class AdherenceCompletionView extends StatelessWidget {
                 : Theme.of(context).bottomAppBarColor),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
                 child: Column(children: [

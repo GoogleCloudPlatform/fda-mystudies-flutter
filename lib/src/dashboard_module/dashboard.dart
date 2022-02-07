@@ -9,6 +9,7 @@ import '../common/future_loading_page.dart';
 import 'adherence_completion_view.dart';
 import 'statistics/statistics_view.dart';
 import 'study_participation_status_view.dart';
+import 'trends/trends_dashboard_tile.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class Dashboard extends StatelessWidget {
     return FutureLoadingPage('', _fetchDashboardDetails(), (context, snapshot) {
       var response = snapshot.data as GetStudyDashboardResponse;
       var statistics = response.dashboard.statistics;
+      var charts = response.dashboard.charts;
       return ListView(
         children: [
           const SizedBox(height: 8),
@@ -29,6 +31,7 @@ class Dashboard extends StatelessWidget {
           const SizedBox(height: 8),
           StatisticsView(statistics),
           const SizedBox(height: 8),
+          TrendsDashboardTile(charts)
         ],
       );
     }, wrapInScaffold: false);
