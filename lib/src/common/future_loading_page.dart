@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'widget_util.dart';
 import 'common_error_widget.dart';
 
 class FutureLoadingPage extends StatelessWidget {
@@ -17,7 +18,6 @@ class FutureLoadingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
     return _wrapWidgetInScaffold(
         context,
         FutureBuilder<Object>(
@@ -27,7 +27,7 @@ class FutureLoadingPage extends StatelessWidget {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return Center(
-                      child: (platformIsIos
+                      child: (isPlatformIos(context)
                           ? const CupertinoActivityIndicator()
                           : const CircularProgressIndicator()));
                 default:
@@ -48,7 +48,7 @@ class FutureLoadingPage extends StatelessWidget {
   Widget _wrapWidgetInScaffold(
       BuildContext context, Widget widget, bool shouldWrap) {
     if (shouldWrap) {
-      if (Theme.of(context).platform == TargetPlatform.iOS) {
+      if (isPlatformIos(context)) {
         return CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(middle: Text(scaffoldTitle)),
             child: widget);

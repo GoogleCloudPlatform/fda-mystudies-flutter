@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../common/widget_util.dart';
 import 'statistics_tile_view.dart';
 import 'time_mode_button.dart';
 
@@ -28,7 +29,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
+    final platformIsIos = (isPlatformIos(context));
     return Container(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
         height: 230,
@@ -110,7 +111,7 @@ class _StatisticsViewState extends State<StatisticsView> {
   }
 
   TextStyle? _titleStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .pickerTextStyle
@@ -124,7 +125,7 @@ class _StatisticsViewState extends State<StatisticsView> {
 
   Widget _iconButton(
       BuildContext context, IconData icon, void Function()? onPressed) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoButton(
           child: Icon(icon, size: 12),
           onPressed: onPressed == null ? null : () => onPressed());
@@ -148,7 +149,7 @@ class _StatisticsViewState extends State<StatisticsView> {
   }
 
   Divider _divider(BuildContext context) {
-    final platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
+    final platformIsIos = (isPlatformIos(context));
     return Divider(
         height: 1,
         thickness: 1,

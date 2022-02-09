@@ -13,7 +13,7 @@ class TrendsDashboardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
+    final platformIsIos = (isPlatformIos(context));
     return GestureDetector(
         onTap: () {
           push(context, TrendsView(charts));
@@ -40,7 +40,7 @@ class TrendsDashboardTile extends StatelessWidget {
   }
 
   TextStyle? _titleStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .pickerTextStyle

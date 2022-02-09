@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'common/widget_util.dart';
 import 'activities_module/activities.dart';
 import 'dashboard_module/dashboard.dart';
+import 'drawer_menu/drawer_menu.dart';
 import 'resources_module/resources.dart';
 
 class StudyHome extends StatefulWidget {
@@ -28,7 +30,7 @@ class _StudyHomeState extends State<StudyHome> {
     bool isDarkModeEnabled =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
 
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return Stack(children: [
         CupertinoPageScaffold(
             navigationBar: CupertinoNavigationBar(
@@ -109,12 +111,15 @@ class _StudyHomeState extends State<StudyHome> {
                 color: CupertinoTheme.of(context).barBackgroundColor,
                 width: MediaQuery.of(context).size.width - 100,
                 height: MediaQuery.of(context).size.height,
+                child: const DrawerMenu(),
               )),
         ),
       ]);
     }
     return Scaffold(
-      drawer: const Drawer(),
+      drawer: const Drawer(
+        child: DrawerMenu(),
+      ),
       appBar: AppBar(title: Text(tabs[_currentTab])),
       body: IndexedStack(
         children: views,

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../common/future_loading_page.dart';
+import '../common/widget_util.dart';
 
 class AboutStudy extends StatelessWidget {
   const AboutStudy({Key? key}) : super(key: key);
@@ -51,7 +52,7 @@ class AboutStudy extends StatelessWidget {
   }
 
   TextStyle _titleStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .navLargeTitleTextStyle
@@ -61,7 +62,7 @@ class AboutStudy extends StatelessWidget {
   }
 
   TextStyle _subtitleStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .pickerTextStyle

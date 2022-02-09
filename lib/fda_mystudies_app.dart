@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'src/common/widget_util.dart';
 import 'src/study_home.dart';
 
 class FDAMyStudiesApp extends StatelessWidget {
@@ -9,7 +10,7 @@ class FDAMyStudiesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return const CupertinoApp(
         title: 'FDA MyStudies',
         theme: CupertinoThemeData(),

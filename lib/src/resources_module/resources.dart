@@ -25,7 +25,7 @@ class Resources extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDarkModeEnabled =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return Container(
           decoration: BoxDecoration(
               color: isDarkModeEnabled
@@ -92,7 +92,7 @@ class Resources extends StatelessWidget {
 
   void _showAlert(BuildContext context) {
     const alertTitle = 'Are you sure you want to leave the study?';
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       showCupertinoDialog(
           context: context,
           builder: (BuildContext context) => CupertinoAlertDialog(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 Future<T?> push<T extends Object?>(BuildContext context, Widget widget) {
-  if (Theme.of(context).platform == TargetPlatform.iOS) {
+  if (isPlatformIos(context)) {
     return Navigator.of(context)
         .push(CupertinoPageRoute(builder: ((BuildContext context) {
       return widget;
@@ -13,4 +13,8 @@ Future<T?> push<T extends Object?>(BuildContext context, Widget widget) {
       .push(MaterialPageRoute(builder: (BuildContext context) {
     return widget;
   }));
+}
+
+bool isPlatformIos(BuildContext context) {
+  return Theme.of(context).platform == TargetPlatform.iOS;
 }

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../common/widget_util.dart';
 import 'recorded_value.dart';
 
 class ChartTile extends StatelessWidget {
@@ -15,7 +16,7 @@ class ChartTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
+    final platformIsIos = (isPlatformIos(context));
     final isDarkModeEnabled =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -80,7 +81,7 @@ class ChartTile extends StatelessWidget {
   }
 
   TextStyle? _titleStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .textStyle

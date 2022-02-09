@@ -40,7 +40,7 @@ class _ActivitiesState extends State<Activities> {
       var pbActivityList = snapshot.data as List<PbActivity>;
       return ListView(
           children: pbActivityList.map((e) {
-        if (Theme.of(context).platform == TargetPlatform.iOS) {
+        if (isPlatformIos(context)) {
           return CupertinoActivityTile(
               e, () => _openActivityUI(context, e.activity));
         }
@@ -97,7 +97,6 @@ class _ActivitiesState extends State<Activities> {
   void _openActivityUI(
       BuildContext context, GetActivityListResponse_Activity activity) {
     var studyDatastoreService = getIt<StudyDatastoreService>();
-    var platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
     var userId = 'userId';
     var studyId = 'studyId';
     var activityId = activity.activityId;
@@ -112,7 +111,7 @@ class _ActivitiesState extends State<Activities> {
             (context, snapshot) {
           var response = snapshot.data as FetchActivityStepsResponse;
           var activityBuilder = ui_kit.getIt<ActivityBuilder>();
-          return platformIsIos
+          return isPlatformIos(context)
               ? activityBuilder.buildActivity(response.activity.steps,
                   const CupertinoActivityResponseProcessor(), uniqueId)
               : activityBuilder.buildActivity(response.activity.steps,

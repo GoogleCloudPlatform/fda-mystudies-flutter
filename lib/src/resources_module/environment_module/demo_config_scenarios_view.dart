@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/future_loading_page.dart';
+import '../../common/widget_util.dart';
 
 class DemoConfigScenariosView extends StatefulWidget {
   final String serviceName;
@@ -41,7 +42,7 @@ class _DemoConfigScenariosViewState extends State<DemoConfigScenariosView> {
         mockScenarioService.listScenarios(
             widget.serviceName, widget.methodName), (context, snapshot) {
       var scenarios = (snapshot.data ?? []) as List<Scenario>;
-      if (Theme.of(context).platform == TargetPlatform.iOS) {
+      if (isPlatformIos(context)) {
         return CupertinoScrollbar(
             child: ListView(
                 children: scenarios

@@ -24,7 +24,7 @@ class _DemoConfigServicesViewState extends State<DemoConfigServicesView> {
     return FutureLoadingPage('Services', mockScenarioService.listServices(),
         (context, snapshot) {
       var services = (snapshot.data ?? []) as List<String>;
-      if (Theme.of(context).platform == TargetPlatform.iOS) {
+      if (isPlatformIos(context)) {
         return CupertinoScrollbar(
             child: ListView(
                 children: services

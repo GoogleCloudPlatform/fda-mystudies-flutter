@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../common/widget_util.dart';
+
 class StatisticsTileView extends StatelessWidget {
   final GetStudyDashboardResponse_Dashboard_Statistics statistic;
   final double? value;
@@ -12,7 +14,7 @@ class StatisticsTileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
+    final platformIsIos = (isPlatformIos(context));
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
       decoration: BoxDecoration(
@@ -40,7 +42,7 @@ class StatisticsTileView extends StatelessWidget {
   }
 
   TextStyle? _displayNameStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .textStyle
@@ -53,7 +55,7 @@ class StatisticsTileView extends StatelessWidget {
   }
 
   TextStyle? _valueStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .navLargeTitleTextStyle
@@ -66,7 +68,7 @@ class StatisticsTileView extends StatelessWidget {
   }
 
   TextStyle? _unitStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .textStyle

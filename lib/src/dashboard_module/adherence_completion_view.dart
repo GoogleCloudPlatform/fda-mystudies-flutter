@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../common/widget_util.dart';
 import 'donut_chart.dart';
 
 class AdherenceCompletionView extends StatelessWidget {
@@ -16,7 +17,7 @@ class AdherenceCompletionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
+    final platformIsIos = (isPlatformIos(context));
     return Container(
         height: 250,
         padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
@@ -58,7 +59,7 @@ class AdherenceCompletionView extends StatelessWidget {
   }
 
   TextStyle? _statusStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .pickerTextStyle

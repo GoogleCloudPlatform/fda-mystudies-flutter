@@ -25,7 +25,7 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
         widget.serviceName, mockScenarioService.listMethods(widget.serviceName),
         (context, snapshot) {
       var methods = (snapshot.data ?? []) as List<String>;
-      if (Theme.of(context).platform == TargetPlatform.iOS) {
+      if (isPlatformIos(context)) {
         return CupertinoScrollbar(
             child: ListView(
                 children: methods
