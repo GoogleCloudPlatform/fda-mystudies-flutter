@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../common/widget_util.dart';
+import '../reach_out_module/reach_out.dart';
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class DrawerMenu extends StatelessWidget {
           _listTile(context, isIos ? CupertinoIcons.person : Icons.person,
               'My account', () {}),
           _listTile(context, isIos ? CupertinoIcons.mail : Icons.mail,
-              'Reach out', () {}),
+              'Reach out', () => _navigateToReachOut(context)),
           _listTile(context, Icons.exit_to_app, 'Sign out',
               () => _showSignOutAlert(context)),
         ]);
@@ -82,6 +83,10 @@ class DrawerMenu extends StatelessWidget {
             onPressed();
           }
         });
+  }
+
+  void _navigateToReachOut(BuildContext context) {
+    push(context, const ReachOut());
   }
 
   void _showSignOutAlert(BuildContext context) {
