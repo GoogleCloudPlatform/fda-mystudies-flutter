@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../common/widget_util.dart';
+import '../my_account_module/my_account.dart';
 import '../reach_out_module/reach_out.dart';
 
 class DrawerMenu extends StatelessWidget {
@@ -22,7 +23,7 @@ class DrawerMenu extends StatelessWidget {
           _listTile(
               context, isIos ? CupertinoIcons.home : Icons.home, 'Home', () {}),
           _listTile(context, isIos ? CupertinoIcons.person : Icons.person,
-              'My account', () {}),
+              'My account', () => _navigateToMyAccount(context)),
           _listTile(context, isIos ? CupertinoIcons.mail : Icons.mail,
               'Reach out', () => _navigateToReachOut(context)),
           _listTile(context, Icons.exit_to_app, 'Sign out',
@@ -83,6 +84,10 @@ class DrawerMenu extends StatelessWidget {
             onPressed();
           }
         });
+  }
+
+  void _navigateToMyAccount(BuildContext context) {
+    push(context, const MyAccount());
   }
 
   void _navigateToReachOut(BuildContext context) {
