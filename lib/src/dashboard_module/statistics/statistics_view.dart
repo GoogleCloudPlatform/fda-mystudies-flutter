@@ -149,13 +149,8 @@ class _StatisticsViewState extends State<StatisticsView> {
   }
 
   Divider _divider(BuildContext context) {
-    final platformIsIos = (isPlatformIos(context));
     return Divider(
-        height: 1,
-        thickness: 1,
-        color: (platformIsIos
-            ? CupertinoTheme.of(context).scaffoldBackgroundColor
-            : Theme.of(context).scaffoldBackgroundColor));
+        height: 1, thickness: 1, color: contrastingDividerColor(context));
   }
 
   String _timeFormat() {

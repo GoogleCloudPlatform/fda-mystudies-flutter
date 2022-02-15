@@ -10,7 +10,7 @@ import '../drawer_menu/drawer_menu.dart';
 class HomeScaffold extends StatefulWidget {
   final Widget child;
   final String title;
-  final BottomNavigationBar? bottomNavigationBar;
+  final Widget? bottomNavigationBar;
   final bool showDrawer;
 
   const HomeScaffold(

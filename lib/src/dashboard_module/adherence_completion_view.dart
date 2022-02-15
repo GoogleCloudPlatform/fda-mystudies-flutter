@@ -41,9 +41,7 @@ class AdherenceCompletionView extends StatelessWidget {
             VerticalDivider(
                 width: 1,
                 thickness: 1,
-                color: (platformIsIos
-                    ? CupertinoTheme.of(context).scaffoldBackgroundColor
-                    : Theme.of(context).scaffoldBackgroundColor)),
+                color: contrastingDividerColor(context)),
             Expanded(
                 child: Column(children: [
               DonutChart(activitiesCompletionPercent),
