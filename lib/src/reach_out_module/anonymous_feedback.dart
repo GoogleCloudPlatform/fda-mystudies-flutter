@@ -17,8 +17,8 @@ class AnonymousFeedback extends StatefulWidget {
 class _AnonymousFeedbackState extends State<AnonymousFeedback> {
   final _subjectTextController = TextEditingController();
   final _feedbackTextController = TextEditingController();
-  String? _subject;
-  String? _feedback;
+  String _subject = '';
+  String _feedback = '';
   bool _isLoading = false;
 
   @override
@@ -27,6 +27,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
     const subjectPlaceholder = 'Subject';
     const feedbackHintText = 'Enter your feedback here!';
     const feedbackPlaceholder = 'Feedback';
+    const submitButtonLabel = 'SUBMIT';
     return Stack(
         children: [
               GestureDetector(
@@ -101,20 +102,23 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
                                           const SizedBox(height: 16),
                                           Scrollbar(
                                               child: TextField(
-                                            controller: _feedbackTextController,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _feedback = value;
-                                              });
-                                            },
-                                            readOnly: _isLoading,
-                                            minLines: 1,
-                                            maxLines: 10,
-                                            decoration: const InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                labelText: feedbackPlaceholder,
-                                                hintText: feedbackHintText),
-                                          ))
+                                                  controller:
+                                                      _feedbackTextController,
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      _feedback = value;
+                                                    });
+                                                  },
+                                                  readOnly: _isLoading,
+                                                  minLines: 1,
+                                                  maxLines: 10,
+                                                  decoration: const InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                      labelText:
+                                                          feedbackPlaceholder,
+                                                      hintText:
+                                                          feedbackHintText)))
                                         ]))),
                       title: pageTitle,
                       showDrawer: false,
@@ -132,7 +136,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
                                                 width: 16,
                                                 child:
                                                     CircularProgressIndicator())
-                                            : const Text('SUBMIT'),
+                                            : const Text(submitButtonLabel),
                                         style: Theme.of(context)
                                             .textButtonTheme
                                             .style)
@@ -153,7 +157,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
                                 child: CupertinoButton.filled(
                                     child: _isLoading
                                         ? const CupertinoActivityIndicator()
-                                        : const Text('SUBMIT',
+                                        : const Text(submitButtonLabel,
                                             style: TextStyle(
                                                 color: CupertinoColors.white)),
                                     onPressed: submitFeedback()))))
@@ -176,7 +180,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
             var participantUserDatastore =
                 getIt<ParticipantUserDatastoreService>();
             participantUserDatastore
-                .feedback('userId', 'authToken', _subject!, _feedback!)
+                .feedback('userId', 'authToken', _subject, _feedback)
                 .then((value) {
               const successfulResponse =
                   'Thank you for providing feedback. Your gesture is appreciated.';
@@ -196,12 +200,9 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
   }
 
   String? _alertMessage() {
-    if ((_subject == null || _subject!.isEmpty) &&
-        (_feedback == null || _feedback!.isEmpty)) {
-      return 'Subject and feedback should not be empty';
-    } else if (_subject == null || _subject!.isEmpty) {
+    if (_subject.isEmpty) {
       return 'Subject should not be empty';
-    } else if (_feedback == null || _feedback!.isEmpty) {
+    } else if (_feedback.isEmpty) {
       return 'Feedback should not be empty';
     }
     return null;
