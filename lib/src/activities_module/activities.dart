@@ -77,12 +77,24 @@ class _ActivitiesState extends State<Activities> {
           (activityStateResponse as GetActivityStateResponse).activities;
       List<PbActivity> pbActivityList = [];
       for (GetActivityListResponse_Activity activity in activityList) {
-        activityStateList
+        var matches = activityStateList
             .where((element) => element.activityId == activity.activityId)
-            .any((state) {
-          pbActivityList.add(PbActivity(activity.activityId, activity, state));
-          return true;
-        });
+            .toList();
+        // There should be one and only one element in the activityStateList with activity id element.activityId.
+        if (matches.length == 1) {
+          pbActivityList
+              .add(PbActivity(activity.activityId, activity, matches.first));
+        } else if (matches.isEmpty) {
+          return CommonErrorResponse(
+              status: 404,
+              errorDescription:
+                  'No valid state found for activity with activityId `${activity.activityId}` in this study.');
+        } else {
+          return CommonErrorResponse(
+              status: 404,
+              errorDescription:
+                  'Multiple states found for activity with activityId `${activity.activityId}` in this study.');
+        }
       }
       if (pbActivityList.isEmpty) {
         return CommonErrorResponse(
