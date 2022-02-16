@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../common/widget_util.dart';
-import '../my_account_module/my_account.dart';
-import '../reach_out_module/reach_out.dart';
 
 class DrawerMenu extends StatelessWidget {
-  const DrawerMenu({Key? key}) : super(key: key);
+  static const studyHomeRoute = '/studyHome';
+  static const myAccountRoute = '/myAccount';
+  static const reachOutRoute = '/reachOut';
+
+  final void Function()? close;
+
+  const DrawerMenu({this.close, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +24,8 @@ class DrawerMenu extends StatelessWidget {
           Text('Powered by FDA MyStudies on Google Cloud',
               style: _subtitleStyle(context)),
           SizedBox(height: isIos ? 150 : 100),
-          _listTile(
-              context, isIos ? CupertinoIcons.home : Icons.home, 'Home', () {}),
+          _listTile(context, isIos ? CupertinoIcons.home : Icons.home, 'Home',
+              () => _navigateToStudyHome(context)),
           _listTile(context, isIos ? CupertinoIcons.person : Icons.person,
               'My account', () => _navigateToMyAccount(context)),
           _listTile(context, isIos ? CupertinoIcons.mail : Icons.mail,
@@ -86,12 +90,30 @@ class DrawerMenu extends StatelessWidget {
         });
   }
 
+  void _navigateToStudyHome(BuildContext context) {
+    _navigateToRoute(context, studyHomeRoute);
+  }
+
   void _navigateToMyAccount(BuildContext context) {
-    push(context, const MyAccount());
+    _navigateToRoute(context, myAccountRoute);
   }
 
   void _navigateToReachOut(BuildContext context) {
-    push(context, const ReachOut());
+    _navigateToRoute(context, reachOutRoute);
+  }
+
+  void _navigateToRoute(BuildContext context, String routeName) {
+    if (ModalRoute.of(context)?.settings.name != routeName) {
+      Navigator.of(context).pushReplacementNamed(routeName);
+    } else {
+      if (isPlatformIos(context)) {
+        if (close != null) {
+          close!();
+        }
+      } else {
+        Navigator.of(context).pop();
+      }
+    }
   }
 
   void _showSignOutAlert(BuildContext context) {

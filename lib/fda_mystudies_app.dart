@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'src/common/widget_util.dart';
+import 'src/drawer_menu/drawer_menu.dart';
+import 'src/my_account_module/my_account.dart';
+import 'src/reach_out_module/reach_out.dart';
 import 'src/study_home.dart';
 
 class FDAMyStudiesApp extends StatelessWidget {
@@ -11,11 +14,17 @@ class FDAMyStudiesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isPlatformIos(context)) {
-      return const CupertinoApp(
+      return CupertinoApp(
         title: 'FDA MyStudies',
-        theme: CupertinoThemeData(),
+        theme: const CupertinoThemeData(),
         debugShowCheckedModeBanner: false,
-        home: StudyHome(),
+        initialRoute: DrawerMenu.studyHomeRoute,
+        routes: {
+          DrawerMenu.studyHomeRoute: (context) => const StudyHome(),
+          DrawerMenu.myAccountRoute: (context) => const MyAccount(),
+          DrawerMenu.reachOutRoute: (context) => const ReachOut()
+        },
+        home: const StudyHome(),
       );
     }
     return MaterialApp(
@@ -36,6 +45,12 @@ class FDAMyStudiesApp extends StatelessWidget {
           appBarTheme: ThemeData.light().appBarTheme.copyWith(
               foregroundColor: Colors.white, backgroundColor: Colors.black)),
       debugShowCheckedModeBanner: false,
+      initialRoute: DrawerMenu.studyHomeRoute,
+      routes: {
+        DrawerMenu.studyHomeRoute: (context) => const StudyHome(),
+        DrawerMenu.myAccountRoute: (context) => const MyAccount(),
+        DrawerMenu.reachOutRoute: (context) => const ReachOut()
+      },
       home: const StudyHome(),
     );
   }

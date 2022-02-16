@@ -112,7 +112,11 @@ class _HomeScaffoldState extends State<HomeScaffold> {
                 color: CupertinoTheme.of(context).barBackgroundColor,
                 width: MediaQuery.of(context).size.width - 100,
                 height: MediaQuery.of(context).size.height,
-                child: const DrawerMenu(),
+                child: DrawerMenu(close: () {
+                  setState(() {
+                    _showDrawer = false;
+                  });
+                }),
               )),
         ),
       ]);
