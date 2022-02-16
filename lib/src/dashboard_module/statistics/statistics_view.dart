@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:clock/clock.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pb.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,29 +34,39 @@ class _StatisticsViewState extends State<StatisticsView> {
     final platformIsIos = (isPlatformIos(context));
     return Container(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-        height: 230,
+        height: _containerHeight(context),
         decoration: BoxDecoration(
             color: platformIsIos
                 ? CupertinoTheme.of(context).barBackgroundColor
                 : Theme.of(context).bottomAppBarColor),
-        child: Column(children: [
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
           const SizedBox(height: 8),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text('STATISTICS', style: _titleStyle(context)),
-            Row(
-                children: [dayMode, weekMode, monthMode]
-                    .map((e) => TimeModeButton(
-                        mode: e,
-                        isActive: e == curMode,
-                        onPressed: () {
-                          if (curMode != e) {
-                            setState(() {
-                              curMode = e;
-                            });
-                          }
-                        }))
-                    .toList())
-          ]),
+          SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('STATISTICS',
+                            textAlign: TextAlign.left,
+                            style: _titleStyle(context)),
+                        const SizedBox(width: 32),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [dayMode, weekMode, monthMode]
+                                .map((e) => TimeModeButton(
+                                    mode: e,
+                                    isActive: e == curMode,
+                                    onPressed: () {
+                                      if (curMode != e) {
+                                        setState(() {
+                                          curMode = e;
+                                        });
+                                      }
+                                    }))
+                                .toList())
+                      ]))),
           const SizedBox(height: 8),
           _divider(context),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -73,13 +85,15 @@ class _StatisticsViewState extends State<StatisticsView> {
                 }
               });
             }),
-            Text(_timeFormat(),
-                style: (platformIsIos
-                    ? CupertinoTheme.of(context)
-                        .textTheme
-                        .textStyle
-                        .apply(fontSizeFactor: 0.7)
-                    : Theme.of(context).textTheme.bodyText1)),
+            Expanded(
+                child: Text(_timeFormat(),
+                    textAlign: TextAlign.center,
+                    style: (platformIsIos
+                        ? CupertinoTheme.of(context)
+                            .textTheme
+                            .textStyle
+                            .apply(fontSizeFactor: 0.7)
+                        : Theme.of(context).textTheme.bodyText1))),
             _iconButton(
                 context,
                 platformIsIos
@@ -108,6 +122,11 @@ class _StatisticsViewState extends State<StatisticsView> {
                       .map((e) => StatisticsTileView(e))
                       .toList()))
         ]));
+  }
+
+  double _containerHeight(BuildContext context) {
+    var scale = MediaQuery.of(context).textScaleFactor;
+    return min(500, 230 * scale);
   }
 
   TextStyle? _titleStyle(BuildContext context) {

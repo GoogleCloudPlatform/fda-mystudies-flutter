@@ -19,7 +19,6 @@ class AdherenceCompletionView extends StatelessWidget {
   Widget build(BuildContext context) {
     final platformIsIos = (isPlatformIos(context));
     return Container(
-        height: 250,
         padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
         decoration: BoxDecoration(
             color: platformIsIos

@@ -14,6 +14,7 @@ class CupertinoActivityTile extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDarkModeEnabled =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
+    var scale = MediaQuery.of(context).textScaleFactor;
     return Padding(
         padding: const EdgeInsets.all(20),
         child: GestureDetector(
@@ -39,39 +40,49 @@ class CupertinoActivityTile extends StatelessWidget {
             child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(CupertinoIcons.doc_text,
-                      color: isDarkModeEnabled
-                          ? CupertinoColors.extraLightBackgroundGray
-                          : CupertinoColors.darkBackgroundGray),
-                  const SizedBox(width: 18),
-                  Expanded(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                        Text(activity.activity.title,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                color: isDarkModeEnabled
-                                    ? CupertinoColors.white
-                                    : CupertinoColors.black)),
-                        const SizedBox(height: 8),
-                        Row(children: [
-                          _frequencyTypeTag(context),
-                          const SizedBox(width: 8),
-                          _statusTag(context)
-                        ]),
-                        const SizedBox(height: 8),
-                        activity.activity.frequency.type == 'One time'
-                            ? const SizedBox.shrink()
-                            : _dailyStartTimeText(context),
-                        const SizedBox(height: 8),
-                        activity.activity.frequency.type == 'One time'
-                            ? const SizedBox.shrink()
-                            : _startDateEndDateText(context)
-                      ]))
-                ])));
+                children: (scale > 1.9
+                        ? [].cast<Widget>()
+                        : [
+                            Padding(
+                                padding:
+                                    EdgeInsets.fromLTRB(0, 8 * scale, 0, 0),
+                                child: Icon(CupertinoIcons.doc_text,
+                                    color: isDarkModeEnabled
+                                        ? CupertinoColors
+                                            .extraLightBackgroundGray
+                                        : CupertinoColors.darkBackgroundGray))
+                          ].cast<Widget>()) +
+                    [
+                      const SizedBox(width: 18),
+                      Expanded(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                            Text(activity.activity.title,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    color: isDarkModeEnabled
+                                        ? CupertinoColors.white
+                                        : CupertinoColors.black)),
+                            const SizedBox(height: 8),
+                            SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(children: [
+                                  _frequencyTypeTag(context),
+                                  const SizedBox(width: 8),
+                                  _statusTag(context)
+                                ])),
+                            const SizedBox(height: 8),
+                            activity.activity.frequency.type == 'One time'
+                                ? const SizedBox.shrink()
+                                : _dailyStartTimeText(context),
+                            const SizedBox(height: 8),
+                            activity.activity.frequency.type == 'One time'
+                                ? const SizedBox.shrink()
+                                : _startDateEndDateText(context)
+                          ]))
+                    ])));
   }
 
   Widget _statusTag(context) {

@@ -65,11 +65,12 @@ class DrawerMenu extends StatelessWidget {
                     ? CupertinoColors.extraLightBackgroundGray
                     : CupertinoColors.darkBackgroundGray),
             const SizedBox(width: 24),
-            Text(title,
-                style: CupertinoTheme.of(context)
-                    .textTheme
-                    .textStyle
-                    .apply(fontSizeFactor: 1.5))
+            Expanded(
+                child: Text(title,
+                    style: CupertinoTheme.of(context)
+                        .textTheme
+                        .textStyle
+                        .apply(fontSizeFactor: 1.5)))
           ]),
           onPressed: () {
             if (onPressed != null) {
@@ -81,7 +82,8 @@ class DrawerMenu extends StatelessWidget {
         title: Row(children: [
           Icon(icon, size: 32),
           const SizedBox(width: 24),
-          Text(title, style: Theme.of(context).textTheme.headline5)
+          Expanded(
+              child: Text(title, style: Theme.of(context).textTheme.headline5))
         ]),
         onTap: () {
           if (onPressed != null) {

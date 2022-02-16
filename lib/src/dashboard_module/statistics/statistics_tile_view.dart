@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +24,11 @@ class StatisticsTileView extends StatelessWidget {
           color: platformIsIos
               ? CupertinoColors.activeBlue
               : Theme.of(context).colorScheme.primary),
-      height: 130,
-      width: 130,
+      height: _tileEdge(context),
+      width: _tileEdge(context),
       child: Center(
           child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(platformIsIos ? CupertinoIcons.waveform : Icons.waves,
@@ -39,6 +42,11 @@ class StatisticsTileView extends StatelessWidget {
         ],
       )),
     );
+  }
+
+  double _tileEdge(BuildContext context) {
+    var scale = MediaQuery.of(context).textScaleFactor;
+    return min(200, 130 * scale);
   }
 
   TextStyle? _displayNameStyle(BuildContext context) {

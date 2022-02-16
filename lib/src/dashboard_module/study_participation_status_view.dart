@@ -16,7 +16,6 @@ class StudyParticipationStatusView extends StatelessWidget {
   Widget build(BuildContext context) {
     final platformIsIos = (isPlatformIos(context));
     return Container(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         decoration: BoxDecoration(
             color: platformIsIos
                 ? CupertinoTheme.of(context).barBackgroundColor
@@ -26,25 +25,33 @@ class StudyParticipationStatusView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Expanded(
-                child: Column(children: [
-              Text('STUDY STATUS',
-                  textAlign: TextAlign.center, style: _titleStyle(context)),
-              const SizedBox(height: 6),
-              Text(studyStatus,
-                  textAlign: TextAlign.center, style: _statusStyle(context))
-            ])),
+                child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(children: [
+                      Text('STUDY STATUS',
+                          textAlign: TextAlign.center,
+                          style: _titleStyle(context)),
+                      const SizedBox(height: 6),
+                      Text(studyStatus,
+                          textAlign: TextAlign.center,
+                          style: _statusStyle(context))
+                    ]))),
             VerticalDivider(
                 width: 1,
                 thickness: 1,
                 color: contrastingDividerColor(context)),
             Expanded(
-                child: Column(children: [
-              Text('PARTICIPATION STATUS',
-                  textAlign: TextAlign.center, style: _titleStyle(context)),
-              const SizedBox(height: 6),
-              Text(participationStatus,
-                  textAlign: TextAlign.center, style: _statusStyle(context))
-            ]))
+                child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(children: [
+                      Text('PARTICIPATION STATUS',
+                          textAlign: TextAlign.center,
+                          style: _titleStyle(context)),
+                      const SizedBox(height: 6),
+                      Text(participationStatus,
+                          textAlign: TextAlign.center,
+                          style: _statusStyle(context))
+                    ])))
           ],
         )));
   }

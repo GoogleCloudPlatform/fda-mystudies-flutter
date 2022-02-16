@@ -26,8 +26,10 @@ class MyAccount extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Username', textAlign: TextAlign.left),
-                  Text(response.profile.emailId, textAlign: TextAlign.right)
+                  _label(context, 'Username'),
+                  Expanded(
+                      child: Text(response.profile.emailId,
+                          textAlign: TextAlign.right, style: _style(context)))
                 ])),
         Divider(thickness: 2, color: dividerColor(context)),
         Padding(
@@ -35,12 +37,14 @@ class MyAccount extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Password', textAlign: TextAlign.left),
-                  GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () => push(context, const ChangePassword()),
-                      child: const Text('Change password',
-                          textAlign: TextAlign.right))
+                  _label(context, 'Password'),
+                  Expanded(
+                      child: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () => push(context, const ChangePassword()),
+                          child: Text('Change password',
+                              textAlign: TextAlign.right,
+                              style: _inkWellStyle(context))))
                 ])),
         Divider(thickness: 2, color: dividerColor(context)),
         Padding(
@@ -48,39 +52,62 @@ class MyAccount extends StatelessWidget {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Passcode', textAlign: TextAlign.left),
-                  GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {},
-                      child: const Text('Change passcode',
-                          textAlign: TextAlign.right))
+                  _label(context, 'Passcode'),
+                  Expanded(
+                      child: GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () {},
+                          child: Text('Change passcode',
+                              textAlign: TextAlign.right,
+                              style: _inkWellStyle(context))))
                 ])),
         Divider(thickness: 2, color: dividerColor(context)),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          const Expanded(
-              child: Text('Use passcode or Face ID to access app',
-                  textAlign: TextAlign.left)),
+          _label(context, 'Use passcode or Face ID to access app'),
           const SizedBox(width: 32),
           Switch.adaptive(value: true, onChanged: (value) {})
         ]),
         Divider(thickness: 2, color: dividerColor(context)),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          const Expanded(
-              child: Text('Receive push notifications?',
-                  textAlign: TextAlign.left)),
+          _label(context, 'Receive push notifications?'),
           const SizedBox(width: 32),
           Switch.adaptive(value: true, onChanged: (value) {})
         ]),
         Divider(thickness: 2, color: dividerColor(context)),
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          const Expanded(
-              child: Text('Receive study activity reminders?',
-                  textAlign: TextAlign.left)),
+          _label(context, 'Receive study activity reminders?'),
           const SizedBox(width: 32),
           Switch.adaptive(value: true, onChanged: (value) {})
         ]),
         Divider(thickness: 2, color: dividerColor(context)),
       ]));
     }, showDrawer: true);
+  }
+
+  Widget _label(BuildContext context, String text) {
+    return Expanded(
+        child:
+            Text(text, textAlign: TextAlign.left, style: _labelStyle(context)));
+  }
+
+  TextStyle? _labelStyle(BuildContext context) {
+    if (isPlatformIos(context)) {
+      return CupertinoTheme.of(context).textTheme.navTitleTextStyle;
+    }
+    return Theme.of(context).textTheme.subtitle2;
+  }
+
+  TextStyle? _style(BuildContext context) {
+    if (isPlatformIos(context)) {
+      return CupertinoTheme.of(context).textTheme.textStyle;
+    }
+    return Theme.of(context).textTheme.bodyText1;
+  }
+
+  TextStyle? _inkWellStyle(BuildContext context) {
+    return _style(context)?.apply(
+        color: isPlatformIos(context)
+            ? CupertinoTheme.of(context).primaryColor
+            : Theme.of(context).colorScheme.primary);
   }
 }

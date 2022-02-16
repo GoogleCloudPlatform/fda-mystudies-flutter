@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,7 @@ class ChartTile extends StatelessWidget {
     final platformIsIos = (isPlatformIos(context));
     final isDarkModeEnabled =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
+    var scale = MediaQuery.of(context).textScaleFactor;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Container(
           decoration: BoxDecoration(
@@ -45,7 +48,7 @@ class ChartTile extends StatelessWidget {
             primaryMeasureAxis: charts.NumericAxisSpec(
                 renderSpec: charts.GridlineRendererSpec(
                   labelStyle: charts.TextStyleSpec(
-                      fontSize: 10,
+                      fontSize: min(18, (10 * scale).ceil()),
                       color: (isDarkModeEnabled
                           ? charts.MaterialPalette.white
                           : charts.MaterialPalette.black)),
@@ -55,7 +58,7 @@ class ChartTile extends StatelessWidget {
             domainAxis: charts.DateTimeAxisSpec(
               renderSpec: charts.GridlineRendererSpec(
                 labelStyle: charts.TextStyleSpec(
-                    fontSize: 10,
+                    fontSize: min(18, (10 * scale).ceil()),
                     color: (isDarkModeEnabled
                         ? charts.MaterialPalette.white
                         : charts.MaterialPalette.black)),
