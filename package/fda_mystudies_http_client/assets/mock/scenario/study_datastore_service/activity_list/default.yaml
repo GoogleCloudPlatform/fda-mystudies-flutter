@@ -1,51 +1,88 @@
 title: Default Response
-description: Activity list with one questionnaire activity
+description: Activity list with one daily and one one-time activity
 code: 200
 response: |
-  {
-      "message": "SUCCESS",
-      "activities": [
-          {
-              "activityId": "ui-test",
-              "activityVersion": "1.1",
-              "title": "Questionnaire to test all the UI Elements",
-              "type": "questionnaire",
-              "startTime": "2021-05-06T07:00:00.000+0000",
-              "endTime": "2024-01-29T23:59:59.000+0000",
-              "branching": false,
-              "isLaunchStudy": false,
-              "isStudyLifeTime": false,
-              "lastModified": "2021-05-06T10:23:29.000+0000",
-              "state": "active",
-              "taskSubType": "",
-              "schedulingType": "Regular",
-              "anchorDate": {
-                  "sourceType": "",
-                  "sourceActivityId": "",
-                  "sourceKey": "",
-                  "sourceFormKey": "",
-                  "start": {
-                      "anchorDays": 0,
-                      "dayOfWeek": 0,
-                      "dateOfMonth": "",
-                      "time": ""
-                  },
-                  "end": {
-                      "anchorDays": 0,
-                      "repeatInterval": 0,
-                      "time": ""
-                  }
-              },
-              "frequency": {
-                  "type": "Daily",
-                  "runs": [
-                      {
-                          "startTime": "07:00:00",
-                          "endTime": "23:59:59"
-                      }
-                  ],
-                  "anchorRuns": []
-              }
-          }
-      ]
-  }
+    {
+        "message": "SUCCESS",
+        "activities": [
+            {
+                "activityId": "ui-test",
+                "activityVersion": "1.1",
+                "title": "Questionnaire to test all the UI Elements",
+                "type": "questionnaire",
+                "startTime": "2021-05-06T07:00:00.000+0000",
+                "endTime": "2024-01-29T23:59:59.000+0000",
+                "branching": false,
+                "isLaunchStudy": false,
+                "isStudyLifeTime": false,
+                "lastModified": "2021-05-06T10:23:29.000+0000",
+                "state": "active",
+                "taskSubType": "",
+                "schedulingType": "Regular",
+                "anchorDate": {
+                    "sourceType": "",
+                    "sourceActivityId": "",
+                    "sourceKey": "",
+                    "sourceFormKey": "",
+                    "start": {
+                        "anchorDays": 0,
+                        "dayOfWeek": 0,
+                        "dateOfMonth": "",
+                        "time": ""
+                    },
+                    "end": {
+                        "anchorDays": 0,
+                        "repeatInterval": 0,
+                        "time": ""
+                    }
+                },
+                "frequency": {
+                    "type": "Daily",
+                    "runs": [
+                        {
+                            "startTime": "07:00:00",
+                            "endTime": "23:59:59"
+                        }
+                    ],
+                    "anchorRuns": []
+                }
+            },
+            {
+                "activityId": "default",
+                "activityVersion": "1.2",
+                "title": "Study Tasks",
+                "type": "questionnaire",
+                "startTime": "2021-04-06T00:00:00.000+0000",
+                "endTime": "",
+                "branching": true,
+                "isLaunchStudy": true,
+                "isStudyLifeTime": true,
+                "lastModified": "2021-04-09T10:35:06.000+0000",
+                "state": "active",
+                "taskSubType": "",
+                "schedulingType": "Regular",
+                "anchorDate": {
+                    "sourceType": "",
+                    "sourceActivityId": "",
+                    "sourceKey": "",
+                    "sourceFormKey": "",
+                    "start": {
+                        "anchorDays": 0,
+                        "dayOfWeek": 0,
+                        "dateOfMonth": "",
+                        "time": ""
+                    },
+                    "end": {
+                        "anchorDays": 0,
+                        "repeatInterval": 0,
+                        "time": ""
+                    }
+                },
+                "frequency": {
+                    "type": "One time",
+                    "runs": [],
+                    "anchorRuns": []
+                }
+            }
+        ]
+    }

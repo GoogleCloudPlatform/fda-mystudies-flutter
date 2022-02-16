@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'activities.dart';
+import 'activities_module/activities.dart';
 import 'dashboard.dart';
 import 'resources_module/resources.dart';
 

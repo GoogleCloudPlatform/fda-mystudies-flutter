@@ -23,7 +23,11 @@ class TestUtil {
   static Future<void> testSelectedTabViaScaffoldTitle(
       WidgetTester tester, List<String> tabs, String text) async {
     await tester.tap(TestUtil.findBottomBarItemWithLabel(text));
-    await tester.pumpAndSettle();
+    // This is done because pumpAndSettle doesn't work well with infinite
+    // animation like progress indicator.
+    for (int i = 0; i < 5; ++i) {
+      await tester.pump(const Duration(seconds: 1));
+    }
     for (String tab in tabs) {
       if (debugDefaultTargetPlatformOverride == TargetPlatform.android) {
         expect(find.widgetWithText(AppBar, tab),

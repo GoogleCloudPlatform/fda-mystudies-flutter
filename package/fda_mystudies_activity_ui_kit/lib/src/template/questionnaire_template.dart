@@ -417,8 +417,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                             ),
                             child: const Icon(Icons.exit_to_app))
                       ]
-                    : [],
-                backgroundColor: Theme.of(context).colorScheme.surface),
+                    : []),
             body: ListView(
                 padding: const EdgeInsets.all(20),
                 children: [

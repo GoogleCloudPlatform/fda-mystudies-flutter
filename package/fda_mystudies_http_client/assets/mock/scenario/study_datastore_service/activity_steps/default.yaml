@@ -30,7 +30,7 @@ response: |
                       {
                           "condition": "",
                           "operator": "",
-                          "destination": "horizontal-scale"
+                          "destination": ""
                       }
                   ],
                   "healthDataKey": "",

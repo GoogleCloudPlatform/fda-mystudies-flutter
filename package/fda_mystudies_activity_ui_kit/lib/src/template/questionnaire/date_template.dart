@@ -133,12 +133,4 @@ class _DateTemplateState extends State<DateTemplate> {
     }
     return dateFormat.format(dateTime);
   }
-
-  DateTime _stringToDateTime(String dateTimeString) {
-    var dateFormat = DateFormat('yyyy-MM-dd');
-    if (widget.step.dateTime.style != 'Date') {
-      dateFormat = DateFormat('yyyy-MM-ddTHH:mm:ss');
-    }
-    return dateFormat.parse(dateTimeString);
-  }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
@@ -132,6 +133,9 @@ class MockHttpClient implements http.Client {
 
   @override
   Future<http.Response> get(Uri url, {Map<String, String>? headers}) {
+    if (url.path == '/study-datastore/activity') {
+      return _mapUrlToActivityStepsResponse(url);
+    }
     return _mapUrlPathToResponse(url.path);
   }
 
@@ -156,6 +160,24 @@ class MockHttpClient implements http.Client {
   Future<http.Response> _mapUrlPathToResponse(String urlPath) {
     var yamlDir = urlPathToMockYamlPath[urlPath];
     var code = config.scenarios[urlPathToServiceMethod[urlPath]] ?? 'default';
+    var yamlPath = '';
+    if (code.startsWith('common.')) {
+      yamlPath = 'assets/mock/scenario/common/${code.split('.').last}.yaml';
+    } else {
+      yamlPath = '$yamlDir/$code.yaml';
+    }
+    return _yamlToHttpResponse(yamlPath);
+  }
+
+  Future<http.Response> _mapUrlToActivityStepsResponse(Uri url) {
+    var yamlDir = urlPathToMockYamlPath[url.path];
+    var activityId = url.queryParameters['activityId'] ?? 'default';
+    var code = config.scenarios[urlPathToServiceMethod[url.path]];
+    if (code == null && activityId != null) {
+      code = activityId;
+    } else {
+      code = 'default';
+    }
     var yamlPath = '';
     if (code.startsWith('common.')) {
       yamlPath = 'assets/mock/scenario/common/${code.split('.').last}.yaml';

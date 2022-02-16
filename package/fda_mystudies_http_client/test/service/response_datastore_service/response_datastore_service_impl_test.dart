@@ -25,16 +25,28 @@ void main() {
           response,
           GetActivityStateResponse()
             ..message = 'success'
-            ..activities.add(GetActivityStateResponse_ActivityState()
-              ..activityId = 'activity_id'
-              ..activityRun =
-                  (GetActivityStateResponse_ActivityState_ActivityRun()
-                    ..completed = 15
-                    ..missed = 2
-                    ..total = 17)
-              ..activityRunId = '18'
-              ..activityState = 'in-progress'
-              ..activityVersion = '1.1'));
+            ..activities.addAll([
+              GetActivityStateResponse_ActivityState()
+                ..activityId = 'ui-test'
+                ..activityRun =
+                    (GetActivityStateResponse_ActivityState_ActivityRun()
+                      ..completed = 15
+                      ..missed = 2
+                      ..total = 100)
+                ..activityRunId = '18'
+                ..activityState = 'inProgress'
+                ..activityVersion = '1.1',
+              GetActivityStateResponse_ActivityState()
+                ..activityId = 'default'
+                ..activityRun =
+                    (GetActivityStateResponse_ActivityState_ActivityRun()
+                      ..completed = 1
+                      ..missed = 0
+                      ..total = 1)
+                ..activityRunId = '1'
+                ..activityState = 'completed'
+                ..activityVersion = '1.2',
+            ]));
     });
   });
 
