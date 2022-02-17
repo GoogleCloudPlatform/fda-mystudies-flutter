@@ -254,8 +254,8 @@ void main() {
                   ..type = 'questionnaire'
                   ..key = 'step-count'
                   ..activity = (DataSource_Activity()
-                    ..activityId = 'daily-activity'
-                    ..version = '1.0')))
+                    ..activityId = 'ui-test'
+                    ..version = '1.1')))
               ..charts.add(GetStudyDashboardResponse_Dashboard_Chart()
                 ..title = 'leg-pain'
                 ..displayName = 'Leg Pain'
@@ -265,7 +265,7 @@ void main() {
                   ..type = 'questionnaire'
                   ..key = 'leg-pain'
                   ..activity = (DataSource_Activity()
-                    ..activityId = 'daily-survey'
+                    ..activityId = 'ui-test'
                     ..version = '1.1')
                   ..timeRangeType = 'days_of_week'))));
     });

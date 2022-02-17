@@ -5,83 +5,171 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../common/future_loading_page.dart';
+import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
 import 'change_password.dart';
 
-class MyAccount extends StatelessWidget {
+class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  _MyAccountState createState() => _MyAccountState();
+}
+
+class _MyAccountState extends State<MyAccount> {
+  GetUserProfileResponse? _userProfile;
+  var _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
     var participantUserDatastore = getIt<ParticipantUserDatastoreService>();
-    return FutureLoadingPage('My account',
-        participantUserDatastore.getUserProfile('userId', 'authToken'),
-        (context, snapshot) {
-      var response = snapshot.data as GetUserProfileResponse;
-      return SafeArea(
-          child: ListView(padding: const EdgeInsets.all(12), children: [
-        Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _label(context, 'Username'),
-                  Expanded(
-                      child: Text(response.profile.emailId,
-                          textAlign: TextAlign.right, style: _style(context)))
-                ])),
-        Divider(thickness: 2, color: dividerColor(context)),
-        Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _label(context, 'Password'),
-                  Expanded(
-                      child: GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () => push(context, const ChangePassword()),
-                          child: Text('Change password',
-                              textAlign: TextAlign.right,
-                              style: _inkWellStyle(context))))
-                ])),
-        Divider(thickness: 2, color: dividerColor(context)),
-        Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _label(context, 'Passcode'),
-                  Expanded(
-                      child: GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {},
-                          child: Text('Change passcode',
-                              textAlign: TextAlign.right,
-                              style: _inkWellStyle(context))))
-                ])),
-        Divider(thickness: 2, color: dividerColor(context)),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          _label(context, 'Use passcode or Face ID to access app'),
-          const SizedBox(width: 32),
-          Switch.adaptive(value: true, onChanged: (value) {})
-        ]),
-        Divider(thickness: 2, color: dividerColor(context)),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          _label(context, 'Receive push notifications?'),
-          const SizedBox(width: 32),
-          Switch.adaptive(value: true, onChanged: (value) {})
-        ]),
-        Divider(thickness: 2, color: dividerColor(context)),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          _label(context, 'Receive study activity reminders?'),
-          const SizedBox(width: 32),
-          Switch.adaptive(value: true, onChanged: (value) {})
-        ]),
-        Divider(thickness: 2, color: dividerColor(context)),
-      ]));
-    }, showDrawer: true);
+    participantUserDatastore
+        .getUserProfile('userId', 'authToken')
+        .then((value) {
+      if (value is GetUserProfileResponse) {
+        setState(() {
+          _userProfile = value;
+          _isLoading = false;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return HomeScaffold(
+        title: 'My Account',
+        child: SafeArea(
+            child: _isLoading
+                ? Center(
+                    child: isPlatformIos(context)
+                        ? const CupertinoActivityIndicator()
+                        : const CircularProgressIndicator())
+                : ListView(padding: const EdgeInsets.all(12), children: [
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _label(context, 'Username'),
+                              Expanded(
+                                  child: Text(_userProfile!.profile.emailId,
+                                      textAlign: TextAlign.right,
+                                      style: _style(context)))
+                            ])),
+                    Divider(thickness: 2, color: dividerColor(context)),
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _label(context, 'Password'),
+                              Expanded(
+                                  child: GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () =>
+                                          push(context, const ChangePassword()),
+                                      child: Text('Change password',
+                                          textAlign: TextAlign.right,
+                                          style: _inkWellStyle(context))))
+                            ])),
+                    Divider(thickness: 2, color: dividerColor(context)),
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _label(context, 'Passcode'),
+                              Expanded(
+                                  child: GestureDetector(
+                                      behavior: HitTestBehavior.translucent,
+                                      onTap: () {},
+                                      child: Text('Change passcode',
+                                          textAlign: TextAlign.right,
+                                          style: _inkWellStyle(context))))
+                            ])),
+                    Divider(thickness: 2, color: dividerColor(context)),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _label(
+                              context, 'Use passcode or Face ID to access app'),
+                          const SizedBox(width: 32),
+                          Switch.adaptive(
+                              value: _userProfile?.settings.passcode ?? false,
+                              onChanged: (value) {
+                                if (_userProfile?.hasSettings() == true) {
+                                  var settings = _userProfile!.settings;
+                                  settings.passcode = value;
+                                  setState(() {
+                                    _userProfile!.settings = settings;
+                                  });
+                                  _updateSettings(_userProfile!.settings);
+                                }
+                              })
+                        ]),
+                    Divider(thickness: 2, color: dividerColor(context)),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _label(context, 'Receive push notifications?'),
+                          const SizedBox(width: 32),
+                          Switch.adaptive(
+                              value:
+                                  _userProfile?.settings.localNotifications ??
+                                      false,
+                              onChanged: (value) {
+                                if (_userProfile?.hasSettings() == true) {
+                                  var settings = _userProfile!.settings;
+                                  settings.localNotifications = value;
+                                  setState(() {
+                                    _userProfile!.settings = settings;
+                                  });
+                                  _updateSettings(_userProfile!.settings);
+                                }
+                              })
+                        ]),
+                    Divider(thickness: 2, color: dividerColor(context)),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _label(context, 'Receive study activity reminders?'),
+                          const SizedBox(width: 32),
+                          Switch.adaptive(
+                              value:
+                                  _userProfile?.settings.remoteNotifications ??
+                                      false,
+                              onChanged: (value) {
+                                if (_userProfile?.hasSettings() == true) {
+                                  var settings = _userProfile!.settings;
+                                  settings.remoteNotifications = value;
+                                  setState(() {
+                                    _userProfile!.settings = settings;
+                                  });
+                                  _updateSettings(_userProfile!.settings);
+                                }
+                              })
+                        ]),
+                    Divider(thickness: 2, color: dividerColor(context)),
+                  ])));
+  }
+
+  void _updateSettings(GetUserProfileResponse_UserProfileSettings settings) {
+    Future.delayed(const Duration(milliseconds: 400), () {
+      // 400ms delay to start loading animation after switch animation completes.
+      setState(() {
+        _isLoading = true;
+      });
+      var participantUserDatastore = getIt<ParticipantUserDatastoreService>();
+      participantUserDatastore
+          .updateUserProfile('userId', 'authToken', settings)
+          .then((value) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    });
   }
 
   Widget _label(BuildContext context, String text) {

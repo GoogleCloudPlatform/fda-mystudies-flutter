@@ -137,7 +137,7 @@ class ParticipantUserDatastoreServiceImpl
 
   @override
   Future<Object> updateUserProfile(String userId, String authToken,
-      GetUserProfileResponse_UserProfile userProfileSettings) {
+      GetUserProfileResponse_UserProfileSettings userProfileSettings) {
     var headers = CommonRequestHeader()
       ..from(config,
           userId: userId, authToken: authToken, contentType: ContentType.json);

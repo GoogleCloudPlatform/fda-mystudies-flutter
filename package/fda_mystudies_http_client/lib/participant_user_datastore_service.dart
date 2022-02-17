@@ -39,7 +39,7 @@ abstract class ParticipantUserDatastoreService {
   /// [UpdateUserProfileResponse] for successful user profile update.
   /// [CommonErrorResponse] for failed response.
   Future<Object> updateUserProfile(String userId, String authToken,
-      GetUserProfileResponse_UserProfile userProfileSettings);
+      GetUserProfileResponse_UserProfileSettings userProfileSettings);
 
   /// Record anonymous user feedback.
   ///

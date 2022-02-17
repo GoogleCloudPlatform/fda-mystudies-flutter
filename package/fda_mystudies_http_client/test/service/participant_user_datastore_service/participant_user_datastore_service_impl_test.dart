@@ -89,7 +89,7 @@ void main() {
   group('update user profile tests', () {
     test('default scenario test', () async {
       var response = await participantUserDatastoreService!.updateUserProfile(
-          'userId', 'authToken', GetUserProfileResponse_UserProfile());
+          'userId', 'authToken', GetUserProfileResponse_UserProfileSettings());
 
       expect(
           response,
