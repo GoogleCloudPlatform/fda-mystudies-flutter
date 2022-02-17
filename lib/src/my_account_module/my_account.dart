@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
 import 'change_password.dart';
+import 'delete_account.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -152,6 +153,22 @@ class _MyAccountState extends State<MyAccount> {
                               })
                         ]),
                     Divider(thickness: 2, color: dividerColor(context)),
+                    const SizedBox(height: 16),
+                    isPlatformIos(context)
+                        ? CupertinoButton(
+                            child: const Text('Delete app account',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: CupertinoColors.white)),
+                            color: CupertinoColors.destructiveRed,
+                            onPressed: () =>
+                                push(context, const DeleteAccount()))
+                        : ElevatedButton(
+                            onPressed: () =>
+                                push(context, const DeleteAccount()),
+                            child: const Text('Delete app account',
+                                textAlign: TextAlign.center),
+                            style: ElevatedButton.styleFrom(
+                                primary: Theme.of(context).colorScheme.error))
                   ])));
   }
 
