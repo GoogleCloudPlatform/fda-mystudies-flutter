@@ -14,11 +14,13 @@ class CommonErrorWidget extends StatelessWidget {
     if (isPlatformIos(context)) {
       return Center(
           child: Text(errorDescription,
+              textAlign: TextAlign.center,
               style:
                   CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle));
     }
     return Center(
         child: Text(errorDescription,
+            textAlign: TextAlign.center,
             style: Theme.of(context).appBarTheme.titleTextStyle));
   }
 }

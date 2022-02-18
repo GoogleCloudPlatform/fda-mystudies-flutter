@@ -5,6 +5,7 @@ import '../service/config.dart';
 
 class DemoConfig implements Config {
   Map<String, String> serviceMethodScenarioMap = {};
+  int delay = 0;
 
   @override
   String get apiKey => 'API_KEY';
@@ -41,4 +42,7 @@ class DemoConfig implements Config {
 
   @override
   Map<String, String> get scenarios => serviceMethodScenarioMap;
+
+  @override
+  int get delayInSeconds => delay;
 }

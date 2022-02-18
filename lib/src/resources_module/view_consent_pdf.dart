@@ -24,18 +24,19 @@ class ViewConsentPdf extends StatelessWidget {
     return FutureLoadingPage(scaffoldTitle, futureObject, (context, snapshot) {
       var consentForm =
           (snapshot.data as GetConsentDocumentResponse).consent.content;
-      return PdfPreview(
-          maxPageWidth: MediaQuery.of(context).size.width,
-          build: (format) {
-            return base64Decode(consentForm);
-          },
-          padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
-          allowSharing: false,
-          canDebug: false,
-          dynamicLayout: false,
-          allowPrinting: false,
-          canChangeOrientation: false,
-          canChangePageFormat: false);
+      return SafeArea(
+          child: PdfPreview(
+              maxPageWidth: MediaQuery.of(context).size.width,
+              build: (format) {
+                return base64Decode(consentForm);
+              },
+              padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
+              allowSharing: false,
+              canDebug: false,
+              dynamicLayout: false,
+              allowPrinting: false,
+              canChangeOrientation: false,
+              canChangePageFormat: false));
     });
   }
 }

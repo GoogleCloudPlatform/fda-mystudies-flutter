@@ -3,6 +3,7 @@ import 'package:fda_mystudies_http_client/mock_scenario_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../main.dart';
 import '../../common/future_loading_page.dart';
 import '../../common/widget_util.dart';
 import '../../cupertino_widget/cupertino_list_tile.dart';
@@ -30,9 +31,7 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
             child: ListView(
                 children: methods
                     .map((e) => CupertinoListTile(
-                        title: e,
-                        onTap: () => push(context,
-                            DemoConfigScenariosView(widget.serviceName, e))))
+                        title: e, onTap: () => _navigateToScenario(context, e)))
                     .toList()));
       }
       return Scrollbar(
@@ -44,13 +43,18 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
                             trailing: const Icon(
                                 Icons.arrow_forward_ios_outlined,
                                 size: 16),
-                            onTap: () => push(
-                                context,
-                                DemoConfigScenariosView(
-                                    widget.serviceName, e))),
+                            onTap: () => _navigateToScenario(context, e)),
                         const Divider()
                       ]))
                   .toList()));
     });
+  }
+
+  void _navigateToScenario(BuildContext context, String method) {
+    push(
+        context,
+        DemoConfigScenariosView(widget.serviceName, method,
+            selectedScenario: demoConfig
+                .serviceMethodScenarioMap['${widget.serviceName}.$method']));
   }
 }

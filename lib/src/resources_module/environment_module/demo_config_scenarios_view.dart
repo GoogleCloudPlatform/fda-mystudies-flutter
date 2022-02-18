@@ -6,6 +6,7 @@ import 'package:fda_mystudies_http_client/mock_scenario_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../main.dart';
 import '../../common/future_loading_page.dart';
 import '../../common/widget_util.dart';
 
@@ -47,15 +48,12 @@ class _DemoConfigScenariosViewState extends State<DemoConfigScenariosView> {
             child: ListView(
                 children: scenarios
                     .map((e) => CupertinoRadioListTile(
-                          e.title,
-                          '(${e.response.statusCode}) ${e.description}',
-                          e.scenarioCode,
-                          e.scenarioCode == selectedScenario,
-                          true,
-                          onChanged: (value) => setState(() {
-                            selectedScenario = e.scenarioCode;
-                          }),
-                        ))
+                        e.title,
+                        '(${e.response.statusCode}) ${e.description}',
+                        e.scenarioCode,
+                        e.scenarioCode == selectedScenario,
+                        true,
+                        onChanged: (value) => _selectScenario(e.scenarioCode)))
                     .toList()));
       }
       return Scrollbar(
@@ -67,12 +65,18 @@ class _DemoConfigScenariosViewState extends State<DemoConfigScenariosView> {
                             Text('(${e.response.statusCode}) ${e.description}'),
                         value: e.scenarioCode,
                         selected: e.scenarioCode == selectedScenario,
-                        onChanged: (value) => setState(() {
-                          selectedScenario = e.scenarioCode;
-                        }),
+                        onChanged: (value) => _selectScenario(e.scenarioCode),
                         groupValue: selectedScenario,
                       ))
                   .toList()));
+    });
+  }
+
+  void _selectScenario(String scenario) {
+    demoConfig.serviceMethodScenarioMap[
+        '${widget.serviceName}.${widget.methodName}'] = scenario;
+    setState(() {
+      selectedScenario = scenario;
     });
   }
 }

@@ -41,6 +41,13 @@ abstract class Config {
   /// version of the client app.
   String get version;
 
+  //////////////////////////////////////////
+  ///         DEMO ONLY CONFIGS         ////
+  //////////////////////////////////////////
+
   /// mapping of scenarios to service.method
   Map<String, String> get scenarios;
+
+  /// delays in seconds
+  int get delayInSeconds;
 }
