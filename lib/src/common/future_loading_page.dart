@@ -28,10 +28,11 @@ class FutureLoadingPage extends StatelessWidget {
                 (BuildContext buildContext, AsyncSnapshot<Object> snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return Center(
-                      child: (isPlatformIos(context)
-                          ? const CupertinoActivityIndicator()
-                          : const CircularProgressIndicator()));
+                  return isPlatformIos(context)
+                      ? const CupertinoPageScaffold(
+                          child: Center(child: CupertinoActivityIndicator()))
+                      : const Scaffold(
+                          body: Center(child: CircularProgressIndicator()));
                 default:
                   if (snapshot.hasError) {
                     return CommonErrorWidget(snapshot.error.toString());
