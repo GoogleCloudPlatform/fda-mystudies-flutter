@@ -56,3 +56,20 @@ void showUserMessage(BuildContext context, String message) {
   }
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
 }
+
+bool validatePassword(String password) {
+  if (password.length < 8) {
+    return false;
+  } else if (!password.contains(RegExp(r'[A-Z]'))) {
+    return false;
+  } else if (!password.contains(RegExp(r'[a-z]'))) {
+    return false;
+  } else if (!password.contains(RegExp(r'[0-9]'))) {
+    return false;
+  } else if (!(password
+          .contains(RegExp(r'[!@#$%^&*()+=\-_~,.?":;{}|<>\[\]]')) ||
+      password.contains('\''))) {
+    return false;
+  }
+  return true;
+}

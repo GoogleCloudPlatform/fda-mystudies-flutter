@@ -170,7 +170,7 @@ class _ContactUsState extends State<ContactUs> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     ElevatedButton(
-                                        onPressed: submitFeedback(),
+                                        onPressed: _submitFeedback(),
                                         child: _isLoading
                                             ? const SizedBox(
                                                 height: 16,
@@ -201,12 +201,12 @@ class _ContactUsState extends State<ContactUs> {
                                         : const Text(submitButtonLabel,
                                             style: TextStyle(
                                                 color: CupertinoColors.white)),
-                                    onPressed: submitFeedback()))))
+                                    onPressed: _submitFeedback()))))
                   ]
                 : []));
   }
 
-  void Function()? submitFeedback() {
+  void Function()? _submitFeedback() {
     return _isLoading
         ? null
         : () {

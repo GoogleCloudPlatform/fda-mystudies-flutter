@@ -70,7 +70,7 @@ class DrawerMenu extends StatelessWidget {
                     style: CupertinoTheme.of(context)
                         .textTheme
                         .textStyle
-                        .apply(fontSizeFactor: 1.5)))
+                        .apply(fontSizeFactor: 1.2)))
           ]),
           onPressed: () {
             if (onPressed != null) {

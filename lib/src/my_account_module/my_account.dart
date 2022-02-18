@@ -197,7 +197,10 @@ class _MyAccountState extends State<MyAccount> {
 
   TextStyle? _labelStyle(BuildContext context) {
     if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context).textTheme.navTitleTextStyle;
+      return CupertinoTheme.of(context)
+          .textTheme
+          .navTitleTextStyle
+          .apply(fontSizeFactor: 0.9);
     }
     return Theme.of(context).textTheme.subtitle2;
   }
