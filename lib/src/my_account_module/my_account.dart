@@ -101,12 +101,12 @@ class _MyAccountState extends State<MyAccount> {
                               value: _userProfile?.settings.passcode ?? false,
                               onChanged: (value) {
                                 if (_userProfile?.hasSettings() == true) {
-                                  var settings = _userProfile!.settings;
+                                  var settings =
+                                      GetUserProfileResponse_UserProfileSettings()
+                                        ..mergeFromMessage(
+                                            _userProfile!.settings);
                                   settings.passcode = value;
-                                  setState(() {
-                                    _userProfile!.settings = settings;
-                                  });
-                                  _updateSettings(_userProfile!.settings);
+                                  _updateSettings(settings);
                                 }
                               })
                         ]),
@@ -122,12 +122,12 @@ class _MyAccountState extends State<MyAccount> {
                                       false,
                               onChanged: (value) {
                                 if (_userProfile?.hasSettings() == true) {
-                                  var settings = _userProfile!.settings;
+                                  var settings =
+                                      GetUserProfileResponse_UserProfileSettings()
+                                        ..mergeFromMessage(
+                                            _userProfile!.settings);
                                   settings.localNotifications = value;
-                                  setState(() {
-                                    _userProfile!.settings = settings;
-                                  });
-                                  _updateSettings(_userProfile!.settings);
+                                  _updateSettings(settings);
                                 }
                               })
                         ]),
@@ -143,12 +143,12 @@ class _MyAccountState extends State<MyAccount> {
                                       false,
                               onChanged: (value) {
                                 if (_userProfile?.hasSettings() == true) {
-                                  var settings = _userProfile!.settings;
+                                  var settings =
+                                      GetUserProfileResponse_UserProfileSettings()
+                                        ..mergeFromMessage(
+                                            _userProfile!.settings);
                                   settings.remoteNotifications = value;
-                                  setState(() {
-                                    _userProfile!.settings = settings;
-                                  });
-                                  _updateSettings(_userProfile!.settings);
+                                  _updateSettings(settings);
                                 }
                               })
                         ]),
@@ -173,6 +173,11 @@ class _MyAccountState extends State<MyAccount> {
   }
 
   void _updateSettings(GetUserProfileResponse_UserProfileSettings settings) {
+    var oldSettings = GetUserProfileResponse_UserProfileSettings()
+      ..mergeFromMessage(_userProfile!.settings);
+    setState(() {
+      _userProfile!.settings = settings;
+    });
     Future.delayed(const Duration(milliseconds: 400), () {
       // 400ms delay to start loading animation after switch animation completes.
       setState(() {
@@ -182,9 +187,19 @@ class _MyAccountState extends State<MyAccount> {
       participantUserDatastore
           .updateUserProfile('userId', 'authToken', settings)
           .then((value) {
+        var successfulResponseMessage = 'Profile successfully updated';
+        var response = processResponse(value, successfulResponseMessage);
         setState(() {
           _isLoading = false;
         });
+        if (successfulResponseMessage != response) {
+          Future.delayed(const Duration(milliseconds: 400), () {
+            setState(() {
+              _userProfile!.settings = oldSettings;
+            });
+          });
+          showUserMessage(context, response);
+        }
       });
     });
   }
