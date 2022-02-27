@@ -58,7 +58,7 @@ class DeleteAccount extends StatelessWidget {
   }
 
   TextStyle? _bodyStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context).textTheme.textStyle;
     }
     return Theme.of(context).textTheme.bodyText2?.apply(fontSizeFactor: 1.2);
