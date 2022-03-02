@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
+import '../cupertino_widget/cupertino_ink_well.dart';
 import 'change_password.dart';
 import 'delete_account.dart';
 
@@ -67,13 +68,10 @@ class _MyAccountState extends State<MyAccount> {
                             children: [
                               _label(context, 'Password'),
                               Expanded(
-                                  child: GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () =>
-                                          push(context, const ChangePassword()),
-                                      child: Text('Change password',
-                                          textAlign: TextAlign.right,
-                                          style: _inkWellStyle(context))))
+                                  child: CupertinoInkWell('Change password',
+                                      textAlign: TextAlign.right,
+                                      onTap: () => push(
+                                          context, const ChangePassword())))
                             ])),
                     Divider(thickness: 2, color: dividerColor(context)),
                     Padding(
@@ -83,12 +81,8 @@ class _MyAccountState extends State<MyAccount> {
                             children: [
                               _label(context, 'Passcode'),
                               Expanded(
-                                  child: GestureDetector(
-                                      behavior: HitTestBehavior.translucent,
-                                      onTap: () {},
-                                      child: Text('Change passcode',
-                                          textAlign: TextAlign.right,
-                                          style: _inkWellStyle(context))))
+                                  child: CupertinoInkWell('Change passcode',
+                                      textAlign: TextAlign.right, onTap: () {}))
                             ])),
                     Divider(thickness: 2, color: dividerColor(context)),
                     Row(
@@ -225,12 +219,5 @@ class _MyAccountState extends State<MyAccount> {
       return CupertinoTheme.of(context).textTheme.textStyle;
     }
     return Theme.of(context).textTheme.bodyText1;
-  }
-
-  TextStyle? _inkWellStyle(BuildContext context) {
-    return _style(context)?.apply(
-        color: isPlatformIos(context)
-            ? CupertinoTheme.of(context).primaryColor
-            : Theme.of(context).colorScheme.primary);
   }
 }

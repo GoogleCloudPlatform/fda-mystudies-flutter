@@ -1,18 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../common/widget_util.dart';
 import 'sign_in.dart';
+import 'sign_up.dart';
 
 class Welcome extends StatelessWidget {
   static const welcomeRoute = '/welcome';
-  static final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
-    Factory(() => EagerGestureRecognizer())
-  };
 
   const Welcome({Key? key}) : super(key: key);
 
@@ -62,7 +58,8 @@ class Welcome extends StatelessWidget {
                   children: [
                     Expanded(
                         child: CupertinoButton(
-                            child: const Text('New user?'), onPressed: () {})),
+                            child: const Text('New user?'),
+                            onPressed: () => push(context, const SignUp()))),
                     Expanded(
                         child: CupertinoButton(
                             child: const Text('Sign in'),
@@ -113,7 +110,8 @@ class Welcome extends StatelessWidget {
                 children: [
                   Expanded(
                       child: TextButton(
-                          child: const Text('New user?'), onPressed: () {})),
+                          child: const Text('New user?'),
+                          onPressed: () => push(context, const SignUp()))),
                   Expanded(
                       child: TextButton(
                           child: const Text('Sign in'),
@@ -124,33 +122,6 @@ class Welcome extends StatelessWidget {
   }
 
   void _showAppWebsite(BuildContext context) {
-    if (isPlatformIos(context)) {
-      showCupertinoModalPopup<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return CupertinoActionSheet(
-              actions: <CupertinoActionSheetAction>[
-                CupertinoActionSheetAction(
-                  child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.7,
-                      child: const WebView(initialUrl: 'https://flutter.dev')),
-                  onPressed: () {},
-                ),
-                CupertinoActionSheetAction(
-                  child: const Text('Close'),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
-            );
-          });
-    } else {
-      showModalBottomSheet<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return WebView(
-                initialUrl: 'https://flutter.dev',
-                gestureRecognizers: gestureRecognizers);
-          });
-    }
+    showWebviewModalBottomSheet(context, 'https://flutter.dev');
   }
 }

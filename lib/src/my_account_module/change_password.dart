@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../common/home_scaffold.dart';
+import '../common/string_extension.dart';
 import '../common/widget_util.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -224,12 +225,12 @@ class _ChangePasswordState extends State<ChangePassword> {
         _confirmNewPassword.isEmpty) {
       return 'Please fill in all the fields';
     } else if (_currentPassword.isEmpty) {
-      return 'Please enter you current password.';
+      return 'Please enter your current password.';
     } else if (_newPassword.isEmpty) {
       return 'Please enter your new password.';
     } else if (_confirmNewPassword.isEmpty) {
       return 'Please confirm your new password';
-    } else if (!validatePassword(_newPassword)) {
+    } else if (!_newPassword.isAValidPassword()) {
       return 'Your password must be at least 8 characters long and contain lower case and upper case letters, and numeric and special characters.';
     } else if (_newPassword != _confirmNewPassword) {
       return 'Passwords do not match';

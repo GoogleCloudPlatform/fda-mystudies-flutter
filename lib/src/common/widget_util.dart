@@ -1,7 +1,10 @@
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 Future<T?> push<T extends Object?>(BuildContext context, Widget widget) {
   if (isPlatformIos(context)) {
@@ -57,19 +60,38 @@ void showUserMessage(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
 }
 
-bool validatePassword(String password) {
-  if (password.length < 8) {
-    return false;
-  } else if (!password.contains(RegExp(r'[A-Z]'))) {
-    return false;
-  } else if (!password.contains(RegExp(r'[a-z]'))) {
-    return false;
-  } else if (!password.contains(RegExp(r'[0-9]'))) {
-    return false;
-  } else if (!(password
-          .contains(RegExp(r'[!@#$%^&*()+=\-_~,.?":;{}|<>\[\]]')) ||
-      password.contains('\''))) {
-    return false;
+void showWebviewModalBottomSheet(BuildContext context, String url) {
+  final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
+    Factory(() => EagerGestureRecognizer())
+  };
+  if (isPlatformIos(context)) {
+    showCupertinoModalPopup<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoActionSheet(
+            actions: <CupertinoActionSheetAction>[
+              CupertinoActionSheetAction(
+                child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    child: WebView(initialUrl: url)),
+                onPressed: () {},
+              ),
+              CupertinoActionSheetAction(
+                child: const Text('Close'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          );
+        });
+  } else {
+    showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return FractionallySizedBox(
+              heightFactor: 0.8,
+              child: WebView(
+                  initialUrl: url, gestureRecognizers: gestureRecognizers));
+        });
   }
-  return true;
 }
