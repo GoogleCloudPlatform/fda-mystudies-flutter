@@ -34,7 +34,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               Text(
                   'Please enter your registered email to receivce password help.',
                   textAlign: TextAlign.center,
-                  style: FDATextTheme.bodyText(context)),
+                  style: FDATextTheme.bodyTextStyle(context)),
               const SizedBox(height: 18),
               FDATextField(
                 placeholder: 'Email ID',

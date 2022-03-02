@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 import '../common/widget_util.dart';
 
 class FDATextTheme {
-  static TextStyle? bodyText(BuildContext context) {
+  static TextStyle? headerTextStyle(BuildContext context) {
+    if (isPlatformIos(context)) {
+      return CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle;
+    }
+    return Theme.of(context).textTheme.headline6;
+  }
+
+  static TextStyle? bodyTextStyle(BuildContext context) {
     if (isPlatformIos(context)) {
       return CupertinoTheme.of(context).textTheme.textStyle;
     }
