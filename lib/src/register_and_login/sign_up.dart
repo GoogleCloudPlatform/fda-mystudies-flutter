@@ -7,8 +7,11 @@ import 'package:flutter/widgets.dart';
 import '../common/home_scaffold.dart';
 import '../common/string_extension.dart';
 import '../common/widget_util.dart';
-import '../cupertino_widget/cupertino_check_mark.dart';
-import '../cupertino_widget/cupertino_ink_well.dart';
+import '../theme/fda_text_theme.dart';
+import '../widget/fda_button.dart';
+import '../widget/fda_check_box.dart';
+import '../widget/fda_ink_well.dart';
+import '../widget/fda_text_field.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -32,7 +35,6 @@ class _SignUpState extends State<SignUp> {
     const emailIdPlaceholder = 'Enter email';
     const passwordPlaceholder = 'Add password';
     const confirmPasswordPlaceholder = 'Confirm password';
-    var isIos = isPlatformIos(context);
     return Stack(children: [
       GestureDetector(
           onTap: () {
@@ -42,79 +44,71 @@ class _SignUpState extends State<SignUp> {
               child: SafeArea(
                   child: ListView(
                 padding: const EdgeInsets.all(12),
-                children: isIos
-                    ? [
-                        CupertinoTextField.borderless(
-                            placeholder: emailIdPlaceholder,
-                            controller: _emailIdController,
-                            maxLines: 1,
-                            autocorrect: false,
-                            readOnly: _isLoading,
-                            textInputAction: TextInputAction.next,
-                            onChanged: (value) {
-                              setState(() {
-                                _emailId = value;
-                              });
-                            }),
-                        Divider(thickness: 2, color: dividerColor(context)),
-                        CupertinoTextField.borderless(
-                            placeholder: passwordPlaceholder,
-                            controller: _passwordController,
-                            maxLines: 1,
-                            autocorrect: false,
-                            readOnly: _isLoading,
-                            obscureText: true,
-                            textInputAction: TextInputAction.next,
-                            onChanged: (value) {
-                              setState(() {
-                                _password = value;
-                              });
-                            }),
-                        Divider(thickness: 2, color: dividerColor(context)),
-                        CupertinoTextField.borderless(
-                            placeholder: confirmPasswordPlaceholder,
-                            controller: _confirmPasswordController,
-                            maxLines: 1,
-                            autocorrect: false,
-                            readOnly: _isLoading,
-                            obscureText: true,
-                            textInputAction: TextInputAction.done,
-                            onChanged: (value) {
-                              setState(() {
-                                _confirmPassword = value;
-                              });
-                            }),
-                        Divider(thickness: 2, color: dividerColor(context)),
-                        const SizedBox(height: 12),
-                        Wrap(children: [
-                          CupertinoCheckMark(
-                              enabled: !_isLoading,
-                              onTap: (value) => setState(() {
-                                    _termsAndConditionsAgreed = value;
-                                  })),
-                          Text('I agree to ',
-                              style: CupertinoTheme.of(context)
-                                  .textTheme
-                                  .textStyle),
-                          CupertinoInkWell('terms ',
-                              onTap: () => showWebviewModalBottomSheet(context,
-                                  'https://policies.google.com/terms?hl=en-US')),
-                          Text('and ',
-                              style: CupertinoTheme.of(context)
-                                  .textTheme
-                                  .textStyle),
-                          CupertinoInkWell('privacy policy',
-                              onTap: () => showWebviewModalBottomSheet(context,
-                                  'https://policies.google.com/privacy?hl=en-US'))
-                        ]),
-                        const SizedBox(height: 24),
-                        CupertinoButton.filled(
-                            child: _isLoading
-                                ? const CupertinoActivityIndicator()
-                                : const Text('Submit'),
-                            onPressed: _signUpUser())
-                      ]
-                    : [],
+                children: [
+                  FDATextField(
+                      placeholder: emailIdPlaceholder,
+                      textEditingController: _emailIdController,
+                      maxLines: 1,
+                      autocorrect: false,
+                      readOnly: _isLoading,
+                      textInputAction: TextInputAction.next,
+                      onChanged: (value) {
+                        setState(() {
+                          _emailId = value;
+                        });
+                      }),
+                  const SizedBox(height: 22),
+                  FDATextField(
+                      placeholder: passwordPlaceholder,
+                      textEditingController: _passwordController,
+                      maxLines: 1,
+                      autocorrect: false,
+                      readOnly: _isLoading,
+                      obscureText: true,
+                      textInputAction: TextInputAction.next,
+                      onChanged: (value) {
+                        setState(() {
+                          _password = value;
+                        });
+                      }),
+                  const SizedBox(height: 22),
+                  FDATextField(
+                      placeholder: confirmPasswordPlaceholder,
+                      textEditingController: _confirmPasswordController,
+                      maxLines: 1,
+                      autocorrect: false,
+                      readOnly: _isLoading,
+                      obscureText: true,
+                      textInputAction: TextInputAction.done,
+                      onChanged: (value) {
+                        setState(() {
+                          _confirmPassword = value;
+                        });
+                      }),
+                  const SizedBox(height: 22),
+                  Wrap(children: [
+                    FDACheckBox(
+                        enabled: !_isLoading,
+                        value: _termsAndConditionsAgreed,
+                        onTap: (value) => setState(() {
+                              _termsAndConditionsAgreed = value;
+                            })),
+                    Text('  I agree to ',
+                        style: FDATextTheme.bodyTextStyle(context)),
+                    FDAInkWell('terms ',
+                        onTap: () => showWebviewModalBottomSheet(context,
+                            'https://policies.google.com/terms?hl=en-US')),
+                    Text('and ', style: FDATextTheme.bodyTextStyle(context)),
+                    FDAInkWell('privacy policy',
+                        onTap: () => showWebviewModalBottomSheet(context,
+                            'https://policies.google.com/privacy?hl=en-US'))
+                  ]),
+                  const SizedBox(height: 24),
+                  FDAButton(
+                      title: 'Submit',
+                      isLoading: _isLoading,
+                      onPressed: _signUpUser())
+                ],
               )),
               title: 'Sign Up',
               showDrawer: false))

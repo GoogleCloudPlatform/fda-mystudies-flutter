@@ -9,6 +9,7 @@ class FDATextField extends StatefulWidget {
   final int? maxLines;
   final bool readOnly;
   final bool autocorrect;
+  final bool obscureText;
   final TextInputAction? textInputAction;
   final void Function(String)? onChanged;
 
@@ -18,6 +19,7 @@ class FDATextField extends StatefulWidget {
       this.maxLines,
       this.readOnly = true,
       this.autocorrect = true,
+      this.obscureText = false,
       this.textInputAction,
       this.onChanged,
       Key? key})
@@ -37,6 +39,7 @@ class _FDATextFieldState extends State<FDATextField> {
           maxLines: widget.maxLines,
           autocorrect: widget.autocorrect,
           readOnly: widget.readOnly,
+          obscureText: widget.obscureText,
           textInputAction: widget.textInputAction,
           decoration: BoxDecoration(
               border: Border(
@@ -50,6 +53,7 @@ class _FDATextFieldState extends State<FDATextField> {
     }
     return TextField(
         controller: widget.textEditingController,
+        maxLines: widget.maxLines,
         autocorrect: widget.autocorrect,
         onChanged: (value) {
           if (widget.onChanged != null) {
@@ -57,6 +61,7 @@ class _FDATextFieldState extends State<FDATextField> {
           }
         },
         readOnly: widget.readOnly,
+        obscureText: widget.obscureText,
         textInputAction: widget.textInputAction,
         decoration: InputDecoration(
             border: const OutlineInputBorder(), labelText: widget.placeholder));

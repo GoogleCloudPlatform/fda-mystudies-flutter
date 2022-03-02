@@ -6,7 +6,7 @@ import '../common/widget_util.dart';
 class CupertinoInkWell extends StatelessWidget {
   final String text;
   final TextAlign? textAlign;
-  final void Function() onTap;
+  final void Function()? onTap;
 
   const CupertinoInkWell(this.text,
       {this.textAlign, required this.onTap, Key? key})
@@ -16,7 +16,7 @@ class CupertinoInkWell extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: () => onTap(),
+        onTap: onTap,
         child: Text(text, textAlign: textAlign, style: _inkWellStyle(context)));
   }
 
