@@ -8,7 +8,10 @@ class FDATextTheme {
     if (isPlatformIos(context)) {
       return CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle;
     }
-    return Theme.of(context).textTheme.headline6;
+    return Theme.of(context)
+        .textTheme
+        .headline4
+        ?.apply(color: Theme.of(context).textTheme.bodyText1?.color);
   }
 
   static TextStyle? bodyTextStyle(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/participant_user_datastore_service.dart';
+import 'package:fda_mystudies_spec/participant_user_datastore_service/registration.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +13,7 @@ import '../widget/fda_button.dart';
 import '../widget/fda_check_box.dart';
 import '../widget/fda_ink_well.dart';
 import '../widget/fda_text_field.dart';
+import 'verification_step.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -137,7 +139,6 @@ class _SignUpState extends State<SignUp> {
               setState(() {
                 _isLoading = false;
                 if (response == successfulResponse) {
-                  _emailId = '';
                   _password = '';
                   _confirmPassword = '';
                   _emailIdController.text = '';
@@ -147,7 +148,9 @@ class _SignUpState extends State<SignUp> {
                 }
               });
               if (response == successfulResponse) {
-                // TODO(cg2092): Navigate to next page.
+                var userId = (value as RegistrationResponse).userId;
+                pushAndRemoveUntil(
+                    context, VerificationStep(_emailId, userId: userId));
                 return;
               }
               showUserMessage(context, response);

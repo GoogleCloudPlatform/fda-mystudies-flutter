@@ -19,6 +19,20 @@ Future<T?> push<T extends Object?>(BuildContext context, Widget widget) {
   }));
 }
 
+Future<T?> pushAndRemoveUntil<T extends Object?>(
+    BuildContext context, Widget widget) {
+  if (isPlatformIos(context)) {
+    return Navigator.of(context).pushAndRemoveUntil(
+        CupertinoPageRoute(builder: ((BuildContext context) {
+      return widget;
+    })), (route) => false);
+  }
+  return Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: ((BuildContext context) {
+    return widget;
+  })), (route) => false);
+}
+
 bool isPlatformIos(BuildContext context) {
   return Theme.of(context).platform == TargetPlatform.iOS;
 }

@@ -9,6 +9,7 @@ import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
 import '../register_and_login/forgot_password.dart';
 import 'sign_up.dart';
+import 'verification_step.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -61,6 +62,10 @@ class _SignInState extends State<SignIn> {
       push(context, const ForgotPassword());
       return NavigationActionPolicy.CANCEL;
     } else if (uri.path == '/mystudies/callback') {
-    } else if (uri.path == '/mystudies/activation') {}
+    } else if (uri.path == '/mystudies/activation') {
+      String emailId = uri.queryParameters['email'] ?? '';
+      push(context, VerificationStep(emailId));
+      return NavigationActionPolicy.CANCEL;
+    }
   }
 }

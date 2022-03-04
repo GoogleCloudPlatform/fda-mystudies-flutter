@@ -17,7 +17,7 @@ class FDATextField extends StatefulWidget {
       {this.placeholder,
       this.textEditingController,
       this.maxLines,
-      this.readOnly = true,
+      this.readOnly = false,
       this.autocorrect = true,
       this.obscureText = false,
       this.textInputAction,
