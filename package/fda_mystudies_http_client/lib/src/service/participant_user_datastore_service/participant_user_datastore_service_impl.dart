@@ -9,8 +9,9 @@ import 'package:fda_mystudies_spec/participant_user_datastore_service/verify_ema
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
-import '../config.dart';
 import '../../../participant_user_datastore_service.dart';
+import '../../service/session.dart';
+import '../config.dart';
 import '../util/common_responses.dart';
 import '../util/request_header.dart';
 import '../util/response_parser.dart';
@@ -94,9 +95,9 @@ class ParticipantUserDatastoreServiceImpl
   }
 
   @override
-  Future<Object> getUserProfile(String userId, String authToken) {
+  Future<Object> getUserProfile(String userId) {
     var headers = CommonRequestHeader()
-      ..from(config, userId: userId, authToken: authToken);
+      ..from(config, userId: userId, authToken: Session.shared.authToken);
     var uri = Uri.https(
         config.baseParticipantUrl, '$participantUserDatastore$userProfilePath');
 
@@ -136,11 +137,13 @@ class ParticipantUserDatastoreServiceImpl
   }
 
   @override
-  Future<Object> updateUserProfile(String userId, String authToken,
+  Future<Object> updateUserProfile(String userId,
       GetUserProfileResponse_UserProfileSettings userProfileSettings) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {
       'settings': userProfileSettings.toJson(),
       'info': {

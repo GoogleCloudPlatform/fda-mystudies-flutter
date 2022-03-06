@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
 import '../cupertino_widget/cupertino_ink_well.dart';
+import '../user/user_data.dart';
 import 'change_password.dart';
 import 'delete_account.dart';
 
@@ -27,7 +28,7 @@ class _MyAccountState extends State<MyAccount> {
     super.initState();
     var participantUserDatastore = getIt<ParticipantUserDatastoreService>();
     participantUserDatastore
-        .getUserProfile('userId', 'authToken')
+        .getUserProfile(UserData.shared.userId)
         .then((value) {
       if (value is GetUserProfileResponse) {
         setState(() {
@@ -179,7 +180,7 @@ class _MyAccountState extends State<MyAccount> {
       });
       var participantUserDatastore = getIt<ParticipantUserDatastoreService>();
       participantUserDatastore
-          .updateUserProfile('userId', 'authToken', settings)
+          .updateUserProfile(UserData.shared.userId, settings)
           .then((value) {
         var successfulResponseMessage = 'Profile successfully updated';
         var response = processResponse(value, successfulResponseMessage);

@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
 import '../../../participant_enroll_datastore_service.dart';
+import '../../service/session.dart';
 import '../util/common_responses.dart';
 import '../util/request_header.dart';
 import '../util/response_parser.dart';
@@ -48,9 +49,9 @@ class ParticipantEnrollDatastoreServiceImpl
   }
 
   @override
-  Future<Object> getStudyState(String userId, String authToken) {
+  Future<Object> getStudyState(String userId) {
     var headers = CommonRequestHeader()
-      ..from(config, userId: userId, authToken: authToken);
+      ..from(config, userId: userId, authToken: Session.shared.authToken);
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantEnrollDatastore$studyStatePath');
 

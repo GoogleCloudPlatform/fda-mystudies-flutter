@@ -5,15 +5,13 @@ import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-import '../../main.dart';
+import '../common/future_loading_page.dart';
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
-import '../my_account_module/change_password.dart';
 import '../register_and_login/forgot_password.dart';
-import '../study_module/gateway_home.dart';
-import '../study_module/standalone_home.dart';
+import '../user/user_data.dart';
+import 'account_status.dart';
 import 'sign_up.dart';
-import 'unknown_account_status.dart';
 import 'verification_step.dart';
 
 class SignIn extends StatefulWidget {
@@ -70,50 +68,22 @@ class _SignInState extends State<SignIn> {
       _handleMyStudiesCallback(uri);
       return NavigationActionPolicy.CANCEL;
     } else if (uri.path == '/mystudies/activation') {
-      String emailId = uri.queryParameters['email'] ?? '';
-      push(context, VerificationStep(emailId));
+      UserData.shared.emailId = uri.queryParameters['email'] ?? '';
+      push(context, const VerificationStep());
       return NavigationActionPolicy.CANCEL;
     }
   }
 
   void _handleMyStudiesCallback(Uri uri) {
-    String emailId = uri.queryParameters['email'] ?? '';
-    String code = uri.queryParameters['code'] ?? '';
-    String userId = uri.queryParameters['userId'] ?? '';
+    UserData.shared.code = uri.queryParameters['code'] ?? '';
+    UserData.shared.userId = uri.queryParameters['userId'] ?? '';
     String status = uri.queryParameters['accountStatus'] ?? '4';
     var accountStatus = AccountStatus.values[int.parse(status)];
-    switch (accountStatus) {
-      case AccountStatus.verified:
-        switch (curConfig.appType) {
-          case AppType.gateway:
-            pushAndRemoveUntil(context, const GatewayHome());
-            break;
-          case AppType.standalone:
-            pushAndRemoveUntil(context, const StandaloneHome());
-            break;
-        }
-        break;
-      case AccountStatus.pending:
-        pushAndRemoveUntil(context, VerificationStep(emailId, userId: userId));
-        break;
-      case AccountStatus.accountLocked:
-      // Follows same procedure as tempPassword
-      // [here](https://github.com/GoogleCloudPlatform/fda-mystudies/blob/master/iOS/MyStudies/MyStudies/Controllers/LoginRegisterUI/LoginUI/SignInViewController.swift#L198)
-      case AccountStatus.tempPassword:
-        pushAndRemoveUntil(
-            context, const ChangePassword(isChangingTemporaryPassword: true));
-        break;
-      case AccountStatus.unknown:
-        push(context, const UnknownAccountStatus());
-        break;
-    }
+    pushAndRemoveUntil(
+        context,
+        FutureLoadingPage('', accountStatus.nextScreen(context),
+            (context, snapshot) {
+          return snapshot.data as Widget;
+        }, wrapInScaffold: false));
   }
-}
-
-enum AccountStatus {
-  verified, // 0
-  pending, // 1
-  accountLocked, // 2
-  tempPassword, // 3
-  unknown // 4
 }

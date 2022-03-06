@@ -47,8 +47,8 @@ void main() {
 
   group('get user profile tests', () {
     test('default scenario test', () async {
-      var response = await participantUserDatastoreService!
-          .getUserProfile('userId', 'authToken');
+      var response =
+          await participantUserDatastoreService!.getUserProfile('userId');
 
       expect(
           response,
@@ -89,7 +89,7 @@ void main() {
   group('update user profile tests', () {
     test('default scenario test', () async {
       var response = await participantUserDatastoreService!.updateUserProfile(
-          'userId', 'authToken', GetUserProfileResponse_UserProfileSettings());
+          'userId', GetUserProfileResponse_UserProfileSettings());
 
       expect(
           response,

@@ -32,13 +32,13 @@ abstract class ParticipantUserDatastoreService {
   /// user preferences for if touchId or passcode is enabled, and if
   /// local/remote notifications are enabled.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> getUserProfile(String userId, String authToken);
+  Future<Object> getUserProfile(String userId);
 
   /// Update user preferences/settings.
   ///
   /// [UpdateUserProfileResponse] for successful user profile update.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> updateUserProfile(String userId, String authToken,
+  Future<Object> updateUserProfile(String userId,
       GetUserProfileResponse_UserProfileSettings userProfileSettings);
 
   /// Record anonymous user feedback.

@@ -9,6 +9,7 @@ import '../common/home_scaffold.dart';
 import '../common/string_extension.dart';
 import '../common/widget_util.dart';
 import '../theme/fda_text_theme.dart';
+import '../user/user_data.dart';
 import '../widget/fda_button.dart';
 import '../widget/fda_check_box.dart';
 import '../widget/fda_ink_well.dart';
@@ -148,9 +149,10 @@ class _SignUpState extends State<SignUp> {
                 }
               });
               if (response == successfulResponse) {
-                var userId = (value as RegistrationResponse).userId;
-                pushAndRemoveUntil(
-                    context, VerificationStep(_emailId, userId: userId));
+                UserData.shared.tempRegId =
+                    (value as RegistrationResponse).tempRegId;
+                UserData.shared.userId = value.userId;
+                pushAndRemoveUntil(context, const VerificationStep());
                 return;
               }
               showUserMessage(context, response);

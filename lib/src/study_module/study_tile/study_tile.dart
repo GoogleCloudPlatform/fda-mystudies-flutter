@@ -1,21 +1,27 @@
-import 'package:fda_mystudies_spec/study_datastore_service/get_study_list.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../common/widget_util.dart';
+import '../../theme/fda_text_theme.dart';
+import 'pb_user_study_status.dart';
 import 'pb_study_status.dart';
 
 class StudyTile extends StatelessWidget {
-  final GetStudyListResponse_Study study;
+  final PbUserStudyStatus userStudyState;
 
-  const StudyTile(this.study, {Key? key}) : super(key: key);
+  const StudyTile(this.userStudyState, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> studyData = [Text(study.title, style: _titleStyle(context))];
-    if (study.tagLine.isNotEmpty) {
-      studyData.add(Text(study.tagLine, style: _tagLineStyle(context)));
+    List<Widget> studyData = [
+      Text(userStudyState.studyState.status,
+          style: FDATextTheme.bodyTextStyle(context)),
+      Text(userStudyState.study.title, style: _titleStyle(context))
+    ];
+    if (userStudyState.study.tagLine.isNotEmpty) {
+      studyData.add(
+          Text(userStudyState.study.tagLine, style: _tagLineStyle(context)));
     }
     return GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -31,9 +37,10 @@ class StudyTile extends StatelessWidget {
                 Container(
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: Image.memory(Uri.parse(study.logo)
-                                    .data!
-                                    .contentAsBytes())
+                            image: Image.memory(
+                                    Uri.parse(userStudyState.study.logo)
+                                        .data!
+                                        .contentAsBytes())
                                 .image),
                         color: Colors.grey,
                         borderRadius:
@@ -56,10 +63,11 @@ class StudyTile extends StatelessWidget {
                             // alignment: WrapAlignment.center,
                             children: [
                               Icon(Icons.circle,
-                                  color: study.status.studyStatus?.color,
+                                  color: userStudyState
+                                      .study.status.studyStatus?.color,
                                   size: 12),
                               const SizedBox(width: 4),
-                              Text(study.status,
+                              Text(userStudyState.study.status,
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
                                       color: Colors.white, fontSize: 11))

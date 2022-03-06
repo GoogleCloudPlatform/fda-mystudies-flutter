@@ -6,17 +6,14 @@ import 'package:flutter/material.dart';
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
 import '../theme/fda_text_theme.dart';
+import '../user/user_data.dart';
 import '../widget/fda_button.dart';
 import '../widget/fda_text_button.dart';
 import '../widget/fda_text_field.dart';
 import 'registration_complete.dart';
 
 class VerificationStep extends StatefulWidget {
-  final String emailId;
-  final String userId;
-
-  const VerificationStep(this.emailId, {this.userId = '', Key? key})
-      : super(key: key);
+  const VerificationStep({Key? key}) : super(key: key);
 
   @override
   State<VerificationStep> createState() => _VerificationStepState();
@@ -40,7 +37,7 @@ class _VerificationStepState extends State<VerificationStep> {
                 child: ListView(padding: const EdgeInsets.all(12), children: [
               const SizedBox(height: 22),
               Text(
-                  'An email has been sent to ${widget.emailId.isEmpty ? 'your registered email id' : widget.emailId}. Please type in the verification code received in the email to complete account setup.',
+                  'An email has been sent to ${UserData.shared.emailId.isEmpty ? 'your registered email id' : UserData.shared.emailId}. Please type in the verification code received in the email to complete account setup.',
                   textAlign: TextAlign.center,
                   style: FDATextTheme.bodyTextStyle(context)),
               const SizedBox(height: 22),
@@ -85,7 +82,8 @@ class _VerificationStepState extends State<VerificationStep> {
             var participantUserDatastore =
                 getIt<ParticipantUserDatastoreService>();
             participantUserDatastore
-                .verifyEmail(widget.emailId, widget.userId, _verificationCode)
+                .verifyEmail(UserData.shared.emailId, UserData.shared.userId,
+                    _verificationCode)
                 .then((value) {
               const successfulResponse = 'Email ID verified successfully!';
               var response = processResponse(value, successfulResponse);
@@ -115,7 +113,8 @@ class _VerificationStepState extends State<VerificationStep> {
             var participantUserDatastore =
                 getIt<ParticipantUserDatastoreService>();
             participantUserDatastore
-                .resendConfirmation(widget.userId, widget.emailId)
+                .resendConfirmation(
+                    UserData.shared.userId, UserData.shared.emailId)
                 .then((value) {
               const successfulResponse =
                   'A verification code has been sent to your registered email';

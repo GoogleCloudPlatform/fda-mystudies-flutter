@@ -11,7 +11,7 @@ abstract class ParticipantEnrollDatastoreService {
   /// with state of each study containing enrollment data, siteId for the provided userId,
   /// adherence and completion statistics.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> getStudyState(String userId, String authToken);
+  Future<Object> getStudyState(String userId);
 
   /// Validate enrollmentToken sent to the user email for enrolling in study with provided studyId.
   ///

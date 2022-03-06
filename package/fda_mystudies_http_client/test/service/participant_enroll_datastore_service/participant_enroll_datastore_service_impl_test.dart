@@ -20,8 +20,8 @@ void main() {
 
   group('get study state tests', () {
     test('test default scenario', () async {
-      var response = await participantEnrollDatastoreService!
-          .getStudyState('userId', 'authToken');
+      var response =
+          await participantEnrollDatastoreService!.getStudyState('userId');
 
       expect(
           response,
