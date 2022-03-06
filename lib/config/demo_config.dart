@@ -11,6 +11,9 @@ class DemoConfig implements Config {
   String get apiKey => 'API_KEY';
 
   @override
+  AppType get appType => AppType.gateway;
+
+  @override
   String get appId => 'fda-mystudies-flutter';
 
   @override

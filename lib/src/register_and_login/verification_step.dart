@@ -40,7 +40,7 @@ class _VerificationStepState extends State<VerificationStep> {
                 child: ListView(padding: const EdgeInsets.all(12), children: [
               const SizedBox(height: 22),
               Text(
-                  'An email has been sent to ${widget.emailId}. Please type in the verification code received in the email to complete account setup.',
+                  'An email has been sent to ${widget.emailId.isEmpty ? 'your registered email id' : widget.emailId}. Please type in the verification code received in the email to complete account setup.',
                   textAlign: TextAlign.center,
                   style: FDATextTheme.bodyTextStyle(context)),
               const SizedBox(height: 22),

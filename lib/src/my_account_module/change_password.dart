@@ -9,7 +9,9 @@ import '../common/string_extension.dart';
 import '../common/widget_util.dart';
 
 class ChangePassword extends StatefulWidget {
-  const ChangePassword({Key? key}) : super(key: key);
+  final bool isChangingTemporaryPassword;
+  const ChangePassword({this.isChangingTemporaryPassword = false, Key? key})
+      : super(key: key);
 
   @override
   _ChangePasswordState createState() => _ChangePasswordState();
@@ -26,7 +28,8 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   @override
   Widget build(BuildContext context) {
-    const currentPasswordPlaceholder = 'Current Placeholder';
+    var currentPasswordPlaceholder =
+        '${widget.isChangingTemporaryPassword ? 'Temporary' : 'Current'} Password';
     const newPasswordPlaceholder = 'New Password';
     const confirmNewPasswordPlaceholder = 'Confirm New Password';
 
@@ -101,8 +104,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                                           },
                                           readOnly: _isLoading,
                                           textInputAction: TextInputAction.next,
-                                          decoration: const InputDecoration(
-                                              border: OutlineInputBorder(),
+                                          decoration: InputDecoration(
+                                              border:
+                                                  const OutlineInputBorder(),
                                               labelText:
                                                   currentPasswordPlaceholder)),
                                       const SizedBox(height: 16),
@@ -225,7 +229,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         _confirmNewPassword.isEmpty) {
       return 'Please fill in all the fields';
     } else if (_currentPassword.isEmpty) {
-      return 'Please enter your current password.';
+      return 'Please enter your ${widget.isChangingTemporaryPassword ? 'temporary' : 'current'} password.';
     } else if (_newPassword.isEmpty) {
       return 'Please enter your new password.';
     } else if (_confirmNewPassword.isEmpty) {
