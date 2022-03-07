@@ -1,10 +1,35 @@
-import 'package:fda_mystudies_spec/participant_enroll_datastore_service/get_study_state.pb.dart';
-import 'package:fda_mystudies_spec/study_datastore_service/get_study_list.pb.dart';
+enum PbUserStudyStatus {
+  yetToEnroll,
+  notEligible,
+  enrolled,
+  completed,
+  withdrawn
+}
 
-class PbUserStudyStatus {
-  final String studyId;
-  final GetStudyListResponse_Study study;
-  final GetStudyStateResponse_StudyState studyState;
+extension PbUserStudyStatusStringExtension on String {
+  PbUserStudyStatus get userStudyStatus {
+    return PbUserStudyStatus.values.firstWhere((e) => e.toString() == this,
+        orElse: () => PbUserStudyStatus.yetToEnroll);
+  }
+}
 
-  PbUserStudyStatus(this.studyId, this.study, this.studyState);
+extension PbUserStudyStatusExtension on PbUserStudyStatus {
+  String get paramValue {
+    return toString();
+  }
+
+  String get description {
+    switch (this) {
+      case PbUserStudyStatus.yetToEnroll:
+        return 'Yet to enroll';
+      case PbUserStudyStatus.notEligible:
+        return 'Not eligible';
+      case PbUserStudyStatus.enrolled:
+        return 'Enrolled';
+      case PbUserStudyStatus.completed:
+        return 'Completed';
+      case PbUserStudyStatus.withdrawn:
+        return 'Withdrawn';
+    }
+  }
 }

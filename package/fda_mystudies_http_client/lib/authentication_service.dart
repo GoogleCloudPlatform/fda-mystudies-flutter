@@ -24,7 +24,7 @@ abstract class AuthenticationService {
   /// [CommonErrorResponse] for failed response.
   Future<Object> resetPassword(String emailId);
 
-  Future<Object> logout(String userId, String authToken);
+  Future<Object> logout(String userId);
 
   /// [ChangePasswordResponse] for successful response.
   /// [CommonErrorResponse] for failed response.

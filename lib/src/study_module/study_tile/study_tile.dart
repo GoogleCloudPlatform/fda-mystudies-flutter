@@ -3,25 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../common/widget_util.dart';
+import '../../drawer_menu/drawer_menu.dart';
 import '../../theme/fda_text_theme.dart';
+import '../../user/user_data.dart';
+import 'pb_study_enrollment_status.dart';
+import 'pb_user_study_data.dart';
 import 'pb_user_study_status.dart';
-import 'pb_study_status.dart';
 
 class StudyTile extends StatelessWidget {
-  final PbUserStudyStatus userStudyState;
+  final PbUserStudyData userStudyData;
 
-  const StudyTile(this.userStudyState, {Key? key}) : super(key: key);
+  const StudyTile(this.userStudyData, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List<Widget> studyData = [
-      Text(userStudyState.studyState.status,
+      Text(userStudyData.studyState.status.userStudyStatus.description,
           style: FDATextTheme.bodyTextStyle(context)),
-      Text(userStudyState.study.title, style: _titleStyle(context))
+      Text(userStudyData.study.title, style: _titleStyle(context))
     ];
-    if (userStudyState.study.tagLine.isNotEmpty) {
+    if (userStudyData.study.tagLine.isNotEmpty) {
       studyData.add(
-          Text(userStudyState.study.tagLine, style: _tagLineStyle(context)));
+          Text(userStudyData.study.tagLine, style: _tagLineStyle(context)));
     }
     return GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -38,7 +41,7 @@ class StudyTile extends StatelessWidget {
                     decoration: BoxDecoration(
                         image: DecorationImage(
                             image: Image.memory(
-                                    Uri.parse(userStudyState.study.logo)
+                                    Uri.parse(userStudyData.study.logo)
                                         .data!
                                         .contentAsBytes())
                                 .image),
@@ -63,11 +66,11 @@ class StudyTile extends StatelessWidget {
                             // alignment: WrapAlignment.center,
                             children: [
                               Icon(Icons.circle,
-                                  color: userStudyState
-                                      .study.status.studyStatus?.color,
+                                  color: userStudyData.study.status
+                                      .studyEnrollmentStatus?.color,
                                   size: 12),
                               const SizedBox(width: 4),
-                              Text(userStudyState.study.status,
+                              Text(userStudyData.study.status,
                                   textAlign: TextAlign.left,
                                   style: const TextStyle(
                                       color: Colors.white, fontSize: 11))
@@ -78,7 +81,11 @@ class StudyTile extends StatelessWidget {
                 children: studyData,
               )
             ])),
-        onTap: () {});
+        onTap: () {
+          UserData.shared.curStudyId = userStudyData.studyId;
+          UserData.shared.curParticipantId = '';
+          Navigator.of(context).pushNamed(DrawerMenu.studyHomeRoute);
+        });
   }
 
   TextStyle? _titleStyle(BuildContext context) {

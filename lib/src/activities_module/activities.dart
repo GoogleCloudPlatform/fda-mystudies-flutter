@@ -14,6 +14,7 @@ import 'package:flutter/widgets.dart';
 
 import '../common/future_loading_page.dart';
 import '../common/widget_util.dart';
+import '../user/user_data.dart';
 import 'cupertino_activity_response_processor.dart';
 import 'cupertino_activity_tile.dart';
 import 'material_activity_response_processor.dart';
@@ -33,10 +34,9 @@ class _ActivitiesState extends State<Activities> {
     return FutureLoadingPage(
         'Activities',
         _fetchActivityListWithState(
-            userId: 'userId',
-            studyId: 'studyId',
-            authToken: 'authToken',
-            participantId: 'participantId'), (context, snapshot) {
+            studyId: UserData.shared.curStudyId,
+            participantId: UserData.shared.curParticipantId),
+        (context, snapshot) {
       var pbActivityList = snapshot.data as List<PbActivity>;
       return ListView(
           children: pbActivityList.map((e) {
@@ -51,17 +51,14 @@ class _ActivitiesState extends State<Activities> {
   }
 
   Future<Object> _fetchActivityListWithState(
-      {required String userId,
-      required String studyId,
-      required String authToken,
-      required String participantId}) {
+      {required String studyId, required String participantId}) {
     var studyDatastoreService = getIt<StudyDatastoreService>();
     var responseDatastoreService = getIt<ResponseDatastoreService>();
 
     return Future.wait([
-      studyDatastoreService.getActivityList(studyId, userId),
+      studyDatastoreService.getActivityList(studyId, UserData.shared.userId),
       responseDatastoreService.getActivityState(
-          userId, authToken, studyId, participantId)
+          UserData.shared.userId, studyId, participantId)
     ]).then((responses) {
       var activityListResponse = responses[0];
       var activityStateResponse = responses[1];
@@ -97,8 +94,8 @@ class _ActivitiesState extends State<Activities> {
   void _openActivityUI(
       BuildContext context, GetActivityListResponse_Activity activity) {
     var studyDatastoreService = getIt<StudyDatastoreService>();
-    var userId = 'userId';
-    var studyId = 'studyId';
+    var userId = UserData.shared.userId;
+    var studyId = UserData.shared.curStudyId;
     var activityId = activity.activityId;
     var activityVersion = activity.activityVersion;
     var uniqueId = '$userId:$studyId:$activityId';

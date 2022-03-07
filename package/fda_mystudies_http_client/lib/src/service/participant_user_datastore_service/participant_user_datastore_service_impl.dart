@@ -38,11 +38,13 @@ class ParticipantUserDatastoreServiceImpl
   ParticipantUserDatastoreServiceImpl(this.client, this.config);
 
   @override
-  Future<Object> contactUs(String userId, String authToken, String subject,
-      String feedbackBody, String email, String firstName) {
+  Future<Object> contactUs(String userId, String subject, String feedbackBody,
+      String email, String firstName) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {
       'subject': subject,
       'body': feedbackBody,
@@ -60,10 +62,12 @@ class ParticipantUserDatastoreServiceImpl
 
   @override
   Future<Object> deactivate(
-      String userId, String authToken, String studyId, String participantId) {
+      String userId, String studyId, String participantId) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {
       'studyData': [
         {'studyId': studyId, 'delete': false, 'participantId': participantId}
@@ -79,11 +83,12 @@ class ParticipantUserDatastoreServiceImpl
   }
 
   @override
-  Future<Object> feedback(
-      String userId, String authToken, String subject, String feedbackBody) {
+  Future<Object> feedback(String userId, String subject, String feedbackBody) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {'subject': subject, 'body': feedbackBody};
     var uri = Uri.https(
         config.baseParticipantUrl, '$participantUserDatastore$feedbackPath');

@@ -10,7 +10,7 @@ import '../../main.dart';
 import '../common/future_loading_page.dart';
 import '../study_module/study_tile/study_tile.dart';
 import '../user/user_data.dart';
-import 'study_tile/pb_user_study_status.dart';
+import 'study_tile/pb_user_study_data.dart';
 
 class GatewayHome extends StatelessWidget {
   const GatewayHome({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class GatewayHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureLoadingPage(curConfig.appName, _fetchStudyListAndUserStatus(),
         (context, snapshot) {
-      var userStudyStatusList = snapshot.data as List<PbUserStudyStatus>;
+      var userStudyStatusList = snapshot.data as List<PbUserStudyData>;
       return ListView(
           children: userStudyStatusList.map((e) => StudyTile(e)).toList());
     }, showDrawer: true);
@@ -44,21 +44,19 @@ class GatewayHome extends StatelessWidget {
         var studyList = studyListResponse.studies;
         var userStudyStateList = userStudyStateListResponse.studies;
         var uniqueStudyIds = studyList.map((e) => e.studyId).toSet().toList();
-        List<PbUserStudyStatus> pbUserStudyStatusList = [];
+        List<PbUserStudyData> pbUserStudyStatusList = [];
         for (String studyId in uniqueStudyIds) {
           var matchingStudyList = studyList.where((e) => e.studyId == studyId);
           var matchingStudyStateList =
               userStudyStateList.where((e) => e.studyId == studyId);
           if (matchingStudyList.isNotEmpty &&
               matchingStudyStateList.isNotEmpty) {
-            pbUserStudyStatusList.add(PbUserStudyStatus(studyId,
+            pbUserStudyStatusList.add(PbUserStudyData(studyId,
                 matchingStudyList.first, matchingStudyStateList.first));
           } else if (matchingStudyList.isNotEmpty &&
               matchingStudyStateList.isEmpty) {
-            pbUserStudyStatusList.add(PbUserStudyStatus(
-                studyId,
-                matchingStudyList.first,
-                GetStudyStateResponse_StudyState(status: 'Yet to enroll')));
+            pbUserStudyStatusList.add(PbUserStudyData(studyId,
+                matchingStudyList.first, GetStudyStateResponse_StudyState()));
           }
         }
         if (pbUserStudyStatusList.isNotEmpty) {

@@ -13,7 +13,7 @@ abstract class ResponseDatastoreService {
   /// the activity.
   /// [CommonErrorResponse] for failed response.
   Future<Object> getActivityState(
-      String userId, String authToken, String studyId, String participantId);
+      String userId, String studyId, String participantId);
 
   /// Update state of activities and run information.
   ///

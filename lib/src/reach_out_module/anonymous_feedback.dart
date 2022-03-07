@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
+import '../user/user_data.dart';
 
 class AnonymousFeedback extends StatefulWidget {
   const AnonymousFeedback({Key? key}) : super(key: key);
@@ -180,7 +181,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
             var participantUserDatastore =
                 getIt<ParticipantUserDatastoreService>();
             participantUserDatastore
-                .feedback('userId', 'authToken', _subject, _feedback)
+                .feedback(UserData.shared.userId, _subject, _feedback)
                 .then((value) {
               const successfulResponse =
                   'Thank you for providing feedback. Your gesture is appreciated.';

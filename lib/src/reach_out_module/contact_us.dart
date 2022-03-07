@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
+import '../user/user_data.dart';
 
 class ContactUs extends StatefulWidget {
   const ContactUs({Key? key}) : super(key: key);
@@ -221,8 +222,8 @@ class _ContactUsState extends State<ContactUs> {
             var participantUserDatastore =
                 getIt<ParticipantUserDatastoreService>();
             participantUserDatastore
-                .contactUs('userId', 'authToken', _subject, _feedback, _emailId,
-                    _firstName)
+                .contactUs(UserData.shared.userId, _subject, _feedback,
+                    _emailId, _firstName)
                 .then((value) {
               const successfulResponse =
                   'Thank you for contacting us. We will get back to you as soon as possible';

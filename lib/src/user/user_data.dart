@@ -3,8 +3,8 @@ class UserData {
   var tempRegId = '';
   var code = '';
   var userId = '';
-  var studyId = '';
-  var participantId = '';
+  var curStudyId = '';
+  var curParticipantId = '';
 
   UserData._init();
   static final UserData shared = UserData._init();

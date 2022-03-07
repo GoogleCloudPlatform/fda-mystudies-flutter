@@ -19,7 +19,7 @@ void main() {
   group('get activity state tests', () {
     test('test default scenario', () async {
       var response = await responseDatastoreService!
-          .getActivityState('userId', 'authToken', 'studyId', 'participantId');
+          .getActivityState('userId', 'studyId', 'participantId');
 
       expect(
           response,

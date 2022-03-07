@@ -10,8 +10,7 @@ abstract class ParticipantConsentDatastoreService {
   /// as string. If type is PDF, content will be contents of PDF represented as base64
   /// encoded string.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> getConsentDocument(
-      String userId, String authToken, String studyId);
+  Future<Object> getConsentDocument(String userId, String studyId);
 
   /// Update eligibility and consent status with signed consent PDF.
   ///
@@ -20,7 +19,6 @@ abstract class ParticipantConsentDatastoreService {
   /// [CommonErrorResponse] for failed response.
   Future<Object> updateEligibilityAndConsentStatus(
       String userId,
-      String authToken,
       String studyId,
       String siteId,
       String consentVersion,

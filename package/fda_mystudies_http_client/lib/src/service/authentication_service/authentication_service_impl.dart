@@ -97,9 +97,9 @@ class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @override
-  Future<Object> logout(String userId, String authToken) {
+  Future<Object> logout(String userId) {
     var headers = CommonRequestHeader()
-      ..from(config, authToken: authToken, userId: userId);
+      ..from(config, authToken: Session.shared.authToken, userId: userId);
     Uri uri = Uri.https(
         config.baseParticipantUrl, '$authServer/users/$userId$logoutPath');
 

@@ -35,10 +35,12 @@ class ParticipantEnrollDatastoreServiceImpl
 
   @override
   Future<Object> enrollInStudy(
-      String userId, String authToken, String enrollmentToken, String studyId) {
+      String userId, String enrollmentToken, String studyId) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var queryParams = {'token': enrollmentToken, 'studyId': studyId};
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantEnrollDatastore$enrollPath', queryParams);
@@ -61,16 +63,13 @@ class ParticipantEnrollDatastoreServiceImpl
   }
 
   @override
-  Future<Object> updateStudyState(
-      String userId,
-      String authToken,
-      String studyId,
-      String studyStatus,
-      String? siteId,
-      String? participantId) {
+  Future<Object> updateStudyState(String userId, String studyId,
+      String studyStatus, String? siteId, String? participantId) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {
       'studies': [
         {
@@ -95,10 +94,12 @@ class ParticipantEnrollDatastoreServiceImpl
 
   @override
   Future<Object> validateEnrollmentToken(
-      String userId, String authToken, String studyId, String enrollmentToken) {
+      String userId, String studyId, String enrollmentToken) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {'token': enrollmentToken, 'studyId': studyId};
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantEnrollDatastore$validateEnrollmentTokenPath');
@@ -113,10 +114,12 @@ class ParticipantEnrollDatastoreServiceImpl
 
   @override
   Future<Object> withdrawFromStudy(
-      String userId, String authToken, String studyId, String participantId) {
+      String userId, String studyId, String participantId) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {
       'studyId': studyId,
       'delete': false,

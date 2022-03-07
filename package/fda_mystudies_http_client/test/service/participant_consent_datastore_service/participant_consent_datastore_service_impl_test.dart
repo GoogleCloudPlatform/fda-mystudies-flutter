@@ -18,7 +18,7 @@ void main() {
   group('get consent document tests', () {
     test('test default scenario', () async {
       var response = await participantConsentDatastoreService!
-          .getConsentDocument('userId', 'authToken', 'studyId');
+          .getConsentDocument('userId', 'studyId');
 
       expect(
           response,
@@ -36,8 +36,8 @@ void main() {
   group('update eligibility and consent status tests', () {
     test('test default scenario', () async {
       var response = await participantConsentDatastoreService!
-          .updateEligibilityAndConsentStatus('userId', 'authToken', 'studyId',
-              'siteId', 'consentVersion', 'base64Pdf', 'userDataSharing');
+          .updateEligibilityAndConsentStatus('userId', 'studyId', 'siteId',
+              'consentVersion', 'base64Pdf', 'userDataSharing');
 
       expect(
           response,

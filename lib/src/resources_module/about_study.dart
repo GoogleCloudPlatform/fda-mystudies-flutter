@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/study_datastore_service.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
@@ -10,6 +9,7 @@ import 'package:flutter/widgets.dart';
 
 import '../common/future_loading_page.dart';
 import '../common/widget_util.dart';
+import '../user/user_data.dart';
 
 class AboutStudy extends StatelessWidget {
   const AboutStudy({Key? key}) : super(key: key);
@@ -19,35 +19,41 @@ class AboutStudy extends StatelessWidget {
     StudyDatastoreService studyDatastoreService =
         getIt<StudyDatastoreService>();
     return FutureLoadingPage(
-        'About', studyDatastoreService.getStudyInfo('studyId', 'userId'),
+        'About',
+        studyDatastoreService.getStudyInfo(
+            UserData.shared.curStudyId, UserData.shared.userId),
         (context, snapshot) {
       var response = snapshot.data as StudyInfoResponse;
       var infoItem = response.infos.first;
-      return CachedNetworkImage(
-          imageUrl: infoItem.image,
-          imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
-              ),
-              child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                  child: Container(
-                      color: Colors.black.withOpacity(0.1),
-                      child: Padding(
-                          padding: const EdgeInsets.all(24),
-                          child: Center(
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                Text(infoItem.title,
-                                    style: _titleStyle(context),
-                                    textAlign: TextAlign.center),
-                                const SizedBox(height: 20),
-                                Text(infoItem.text,
-                                    style: _subtitleStyle(context),
-                                    textAlign: TextAlign.center)
-                              ])))))));
+      return Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: Image.memory(
+                        Uri.parse(infoItem.image).data!.contentAsBytes())
+                    .image,
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.5), BlendMode.darken),
+                fit: BoxFit.cover),
+          ),
+          child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                  color: Colors.black.withOpacity(0.1),
+                  child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Center(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                            Text(infoItem.title,
+                                style: _titleStyle(context),
+                                textAlign: TextAlign.center),
+                            const SizedBox(height: 20),
+                            Text(infoItem.text,
+                                style: _subtitleStyle(context),
+                                textAlign: TextAlign.center)
+                          ]))))));
     });
   }
 

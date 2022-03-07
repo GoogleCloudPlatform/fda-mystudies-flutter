@@ -18,19 +18,14 @@ abstract class ParticipantEnrollDatastoreService {
   /// [ValidateEnrollmentTokenResponse] for successful response. Similar to CommonResponse.
   /// [CommonErrorResponse] for failed response.
   Future<Object> validateEnrollmentToken(
-      String userId, String authToken, String studyId, String enrollmentToken);
+      String userId, String studyId, String enrollmentToken);
 
   /// Updates the states of the study with provided studyId.
   ///
   /// [CommonResponse] for successful response.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> updateStudyState(
-      String userId,
-      String authToken,
-      String studyId,
-      String studyStatus,
-      String? siteId,
-      String? participantId);
+  Future<Object> updateStudyState(String userId, String studyId,
+      String studyStatus, String? siteId, String? participantId);
 
   /// Enroll user with provided userId into study with provided studyId.
   ///
@@ -38,12 +33,12 @@ abstract class ParticipantEnrollDatastoreService {
   /// site user with provided userId is enrolled in.
   /// [CommonErrorResponse] for failed response.
   Future<Object> enrollInStudy(
-      String userId, String authToken, String enrollmentToken, String studyId);
+      String userId, String enrollmentToken, String studyId);
 
   /// Withdraw user from the study with provided studyId.
   ///
   /// [CommonResponse] for successful response.
   /// [CommonErrorResponse] for failed response.
   Future<Object> withdrawFromStudy(
-      String userId, String authToken, String studyId, String participantId);
+      String userId, String studyId, String participantId);
 }

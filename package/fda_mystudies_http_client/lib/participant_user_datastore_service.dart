@@ -45,15 +45,14 @@ abstract class ParticipantUserDatastoreService {
   ///
   /// [CommonResponse] for successful response.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> feedback(
-      String userId, String authToken, String subject, String feedbackBody);
+  Future<Object> feedback(String userId, String subject, String feedbackBody);
 
   /// Allow user to contact the study organizaing team.
   ///
   /// [CommonResponse] for successful response.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> contactUs(String userId, String authToken, String subject,
-      String feedbackBody, String email, String firstName);
+  Future<Object> contactUs(String userId, String subject, String feedbackBody,
+      String email, String firstName);
 
   /// Deactivate user account. User will be withdrawn from all the configured
   /// studies on the app.
@@ -61,5 +60,5 @@ abstract class ParticipantUserDatastoreService {
   /// [CommonResponse] for successful response.
   /// [CommonErrorResponse] for failed response.
   Future<Object> deactivate(
-      String userId, String authToken, String studyId, String participantId);
+      String userId, String studyId, String participantId);
 }

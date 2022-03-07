@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import '../common/home_scaffold.dart';
 import '../common/string_extension.dart';
 import '../common/widget_util.dart';
+import '../user/user_data.dart';
 
 class ChangePassword extends StatefulWidget {
   final bool isChangingTemporaryPassword;
@@ -200,7 +201,8 @@ class _ChangePasswordState extends State<ChangePassword> {
             });
             var authenticationService = getIt<AuthenticationService>();
             authenticationService
-                .changePassword('userId', _currentPassword, _newPassword)
+                .changePassword(
+                    UserData.shared.userId, _currentPassword, _newPassword)
                 .then((value) {
               const successfulResponse = 'Password Successfully changed!';
               var response = processResponse(value, successfulResponse);
