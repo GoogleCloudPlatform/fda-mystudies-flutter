@@ -8,7 +8,8 @@ enum PbUserStudyStatus {
 
 extension PbUserStudyStatusStringExtension on String {
   PbUserStudyStatus get userStudyStatus {
-    return PbUserStudyStatus.values.firstWhere((e) => e.toString() == this,
+    return PbUserStudyStatus.values.firstWhere(
+        (e) => e.toString().split('.').last == this,
         orElse: () => PbUserStudyStatus.yetToEnroll);
   }
 }

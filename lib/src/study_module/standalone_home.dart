@@ -16,7 +16,7 @@ import '../common/widget_util.dart';
 import '../theme/fda_text_theme.dart';
 import '../user/user_data.dart';
 import '../widget/fda_button.dart';
-import 'study_status_routing.dart';
+import 'study_status_router.dart';
 import 'study_tile/pb_user_study_data.dart';
 
 class StandaloneHome extends StatefulWidget {
@@ -92,7 +92,7 @@ class _StandaloneHomeState extends State<StandaloneHome> {
             });
             _loadUserData().then((value) {
               if (value is PbUserStudyData) {
-                StudyStatusRouting.nextStep(context, value);
+                StudyStatusRouter.nextStep(context, value);
               } else {
                 showUserMessage(context, value as String);
               }

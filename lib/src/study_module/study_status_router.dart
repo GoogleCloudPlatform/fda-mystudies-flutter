@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../common/widget_util.dart';
+import '../eligibility_module/eligibility_step_type_router.dart';
 import 'study_tile/pb_study_enrollment_status.dart';
 import 'study_tile/pb_user_study_data.dart';
 import 'study_tile/pb_user_study_status.dart';
 
-class StudyStatusRouting {
+class StudyStatusRouter {
   static void nextStep(BuildContext context, PbUserStudyData pbUserStudyData) {
     if (pbUserStudyData.study.status.studyEnrollmentStatus ==
         PbStudyEnrollmentStatus.paused) {
@@ -33,7 +34,7 @@ class StudyStatusRouting {
             PbUserStudyStatus.yetToEnroll ||
         pbUserStudyData.userState.status.userStudyStatus ==
             PbUserStudyStatus.withdrawn) {
-      // ENROLL
+      EligibilityStepTypeRouter.nextStep(context);
       return;
     } else if (pbUserStudyData.userState.status.userStudyStatus ==
             PbUserStudyStatus.completed ||
