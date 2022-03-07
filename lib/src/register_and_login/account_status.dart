@@ -48,6 +48,7 @@ extension AccountStatusExtension on AccountStatus {
           case AppType.gateway:
             return const GatewayHome();
           case AppType.standalone:
+            UserData.shared.curStudyId = curConfig.studyId;
             return const StandaloneHome();
         }
       }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../common/widget_util.dart';
-import '../../drawer_menu/drawer_menu.dart';
+import '../standalone_home.dart';
 import '../../theme/fda_text_theme.dart';
 import '../../user/user_data.dart';
 import 'pb_study_enrollment_status.dart';
@@ -18,7 +18,7 @@ class StudyTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> studyData = [
-      Text(userStudyData.studyState.status.userStudyStatus.description,
+      Text(userStudyData.userState.status.userStudyStatus.description,
           style: FDATextTheme.bodyTextStyle(context)),
       Text(userStudyData.study.title, style: _titleStyle(context))
     ];
@@ -83,8 +83,7 @@ class StudyTile extends StatelessWidget {
             ])),
         onTap: () {
           UserData.shared.curStudyId = userStudyData.studyId;
-          UserData.shared.curParticipantId = '';
-          Navigator.of(context).pushNamed(DrawerMenu.studyHomeRoute);
+          push(context, StandaloneHome(userStudyData: userStudyData));
         });
   }
 

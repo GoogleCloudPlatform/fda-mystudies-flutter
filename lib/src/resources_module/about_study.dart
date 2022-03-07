@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../common/future_loading_page.dart';
-import '../common/widget_util.dart';
+import '../theme/fda_text_theme.dart';
 import '../user/user_data.dart';
 
 class AboutStudy extends StatelessWidget {
@@ -25,14 +25,18 @@ class AboutStudy extends StatelessWidget {
         (context, snapshot) {
       var response = snapshot.data as StudyInfoResponse;
       var infoItem = response.infos.first;
+      var isDarkModeEnabled =
+          MediaQuery.of(context).platformBrightness == Brightness.dark;
+      var blendMode = isDarkModeEnabled ? BlendMode.darken : BlendMode.lighten;
+      var blendColor = isDarkModeEnabled ? Colors.black : Colors.white;
       return Container(
           decoration: BoxDecoration(
             image: DecorationImage(
                 image: Image.memory(
                         Uri.parse(infoItem.image).data!.contentAsBytes())
                     .image,
-                colorFilter: ColorFilter.mode(
-                    Colors.black.withOpacity(0.5), BlendMode.darken),
+                colorFilter:
+                    ColorFilter.mode(blendColor.withOpacity(0.5), blendMode),
                 fit: BoxFit.cover),
           ),
           child: BackdropFilter(
@@ -47,33 +51,13 @@ class AboutStudy extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                             Text(infoItem.title,
-                                style: _titleStyle(context),
+                                style: FDATextTheme.headerTextStyle(context),
                                 textAlign: TextAlign.center),
                             const SizedBox(height: 20),
                             Text(infoItem.text,
-                                style: _subtitleStyle(context),
+                                style: FDATextTheme.bodyTextStyle(context),
                                 textAlign: TextAlign.center)
                           ]))))));
     });
-  }
-
-  TextStyle _titleStyle(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context)
-          .textTheme
-          .navLargeTitleTextStyle
-          .apply(color: CupertinoColors.white);
-    }
-    return Theme.of(context).textTheme.headline3!.apply(color: Colors.white);
-  }
-
-  TextStyle _subtitleStyle(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context)
-          .textTheme
-          .pickerTextStyle
-          .apply(color: CupertinoColors.white);
-    }
-    return Theme.of(context).textTheme.headline6!.apply(color: Colors.white);
   }
 }

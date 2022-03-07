@@ -4,7 +4,7 @@ import 'package:fda_mystudies_spec/study_datastore_service/get_study_list.pb.dar
 class PbUserStudyData {
   final String studyId;
   final GetStudyListResponse_Study study;
-  final GetStudyStateResponse_StudyState studyState;
+  final GetStudyStateResponse_StudyState userState;
 
-  PbUserStudyData(this.studyId, this.study, this.studyState);
+  PbUserStudyData(this.studyId, this.study, this.userState);
 }
