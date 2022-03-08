@@ -62,7 +62,7 @@ class ActivityBuilderImpl implements ActivityBuilder {
       bool allowExit, String title) {
     if (step.type == 'instruction') {
       return InstructionTemplate(step, allowExit, title, widgetMap);
-    } else if (step.type == 'question') {
+    } else if (step.type.toLowerCase() == 'question') {
       if (step.resultType == 'scale') {
         if (step.scaleFormat.vertical) {
           return VerticalScaleTemplate(step, allowExit, title, widgetMap);

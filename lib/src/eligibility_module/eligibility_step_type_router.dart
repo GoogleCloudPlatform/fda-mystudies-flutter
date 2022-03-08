@@ -1,10 +1,13 @@
+import 'package:fda_mystudies_activity_ui_kit/activity_builder.dart';
+import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart'
+    as ui_kit;
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/study_datastore_service.dart';
+import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/material.dart';
 
 import '../common/widget_util.dart';
-import '../eligibility_module/eligibility_test.dart';
 import '../eligibility_module/enrollment_token.dart';
 import '../user/user_data.dart';
 import 'eligibility_decision.dart';
@@ -26,18 +29,18 @@ class EligibilityStepTypeRouter {
                 EnrollmentToken(eligibility.tokenTitle, (isEligible) {
                   push(
                       context,
-                      EligibilityDecision(
-                          eligibility.type.eligibilityStepType, isEligible));
+                      EligibilityDecision(eligibility.correctAnswers,
+                          eligibility.type.eligibilityStepType));
                 }));
             break;
           case PbEligibilityStepType.test:
-            push(context, const EligibilityTest());
+            _openActivityUI(context, eligibility);
             break;
           case PbEligibilityStepType.combined:
             push(
                 context,
                 EnrollmentToken(eligibility.tokenTitle, (isEligible) {
-                  push(context, const EligibilityTest());
+                  _openActivityUI(context, eligibility);
                 }));
             break;
           default:
@@ -45,5 +48,30 @@ class EligibilityStepTypeRouter {
         }
       }
     });
+  }
+
+  static void _openActivityUI(BuildContext context,
+      GetEligibilityAndConsentResponse_Eligibility eligibility) {
+    var userId = UserData.shared.userId;
+    var studyId = UserData.shared.curStudyId;
+    var activityId = 'eligibility-test';
+    var uniqueId = '$userId:$studyId:$activityId';
+    var activityBuilder = ui_kit.getIt<ActivityBuilder>();
+    List<ActivityStep> steps = [
+          ActivityStep.create()
+            ..key = 'info'
+            ..type = 'instruction'
+            ..title = 'Eligibility Test'
+            ..text =
+                'Please answer the questions that follow to help ascertain your eligibility for this study'
+        ] +
+        eligibility.tests;
+    push(
+        context,
+        activityBuilder.buildActivity(
+            steps,
+            EligibilityDecision(eligibility.correctAnswers,
+                eligibility.type.eligibilityStepType),
+            uniqueId));
   }
 }

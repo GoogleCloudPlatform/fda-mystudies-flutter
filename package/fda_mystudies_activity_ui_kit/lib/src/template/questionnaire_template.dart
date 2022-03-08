@@ -90,7 +90,7 @@ class QuestionnaireTemplate extends StatelessWidget {
           .then((value) => developer.log('TEMPORARY RESULT DISCARDED'));
     }
     var nextScreen = _findNextScreen(skipped);
-    if (_step.type == 'question') {
+    if (_step.type.toLowerCase() == 'question') {
       var stepResult = _createStepResult(skipped);
       _answers[_step.key] = stepResult;
     }
@@ -332,7 +332,8 @@ class QuestionnaireTemplate extends StatelessWidget {
                                           style: TextStyle(
                                               color: CupertinoColors.white)),
                                       onPressed: selectedValue == null &&
-                                              _step.type == 'question'
+                                              _step.type.toLowerCase() ==
+                                                  'question'
                                           ? null
                                           : () => _navigateToNextScreen(
                                               context, false))
@@ -453,7 +454,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                               const SizedBox(width: 20),
                               ElevatedButton(
                                 onPressed: selectedValue == null &&
-                                        _step.type == 'question'
+                                        _step.type.toLowerCase() == 'question'
                                     ? null
                                     : () =>
                                         _navigateToNextScreen(context, false),
