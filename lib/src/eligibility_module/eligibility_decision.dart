@@ -14,53 +14,23 @@ import '../widget/fda_button.dart';
 import '../widget/fda_scaffold.dart';
 import 'pb_eligibility_step_type.dart';
 
-class EligibilityDecision extends StatelessWidget
+class EligibilityDecision extends StatefulWidget
     implements ActivityResponseProcessor {
+  final ValueNotifier<bool> userIsEligible = ValueNotifier(true);
   final List<CorrectAnswers> correctAnswers;
   final PbEligibilityStepType stepType;
-  const EligibilityDecision(this.correctAnswers, this.stepType, {Key? key})
+
+  EligibilityDecision(this.correctAnswers, this.stepType, {Key? key})
       : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return FDAScaffold(
-        child: SafeArea(
-            child: ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        const SizedBox(height: 84),
-        Text('Eligibility Confirmed',
-            textAlign: TextAlign.center,
-            style: FDATextTheme.headerTextStyle(context)),
-        const SizedBox(height: 22),
-        Text(
-            stepType == PbEligibilityStepType.token
-                ? 'Your eligibility to participate in this study has been successfully verified.\nYou may proceed to the next steps.'
-                : 'Based on the answers you provided, you are eligible to participate in this study. You may proceed to the next steps.',
-            textAlign: TextAlign.center,
-            style: FDATextTheme.bodyTextStyle(context)),
-        const SizedBox(height: 22),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                  color: isPlatformIos(context)
-                      ? CupertinoColors.activeBlue
-                      : Theme.of(context).colorScheme.primary,
-                  borderRadius: const BorderRadius.all(Radius.circular(50))),
-              child: const Icon(Icons.check, color: Colors.white, size: 50))
-        ]),
-        const SizedBox(height: 22),
-        FDAButton(title: 'Continue', onPressed: () {})
-      ],
-    )));
-  }
+  State<EligibilityDecision> createState() => _EligibilityDecisionState();
 
   @override
   Future<void> processResponses(
       List<ActivityResponse_Data_StepResult> responses) {
     developer.log('USER IS ELIGIBLE: ${_userRespondedCorrectly(responses)}');
+    userIsEligible.value = _userRespondedCorrectly(responses);
     return Future.value();
   }
 
@@ -84,5 +54,55 @@ class EligibilityDecision extends StatelessWidget
       }
     }
     return true;
+  }
+}
+
+class _EligibilityDecisionState extends State<EligibilityDecision> {
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+        valueListenable: widget.userIsEligible,
+        builder: (BuildContext context, bool newValue, Widget? child) {
+          return FDAScaffold(
+              child: SafeArea(
+                  child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              const SizedBox(height: 84),
+              Text(newValue ? 'Eligibility Confirmed' : 'Ineligible',
+                  textAlign: TextAlign.center,
+                  style: FDATextTheme.headerTextStyle(context)),
+              const SizedBox(height: 22),
+              Text(
+                  newValue
+                      ? (widget.stepType == PbEligibilityStepType.token
+                          ? 'Your eligibility to participate in this study has been successfully verified.\nYou may proceed to the next steps.'
+                          : 'Based on the answers you provided, you are eligible to participate in this study. You may proceed to the next steps.')
+                      : 'Sorry! Based on the answers you provided, you are not eligible to participate in this study',
+                  textAlign: TextAlign.center,
+                  style: FDATextTheme.bodyTextStyle(context)),
+              const SizedBox(height: 22),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        color: newValue
+                            ? (isPlatformIos(context)
+                                ? CupertinoColors.activeBlue
+                                : Theme.of(context).colorScheme.primary)
+                            : (isPlatformIos(context)
+                                ? CupertinoColors.destructiveRed
+                                : Theme.of(context).colorScheme.error),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50))),
+                    child: Icon(newValue ? Icons.check : Icons.error,
+                        color: Colors.white, size: 50))
+              ]),
+              const SizedBox(height: 22),
+              FDAButton(title: 'Continue', onPressed: () {})
+            ],
+          )));
+        });
   }
 }
