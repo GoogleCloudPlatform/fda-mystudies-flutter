@@ -1,6 +1,8 @@
 import 'dart:developer' as developer;
 
 import 'package:fda_mystudies_activity_ui_kit/activity_response_processor.dart';
+import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
+import 'package:fda_mystudies_http_client/participant_enroll_datastore_service.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,8 +10,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../main.dart';
 import '../common/widget_util.dart';
+import '../informed_consent_module/comprehension_test/comprehension_test.dart';
+import '../informed_consent_module/visual_screen/visual_screen.dart';
+import '../study_module/gateway_home.dart';
+import '../study_module/standalone_home.dart';
+import '../study_module/study_tile/pb_user_study_status.dart';
 import '../theme/fda_text_theme.dart';
+import '../user/user_data.dart';
 import '../widget/fda_button.dart';
 import '../widget/fda_scaffold.dart';
 import 'pb_eligibility_step_type.dart';
@@ -19,8 +28,10 @@ class EligibilityDecision extends StatefulWidget
   final ValueNotifier<bool> userIsEligible = ValueNotifier(true);
   final List<CorrectAnswers> correctAnswers;
   final PbEligibilityStepType stepType;
+  final GetEligibilityAndConsentResponse_Consent consent;
 
-  EligibilityDecision(this.correctAnswers, this.stepType, {Key? key})
+  EligibilityDecision(this.correctAnswers, this.stepType, this.consent,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -58,6 +69,8 @@ class EligibilityDecision extends StatefulWidget
 }
 
 class _EligibilityDecisionState extends State<EligibilityDecision> {
+  var _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
@@ -100,9 +113,48 @@ class _EligibilityDecisionState extends State<EligibilityDecision> {
                         color: Colors.white, size: 50))
               ]),
               const SizedBox(height: 22),
-              FDAButton(title: 'Continue', onPressed: () {})
+              FDAButton(
+                  isLoading: _isLoading,
+                  title: newValue ? 'Continue' : 'Exit',
+                  onPressed: _goToNextStep(
+                    newValue,
+                  ))
             ],
           )));
         });
+  }
+
+  void Function()? _goToNextStep(bool isUserEligible) {
+    return _isLoading
+        ? null
+        : () {
+            if (isUserEligible) {
+              pushAndRemoveUntil(
+                  context,
+                  VisualScreen(widget.consent.visualScreens,
+                      ComprehensionTest(widget.consent.comprehension)));
+            } else {
+              setState(() {
+                _isLoading = true;
+              });
+              var participantEnrollDatastoreService =
+                  getIt<ParticipantEnrollDatastoreService>();
+              participantEnrollDatastoreService
+                  .updateStudyState(
+                      UserData.shared.userId,
+                      UserData.shared.curStudyId,
+                      PbUserStudyStatus.notEligible.stringValue)
+                  .then((value) {
+                setState(() {
+                  _isLoading = false;
+                });
+                pushAndRemoveUntil(
+                    context,
+                    curConfig.appType == AppType.gateway
+                        ? const GatewayHome()
+                        : const StandaloneHome());
+              });
+            }
+          };
   }
 }

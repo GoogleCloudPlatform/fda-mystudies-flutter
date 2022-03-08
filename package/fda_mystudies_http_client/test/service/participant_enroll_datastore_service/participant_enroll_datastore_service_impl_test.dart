@@ -41,8 +41,8 @@ void main() {
 
   group('update study state tests', () {
     test('test default scenario', () async {
-      var response = await participantEnrollDatastoreService!.updateStudyState(
-          'userId', 'studyId', 'studyStatus', 'siteId', 'participantId');
+      var response = await participantEnrollDatastoreService!
+          .updateStudyState('userId', 'studyId', 'studyStatus');
 
       expect(response, CommonTestObject.commonSuccessResponse);
     });

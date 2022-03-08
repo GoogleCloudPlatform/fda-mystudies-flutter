@@ -30,17 +30,17 @@ class EligibilityStepTypeRouter {
                   push(
                       context,
                       EligibilityDecision(eligibility.correctAnswers,
-                          eligibility.type.eligibilityStepType));
+                          eligibility.type.eligibilityStepType, value.consent));
                 }));
             break;
           case PbEligibilityStepType.test:
-            _openActivityUI(context, eligibility);
+            _openActivityUI(context, eligibility, value.consent);
             break;
           case PbEligibilityStepType.combined:
             push(
                 context,
                 EnrollmentToken(eligibility.tokenTitle, (isEligible) {
-                  _openActivityUI(context, eligibility);
+                  _openActivityUI(context, eligibility, value.consent);
                 }));
             break;
           default:
@@ -50,8 +50,10 @@ class EligibilityStepTypeRouter {
     });
   }
 
-  static void _openActivityUI(BuildContext context,
-      GetEligibilityAndConsentResponse_Eligibility eligibility) {
+  static void _openActivityUI(
+      BuildContext context,
+      GetEligibilityAndConsentResponse_Eligibility eligibility,
+      GetEligibilityAndConsentResponse_Consent consent) {
     var userId = UserData.shared.userId;
     var studyId = UserData.shared.curStudyId;
     var activityId = 'eligibility-test';
@@ -71,7 +73,7 @@ class EligibilityStepTypeRouter {
         activityBuilder.buildActivity(
             steps,
             EligibilityDecision(eligibility.correctAnswers,
-                eligibility.type.eligibilityStepType),
+                eligibility.type.eligibilityStepType, consent),
             uniqueId));
   }
 }

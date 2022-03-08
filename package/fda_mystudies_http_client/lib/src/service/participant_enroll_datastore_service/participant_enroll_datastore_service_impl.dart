@@ -63,8 +63,9 @@ class ParticipantEnrollDatastoreServiceImpl
   }
 
   @override
-  Future<Object> updateStudyState(String userId, String studyId,
-      String studyStatus, String? siteId, String? participantId) {
+  Future<Object> updateStudyState(
+      String userId, String studyId, String studyStatus,
+      {String? siteId, String? participantId}) {
     var headers = CommonRequestHeader()
       ..from(config,
           userId: userId,

@@ -24,8 +24,9 @@ abstract class ParticipantEnrollDatastoreService {
   ///
   /// [CommonResponse] for successful response.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> updateStudyState(String userId, String studyId,
-      String studyStatus, String? siteId, String? participantId);
+  Future<Object> updateStudyState(
+      String userId, String studyId, String studyStatus,
+      {String? siteId, String? participantId});
 
   /// Enroll user with provided userId into study with provided studyId.
   ///
