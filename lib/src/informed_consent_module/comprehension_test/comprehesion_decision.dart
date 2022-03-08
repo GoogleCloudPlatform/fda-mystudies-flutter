@@ -13,10 +13,12 @@ import '../../widget/fda_scaffold.dart';
 
 class ComprehensionDecision extends StatelessWidget
     implements ActivityResponseProcessor {
+  final int passScore;
   final ValueNotifier<bool> userPassedComprehensionTest = ValueNotifier(false);
   final List<CorrectAnswers> correctAnswers;
 
-  ComprehensionDecision(this.correctAnswers, {Key? key}) : super(key: key);
+  ComprehensionDecision(this.passScore, this.correctAnswers, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,43 @@ class ComprehensionDecision extends StatelessWidget
   @override
   Future<void> processResponses(
       List<ActivityResponse_Data_StepResult> responses) {
-    // TODO(cg2092): Compare user responses to correct answers & update page.
+    var score = 0;
+    for (var userResponse in responses) {
+      var matchingAnswers =
+          correctAnswers.where((e) => e.key == userResponse.key);
+      if (_evaluate(userResponse,
+          matchingAnswers.isNotEmpty ? matchingAnswers.first : null)) {
+        score += 1;
+      }
+    }
+    userPassedComprehensionTest.value = (score >= passScore);
     return Future.value();
+  }
+
+  bool _evaluate(
+      ActivityResponse_Data_StepResult userResponse, CorrectAnswers? answer) {
+    if (answer == null) {
+      return false;
+    }
+    if (answer.evaluation == "all") {
+      if (userResponse.listValues.length != answer.textChoiceAnswers.length) {
+        return false;
+      }
+      for (var value in answer.textChoiceAnswers) {
+        if (!userResponse.listValues.contains(value)) {
+          return false;
+        }
+      }
+    } else {
+      if (userResponse.listValues.isEmpty) {
+        return false;
+      }
+      for (var value in userResponse.listValues) {
+        if (!answer.textChoiceAnswers.contains(value)) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }

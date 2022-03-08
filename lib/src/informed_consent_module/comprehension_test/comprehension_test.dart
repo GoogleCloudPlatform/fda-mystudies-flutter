@@ -29,7 +29,10 @@ class ComprehensionTest extends StatelessWidget {
                 'Let\'s do a quick and simple test of your understanding of this Study.'
         ] +
         comprehensionTest.questions;
-    return activityBuilder.buildActivity(steps,
-        ComprehensionDecision(comprehensionTest.correctAnswers), uniqueId);
+    return activityBuilder.buildActivity(
+        steps,
+        ComprehensionDecision(
+            comprehensionTest.passScore, comprehensionTest.correctAnswers),
+        uniqueId);
   }
 }
