@@ -9,9 +9,8 @@ import '../../user/user_data.dart';
 import 'comprehesion_decision.dart';
 
 class ComprehensionTest extends StatelessWidget {
-  final GetEligibilityAndConsentResponse_Consent_Comprehension
-      comprehensionTest;
-  const ComprehensionTest(this.comprehensionTest, {Key? key}) : super(key: key);
+  final GetEligibilityAndConsentResponse_Consent consent;
+  const ComprehensionTest(this.consent, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +19,7 @@ class ComprehensionTest extends StatelessWidget {
     var activityId = 'comprehension-test';
     var uniqueId = '$userId:$studyId:$activityId';
     var activityBuilder = ui_kit.getIt<ActivityBuilder>();
+    var comprehensionTest = consent.comprehension;
     List<ActivityStep> steps = [
           ActivityStep.create()
             ..key = 'comprehension-overview'
@@ -30,9 +30,6 @@ class ComprehensionTest extends StatelessWidget {
         ] +
         comprehensionTest.questions;
     return activityBuilder.buildActivity(
-        steps,
-        ComprehensionDecision(
-            comprehensionTest.passScore, comprehensionTest.correctAnswers),
-        uniqueId);
+        steps, ComprehensionDecision(consent), uniqueId);
   }
 }

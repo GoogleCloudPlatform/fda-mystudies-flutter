@@ -10,15 +10,14 @@ import '../../common/widget_util.dart';
 import '../../theme/fda_text_theme.dart';
 import '../../widget/fda_button.dart';
 import '../../widget/fda_scaffold.dart';
+import '../sharing_options/sharing_options.dart';
 
 class ComprehensionDecision extends StatelessWidget
     implements ActivityResponseProcessor {
-  final int passScore;
+  final GetEligibilityAndConsentResponse_Consent consent;
   final ValueNotifier<bool> userPassedComprehensionTest = ValueNotifier(false);
-  final List<CorrectAnswers> correctAnswers;
 
-  ComprehensionDecision(this.passScore, this.correctAnswers, {Key? key})
-      : super(key: key);
+  ComprehensionDecision(this.consent, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +63,10 @@ class ComprehensionDecision extends StatelessWidget
                   title: newValue ? 'Continue' : 'Try Again',
                   onPressed: () {
                     if (newValue) {
+                      pushAndRemoveUntil(
+                          context,
+                          SharingOptions(
+                              consent.sharingScreen, consent.visualScreens));
                     } else {
                       Navigator.of(context).popUntil((route) => route.isFirst);
                     }
@@ -76,6 +79,8 @@ class ComprehensionDecision extends StatelessWidget
   @override
   Future<void> processResponses(
       List<ActivityResponse_Data_StepResult> responses) {
+    final correctAnswers = consent.comprehension.correctAnswers;
+    final passScore = consent.comprehension.passScore;
     var score = 0;
     for (var userResponse in responses) {
       var matchingAnswers =

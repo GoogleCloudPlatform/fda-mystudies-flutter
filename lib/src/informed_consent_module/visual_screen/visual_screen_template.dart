@@ -33,7 +33,7 @@ class VisualScreenTemplate extends StatelessWidget {
       content.add(FDAInkWell(visualScreen.url,
           onTap: () => showWebviewModalBottomSheet(context, visualScreen.url)));
     }
-    content.add(const SizedBox(height: 22));
+    content.add(const SizedBox(height: 130));
     return HomeScaffold(
         child: SafeArea(
             bottom: false,

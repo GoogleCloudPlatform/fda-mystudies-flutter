@@ -132,7 +132,7 @@ class _EligibilityDecisionState extends State<EligibilityDecision> {
               pushAndRemoveUntil(
                   context,
                   VisualScreen(widget.consent.visualScreens,
-                      ComprehensionTest(widget.consent.comprehension)));
+                      ComprehensionTest(widget.consent)));
             } else {
               setState(() {
                 _isLoading = true;
