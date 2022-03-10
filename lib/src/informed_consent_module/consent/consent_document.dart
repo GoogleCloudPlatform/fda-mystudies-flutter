@@ -10,7 +10,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../../../main.dart';
 import '../../common/widget_util.dart';
 import '../../widget/fda_button.dart';
+import '../../widget/fda_dialog_action.dart';
 import '../../widget/fda_scaffold_with_overlay_actions.dart';
+import 'consent_signature.dart';
 
 class ConsentDocument extends StatefulWidget {
   final List<GetEligibilityAndConsentResponse_Consent_VisualScreen>
@@ -45,8 +47,28 @@ class _ConsentDocumentState extends State<ConsentDocument> {
               zoomEnabled: false)),
       title: 'Consent',
       overlayButtons: [
-        FDAButton(title: 'AGREE', onPressed: () {}),
-        FDAButton(title: 'DISAGREE', onPressed: () {})
+        FDAButton(
+            title: 'AGREE',
+            onPressed: () {
+              showAdaptiveDialog(context,
+                  title: 'Review',
+                  text:
+                      'By tapping on Agree, you confirm that you have reviewed the consent document and agree to participating in the study.',
+                  actions: [
+                    FDADialogAction('CANCEL', onPressed: () {
+                      Navigator.of(context).pop();
+                    }),
+                    FDADialogAction('AGREE', isPrimary: true, onPressed: () {
+                      Navigator.of(context).pop();
+                      push(context, ConsentSignature(widget.visualScreens));
+                    })
+                  ]);
+            }),
+        FDAButton(
+            title: 'DISAGREE',
+            onPressed: () {
+              // TODO(cg2092): Figure out DISAGREE flow.
+            })
       ],
     );
   }

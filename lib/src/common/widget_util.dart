@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../widget/fda_dialog_action.dart';
+
 Future<T?> push<T extends Object?>(BuildContext context, Widget widget) {
   if (isPlatformIos(context)) {
     return Navigator.of(context)
@@ -72,6 +74,28 @@ void showUserMessage(BuildContext context, String message) {
     return;
   }
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+}
+
+void showAdaptiveDialog(BuildContext context,
+    {String? title,
+    required String text,
+    required List<FDADialogAction> actions}) {
+  if (isPlatformIos(context)) {
+    showCupertinoDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+            title: title != null ? Text(title) : null,
+            content: Text(text),
+            actions: actions.cast<Widget>()));
+  } else {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+              title: title != null ? Text(title) : null,
+              content: Text(text),
+              actions: actions,
+            ));
+  }
 }
 
 void showWebviewModalBottomSheet(BuildContext context, String url) {
