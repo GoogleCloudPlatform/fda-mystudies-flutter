@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:html/parser.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../widget/fda_dialog_action.dart';
@@ -98,7 +101,8 @@ void showAdaptiveDialog(BuildContext context,
   }
 }
 
-void showWebviewModalBottomSheet(BuildContext context, String url) {
+void showWebviewModalBottomSheet(BuildContext context,
+    {String? url, String? htmlText}) {
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
     Factory(() => EagerGestureRecognizer())
   };
@@ -111,7 +115,8 @@ void showWebviewModalBottomSheet(BuildContext context, String url) {
               CupertinoActionSheetAction(
                 child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.7,
-                    child: WebView(initialUrl: url)),
+                    child: WebView(
+                        initialUrl: url ?? _htmlContent(context, htmlText!))),
                 onPressed: () {},
               ),
               CupertinoActionSheetAction(
@@ -129,7 +134,26 @@ void showWebviewModalBottomSheet(BuildContext context, String url) {
           return FractionallySizedBox(
               heightFactor: 0.8,
               child: WebView(
-                  initialUrl: url, gestureRecognizers: gestureRecognizers));
+                  initialUrl: url ?? _htmlContent(context, htmlText!),
+                  gestureRecognizers: gestureRecognizers));
         });
   }
+}
+
+String _htmlContent(BuildContext context, String htmlText) {
+  var bgColor = 'ffffff';
+  var fgColor = '000000';
+
+  var content = """<!DOCTYPE html>
+                    <html>
+                      <head><meta name="viewport" content="width=device-width, initial-scale=${MediaQuery.of(context).textScaleFactor}"></head>
+                      <body style="margin: 0; padding: 16px;background-color: #$bgColor;color: #$fgColor">
+                        <div>
+                          ${parseFragment(htmlText).text}
+                        </div>
+                      </body>
+                    </html>""";
+  return Uri.dataFromString(content,
+          mimeType: "text/html", encoding: Encoding.getByName('utf-8'))
+      .toString();
 }

@@ -10,6 +10,7 @@ import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:html/parser.dart';
 
 import '../common/future_loading_page.dart';
 import '../common/widget_util.dart';
@@ -71,7 +72,11 @@ class _StandaloneHomeState extends State<StandaloneHome> {
                                 style: FDATextTheme.headerTextStyle(context),
                                 textAlign: TextAlign.center),
                             const SizedBox(height: 22),
-                            Text(infoItem.text,
+                            Text(
+                                parse(parse(infoItem.text).body?.text)
+                                        .documentElement
+                                        ?.text ??
+                                    '',
                                 style: FDATextTheme.bodyTextStyle(context),
                                 textAlign: TextAlign.center),
                             const SizedBox(height: 22),

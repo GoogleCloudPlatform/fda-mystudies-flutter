@@ -70,6 +70,6 @@ class Welcome extends StatelessWidget {
   }
 
   void _showAppWebsite(BuildContext context) {
-    showWebviewModalBottomSheet(context, 'https://flutter.dev');
+    showWebviewModalBottomSheet(context, url: 'https://flutter.dev');
   }
 }

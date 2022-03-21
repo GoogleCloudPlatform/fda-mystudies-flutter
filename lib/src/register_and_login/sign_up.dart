@@ -100,11 +100,12 @@ class _SignUpState extends State<SignUp> {
                         style: FDATextTheme.bodyTextStyle(context)),
                     FDAInkWell('terms ',
                         onTap: () => showWebviewModalBottomSheet(context,
-                            'https://policies.google.com/terms?hl=en-US')),
+                            url: 'https://policies.google.com/terms?hl=en-US')),
                     Text('and ', style: FDATextTheme.bodyTextStyle(context)),
                     FDAInkWell('privacy policy',
                         onTap: () => showWebviewModalBottomSheet(context,
-                            'https://policies.google.com/privacy?hl=en-US'))
+                            url:
+                                'https://policies.google.com/privacy?hl=en-US'))
                   ]),
                   const SizedBox(height: 24),
                   FDAButton(

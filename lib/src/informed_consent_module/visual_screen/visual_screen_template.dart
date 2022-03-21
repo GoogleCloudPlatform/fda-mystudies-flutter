@@ -19,19 +19,24 @@ class VisualScreenTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var content = [
-      Text(visualScreen.title, style: FDATextTheme.headerTextStyle(context)),
-      const SizedBox(height: 22),
-    ];
-    if (visualScreen.description.isNotEmpty) {
+    var content = [].cast<Widget>();
+    if (visualScreen.text.isNotEmpty) {
+      content.addAll([
+        Text(visualScreen.text, style: FDATextTheme.bodyTextStyle(context)),
+        const SizedBox(height: 22)
+      ]);
+    } else if (visualScreen.description.isNotEmpty) {
       content.add(
           Text(visualScreen.title, style: FDATextTheme.bodyTextStyle(context)));
-    } else if (visualScreen.html.isNotEmpty) {
-      content.add(
-          Text(visualScreen.html, style: FDATextTheme.bodyTextStyle(context)));
+    }
+    if (visualScreen.html.isNotEmpty) {
+      content.add(FDAInkWell('Learn more',
+          onTap: () => showWebviewModalBottomSheet(context,
+              htmlText: visualScreen.html)));
     } else if (visualScreen.url.isNotEmpty) {
       content.add(FDAInkWell(visualScreen.url,
-          onTap: () => showWebviewModalBottomSheet(context, visualScreen.url)));
+          onTap: () =>
+              showWebviewModalBottomSheet(context, url: visualScreen.url)));
     }
     content.add(const SizedBox(height: 130));
     return HomeScaffold(
@@ -70,7 +75,7 @@ class VisualScreenTemplate extends StatelessWidget {
                 child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                   FDAButton(title: 'NEXT', onPressed: nextStep)
                 ]))),
-        title: toBeginningOfSentenceCase(visualScreen.type) ?? '',
+        title: toBeginningOfSentenceCase(visualScreen.title) ?? '',
         showDrawer: false);
   }
 }

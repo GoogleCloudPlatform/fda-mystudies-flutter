@@ -13,17 +13,14 @@ class VisualScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> visualScreenWidgets = [];
+    List<Widget> visualScreenWidgets = [finalScreen];
     for (int i = visualScreens.length - 1; i >= 0; --i) {
+      var nextScreen = visualScreenWidgets[0];
       if (visualScreens[i].visualStep) {
         visualScreenWidgets.insert(
             0,
             VisualScreenTemplate(visualScreens[i], () {
-              push(
-                  context,
-                  i == visualScreens.length - 1
-                      ? finalScreen
-                      : visualScreenWidgets[0]);
+              push(context, nextScreen);
             }));
       }
     }
