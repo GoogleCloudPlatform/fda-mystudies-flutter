@@ -21,10 +21,13 @@ import 'consent_signature.dart';
 class ConsentDocument extends StatefulWidget {
   final List<GetEligibilityAndConsentResponse_Consent_VisualScreen>
       visualScreens;
+  final String consentVersion;
   final String userSelectedSharingOption;
 
-  const ConsentDocument(this.visualScreens, this.userSelectedSharingOption,
-      {Key? key})
+  const ConsentDocument(this.visualScreens,
+      {required this.consentVersion,
+      required this.userSelectedSharingOption,
+      Key? key})
       : super(key: key);
 
   @override
@@ -64,7 +67,12 @@ class _ConsentDocumentState extends State<ConsentDocument> {
                     }),
                     FDADialogAction('AGREE', isPrimary: true, onPressed: () {
                       Navigator.of(context).pop();
-                      push(context, ConsentSignature(widget.visualScreens));
+                      push(
+                          context,
+                          ConsentSignature(widget.visualScreens,
+                              consentVersion: widget.consentVersion,
+                              sharingOptions:
+                                  widget.userSelectedSharingOption));
                     })
                   ]);
             }),

@@ -16,7 +16,11 @@ import 'consent_confirmed.dart';
 class ConsentSignature extends StatefulWidget {
   final List<GetEligibilityAndConsentResponse_Consent_VisualScreen>
       visualScreens;
-  const ConsentSignature(this.visualScreens, {Key? key}) : super(key: key);
+  final String consentVersion;
+  final String sharingOptions;
+  const ConsentSignature(this.visualScreens,
+      {required this.consentVersion, required this.sharingOptions, Key? key})
+      : super(key: key);
 
   @override
   State<ConsentSignature> createState() => _ConsentSignatureState();
@@ -113,7 +117,10 @@ class _ConsentSignatureState extends State<ConsentSignature> {
               onPressed: () => push(
                   context,
                   ConsentConfirmed(widget.visualScreens, _points,
-                      firstName: _firstName, lastName: _lastName)))
+                      firstName: _firstName,
+                      lastName: _lastName,
+                      consentVersion: widget.consentVersion,
+                      userSharingOptions: widget.sharingOptions)))
         ]);
   }
 }

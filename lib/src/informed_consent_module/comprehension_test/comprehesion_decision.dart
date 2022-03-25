@@ -65,8 +65,8 @@ class ComprehensionDecision extends StatelessWidget
                     if (newValue) {
                       pushAndRemoveUntil(
                           context,
-                          SharingOptions(
-                              consent.sharingScreen, consent.visualScreens));
+                          SharingOptions(consent.sharingScreen,
+                              consent.visualScreens, consent.version));
                     } else {
                       Navigator.of(context).popUntil((route) => route.isFirst);
                     }

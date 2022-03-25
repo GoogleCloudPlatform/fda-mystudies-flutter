@@ -128,33 +128,34 @@ class _EligibilityDecisionState extends State<EligibilityDecision> {
     return _isLoading
         ? null
         : () {
-            if (isUserEligible) {
-              pushAndRemoveUntil(
-                  context,
-                  VisualScreen(widget.consent.visualScreens,
-                      ComprehensionTest(widget.consent)));
-            } else {
+            setState(() {
+              _isLoading = true;
+            });
+            var participantEnrollDatastoreService =
+                getIt<ParticipantEnrollDatastoreService>();
+            participantEnrollDatastoreService
+                .updateStudyState(
+                    UserData.shared.userId, UserData.shared.curStudyId,
+                    studyStatus: isUserEligible
+                        ? PbUserStudyStatus.yetToEnroll.stringValue
+                        : PbUserStudyStatus.notEligible.stringValue)
+                .then((value) {
               setState(() {
-                _isLoading = true;
+                _isLoading = false;
               });
-              var participantEnrollDatastoreService =
-                  getIt<ParticipantEnrollDatastoreService>();
-              participantEnrollDatastoreService
-                  .updateStudyState(
-                      UserData.shared.userId,
-                      UserData.shared.curStudyId,
-                      PbUserStudyStatus.notEligible.stringValue)
-                  .then((value) {
-                setState(() {
-                  _isLoading = false;
-                });
+              if (isUserEligible) {
+                pushAndRemoveUntil(
+                    context,
+                    VisualScreen(widget.consent.visualScreens,
+                        ComprehensionTest(widget.consent)));
+              } else {
                 pushAndRemoveUntil(
                     context,
                     curConfig.appType == AppType.gateway
                         ? const GatewayHome()
                         : const StandaloneHome());
-              });
-            }
+              }
+            });
           };
   }
 }

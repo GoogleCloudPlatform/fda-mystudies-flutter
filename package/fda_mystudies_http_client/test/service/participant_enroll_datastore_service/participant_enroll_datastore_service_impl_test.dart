@@ -42,7 +42,7 @@ void main() {
   group('update study state tests', () {
     test('test default scenario', () async {
       var response = await participantEnrollDatastoreService!
-          .updateStudyState('userId', 'studyId', 'studyStatus');
+          .updateStudyState('userId', 'studyId', adherence: 0, completion: 0);
 
       expect(response, CommonTestObject.commonSuccessResponse);
     });

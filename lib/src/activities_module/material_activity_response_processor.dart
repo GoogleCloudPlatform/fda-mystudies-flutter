@@ -6,12 +6,16 @@ import 'package:flutter/material.dart';
 
 class MaterialActivityResponseProcessor extends StatelessWidget
     implements ActivityResponseProcessor {
-  const MaterialActivityResponseProcessor({Key? key}) : super(key: key);
+  final ValueNotifier<List<ActivityResponse_Data_StepResult>> userResponse =
+      ValueNotifier([]);
+
+  MaterialActivityResponseProcessor({Key? key}) : super(key: key);
 
   @override
   Future<void> processResponses(
       List<ActivityResponse_Data_StepResult> responses) {
     developer.log(responses.toString());
+    userResponse.value = responses;
     return Future.value();
   }
 

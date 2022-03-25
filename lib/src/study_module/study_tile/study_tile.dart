@@ -83,6 +83,15 @@ class StudyTile extends StatelessWidget {
             ])),
         onTap: () {
           UserData.shared.curStudyId = userStudyData.studyId;
+          UserData.shared.curStudyVersion = userStudyData.study.studyVersion;
+          UserData.shared.curParticipantId =
+              userStudyData.userState.participantId;
+          UserData.shared.curSiteId = userStudyData.userState.siteId;
+          UserData.shared.currentStudyTokenIdentifier =
+              userStudyData.userState.hashedToken;
+          UserData.shared.curStudyCompletion =
+              userStudyData.userState.completion;
+          UserData.shared.curStudyAdherence = userStudyData.userState.adherence;
           push(context, StandaloneHome(userStudyData: userStudyData));
         });
   }

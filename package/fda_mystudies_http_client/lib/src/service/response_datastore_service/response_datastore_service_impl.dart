@@ -49,10 +49,12 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
 
   @override
   Future<Object> processResponse(
-      String userId, String authToken, ActivityResponse activityResponse) {
+      String userId, ActivityResponse activityResponse) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     Uri uri = Uri.https(
         config.baseParticipantUrl, '$responseDatastore$processResponsePath');
 
@@ -67,13 +69,14 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
   @override
   Future<Object> updateActivityState(
       String userId,
-      String authToken,
       String studyId,
       String participantId,
       GetActivityStateResponse_ActivityState activityState) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {
       'studyId': studyId,
       'participantId': participantId,

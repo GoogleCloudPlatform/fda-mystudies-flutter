@@ -13,7 +13,9 @@ class SharingOptions extends StatefulWidget {
   final GetEligibilityAndConsentResponse_Consent_SharingScreen sharing;
   final List<GetEligibilityAndConsentResponse_Consent_VisualScreen>
       visualScreens;
-  const SharingOptions(this.sharing, this.visualScreens, {Key? key})
+  final String consentVersion;
+  const SharingOptions(this.sharing, this.visualScreens, this.consentVersion,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -111,13 +113,17 @@ class _SharingOptionsState extends State<SharingOptions> {
 
   void Function()? _goToConsentStep() {
     return () {
-      var selectedOption = '';
+      var selectedOption = 'Not applicable';
       if (_firstOption) {
         selectedOption = 'Provided';
       } else if (_secondOption) {
         selectedOption = 'Not Provided';
       }
-      push(context, ConsentDocument(widget.visualScreens, selectedOption));
+      push(
+          context,
+          ConsentDocument(widget.visualScreens,
+              consentVersion: widget.consentVersion,
+              userSelectedSharingOption: selectedOption));
     };
   }
 }

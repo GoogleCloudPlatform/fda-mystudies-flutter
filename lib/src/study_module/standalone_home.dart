@@ -141,6 +141,15 @@ class _StandaloneHomeState extends State<StandaloneHome> {
             .where((e) => e.studyId == UserData.shared.curStudyId);
         if (matchingStudyList.isNotEmpty) {
           if (matchingStudyStateList.isNotEmpty) {
+            UserData.shared.curParticipantId =
+                matchingStudyStateList.first.participantId;
+            UserData.shared.currentStudyTokenIdentifier =
+                matchingStudyStateList.first.hashedToken;
+            UserData.shared.curSiteId = matchingStudyStateList.first.siteId;
+            UserData.shared.curStudyAdherence =
+                matchingStudyStateList.first.adherence;
+            UserData.shared.curStudyCompletion =
+                matchingStudyStateList.first.completion;
             return PbUserStudyData(UserData.shared.curStudyId,
                 matchingStudyList.first, matchingStudyStateList.first);
           } else {

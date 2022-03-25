@@ -16,7 +16,8 @@ class PbActivity {
   PbActivity(this.activityId, this.activity, this.state);
 
   PbActivityStatus get status {
-    var runId = int.parse(state.activityRunId);
+    var runId =
+        int.parse(state.activityRunId.isEmpty ? '1' : state.activityRunId);
     var completed = state.activityRun.completed;
     var missed = state.activityRun.missed;
     if (runId == completed + missed) {

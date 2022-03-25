@@ -21,7 +21,6 @@ abstract class ResponseDatastoreService {
   /// [CommonErrorResponse] for failed response.
   Future<Object> updateActivityState(
       String userId,
-      String authToken,
       String studyId,
       String participantId,
       GetActivityStateResponse_ActivityState activityState);
@@ -31,5 +30,5 @@ abstract class ResponseDatastoreService {
   /// [CommonResponse] when responses submitted successfully.
   /// [CommonErrorResponse] for failed response.
   Future<Object> processResponse(
-      String userId, String authToken, ActivityResponse activityResponse);
+      String userId, ActivityResponse activityResponse);
 }

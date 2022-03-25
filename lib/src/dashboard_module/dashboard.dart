@@ -1,3 +1,4 @@
+import 'package:fda_mystudies/src/user/user_data.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/study_datastore_service.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pbserver.dart';
@@ -26,8 +27,9 @@ class Dashboard extends StatelessWidget {
           const StudyParticipationStatusView(
               studyStatus: 'ACTIVE', participationStatus: 'ENROLLED'),
           const SizedBox(height: 8),
-          const AdherenceCompletionView(
-              studyCompletionPercent: 3, activitiesCompletionPercent: 7),
+          AdherenceCompletionView(
+              studyCompletionPercent: UserData.shared.curStudyCompletion,
+              activitiesCompletionPercent: UserData.shared.curStudyAdherence),
           const SizedBox(height: 8),
           StatisticsView(statistics),
           const SizedBox(height: 8),
@@ -39,6 +41,6 @@ class Dashboard extends StatelessWidget {
 
   Future<Object> _fetchDashboardDetails() {
     var studyDatastoreService = getIt<StudyDatastoreService>();
-    return studyDatastoreService.getStudyDashboard('studyId');
+    return studyDatastoreService.getStudyDashboard(UserData.shared.curStudyId);
   }
 }

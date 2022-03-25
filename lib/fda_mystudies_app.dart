@@ -1,22 +1,28 @@
+import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'main.dart';
 import 'src/common/widget_util.dart';
 import 'src/drawer_menu/drawer_menu.dart';
 import 'src/my_account_module/my_account.dart';
 import 'src/reach_out_module/reach_out.dart';
 import 'src/register_and_login/welcome.dart';
 import 'src/study_home.dart';
+import 'src/user/user_data.dart';
 
 class FDAMyStudiesApp extends StatelessWidget {
   const FDAMyStudiesApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if (curConfig.appType == AppType.standalone) {
+      UserData.shared.curStudyId = curConfig.studyId;
+    }
     if (isPlatformIos(context)) {
       return CupertinoApp(
-        title: 'FDA MyStudies',
+        title: curConfig.appName,
         theme: const CupertinoThemeData(),
         debugShowCheckedModeBanner: false,
         initialRoute: Welcome.welcomeRoute,
@@ -30,7 +36,7 @@ class FDAMyStudiesApp extends StatelessWidget {
       );
     }
     return MaterialApp(
-        title: 'FDA MyStudies',
+        title: curConfig.appName,
         theme: ThemeData.light().copyWith(
             appBarTheme: ThemeData.light().appBarTheme.copyWith(
                 textTheme: const TextTheme(

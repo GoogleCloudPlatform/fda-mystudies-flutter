@@ -41,12 +41,13 @@ class ParticipantEnrollDatastoreServiceImpl
           userId: userId,
           authToken: Session.shared.authToken,
           contentType: ContentType.json);
-    var queryParams = {'token': enrollmentToken, 'studyId': studyId};
-    var uri = Uri.https(config.baseParticipantUrl,
-        '$participantEnrollDatastore$enrollPath', queryParams);
+    var body = {'token': enrollmentToken, 'studyId': studyId};
+    var uri = Uri.https(
+        config.baseParticipantUrl, '$participantEnrollDatastore$enrollPath');
 
-    return client.post(uri, headers: headers.toHeaderJson()).then((response) =>
-        ResponseParser.parseHttpResponse('enroll', response,
+    return client
+        .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
+        .then((response) => ResponseParser.parseHttpResponse('enroll', response,
             () => EnrollInStudyResponse()..fromJson(response.body)));
   }
 
@@ -63,23 +64,32 @@ class ParticipantEnrollDatastoreServiceImpl
   }
 
   @override
-  Future<Object> updateStudyState(
-      String userId, String studyId, String studyStatus,
-      {String? siteId, String? participantId}) {
+  Future<Object> updateStudyState(String userId, String studyId,
+      {String? siteId,
+      String? participantId,
+      String? studyStatus,
+      int? adherence,
+      int? completion}) {
     var headers = CommonRequestHeader()
       ..from(config,
           userId: userId,
           authToken: Session.shared.authToken,
           contentType: ContentType.json);
+    Map<String, dynamic> updatedStudy = {'studyId': studyId};
+    if (siteId != null) {
+      updatedStudy['siteId'] = siteId;
+    }
+    if (participantId != null) {
+      updatedStudy['participantId'] = participantId;
+    }
+    if (adherence != null) {
+      updatedStudy['adherence'] = adherence;
+    }
+    if (completion != null) {
+      updatedStudy['completion'] = completion;
+    }
     var body = {
-      'studies': [
-        {
-          'studyId': studyId,
-          'status': studyStatus,
-          'siteId': siteId,
-          'participantId': participantId
-        }
-      ]
+      'studies': [updatedStudy]
     };
     var queryParams = {'userId': userId};
     var uri = Uri.https(config.baseParticipantUrl,

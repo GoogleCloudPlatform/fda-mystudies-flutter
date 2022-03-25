@@ -6,8 +6,8 @@ import '../common/widget_util.dart';
 import 'donut_chart.dart';
 
 class AdherenceCompletionView extends StatelessWidget {
-  final double studyCompletionPercent;
-  final double activitiesCompletionPercent;
+  final int studyCompletionPercent;
+  final int activitiesCompletionPercent;
 
   const AdherenceCompletionView(
       {required this.studyCompletionPercent,
@@ -30,7 +30,7 @@ class AdherenceCompletionView extends StatelessWidget {
           children: [
             Expanded(
                 child: Column(children: [
-              DonutChart(studyCompletionPercent),
+              DonutChart(studyCompletionPercent.toDouble()),
               Padding(
                   padding: const EdgeInsets.all(4),
                   child: Text('The study is $studyCompletionPercent% complete',
@@ -43,7 +43,7 @@ class AdherenceCompletionView extends StatelessWidget {
                 color: contrastingDividerColor(context)),
             Expanded(
                 child: Column(children: [
-              DonutChart(activitiesCompletionPercent),
+              DonutChart(activitiesCompletionPercent.toDouble()),
               Padding(
                   padding: const EdgeInsets.all(8),
                   child: Text(
