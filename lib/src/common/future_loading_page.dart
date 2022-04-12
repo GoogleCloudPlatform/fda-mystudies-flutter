@@ -13,7 +13,7 @@ class FutureLoadingPage {
       required Future<Object>? future,
       required Widget Function(BuildContext, AsyncSnapshot<Object>) builder,
       bool wrapInScaffold = true,
-      bool showDrawer = true}) {
+      bool showDrawer = false}) {
     return _wrapWidgetInScaffold(
         context,
         scaffoldTitle,
