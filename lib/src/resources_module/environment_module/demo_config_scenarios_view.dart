@@ -38,37 +38,44 @@ class _DemoConfigScenariosViewState extends State<DemoConfigScenariosView> {
   Widget build(BuildContext context) {
     final MockScenarioService mockScenarioService =
         http_client.getIt<MockScenarioService>();
-    return FutureLoadingPage(
-        widget.methodName,
-        mockScenarioService.listScenarios(
-            widget.serviceName, widget.methodName), (context, snapshot) {
+    return FutureLoadingPage.build(context,
+        scaffoldTitle: widget.methodName,
+        future: mockScenarioService.listScenarios(
+            widget.serviceName, widget.methodName),
+        builder: (context, snapshot) {
       var scenarios = (snapshot.data ?? []) as List<Scenario>;
       if (isPlatformIos(context)) {
         return CupertinoScrollbar(
-            child: ListView(
-                children: scenarios
-                    .map((e) => CupertinoRadioListTile(
-                        e.title,
-                        '(${e.response.statusCode}) ${e.description}',
-                        e.scenarioCode,
-                        e.scenarioCode == selectedScenario,
-                        true,
-                        onChanged: (value) => _selectScenario(e.scenarioCode)))
-                    .toList()));
+            child: ListView.builder(
+                itemCount: scenarios.length,
+                itemBuilder: (context, index) {
+                  var curScenario = scenarios[index];
+                  return CupertinoRadioListTile(
+                      curScenario.title,
+                      '(${curScenario.response.statusCode}) ${curScenario.description}',
+                      curScenario.scenarioCode,
+                      curScenario.scenarioCode == selectedScenario,
+                      true,
+                      onChanged: (value) =>
+                          _selectScenario(curScenario.scenarioCode));
+                }));
       }
       return Scrollbar(
-          child: ListView(
-              children: scenarios
-                  .map((e) => RadioListTile(
-                        title: Text(e.title),
-                        subtitle:
-                            Text('(${e.response.statusCode}) ${e.description}'),
-                        value: e.scenarioCode,
-                        selected: e.scenarioCode == selectedScenario,
-                        onChanged: (value) => _selectScenario(e.scenarioCode),
-                        groupValue: selectedScenario,
-                      ))
-                  .toList()));
+          child: ListView.builder(
+              itemCount: scenarios.length,
+              itemBuilder: (context, index) {
+                var curScenario = scenarios[index];
+                return RadioListTile(
+                  title: Text(curScenario.title),
+                  subtitle: Text(
+                      '(${curScenario.response.statusCode}) ${curScenario.description}'),
+                  value: curScenario.scenarioCode,
+                  selected: curScenario.scenarioCode == selectedScenario,
+                  onChanged: (value) =>
+                      _selectScenario(curScenario.scenarioCode),
+                  groupValue: selectedScenario,
+                );
+              }));
     });
   }
 

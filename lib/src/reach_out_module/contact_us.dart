@@ -36,7 +36,7 @@ class _ContactUsState extends State<ContactUs> {
     const feedbackHintText = 'Enter your feedback here!';
     const submitButtonLabel = 'SUBMIT';
     return Stack(
-        children: [
+        children: <Widget>[
               GestureDetector(
                   onTap: () {
                     FocusScope.of(context).unfocus();
@@ -183,7 +183,7 @@ class _ContactUsState extends State<ContactUs> {
                                             .textButtonTheme
                                             .style)
                                   ])))))
-            ].cast<Widget>() +
+            ] +
             (isPlatformIos(context)
                 ? [
                     Positioned(

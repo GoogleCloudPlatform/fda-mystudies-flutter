@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class CupertinoListTile extends StatelessWidget {
+class CupertinoListTile extends StatefulWidget {
   final String title;
   final String? subTitle;
   final bool isLast;
@@ -17,26 +17,45 @@ class CupertinoListTile extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<CupertinoListTile> createState() => _CupertinoListTileState();
+}
+
+class _CupertinoListTileState extends State<CupertinoListTile> {
+  var opacity = 1.0;
+
+  @override
   Widget build(BuildContext context) {
     bool isDarkModeEnabled =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
-    bool isSubtitlePresent = (subTitle != null && subTitle!.isNotEmpty);
+    bool isSubtitlePresent =
+        (widget.subTitle != null && widget.subTitle!.isNotEmpty);
+    var backgroundColor = isDarkModeEnabled
+        ? CupertinoColors.darkBackgroundGray
+        : CupertinoColors.white;
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
               GestureDetector(
                   onTap: () {
-                    if (onTap != null) {
-                      onTap!();
+                    if (widget.onTap != null) {
+                      widget.onTap!();
                     }
+                  },
+                  onTapDown: (details) {
+                    setState(() {
+                      opacity = 0.5;
+                    });
+                  },
+                  onTapUp: (details) {
+                    setState(() {
+                      opacity = 1.0;
+                    });
                   },
                   child: Container(
                       margin: const EdgeInsets.fromLTRB(16, 24, 16, 0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: isDarkModeEnabled
-                              ? CupertinoColors.darkBackgroundGray
-                              : CupertinoColors.white),
+                          color: backgroundColor.withOpacity(opacity)),
                       padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
                       child: Row(
                           children: [
@@ -47,7 +66,7 @@ class CupertinoListTile extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                      Text(title,
+                                      Text(widget.title,
                                           style: CupertinoTheme.of(context)
                                               .textTheme
                                               .textStyle,
@@ -55,19 +74,19 @@ class CupertinoListTile extends StatelessWidget {
                                     ])),
                                 const SizedBox(width: 18)
                               ] +
-                              (showChevron
+                              (widget.showChevron
                                   ? [
                                       const Icon(CupertinoIcons.chevron_forward,
                                           color: CupertinoColors.inactiveGray,
                                           size: 16)
                                     ]
                                   : []))))
-            ].cast<Widget>() +
+            ] +
             (isSubtitlePresent
                 ? [
                     Padding(
                         padding: const EdgeInsets.fromLTRB(28, 8, 28, 0),
-                        child: Text(subTitle!,
+                        child: Text(widget.subTitle!,
                             style: CupertinoTheme.of(context)
                                 .textTheme
                                 .textStyle

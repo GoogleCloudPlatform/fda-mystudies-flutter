@@ -13,8 +13,9 @@ class ViewConsentPdf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureLoadingPage(scaffoldTitle, base64EncodedPdf,
-        (context, snapshot) {
+    return FutureLoadingPage.build(context,
+        scaffoldTitle: scaffoldTitle,
+        future: base64EncodedPdf, builder: (context, snapshot) {
       var consentForm = snapshot.data as String;
       return SafeArea(
           child: PdfPreview(

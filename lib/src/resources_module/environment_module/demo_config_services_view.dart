@@ -21,32 +21,33 @@ class _DemoConfigServicesViewState extends State<DemoConfigServicesView> {
   Widget build(BuildContext context) {
     final MockScenarioService mockScenarioService =
         getIt<MockScenarioService>();
-    return FutureLoadingPage('Services', mockScenarioService.listServices(),
-        (context, snapshot) {
+    return FutureLoadingPage.build(context,
+        scaffoldTitle: 'Services', future: mockScenarioService.listServices(),
+        builder: (context, snapshot) {
       var services = (snapshot.data ?? []) as List<String>;
       if (isPlatformIos(context)) {
         return CupertinoScrollbar(
-            child: ListView(
-                children: services
-                    .map((e) => CupertinoListTile(
-                        title: e,
-                        onTap: () => push(context, DemoConfigMethodsView(e))))
-                    .toList()));
+            child: ListView.builder(
+                itemCount: services.length,
+                itemBuilder: (context, index) {
+                  return CupertinoListTile(
+                      title: services[index],
+                      onTap: () => push(
+                          context, DemoConfigMethodsView(services[index])));
+                }));
       }
       return Scrollbar(
-          child: ListView(
-              children: services
-                  .map((e) => Column(children: [
-                        ListTile(
-                            title: Text(e),
-                            trailing: const Icon(
-                                Icons.arrow_forward_ios_outlined,
-                                size: 16),
-                            onTap: () =>
-                                push(context, DemoConfigMethodsView(e))),
-                        const Divider()
-                      ]))
-                  .toList()));
+          child: ListView.separated(
+              itemCount: services.length,
+              itemBuilder: (context, index) {
+                var curService = services[index];
+                return ListTile(
+                    title: Text(curService),
+                    trailing: const Icon(Icons.arrow_forward_ios_outlined),
+                    onTap: () =>
+                        push(context, DemoConfigMethodsView(curService)));
+              },
+              separatorBuilder: (context, index) => const Divider()));
     });
   }
 }

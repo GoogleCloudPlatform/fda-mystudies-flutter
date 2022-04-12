@@ -19,11 +19,11 @@ class AboutStudy extends StatelessWidget {
   Widget build(BuildContext context) {
     StudyDatastoreService studyDatastoreService =
         getIt<StudyDatastoreService>();
-    return FutureLoadingPage(
-        'About',
-        studyDatastoreService.getStudyInfo(
+    return FutureLoadingPage.build(context,
+        scaffoldTitle: 'About',
+        future: studyDatastoreService.getStudyInfo(
             UserData.shared.curStudyId, UserData.shared.userId),
-        (context, snapshot) {
+        builder: (context, snapshot) {
       var response = snapshot.data as StudyInfoResponse;
       var infoItem = response.infos.first;
       var isDarkModeEnabled =

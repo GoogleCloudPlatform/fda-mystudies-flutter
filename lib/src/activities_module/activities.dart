@@ -31,20 +31,24 @@ class Activities extends StatefulWidget {
 class _ActivitiesState extends State<Activities> {
   @override
   Widget build(BuildContext context) {
-    return FutureLoadingPage(
-        'Activities',
-        _fetchActivityListWithState(
+    return FutureLoadingPage.build(context,
+        scaffoldTitle: 'Activities',
+        future: _fetchActivityListWithState(
             studyId: UserData.shared.curStudyId,
             participantId: UserData.shared.curParticipantId),
-        (context, snapshot) {
+        builder: (context, snapshot) {
       var pbActivityList = snapshot.data as List<PbActivity>;
-      return ListView(
-          children: pbActivityList.map((e) {
-        if (isPlatformIos(context)) {
-          return CupertinoActivityTile(e, () => _openActivityUI(context, e));
-        }
-        return MaterialActivityTile(e, () => _openActivityUI(context, e));
-      }).toList());
+      return ListView.builder(
+          itemCount: pbActivityList.length,
+          itemBuilder: (context, index) {
+            var curItem = pbActivityList[index];
+            if (isPlatformIos(context)) {
+              return CupertinoActivityTile(
+                  curItem, () => _openActivityUI(context, curItem));
+            }
+            return MaterialActivityTile(
+                curItem, () => _openActivityUI(context, curItem));
+          });
     }, wrapInScaffold: false);
   }
 
@@ -117,9 +121,10 @@ class _ActivitiesState extends State<Activities> {
     var uniqueId = '$userId:$studyId:$activityId';
     push(
         context,
-        FutureLoadingPage(
-            '', _fetchActivityStepsAndUpdateActivityState(activity),
-            (context, snapshot) {
+        FutureLoadingPage.build(context,
+            scaffoldTitle: '',
+            future: _fetchActivityStepsAndUpdateActivityState(activity),
+            builder: (context, snapshot) {
           var response = snapshot.data as FetchActivityStepsResponse;
           var activityBuilder = ui_kit.getIt<ActivityBuilder>();
           return isPlatformIos(context)

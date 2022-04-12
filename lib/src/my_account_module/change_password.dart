@@ -35,7 +35,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     const confirmNewPasswordPlaceholder = 'Confirm New Password';
 
     return Stack(
-        children: [
+        children: <Widget>[
               GestureDetector(
                   onTap: () {
                     FocusScope.of(context).unfocus();
@@ -163,7 +163,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                             .textButtonTheme
                                             .style)
                                   ])))))
-            ].cast<Widget>() +
+            ] +
             (isPlatformIos(context)
                 ? [
                     Positioned(

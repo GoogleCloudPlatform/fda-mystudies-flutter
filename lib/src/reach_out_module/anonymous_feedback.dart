@@ -30,7 +30,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
     const feedbackPlaceholder = 'Feedback';
     const submitButtonLabel = 'SUBMIT';
     return Stack(
-        children: [
+        children: <Widget>[
               GestureDetector(
                   onTap: () {
                     FocusScope.of(context).unfocus();
@@ -39,14 +39,14 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
                       child: SafeArea(
                           child: ListView(
                               padding: const EdgeInsets.all(12),
-                              children: [
+                              children: <Widget>[
                                     Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             8, 8, 8, 16),
                                         child: Text(
                                             'We\'d love to hear from you! Please share your thoughts on how we can improve your experience of participating in health sutdies and contributing to a healthier world! Your feedback will be anonymous.',
                                             style: _bodyStyle(context)))
-                                  ].cast<Widget>() +
+                                  ] +
                                   (isPlatformIos(context)
                                       ? [
                                           Divider(
@@ -142,7 +142,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
                                             .textButtonTheme
                                             .style)
                                   ])))))
-            ].cast<Widget>() +
+            ] +
             (isPlatformIos(context)
                 ? [
                     Positioned(

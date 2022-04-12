@@ -17,11 +17,14 @@ class GatewayHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureLoadingPage(curConfig.appName, _fetchStudyListAndUserStatus(),
-        (context, snapshot) {
+    return FutureLoadingPage.build(context,
+        scaffoldTitle: curConfig.appName,
+        future: _fetchStudyListAndUserStatus(), builder: (context, snapshot) {
       var userStudyStatusList = snapshot.data as List<PbUserStudyData>;
-      return ListView(
-          children: userStudyStatusList.map((e) => StudyTile(e)).toList());
+      return ListView.builder(
+          itemCount: userStudyStatusList.length,
+          itemBuilder: (context, index) =>
+              StudyTile(userStudyStatusList[index]));
     }, showDrawer: true);
   }
 

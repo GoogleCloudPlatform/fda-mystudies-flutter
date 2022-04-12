@@ -19,7 +19,7 @@ class VisualScreenTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var content = [].cast<Widget>();
+    var content = <Widget>[];
     if (visualScreen.text.isNotEmpty) {
       content.addAll([
         Text(visualScreen.text, style: FDATextTheme.bodyTextStyle(context)),
@@ -43,10 +43,10 @@ class VisualScreenTemplate extends StatelessWidget {
         child: SafeArea(
             bottom: false,
             child: Stack(
-                children: [
+                children: <Widget>[
                       ListView(
                           padding: const EdgeInsets.all(16), children: content)
-                    ].cast<Widget>() +
+                    ] +
                     (isPlatformIos(context)
                         ? [
                             Positioned(

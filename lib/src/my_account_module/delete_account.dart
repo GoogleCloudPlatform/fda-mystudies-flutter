@@ -14,12 +14,12 @@ class DeleteAccount extends StatelessWidget {
         child: SafeArea(
             child: ListView(
                 padding: const EdgeInsets.all(12),
-                children: [
+                children: <Widget>[
                       Text(
                           'You have chosen to delete your app account. This will result in automatic withdrawal from the sutdies you are enrolled in.',
                           style: _bodyStyle(context)),
                       const SizedBox(height: 32),
-                    ].cast<Widget>() +
+                    ] +
                     (isPlatformIos(context)
                         ? [
                             CupertinoButton(

@@ -7,21 +7,17 @@ import 'package:flutter/widgets.dart';
 import 'widget_util.dart';
 import 'common_error_widget.dart';
 
-class FutureLoadingPage extends StatelessWidget {
-  final String scaffoldTitle;
-  final Future<Object>? future;
-  final Widget Function(BuildContext, AsyncSnapshot<Object>) builder;
-  final bool wrapInScaffold;
-  final bool showDrawer;
-
-  const FutureLoadingPage(this.scaffoldTitle, this.future, this.builder,
-      {this.wrapInScaffold = true, this.showDrawer = false, Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+class FutureLoadingPage {
+  static Widget build(BuildContext context,
+      {required String scaffoldTitle,
+      required Future<Object>? future,
+      required Widget Function(BuildContext, AsyncSnapshot<Object>) builder,
+      bool wrapInScaffold = true,
+      bool showDrawer = true}) {
     return _wrapWidgetInScaffold(
         context,
+        scaffoldTitle,
+        showDrawer,
         FutureBuilder<Object>(
             future: future,
             builder:
@@ -48,8 +44,8 @@ class FutureLoadingPage extends StatelessWidget {
         wrapInScaffold);
   }
 
-  Widget _wrapWidgetInScaffold(
-      BuildContext context, Widget widget, bool shouldWrap) {
+  static Widget _wrapWidgetInScaffold(BuildContext context,
+      String scaffoldTitle, bool showDrawer, Widget widget, bool shouldWrap) {
     if (shouldWrap) {
       return HomeScaffold(
           child: widget, title: scaffoldTitle, showDrawer: showDrawer);

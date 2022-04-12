@@ -41,8 +41,8 @@ class CupertinoActivityTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: (scale > 1.9
-                        ? [].cast<Widget>()
-                        : [
+                        ? <Widget>[]
+                        : <Widget>[
                             Padding(
                                 padding:
                                     EdgeInsets.fromLTRB(0, 8 * scale, 0, 0),
@@ -51,7 +51,7 @@ class CupertinoActivityTile extends StatelessWidget {
                                         ? CupertinoColors
                                             .extraLightBackgroundGray
                                         : CupertinoColors.darkBackgroundGray))
-                          ].cast<Widget>()) +
+                          ]) +
                     [
                       const SizedBox(width: 18),
                       Expanded(

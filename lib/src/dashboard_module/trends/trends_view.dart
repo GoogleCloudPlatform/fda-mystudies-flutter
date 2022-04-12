@@ -12,15 +12,16 @@ class TrendsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureLoadingPage('TRENDS', _fetchRecordedValues(),
-        (context, snapshot) {
+    return FutureLoadingPage.build(context,
+        scaffoldTitle: 'TRENDS',
+        future: _fetchRecordedValues(), builder: (context, snapshot) {
       var recordedValues = snapshot.data as List<RecordedValue>;
       return SafeArea(
-          child: ListView(
-              padding: const EdgeInsets.all(0),
-              children: chart
-                  .map((e) => ChartTile(e.title, e.displayName, recordedValues))
-                  .toList()));
+          child: ListView.builder(
+              itemCount: chart.length,
+              padding: EdgeInsets.zero,
+              itemBuilder: (context, index) => ChartTile(chart[index].title,
+                  chart[index].displayName, recordedValues)));
     });
   }
 

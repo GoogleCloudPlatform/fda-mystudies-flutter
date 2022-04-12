@@ -26,9 +26,9 @@ class _EnvironmentState extends State<Environment> {
       return CupertinoPageScaffold(
           navigationBar:
               const CupertinoNavigationBar(middle: Text('Environment')),
-          child: Padding(
-              padding: const EdgeInsets.all(12),
+          child: SafeArea(
               child: ListView(
+                  padding: const EdgeInsets.all(12),
                   children: environments
                           .map((e) => CupertinoRadioListTile(
                                   e, '', e, _selectedEnvironment == e, true,

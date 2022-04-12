@@ -20,7 +20,7 @@ class FDAScaffoldWithOverlayButtons extends StatelessWidget {
         child: SafeArea(
             bottom: false,
             child: Stack(
-                children: [child].cast<Widget>() +
+                children: <Widget>[child] +
                     (isPlatformIos(context)
                         ? [
                             Positioned(

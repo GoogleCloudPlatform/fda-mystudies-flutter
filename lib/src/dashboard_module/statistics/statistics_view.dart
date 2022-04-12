@@ -116,11 +116,11 @@ class _StatisticsViewState extends State<StatisticsView> {
           _divider(context),
           const SizedBox(height: 8),
           Expanded(
-              child: ListView(
+              child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  children: widget.statistics
-                      .map((e) => StatisticsTileView(e))
-                      .toList()))
+                  itemCount: widget.statistics.length,
+                  itemBuilder: (context, index) =>
+                      StatisticsTileView(widget.statistics[index])))
         ]));
   }
 

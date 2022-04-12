@@ -81,8 +81,9 @@ class _SignInState extends State<SignIn> {
     var accountStatus = AccountStatus.values[int.parse(status)];
     pushAndRemoveUntil(
         context,
-        FutureLoadingPage('', accountStatus.nextScreen(context),
-            (context, snapshot) {
+        FutureLoadingPage.build(context,
+            scaffoldTitle: '', future: accountStatus.nextScreen(context),
+            builder: (context, snapshot) {
           return snapshot.data as Widget;
         }, wrapInScaffold: false));
   }

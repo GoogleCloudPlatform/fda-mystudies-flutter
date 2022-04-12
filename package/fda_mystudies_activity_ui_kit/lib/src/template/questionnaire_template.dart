@@ -439,7 +439,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: (_step.skippable
-                                ? [
+                                ? <Widget>[
                                     OutlinedButton(
                                         onPressed: () => _navigateToNextScreen(
                                             context, true),
@@ -447,8 +447,8 @@ class QuestionnaireTemplate extends StatelessWidget {
                                         style: Theme.of(context)
                                             .textButtonTheme
                                             .style)
-                                  ].cast<Widget>()
-                                : [].cast<Widget>()) +
+                                  ]
+                                : <Widget>[]) +
                             [
                               const SizedBox(width: 20),
                               ElevatedButton(
