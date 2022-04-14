@@ -79,6 +79,7 @@ class _ActivitiesState extends State<Activities> {
         var matches = activityStateList
             .where((element) => element.activityId == activity.activityId)
             .toList();
+
         if (matches.length == 1) {
           pbActivityList
               .add(PbActivity(activity.activityId, activity, matches.first));
