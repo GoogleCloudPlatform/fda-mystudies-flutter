@@ -24,9 +24,7 @@ class _StatisticsViewState extends State<StatisticsView> {
   static const weekMode = 'WEEK';
   static const monthMode = 'MONTH';
   var curMode = dayMode;
-  var dayCounter = 0;
-  var weekCounter = 0;
-  var monthCounter = 0;
+  var modeToCounterMap = {dayMode: 0, weekMode: 0, monthMode: 0};
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +73,8 @@ class _StatisticsViewState extends State<StatisticsView> {
                     ? CupertinoIcons.left_chevron
                     : Icons.arrow_left_sharp, () {
               setState(() {
-                if (curMode == dayMode) {
-                  dayCounter -= 1;
-                } else if (curMode == weekMode) {
-                  weekCounter -= 1;
-                } else if (curMode == monthMode) {
-                  monthCounter -= 1;
-                }
+                modeToCounterMap[curMode] =
+                    (modeToCounterMap[curMode] ?? 0) - 1;
               });
             }),
             Expanded(
@@ -102,13 +95,8 @@ class _StatisticsViewState extends State<StatisticsView> {
                     ? null
                     : () {
                         setState(() {
-                          if (curMode == dayMode) {
-                            dayCounter += 1;
-                          } else if (curMode == weekMode) {
-                            weekCounter += 1;
-                          } else if (curMode == monthMode) {
-                            monthCounter += 1;
-                          }
+                          modeToCounterMap[curMode] =
+                              (modeToCounterMap[curMode] ?? 0) + 1;
                         });
                       })
           ]),
@@ -154,16 +142,7 @@ class _StatisticsViewState extends State<StatisticsView> {
   }
 
   bool _shouldDisableNextButton() {
-    if (curMode == dayMode && dayCounter == 0) {
-      return true;
-    }
-    if (curMode == monthMode && monthCounter == 0) {
-      return true;
-    }
-    if (curMode == weekMode && weekCounter == 0) {
-      return true;
-    }
-    return false;
+    return modeToCounterMap[curMode] == 0;
   }
 
   Divider _divider(BuildContext context) {
@@ -173,20 +152,21 @@ class _StatisticsViewState extends State<StatisticsView> {
 
   String _timeFormat() {
     var dateTime = clock.now();
+    var curModeCounter = modeToCounterMap[curMode] ?? 0;
     if (curMode == dayMode) {
       return DateFormat('dd, MMM yyyy')
-          .format(dateTime.add(Duration(days: dayCounter)));
+          .format(dateTime.add(Duration(days: curModeCounter)));
     } else if (curMode == weekMode) {
       var firstDayOfWeek = dateTime;
       if (dateTime.weekday != DateTime.sunday) {
-        firstDayOfWeek = dateTime.add(Duration(days: dateTime.weekday));
+        firstDayOfWeek = dateTime.subtract(Duration(days: dateTime.weekday));
       }
-      firstDayOfWeek = firstDayOfWeek.add(Duration(days: 7 * weekCounter));
+      firstDayOfWeek = firstDayOfWeek.add(Duration(days: 7 * curModeCounter));
       final lastDayOfWeek = firstDayOfWeek.add(const Duration(days: 6));
       return '${DateFormat('dd, MMM yyyy').format(firstDayOfWeek)} - ${DateFormat('dd, MMM yyyy').format(lastDayOfWeek)}';
     } else if (curMode == monthMode) {
       var firstDayOfTheMonth =
-          DateTime(dateTime.year, dateTime.month + monthCounter, 1);
+          DateTime(dateTime.year, dateTime.month + curModeCounter, 1);
       return DateFormat('MMM yyyy').format(firstDayOfTheMonth);
     }
     return 'UNKNOWN';
