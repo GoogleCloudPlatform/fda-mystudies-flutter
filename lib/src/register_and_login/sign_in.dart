@@ -72,6 +72,7 @@ class _SignInState extends State<SignIn> {
       push(context, const VerificationStep());
       return NavigationActionPolicy.CANCEL;
     }
+    return null;
   }
 
   void _handleMyStudiesCallback(Uri uri) {

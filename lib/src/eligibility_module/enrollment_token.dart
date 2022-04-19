@@ -99,5 +99,6 @@ class _EnrollmentTokenState extends State<EnrollmentToken> {
     if (_enrollmentToken.isEmpty) {
       return 'Please enter a valid enrollment token!';
     }
+    return null;
   }
 }

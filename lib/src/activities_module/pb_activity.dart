@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:clock/clock.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/get_activity_state.pbserver.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_activity_list.pb.dart';

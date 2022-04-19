@@ -2,9 +2,7 @@ import 'package:fda_mystudies_activity_ui_kit/activity_response_processor.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../common/widget_util.dart';
 import '../../theme/fda_text_theme.dart';

@@ -1,7 +1,6 @@
 import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../../config/config_mapping.dart';
 import '../../common/widget_util.dart';

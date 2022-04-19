@@ -135,5 +135,6 @@ class _VerificationStepState extends State<VerificationStep> {
     if (_verificationCode.isEmpty) {
       return 'Please enter valid verification code';
     }
+    return null;
   }
 }

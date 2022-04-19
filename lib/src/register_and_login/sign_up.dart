@@ -3,7 +3,6 @@ import 'package:fda_mystudies_http_client/participant_user_datastore_service.dar
 import 'package:fda_mystudies_spec/participant_user_datastore_service/registration.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../common/home_scaffold.dart';
 import '../common/string_extension.dart';
@@ -177,5 +176,6 @@ class _SignUpState extends State<SignUp> {
     } else if (!_termsAndConditionsAgreed) {
       return 'Please Read & Agree to the terms & privacy policy.';
     }
+    return null;
   }
 }

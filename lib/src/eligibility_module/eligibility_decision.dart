@@ -8,7 +8,6 @@ import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_c
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../main.dart';
 import '../common/widget_util.dart';

@@ -11,6 +11,7 @@ extension PbStudyStatusStringExtension on String {
     } else if (this == 'Closed') {
       return PbStudyEnrollmentStatus.closed;
     }
+    return null;
   }
 }
 
