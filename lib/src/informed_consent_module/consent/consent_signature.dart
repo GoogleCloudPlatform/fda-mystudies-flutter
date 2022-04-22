@@ -9,7 +9,6 @@ import '../../widget/fda_scaffold_with_overlay_actions.dart';
 import '../../widget/fda_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'consent_confirmed.dart';
 

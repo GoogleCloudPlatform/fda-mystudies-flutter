@@ -2,7 +2,6 @@ import 'package:fda_mystudies/src/common/home_scaffold.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'widget_util.dart';
 import 'common_error_widget.dart';

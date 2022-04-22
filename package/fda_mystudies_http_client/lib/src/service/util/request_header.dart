@@ -46,6 +46,7 @@ extension RequestHeaderExtension on CommonRequestHeader {
     } else if (authToken != null) {
       return authToken;
     }
+    return null;
   }
 }
 

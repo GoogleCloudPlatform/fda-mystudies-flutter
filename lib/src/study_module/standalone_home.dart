@@ -7,9 +7,7 @@ import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:fda_mystudies_spec/participant_enroll_datastore_service/get_study_state.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_list.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:html/parser.dart';
 
 import '../common/future_loading_page.dart';
