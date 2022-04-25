@@ -10,11 +10,8 @@ void main() {
   });
 
   testGoldens('Show Activities page in android', (WidgetTester tester) async {
-    final builder = DeviceBuilder()
-      ..overrideDevicesForAllScenarios(devices: [Device.iphone11, Device.phone])
-      ..addScenario(widget: const StudyHome());
+    final builder = DeviceBuilder()..addScenario(widget: const StudyHome());
 
-    await loadAppFonts();
     await tester.pumpDeviceBuilder(builder,
         wrapper: materialAppWrapper(theme: FDAMyStudiesApp.androidLightTheme));
     await screenMatchesGolden(tester, 'activity_home_light');
