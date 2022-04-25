@@ -32,3 +32,10 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - run: ./tool/flutter_ci_script_${{ matrix.flutter_version }}.sh
+      - name: 'Upload diff-test failures'
+        uses: actions/upload-artifact@v3
+        if: ${{ failure() }}
+        with:
+          name: Failed Screenshots
+          path: test/**/failures/*.png
+          retention-days: 5
