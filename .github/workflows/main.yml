@@ -36,6 +36,6 @@ jobs:
         uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
-          name: Failed Screenshots
+          name: Failed Screenshots for tests on flutter ${{ matrix.flutter_version }} on ${{ matrix.os }}
           path: test/**/failures/*.png
           retention-days: 5
