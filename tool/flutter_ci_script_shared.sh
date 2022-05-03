@@ -43,7 +43,12 @@ function ci_projects () {
         # Run the actual tests.
         if [ -d "test" ]
         then
-            flutter test
+            if ["${channel}" == "stable"]
+            then
+                flutter test --exclude-tags golden
+            else
+                flutter test
+            fi
         fi
 
         popd
