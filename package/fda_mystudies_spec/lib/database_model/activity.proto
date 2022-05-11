@@ -1,0 +1,14 @@
+syntax = "proto3";
+package fda_mystudies_spec.database.model;
+
+message Activity {
+  string study_id = 1;
+  string id = 2;
+  string title = 3;
+  string version = 4;
+  string type = 5;
+  string start_time = 6;
+  string end_time = 7;
+  string state = 8;
+  string frequency = 9;
+}

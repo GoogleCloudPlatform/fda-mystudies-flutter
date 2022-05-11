@@ -1,3 +1,4 @@
+import 'package:fda_mystudies/src/database/database_helper.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart'
     as ui_kit;
@@ -12,7 +13,9 @@ final demoConfig = dc.DemoConfig();
 final curConfig = demoConfig;
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   configureDependencies(curConfig);
   ui_kit.configureDependencies(PlatformConfig());
+  DatabaseHelper.shared.initDatabase();
   runApp(const FDAMyStudiesApp());
 }
