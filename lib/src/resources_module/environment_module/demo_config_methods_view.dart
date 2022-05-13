@@ -3,6 +3,7 @@ import 'package:fda_mystudies_http_client/mock_scenario_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../main.dart';
 import '../../common/future_loading_page.dart';
 import '../../common/widget_util.dart';
 import '../../cupertino_widget/cupertino_list_tile.dart';
@@ -21,36 +22,38 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
   Widget build(BuildContext context) {
     final MockScenarioService mockScenarioService =
         getIt<MockScenarioService>();
-    return FutureLoadingPage(
-        widget.serviceName, mockScenarioService.listMethods(widget.serviceName),
-        (context, snapshot) {
+    return FutureLoadingPage.build(context,
+        scaffoldTitle: widget.serviceName,
+        future: mockScenarioService.listMethods(widget.serviceName),
+        builder: (context, snapshot) {
       var methods = (snapshot.data ?? []) as List<String>;
-      if (Theme.of(context).platform == TargetPlatform.iOS) {
+      if (isPlatformIos(context)) {
         return CupertinoScrollbar(
-            child: ListView(
-                children: methods
-                    .map((e) => CupertinoListTile(
-                        title: e,
-                        onTap: () => push(context,
-                            DemoConfigScenariosView(widget.serviceName, e))))
-                    .toList()));
+            child: ListView.builder(
+                itemCount: methods.length,
+                itemBuilder: (context, index) => CupertinoListTile(
+                    title: methods[index],
+                    onTap: () =>
+                        _navigateToScenario(context, methods[index]))));
       }
       return Scrollbar(
-          child: ListView(
-              children: methods
-                  .map((e) => Column(children: [
-                        ListTile(
-                            title: Text(e),
-                            trailing: const Icon(
-                                Icons.arrow_forward_ios_outlined,
-                                size: 16),
-                            onTap: () => push(
-                                context,
-                                DemoConfigScenariosView(
-                                    widget.serviceName, e))),
-                        const Divider()
-                      ]))
-                  .toList()));
+          child: ListView.separated(
+              itemCount: methods.length,
+              itemBuilder: (context, index) => ListTile(
+                    title: Text(methods[index]),
+                    trailing:
+                        const Icon(Icons.arrow_forward_ios_outlined, size: 16),
+                    onTap: () => _navigateToScenario(context, methods[index]),
+                  ),
+              separatorBuilder: (context, index) => const Divider()));
     });
+  }
+
+  void _navigateToScenario(BuildContext context, String method) {
+    push(
+        context,
+        DemoConfigScenariosView(widget.serviceName, method,
+            selectedScenario: demoConfig
+                .serviceMethodScenarioMap['${widget.serviceName}.$method']));
   }
 }

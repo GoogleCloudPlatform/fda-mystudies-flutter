@@ -5,9 +5,13 @@ import 'package:injectable/injectable.dart';
 
 class DemoConfig implements Config {
   Map<String, String> serviceMethodScenarioMap = {};
+  int delay = 0;
 
   @override
   String get apiKey => 'API_KEY';
+
+  @override
+  AppType get appType => AppType.gateway;
 
   @override
   String get appId => 'fda-mystudies-flutter';
@@ -41,4 +45,7 @@ class DemoConfig implements Config {
 
   @override
   String get version => '1.0';
+
+  @override
+  int get delayInSeconds => delay;
 }

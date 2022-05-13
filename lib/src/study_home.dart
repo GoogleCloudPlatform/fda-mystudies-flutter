@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'common/home_scaffold.dart';
+import 'common/widget_util.dart';
 import 'activities_module/activities.dart';
 import 'dashboard_module/dashboard.dart';
 import 'resources_module/resources.dart';
@@ -24,10 +26,9 @@ class _StudyHomeState extends State<StudyHome> {
     var tabs = [activitiesTitle, dashboardTitle, resourcesTitle];
     var views = const [Activities(), Dashboard(), Resources()];
 
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
-      return CupertinoPageScaffold(
-          navigationBar:
-              CupertinoNavigationBar(middle: Text(tabs[_currentTab])),
+    if (isPlatformIos(context)) {
+      return HomeScaffold(
+          title: tabs[_currentTab],
           child: CupertinoTabScaffold(
             tabBar: CupertinoTabBar(
               items: const <BottomNavigationBarItem>[
@@ -53,26 +54,25 @@ class _StudyHomeState extends State<StudyHome> {
             },
           ));
     }
-    return Scaffold(
-      appBar: AppBar(title: Text(tabs[_currentTab])),
-      body: IndexedStack(
-        children: views,
-        index: _currentTab,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.waves), label: activitiesTitle),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard), label: dashboardTitle),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.menu_book_rounded), label: resourcesTitle)
-        ],
-        onTap: (index) => setState(() {
-          _currentTab = index;
-        }),
-        currentIndex: _currentTab,
-      ),
-    );
+    return HomeScaffold(
+        child: IndexedStack(
+          children: views,
+          index: _currentTab,
+        ),
+        title: tabs[_currentTab],
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.waves), label: activitiesTitle),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.dashboard), label: dashboardTitle),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.menu_book_rounded), label: resourcesTitle)
+          ],
+          onTap: (index) => setState(() {
+            _currentTab = index;
+          }),
+          currentIndex: _currentTab,
+        ));
   }
 }

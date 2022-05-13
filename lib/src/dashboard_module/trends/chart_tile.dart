@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../common/widget_util.dart';
 import 'recorded_value.dart';
 
 class ChartTile extends StatelessWidget {
@@ -15,9 +18,10 @@ class ChartTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
+    final platformIsIos = (isPlatformIos(context));
     final isDarkModeEnabled =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
+    var scale = MediaQuery.of(context).textScaleFactor;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Container(
           decoration: BoxDecoration(
@@ -44,7 +48,7 @@ class ChartTile extends StatelessWidget {
             primaryMeasureAxis: charts.NumericAxisSpec(
                 renderSpec: charts.GridlineRendererSpec(
                   labelStyle: charts.TextStyleSpec(
-                      fontSize: 10,
+                      fontSize: min(18, (10 * scale).ceil()),
                       color: (isDarkModeEnabled
                           ? charts.MaterialPalette.white
                           : charts.MaterialPalette.black)),
@@ -54,7 +58,7 @@ class ChartTile extends StatelessWidget {
             domainAxis: charts.DateTimeAxisSpec(
               renderSpec: charts.GridlineRendererSpec(
                 labelStyle: charts.TextStyleSpec(
-                    fontSize: 10,
+                    fontSize: min(18, (10 * scale).ceil()),
                     color: (isDarkModeEnabled
                         ? charts.MaterialPalette.white
                         : charts.MaterialPalette.black)),
@@ -80,7 +84,7 @@ class ChartTile extends StatelessWidget {
   }
 
   TextStyle? _titleStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .textStyle

@@ -1,5 +1,5 @@
-import 'package:fda_mystudies/fda_mystudies_app.dart';
 import 'package:fda_mystudies/src/resources_module/resources.dart';
+import 'package:fda_mystudies/src/study_home.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -15,16 +15,18 @@ void main() {
   });
 
   testWidgets('Show about study page', (WidgetTester tester) async {
-    await tester.pumpWidget(const FDAMyStudiesApp());
-    var tabs = [activitiesTitle, dashboardTitle, resourcesTitle];
-    await TestUtil.testSelectedTabViaScaffoldTitle(
-        tester, tabs, resourcesTitle);
-    expect(find.text(Resources.aboutTheStudyTitle), findsOneWidget);
+    await tester.runAsync(() async {
+      await tester.pumpWidget(TestUtil.wrapInMaterialApp(const StudyHome()));
+      var tabs = [activitiesTitle, dashboardTitle, resourcesTitle];
+      await TestUtil.testSelectedTabViaScaffoldTitle(
+          tester, tabs, resourcesTitle);
+      expect(find.text(Resources.aboutTheStudyTitle), findsOneWidget);
 
-    await tester.tap(find.text(Resources.aboutTheStudyTitle));
-    await tester.pump();
-    await tester.pump();
-    TestUtil.testScaffoldTitle('About');
+      await tester.tap(find.text(Resources.aboutTheStudyTitle));
+      await tester.pump();
+      await tester.pump();
+      TestUtil.testScaffoldTitle('About');
+    });
   },
       variant: const TargetPlatformVariant(
           <TargetPlatform>{TargetPlatform.android, TargetPlatform.iOS}));

@@ -19,7 +19,7 @@ void main() {
   group('get activity state tests', () {
     test('test default scenario', () async {
       var response = await responseDatastoreService!
-          .getActivityState('userId', 'authToken', 'studyId', 'participantId');
+          .getActivityState('userId', 'studyId', 'participantId');
 
       expect(
           response,
@@ -53,7 +53,7 @@ void main() {
   group('process response tests', () {
     test('test default scenario', () async {
       var response = await responseDatastoreService!
-          .processResponse('userId', 'authToken', ActivityResponse());
+          .processResponse('userId', ActivityResponse());
 
       expect(response, CommonTestObject.commonSuccessResponse);
     });
@@ -63,7 +63,6 @@ void main() {
     test('test default scenario', () async {
       var response = await responseDatastoreService!.updateActivityState(
           'userId',
-          'authToken',
           'studyId',
           'participantId',
           GetActivityStateResponse_ActivityState());

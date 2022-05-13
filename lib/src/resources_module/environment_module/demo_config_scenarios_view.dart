@@ -6,7 +6,9 @@ import 'package:fda_mystudies_http_client/mock_scenario_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../main.dart';
 import '../../common/future_loading_page.dart';
+import '../../common/widget_util.dart';
 
 class DemoConfigScenariosView extends StatefulWidget {
   final String serviceName;
@@ -36,42 +38,52 @@ class _DemoConfigScenariosViewState extends State<DemoConfigScenariosView> {
   Widget build(BuildContext context) {
     final MockScenarioService mockScenarioService =
         http_client.getIt<MockScenarioService>();
-    return FutureLoadingPage(
-        widget.methodName,
-        mockScenarioService.listScenarios(
-            widget.serviceName, widget.methodName), (context, snapshot) {
+    return FutureLoadingPage.build(context,
+        scaffoldTitle: widget.methodName,
+        future: mockScenarioService.listScenarios(
+            widget.serviceName, widget.methodName),
+        builder: (context, snapshot) {
       var scenarios = (snapshot.data ?? []) as List<Scenario>;
-      if (Theme.of(context).platform == TargetPlatform.iOS) {
+      if (isPlatformIos(context)) {
         return CupertinoScrollbar(
-            child: ListView(
-                children: scenarios
-                    .map((e) => CupertinoRadioListTile(
-                          e.title,
-                          '(${e.response.statusCode}) ${e.description}',
-                          e.scenarioCode,
-                          e.scenarioCode == selectedScenario,
-                          true,
-                          onChanged: (value) => setState(() {
-                            selectedScenario = e.scenarioCode;
-                          }),
-                        ))
-                    .toList()));
+            child: ListView.builder(
+                itemCount: scenarios.length,
+                itemBuilder: (context, index) {
+                  var curScenario = scenarios[index];
+                  return CupertinoRadioListTile(
+                      curScenario.title,
+                      '(${curScenario.response.statusCode}) ${curScenario.description}',
+                      curScenario.scenarioCode,
+                      curScenario.scenarioCode == selectedScenario,
+                      true,
+                      onChanged: (value) =>
+                          _selectScenario(curScenario.scenarioCode));
+                }));
       }
       return Scrollbar(
-          child: ListView(
-              children: scenarios
-                  .map((e) => RadioListTile(
-                        title: Text(e.title),
-                        subtitle:
-                            Text('(${e.response.statusCode}) ${e.description}'),
-                        value: e.scenarioCode,
-                        selected: e.scenarioCode == selectedScenario,
-                        onChanged: (value) => setState(() {
-                          selectedScenario = e.scenarioCode;
-                        }),
-                        groupValue: selectedScenario,
-                      ))
-                  .toList()));
+          child: ListView.builder(
+              itemCount: scenarios.length,
+              itemBuilder: (context, index) {
+                var curScenario = scenarios[index];
+                return RadioListTile(
+                  title: Text(curScenario.title),
+                  subtitle: Text(
+                      '(${curScenario.response.statusCode}) ${curScenario.description}'),
+                  value: curScenario.scenarioCode,
+                  selected: curScenario.scenarioCode == selectedScenario,
+                  onChanged: (value) =>
+                      _selectScenario(curScenario.scenarioCode),
+                  groupValue: selectedScenario,
+                );
+              }));
+    });
+  }
+
+  void _selectScenario(String scenario) {
+    demoConfig.serviceMethodScenarioMap[
+        '${widget.serviceName}.${widget.methodName}'] = scenario;
+    setState(() {
+      selectedScenario = scenario;
     });
   }
 }

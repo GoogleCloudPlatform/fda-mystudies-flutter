@@ -20,8 +20,8 @@ void main() {
 
   group('contact us tests', () {
     test('default scenario test', () async {
-      var response = await participantUserDatastoreService!.contactUs('userId',
-          'authToken', 'subject', 'feedbackBody', 'email', 'firstName');
+      var response = await participantUserDatastoreService!
+          .contactUs('userId', 'subject', 'feedbackBody', 'email', 'firstName');
 
       expect(response, CommonTestObject.commonSuccessResponse);
     });
@@ -30,7 +30,7 @@ void main() {
   group('deactivate tests', () {
     test('default scenario test', () async {
       var response = await participantUserDatastoreService!
-          .deactivate('userId', 'authToken', 'studyId', 'participantId');
+          .deactivate('userId', 'studyId', 'participantId');
 
       expect(response, CommonTestObject.commonSuccessResponse);
     });
@@ -39,7 +39,7 @@ void main() {
   group('feedback tests', () {
     test('default scenario test', () async {
       var response = await participantUserDatastoreService!
-          .feedback('userId', 'authToken', 'subject', 'feedbackBody');
+          .feedback('userId', 'subject', 'feedbackBody');
 
       expect(response, CommonTestObject.commonSuccessResponse);
     });
@@ -47,8 +47,8 @@ void main() {
 
   group('get user profile tests', () {
     test('default scenario test', () async {
-      var response = await participantUserDatastoreService!
-          .getUserProfile('userId', 'authToken');
+      var response =
+          await participantUserDatastoreService!.getUserProfile('userId');
 
       expect(
           response,
@@ -89,7 +89,7 @@ void main() {
   group('update user profile tests', () {
     test('default scenario test', () async {
       var response = await participantUserDatastoreService!.updateUserProfile(
-          'userId', 'authToken', GetUserProfileResponse_UserProfile());
+          'userId', GetUserProfileResponse_UserProfileSettings());
 
       expect(
           response,

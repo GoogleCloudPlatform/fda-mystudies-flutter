@@ -1,11 +1,15 @@
 import 'package:injectable/injectable.dart';
 
+enum AppType { gateway, standalone }
+
 /// Configuration class that needs to be injected by the client of this library.
 abstract class Config {
   /// Two environments are available - demo & live.
   /// demo environment would allow you to configure mock scenarios to test the client
   /// using this library. You can use the demo config in `lib/mock/demo_config.dart`.
   Environment get environment;
+
+  AppType get appType;
 
   /// ApiKey should match the value configured in study datastore server.
   String get apiKey;
@@ -41,6 +45,13 @@ abstract class Config {
   /// version of the client app.
   String get version;
 
+  //////////////////////////////////////////
+  ///         DEMO ONLY CONFIGS         ////
+  //////////////////////////////////////////
+
   /// mapping of scenarios to service.method
   Map<String, String> get scenarios;
+
+  /// delays in seconds
+  int get delayInSeconds;
 }

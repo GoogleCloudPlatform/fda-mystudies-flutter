@@ -188,12 +188,14 @@ class MockHttpClient implements http.Client {
   }
 
   Future<http.Response> _yamlToHttpResponse(String yamlPath) {
-    return rootBundle
-        .loadString('packages/fda_mystudies_http_client/$yamlPath')
-        .then((content) {
-      var doc = loadYaml(content);
-      return http.Response(doc['response'], doc['code']);
-    });
+    return Future.delayed(
+        Duration(seconds: config.delayInSeconds),
+        () => rootBundle
+                .loadString('packages/fda_mystudies_http_client/$yamlPath')
+                .then((content) {
+              var doc = loadYaml(content);
+              return http.Response(doc['response'], doc['code']);
+            }));
   }
 
   @override

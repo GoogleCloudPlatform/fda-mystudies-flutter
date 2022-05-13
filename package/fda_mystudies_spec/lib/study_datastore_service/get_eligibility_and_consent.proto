@@ -43,7 +43,7 @@ message GetEligibilityAndConsentResponse {
       string learn_more = 5;
       bool allow_without_sharing = 6;
     }
-    SharingScreen sharing_screen = 4;
+    SharingScreen sharing_screen = 4 [json_name = "sharing"];
   }
   Consent consent = 3;
 }

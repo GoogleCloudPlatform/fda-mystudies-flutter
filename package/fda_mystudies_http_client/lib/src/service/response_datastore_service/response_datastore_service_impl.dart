@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fda_mystudies_http_client/src/service/session.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 import 'package:fda_mystudies_spec/fda_mystudies_spec.dart';
@@ -31,10 +32,12 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
 
   @override
   Future<Object> getActivityState(
-      String userId, String authToken, String studyId, String participantId) {
+      String userId, String studyId, String participantId) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var queryParams = {'studyId': studyId, 'participantId': participantId};
     var uri = Uri.https(config.baseParticipantUrl,
         '$responseDatastore$getActivityStatePath', queryParams);
@@ -46,10 +49,12 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
 
   @override
   Future<Object> processResponse(
-      String userId, String authToken, ActivityResponse activityResponse) {
+      String userId, ActivityResponse activityResponse) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     Uri uri = Uri.https(
         config.baseParticipantUrl, '$responseDatastore$processResponsePath');
 
@@ -64,13 +69,14 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
   @override
   Future<Object> updateActivityState(
       String userId,
-      String authToken,
       String studyId,
       String participantId,
       GetActivityStateResponse_ActivityState activityState) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {
       'studyId': studyId,
       'participantId': participantId,

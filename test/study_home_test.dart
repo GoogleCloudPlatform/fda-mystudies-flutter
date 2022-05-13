@@ -1,4 +1,4 @@
-import 'package:fda_mystudies/fda_mystudies_app.dart';
+import 'package:fda_mystudies/src/study_home.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -14,7 +14,7 @@ void main() {
   });
 
   testWidgets('Show study-home page', (WidgetTester tester) async {
-    await tester.pumpWidget(const FDAMyStudiesApp());
+    await tester.pumpWidget(TestUtil.wrapInMaterialApp(const StudyHome()));
     var tabs = [activitiesTitle, dashboardTitle, resourcesTitle];
     if (debugDefaultTargetPlatformOverride == TargetPlatform.android) {
       expect(

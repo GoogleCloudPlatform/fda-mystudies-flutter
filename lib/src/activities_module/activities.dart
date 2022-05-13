@@ -14,6 +14,7 @@ import 'package:flutter/widgets.dart';
 
 import '../common/future_loading_page.dart';
 import '../common/widget_util.dart';
+import '../user/user_data.dart';
 import 'cupertino_activity_response_processor.dart';
 import 'cupertino_activity_tile.dart';
 import 'material_activity_response_processor.dart';
@@ -30,38 +31,36 @@ class Activities extends StatefulWidget {
 class _ActivitiesState extends State<Activities> {
   @override
   Widget build(BuildContext context) {
-    return FutureLoadingPage(
-        'Activities',
-        _fetchActivityListWithState(
-            userId: 'userId',
-            studyId: 'studyId',
-            authToken: 'authToken',
-            participantId: 'participantId'), (context, snapshot) {
+    return FutureLoadingPage.build(context,
+        scaffoldTitle: 'Activities',
+        future: _fetchActivityListWithState(
+            studyId: UserData.shared.curStudyId,
+            participantId: UserData.shared.curParticipantId),
+        builder: (context, snapshot) {
       var pbActivityList = snapshot.data as List<PbActivity>;
-      return ListView(
-          children: pbActivityList.map((e) {
-        if (Theme.of(context).platform == TargetPlatform.iOS) {
-          return CupertinoActivityTile(
-              e, () => _openActivityUI(context, e.activity));
-        }
-        return MaterialActivityTile(
-            e, () => _openActivityUI(context, e.activity));
-      }).toList());
+      return ListView.builder(
+          itemCount: pbActivityList.length,
+          itemBuilder: (context, index) {
+            var curItem = pbActivityList[index];
+            if (isPlatformIos(context)) {
+              return CupertinoActivityTile(
+                  curItem, () => _openActivityUI(context, curItem));
+            }
+            return MaterialActivityTile(
+                curItem, () => _openActivityUI(context, curItem));
+          });
     }, wrapInScaffold: false);
   }
 
   Future<Object> _fetchActivityListWithState(
-      {required String userId,
-      required String studyId,
-      required String authToken,
-      required String participantId}) {
+      {required String studyId, required String participantId}) {
     var studyDatastoreService = getIt<StudyDatastoreService>();
     var responseDatastoreService = getIt<ResponseDatastoreService>();
 
     return Future.wait([
-      studyDatastoreService.getActivityList(studyId, userId),
+      studyDatastoreService.getActivityList(studyId, UserData.shared.userId),
       responseDatastoreService.getActivityState(
-          userId, authToken, studyId, participantId)
+          UserData.shared.userId, studyId, participantId)
     ]).then((responses) {
       var activityListResponse = responses[0];
       var activityStateResponse = responses[1];
@@ -80,15 +79,24 @@ class _ActivitiesState extends State<Activities> {
         var matches = activityStateList
             .where((element) => element.activityId == activity.activityId)
             .toList();
-        // There should be one and only one element in the activityStateList with activity id element.activityId.
         if (matches.length == 1) {
           pbActivityList
               .add(PbActivity(activity.activityId, activity, matches.first));
         } else if (matches.isEmpty) {
-          return CommonErrorResponse(
-              status: 404,
-              errorDescription:
-                  'No valid state found for activity with activityId `${activity.activityId}` in this study.');
+          pbActivityList.add(PbActivity(
+              activity.activityId,
+              activity,
+              GetActivityStateResponse_ActivityState.create()
+                ..activityId = activity.activityId
+                ..activityState = 'start'
+                ..activityVersion = activity.activityVersion
+                ..activityRunId = '1'
+                ..activityRun =
+                    (GetActivityStateResponse_ActivityState_ActivityRun.create()
+                      ..total =
+                          (activity.frequency.type == 'One time' ? 1 : 999)
+                      ..completed = 0
+                      ..missed = 0)));
         } else {
           return CommonErrorResponse(
               status: 404,
@@ -106,29 +114,45 @@ class _ActivitiesState extends State<Activities> {
     });
   }
 
-  void _openActivityUI(
-      BuildContext context, GetActivityListResponse_Activity activity) {
-    var studyDatastoreService = getIt<StudyDatastoreService>();
-    var platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
-    var userId = 'userId';
-    var studyId = 'studyId';
+  void _openActivityUI(BuildContext context, PbActivity activity) {
+    var userId = UserData.shared.userId;
+    var studyId = UserData.shared.curStudyId;
     var activityId = activity.activityId;
-    var activityVersion = activity.activityVersion;
     var uniqueId = '$userId:$studyId:$activityId';
     push(
         context,
-        FutureLoadingPage(
-            '',
-            studyDatastoreService.fetchActivitySteps(
-                studyId, activity.activityId, activityVersion, userId),
-            (context, snapshot) {
+        FutureLoadingPage.build(context,
+            scaffoldTitle: '',
+            future: _fetchActivityStepsAndUpdateActivityState(activity),
+            builder: (context, snapshot) {
           var response = snapshot.data as FetchActivityStepsResponse;
           var activityBuilder = ui_kit.getIt<ActivityBuilder>();
-          return platformIsIos
+          return isPlatformIos(context)
               ? activityBuilder.buildActivity(response.activity.steps,
-                  const CupertinoActivityResponseProcessor(), uniqueId)
+                  CupertinoActivityResponseProcessor(activity), uniqueId)
               : activityBuilder.buildActivity(response.activity.steps,
-                  const MaterialActivityResponseProcessor(), uniqueId);
+                  MaterialActivityResponseProcessor(), uniqueId);
         }, wrapInScaffold: false));
+  }
+
+  Future<Object> _fetchActivityStepsAndUpdateActivityState(
+      PbActivity activity) {
+    var studyDatastoreService = getIt<StudyDatastoreService>();
+    var responseDataStoreService = getIt<ResponseDatastoreService>();
+    var userId = UserData.shared.userId;
+    var studyId = UserData.shared.curStudyId;
+    var activityId = activity.activityId;
+    var activityVersion = activity.activity.activityVersion;
+    return Future.wait([
+      studyDatastoreService.fetchActivitySteps(
+          studyId, activityId, activityVersion, userId),
+      responseDataStoreService.updateActivityState(
+          userId,
+          studyId,
+          UserData.shared.curParticipantId,
+          activity.state..activityState = 'inProgress')
+    ]).then((value) {
+      return value[0];
+    });
   }
 }

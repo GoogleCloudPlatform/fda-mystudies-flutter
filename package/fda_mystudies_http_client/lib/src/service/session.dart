@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
@@ -17,12 +18,18 @@ class Session {
   static Session get shared => _session;
 
   Session(
-      this.correlationId, this.codeVerifier, this.codeChallenge, this.state);
+      {required this.correlationId,
+      required this.codeVerifier,
+      required this.codeChallenge,
+      required this.state});
 
   static Session reset() {
-    final codeVerifier = const Uuid().v4();
-    var newSession = Session(codeVerifier, RandomGenerator.getRandomString(50),
-        _codeChallenge(codeVerifier), RandomGenerator.getRandomString(21));
+    final newCodeVerifier = RandomGenerator.getRandomString(50);
+    var newSession = Session(
+        correlationId: const Uuid().v4(),
+        codeVerifier: newCodeVerifier,
+        codeChallenge: _codeChallenge(newCodeVerifier),
+        state: RandomGenerator.getRandomString(21));
     _session = newSession;
     return newSession;
   }

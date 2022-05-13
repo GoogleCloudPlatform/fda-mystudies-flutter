@@ -115,7 +115,7 @@ void main() {
       config.serviceMethodScenarioMap = {
         'authentication_service.logout': 'default'
       };
-      var response = await authenticationService!.logout('userId', 'authToken');
+      var response = await authenticationService!.logout('userId');
 
       expect(
           response,

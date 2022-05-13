@@ -1,6 +1,6 @@
+import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/change_password.pb.dart';
-import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
 
 /// Service for communicating to auth-server
@@ -20,11 +20,11 @@ abstract class AuthenticationService {
   /// [CommonErrorResponse] for failed response.
   Future<Object> grantVerifiedUser(String userId, String code);
 
-  /// [LogoutResponse] for successful response.
+  /// [CommonResponse] for successful response.
   /// [CommonErrorResponse] for failed response.
   Future<Object> resetPassword(String emailId);
 
-  Future<Object> logout(String userId, String authToken);
+  Future<Object> logout(String userId);
 
   /// [ChangePasswordResponse] for successful response.
   /// [CommonErrorResponse] for failed response.

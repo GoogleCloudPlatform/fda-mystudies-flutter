@@ -79,7 +79,7 @@ class _MultipleTextChoiceTemplateState
           .map((e) => CheckboxListTile(
               controlAffinity: ListTileControlAffinity.leading,
               title: Text(e.text),
-              subtitle: Text(e.detail),
+              subtitle: e.detail.isNotEmpty ? Text(e.detail) : null,
               value: _selectedValue.contains(e.value),
               onChanged: (value) => _updateState(e)))
           .cast<Widget>()

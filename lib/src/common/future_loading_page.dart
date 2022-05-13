@@ -1,35 +1,34 @@
+import 'package:fda_mystudies/src/common/home_scaffold.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'widget_util.dart';
 import 'common_error_widget.dart';
 
-class FutureLoadingPage extends StatelessWidget {
-  final String scaffoldTitle;
-  final Future<Object>? future;
-  final Widget Function(BuildContext, AsyncSnapshot<Object>) builder;
-  final bool wrapInScaffold;
-
-  const FutureLoadingPage(this.scaffoldTitle, this.future, this.builder,
-      {this.wrapInScaffold = true, Key? key})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
+class FutureLoadingPage {
+  static Widget build(BuildContext context,
+      {required String scaffoldTitle,
+      required Future<Object>? future,
+      required Widget Function(BuildContext, AsyncSnapshot<Object>) builder,
+      bool wrapInScaffold = true,
+      bool showDrawer = false}) {
     return _wrapWidgetInScaffold(
         context,
+        scaffoldTitle,
+        showDrawer,
         FutureBuilder<Object>(
             future: future,
             builder:
                 (BuildContext buildContext, AsyncSnapshot<Object> snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return Center(
-                      child: (platformIsIos
-                          ? const CupertinoActivityIndicator()
-                          : const CircularProgressIndicator()));
+                  return isPlatformIos(context)
+                      ? const CupertinoPageScaffold(
+                          child: Center(child: CupertinoActivityIndicator()))
+                      : const Scaffold(
+                          body: Center(child: CircularProgressIndicator()));
                 default:
                   if (snapshot.hasError) {
                     return CommonErrorWidget(snapshot.error.toString());
@@ -45,15 +44,11 @@ class FutureLoadingPage extends StatelessWidget {
         wrapInScaffold);
   }
 
-  Widget _wrapWidgetInScaffold(
-      BuildContext context, Widget widget, bool shouldWrap) {
+  static Widget _wrapWidgetInScaffold(BuildContext context,
+      String scaffoldTitle, bool showDrawer, Widget widget, bool shouldWrap) {
     if (shouldWrap) {
-      if (Theme.of(context).platform == TargetPlatform.iOS) {
-        return CupertinoPageScaffold(
-            navigationBar: CupertinoNavigationBar(middle: Text(scaffoldTitle)),
-            child: widget);
-      }
-      return Scaffold(appBar: AppBar(title: Text(scaffoldTitle)), body: widget);
+      return HomeScaffold(
+          child: widget, title: scaffoldTitle, showDrawer: showDrawer);
     }
     return widget;
   }

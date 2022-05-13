@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:printing/printing.dart';
 
 import '../common/future_loading_page.dart';
+import '../user/user_data.dart';
 
 class ViewConsentPdf extends StatelessWidget {
   static const scaffoldTitle = 'Signed Consent Document';
@@ -20,22 +21,25 @@ class ViewConsentPdf extends StatelessWidget {
     ParticipantConsentDatastoreService participantConsentDatastoreService =
         getIt<ParticipantConsentDatastoreService>();
     var futureObject = participantConsentDatastoreService.getConsentDocument(
-        'userId', 'authToken', 'studyId');
-    return FutureLoadingPage(scaffoldTitle, futureObject, (context, snapshot) {
+        UserData.shared.userId, UserData.shared.curStudyId);
+    return FutureLoadingPage.build(context,
+        scaffoldTitle: scaffoldTitle,
+        future: futureObject, builder: (context, snapshot) {
       var consentForm =
           (snapshot.data as GetConsentDocumentResponse).consent.content;
-      return PdfPreview(
-          maxPageWidth: MediaQuery.of(context).size.width,
-          build: (format) {
-            return base64Decode(consentForm);
-          },
-          padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
-          allowSharing: false,
-          canDebug: false,
-          dynamicLayout: false,
-          allowPrinting: false,
-          canChangeOrientation: false,
-          canChangePageFormat: false);
+      return SafeArea(
+          child: PdfPreview(
+              maxPageWidth: MediaQuery.of(context).size.width,
+              build: (format) {
+                return base64Decode(consentForm);
+              },
+              padding: const EdgeInsets.fromLTRB(8, 18, 8, 8),
+              allowSharing: false,
+              canDebug: false,
+              dynamicLayout: false,
+              allowPrinting: false,
+              canChangeOrientation: false,
+              canChangePageFormat: false));
     });
   }
 }

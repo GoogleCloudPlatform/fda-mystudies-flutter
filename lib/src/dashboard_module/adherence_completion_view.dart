@@ -2,11 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../common/widget_util.dart';
 import 'donut_chart.dart';
 
 class AdherenceCompletionView extends StatelessWidget {
-  final double studyCompletionPercent;
-  final double activitiesCompletionPercent;
+  final int studyCompletionPercent;
+  final int activitiesCompletionPercent;
 
   const AdherenceCompletionView(
       {required this.studyCompletionPercent,
@@ -16,9 +17,8 @@ class AdherenceCompletionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
+    final platformIsIos = (isPlatformIos(context));
     return Container(
-        height: 250,
         padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
         decoration: BoxDecoration(
             color: platformIsIos
@@ -30,7 +30,7 @@ class AdherenceCompletionView extends StatelessWidget {
           children: [
             Expanded(
                 child: Column(children: [
-              DonutChart(studyCompletionPercent),
+              DonutChart(studyCompletionPercent.toDouble()),
               Padding(
                   padding: const EdgeInsets.all(4),
                   child: Text('The study is $studyCompletionPercent% complete',
@@ -40,12 +40,10 @@ class AdherenceCompletionView extends StatelessWidget {
             VerticalDivider(
                 width: 1,
                 thickness: 1,
-                color: (platformIsIos
-                    ? CupertinoTheme.of(context).scaffoldBackgroundColor
-                    : Theme.of(context).scaffoldBackgroundColor)),
+                color: contrastingDividerColor(context)),
             Expanded(
                 child: Column(children: [
-              DonutChart(activitiesCompletionPercent),
+              DonutChart(activitiesCompletionPercent.toDouble()),
               Padding(
                   padding: const EdgeInsets.all(8),
                   child: Text(
@@ -58,7 +56,7 @@ class AdherenceCompletionView extends StatelessWidget {
   }
 
   TextStyle? _statusStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .pickerTextStyle

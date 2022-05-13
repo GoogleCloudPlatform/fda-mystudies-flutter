@@ -121,14 +121,12 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
       if (step.numericalFormat.style == 'Decimal') {
         return [
           FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,5}')),
-          _NumericalTextInputFormatter(
-              step.numericalFormat.minValue, step.numericalFormat.maxValue)
+          _NumericalTextInputFormatter(0, step.numericalFormat.maxValue)
         ];
       } else if (step.numericalFormat.style == 'Integer') {
         return [
           FilteringTextInputFormatter.digitsOnly,
-          _NumericalTextInputFormatter(
-              step.numericalFormat.minValue, step.numericalFormat.maxValue)
+          _NumericalTextInputFormatter(0, step.numericalFormat.maxValue)
         ];
       }
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../common/widget_util.dart';
 import '../../cupertino_widget/cupertino_list_tile.dart';
 import 'cupertino_package_license.dart';
 import 'view_license_page.dart';
@@ -37,20 +38,18 @@ class LicensesPage extends StatelessWidget {
                                     .navLargeTitleTextStyle));
                       } else {
                         return CupertinoScrollbar(
-                            child: ListView(
-                                children: licenses
-                                    .map((e) => CupertinoListTile(
-                                        title: e.packageName,
-                                        subTitle:
-                                            '${e.numberOfLicenses} ${e.numberOfLicenses <= 1 ? 'license' : 'licenses'}',
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              CupertinoPageRoute<void>(
-                                                  builder:
-                                                      (BuildContext context) =>
-                                                          ViewLicensePage(e)));
-                                        }))
-                                    .toList()));
+                            child: ListView.builder(
+                          itemCount: licenses.length,
+                          itemBuilder: (context, index) {
+                            var curLicense = licenses[index];
+                            return CupertinoListTile(
+                                title: curLicense.packageName,
+                                subTitle:
+                                    '${curLicense.numberOfLicenses} ${curLicense.numberOfLicenses <= 1 ? 'license' : 'licenses'}',
+                                onTap: () =>
+                                    push(context, ViewLicensePage(curLicense)));
+                          },
+                        ));
                       }
                   }
                 })));

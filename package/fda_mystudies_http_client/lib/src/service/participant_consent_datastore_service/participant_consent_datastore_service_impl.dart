@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fda_mystudies_http_client/src/service/session.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 import 'package:fda_mystudies_spec/fda_mystudies_spec.dart';
 import 'package:fda_mystudies_spec/participant_consent_datastore_service/get_consent_document.pb.dart';
@@ -29,10 +30,9 @@ class ParticipantConsentDatastoreServiceImpl
   ParticipantConsentDatastoreServiceImpl(this.client, this.config);
 
   @override
-  Future<Object> getConsentDocument(
-      String userId, String authToken, String studyId) {
+  Future<Object> getConsentDocument(String userId, String studyId) {
     var headers = CommonRequestHeader()
-      ..from(config, userId: userId, authToken: authToken);
+      ..from(config, userId: userId, authToken: Session.shared.authToken);
     var queryParams = {'studyId': studyId, 'consentVersion': ''};
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantConsentDatastore$consentDocumentPath', queryParams);
@@ -45,7 +45,6 @@ class ParticipantConsentDatastoreServiceImpl
   @override
   Future<Object> updateEligibilityAndConsentStatus(
       String userId,
-      String authToken,
       String studyId,
       String siteId,
       String consentVersion,
@@ -53,7 +52,9 @@ class ParticipantConsentDatastoreServiceImpl
       String userDataSharing) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {
       'studyId': studyId,
       'eligibility': true,

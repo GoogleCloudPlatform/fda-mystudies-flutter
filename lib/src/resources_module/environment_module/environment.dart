@@ -22,13 +22,13 @@ class _EnvironmentState extends State<Environment> {
   @override
   Widget build(BuildContext context) {
     var environments = ConfigMapping.configMap.keys;
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoPageScaffold(
           navigationBar:
               const CupertinoNavigationBar(middle: Text('Environment')),
-          child: Padding(
-              padding: const EdgeInsets.all(12),
+          child: SafeArea(
               child: ListView(
+                  padding: const EdgeInsets.all(12),
                   children: environments
                           .map((e) => CupertinoRadioListTile(
                                   e, '', e, _selectedEnvironment == e, true,

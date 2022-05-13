@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../common/widget_util.dart';
+
 class TimeModeButton extends StatelessWidget {
   final String mode;
   final bool isActive;
@@ -16,7 +18,7 @@ class TimeModeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return GestureDetector(
           onTap: () => onPressed(),
           child: Container(
@@ -41,7 +43,7 @@ class TimeModeButton extends StatelessWidget {
   }
 
   TextStyle? _statusStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context).textTheme.pickerTextStyle.apply(
           fontSizeFactor: 0.6,
           color: isActive

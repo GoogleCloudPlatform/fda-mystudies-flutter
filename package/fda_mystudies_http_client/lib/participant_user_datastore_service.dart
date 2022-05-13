@@ -32,28 +32,27 @@ abstract class ParticipantUserDatastoreService {
   /// user preferences for if touchId or passcode is enabled, and if
   /// local/remote notifications are enabled.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> getUserProfile(String userId, String authToken);
+  Future<Object> getUserProfile(String userId);
 
   /// Update user preferences/settings.
   ///
   /// [UpdateUserProfileResponse] for successful user profile update.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> updateUserProfile(String userId, String authToken,
-      GetUserProfileResponse_UserProfile userProfileSettings);
+  Future<Object> updateUserProfile(String userId,
+      GetUserProfileResponse_UserProfileSettings userProfileSettings);
 
   /// Record anonymous user feedback.
   ///
   /// [CommonResponse] for successful response.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> feedback(
-      String userId, String authToken, String subject, String feedbackBody);
+  Future<Object> feedback(String userId, String subject, String feedbackBody);
 
   /// Allow user to contact the study organizaing team.
   ///
   /// [CommonResponse] for successful response.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> contactUs(String userId, String authToken, String subject,
-      String feedbackBody, String email, String firstName);
+  Future<Object> contactUs(String userId, String subject, String feedbackBody,
+      String email, String firstName);
 
   /// Deactivate user account. User will be withdrawn from all the configured
   /// studies on the app.
@@ -61,5 +60,5 @@ abstract class ParticipantUserDatastoreService {
   /// [CommonResponse] for successful response.
   /// [CommonErrorResponse] for failed response.
   Future<Object> deactivate(
-      String userId, String authToken, String studyId, String participantId);
+      String userId, String studyId, String participantId);
 }

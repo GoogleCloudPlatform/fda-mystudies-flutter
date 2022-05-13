@@ -47,4 +47,8 @@ class TestUtil {
           find.widgetWithText(CupertinoNavigationBar, title), findsOneWidget);
     }
   }
+
+  static Widget wrapInMaterialApp(Widget widget) {
+    return MaterialApp(home: widget);
+  }
 }

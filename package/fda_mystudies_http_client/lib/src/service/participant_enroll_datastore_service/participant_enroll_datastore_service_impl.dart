@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
 import '../../../participant_enroll_datastore_service.dart';
+import '../../service/session.dart';
 import '../util/common_responses.dart';
 import '../util/request_header.dart';
 import '../util/response_parser.dart';
@@ -34,23 +35,26 @@ class ParticipantEnrollDatastoreServiceImpl
 
   @override
   Future<Object> enrollInStudy(
-      String userId, String authToken, String enrollmentToken, String studyId) {
+      String userId, String enrollmentToken, String studyId) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
-    var queryParams = {'token': enrollmentToken, 'studyId': studyId};
-    var uri = Uri.https(config.baseParticipantUrl,
-        '$participantEnrollDatastore$enrollPath', queryParams);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
+    var body = {'token': enrollmentToken, 'studyId': studyId};
+    var uri = Uri.https(
+        config.baseParticipantUrl, '$participantEnrollDatastore$enrollPath');
 
-    return client.post(uri, headers: headers.toHeaderJson()).then((response) =>
-        ResponseParser.parseHttpResponse('enroll', response,
+    return client
+        .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
+        .then((response) => ResponseParser.parseHttpResponse('enroll', response,
             () => EnrollInStudyResponse()..fromJson(response.body)));
   }
 
   @override
-  Future<Object> getStudyState(String userId, String authToken) {
+  Future<Object> getStudyState(String userId) {
     var headers = CommonRequestHeader()
-      ..from(config, userId: userId, authToken: authToken);
+      ..from(config, userId: userId, authToken: Session.shared.authToken);
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantEnrollDatastore$studyStatePath');
 
@@ -60,25 +64,32 @@ class ParticipantEnrollDatastoreServiceImpl
   }
 
   @override
-  Future<Object> updateStudyState(
-      String userId,
-      String authToken,
-      String studyId,
-      String studyStatus,
-      String? siteId,
-      String? participantId) {
+  Future<Object> updateStudyState(String userId, String studyId,
+      {String? siteId,
+      String? participantId,
+      String? studyStatus,
+      int? adherence,
+      int? completion}) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
+    Map<String, dynamic> updatedStudy = {'studyId': studyId};
+    if (siteId != null) {
+      updatedStudy['siteId'] = siteId;
+    }
+    if (participantId != null) {
+      updatedStudy['participantId'] = participantId;
+    }
+    if (adherence != null) {
+      updatedStudy['adherence'] = adherence;
+    }
+    if (completion != null) {
+      updatedStudy['completion'] = completion;
+    }
     var body = {
-      'studies': [
-        {
-          'studyId': studyId,
-          'status': studyStatus,
-          'siteId': siteId,
-          'participantId': participantId
-        }
-      ]
+      'studies': [updatedStudy]
     };
     var queryParams = {'userId': userId};
     var uri = Uri.https(config.baseParticipantUrl,
@@ -94,10 +105,12 @@ class ParticipantEnrollDatastoreServiceImpl
 
   @override
   Future<Object> validateEnrollmentToken(
-      String userId, String authToken, String studyId, String enrollmentToken) {
+      String userId, String studyId, String enrollmentToken) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {'token': enrollmentToken, 'studyId': studyId};
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantEnrollDatastore$validateEnrollmentTokenPath');
@@ -112,10 +125,12 @@ class ParticipantEnrollDatastoreServiceImpl
 
   @override
   Future<Object> withdrawFromStudy(
-      String userId, String authToken, String studyId, String participantId) {
+      String userId, String studyId, String participantId) {
     var headers = CommonRequestHeader()
       ..from(config,
-          userId: userId, authToken: authToken, contentType: ContentType.json);
+          userId: userId,
+          authToken: Session.shared.authToken,
+          contentType: ContentType.json);
     var body = {
       'studyId': studyId,
       'delete': false,

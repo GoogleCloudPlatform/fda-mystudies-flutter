@@ -8,8 +8,11 @@ import 'fda_mystudies_app.dart';
 import 'config/demo_config.dart' as dc;
 import 'config/platform_config.dart';
 
+final demoConfig = dc.DemoConfig();
+final curConfig = demoConfig;
+
 void main() {
-  configureDependencies(dc.DemoConfig());
+  configureDependencies(curConfig);
   ui_kit.configureDependencies(PlatformConfig());
   runApp(const FDAMyStudiesApp());
 }

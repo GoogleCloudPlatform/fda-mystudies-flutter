@@ -20,8 +20,8 @@ void main() {
 
   group('get study state tests', () {
     test('test default scenario', () async {
-      var response = await participantEnrollDatastoreService!
-          .getStudyState('userId', 'authToken');
+      var response =
+          await participantEnrollDatastoreService!.getStudyState('userId');
 
       expect(
           response,
@@ -41,13 +41,8 @@ void main() {
 
   group('update study state tests', () {
     test('test default scenario', () async {
-      var response = await participantEnrollDatastoreService!.updateStudyState(
-          'userId',
-          'authToken',
-          'studyId',
-          'studyStatus',
-          'siteId',
-          'participantId');
+      var response = await participantEnrollDatastoreService!
+          .updateStudyState('userId', 'studyId', adherence: 0, completion: 0);
 
       expect(response, CommonTestObject.commonSuccessResponse);
     });
@@ -56,7 +51,7 @@ void main() {
   group('withdraw from study tests', () {
     test('test default scenario', () async {
       var response = await participantEnrollDatastoreService!
-          .withdrawFromStudy('userId', 'authToken', 'studyId', 'participantId');
+          .withdrawFromStudy('userId', 'studyId', 'participantId');
 
       expect(response, CommonTestObject.commonSuccessResponse);
     });
@@ -65,7 +60,7 @@ void main() {
   group('enroll in study tests', () {
     test('test default scenario', () async {
       var response = await participantEnrollDatastoreService!
-          .enrollInStudy('userId', 'authToken', 'enrollmentToken', 'studyId');
+          .enrollInStudy('userId', 'enrollmentToken', 'studyId');
 
       expect(
           response,
@@ -82,8 +77,7 @@ void main() {
   group('validate enrollment token tests', () {
     test('test default scenario', () async {
       var response = await participantEnrollDatastoreService!
-          .validateEnrollmentToken(
-              'userId', 'authToken', 'studyId', 'enrollmentToken');
+          .validateEnrollmentToken('userId', 'studyId', 'enrollmentToken');
 
       expect(
           response,

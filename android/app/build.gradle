@@ -48,6 +48,9 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders = [
+            'appAuthRedirectScheme': 'app://{PREFIX}-{ENV}.{DOMAIN}/mystudies'
+        ]
     }
 
     buildTypes {

@@ -1,7 +1,11 @@
+import 'dart:math';
+
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../../common/widget_util.dart';
 
 class StatisticsTileView extends StatelessWidget {
   final GetStudyDashboardResponse_Dashboard_Statistics statistic;
@@ -12,7 +16,7 @@ class StatisticsTileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (Theme.of(context).platform == TargetPlatform.iOS);
+    final platformIsIos = (isPlatformIos(context));
     return Container(
       margin: const EdgeInsets.fromLTRB(0, 0, 8, 0),
       decoration: BoxDecoration(
@@ -20,10 +24,11 @@ class StatisticsTileView extends StatelessWidget {
           color: platformIsIos
               ? CupertinoColors.activeBlue
               : Theme.of(context).colorScheme.primary),
-      height: 130,
-      width: 130,
+      height: _tileEdge(context),
+      width: _tileEdge(context),
       child: Center(
           child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(platformIsIos ? CupertinoIcons.waveform : Icons.waves,
@@ -39,8 +44,13 @@ class StatisticsTileView extends StatelessWidget {
     );
   }
 
+  double _tileEdge(BuildContext context) {
+    var scale = MediaQuery.of(context).textScaleFactor;
+    return min(200, 130 * scale);
+  }
+
   TextStyle? _displayNameStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .textStyle
@@ -53,7 +63,7 @@ class StatisticsTileView extends StatelessWidget {
   }
 
   TextStyle? _valueStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .navLargeTitleTextStyle
@@ -66,7 +76,7 @@ class StatisticsTileView extends StatelessWidget {
   }
 
   TextStyle? _unitStyle(BuildContext context) {
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
+    if (isPlatformIos(context)) {
       return CupertinoTheme.of(context)
           .textTheme
           .textStyle
