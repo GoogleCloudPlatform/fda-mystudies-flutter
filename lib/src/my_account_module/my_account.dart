@@ -3,7 +3,6 @@ import 'package:fda_mystudies_http_client/participant_user_datastore_service.dar
 import 'package:fda_mystudies_spec/participant_user_datastore_service/get_user_profile.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
@@ -41,12 +40,13 @@ class _MyAccountState extends State<MyAccount> {
 
   @override
   Widget build(BuildContext context) {
+    final isIOS = isPlatformIos(context);
     return HomeScaffold(
         title: 'My Account',
         child: SafeArea(
             child: _isLoading
                 ? Center(
-                    child: isPlatformIos(context)
+                    child: isIOS
                         ? const CupertinoActivityIndicator()
                         : const CircularProgressIndicator())
                 : ListView(padding: const EdgeInsets.all(12), children: [
@@ -149,7 +149,7 @@ class _MyAccountState extends State<MyAccount> {
                         ]),
                     Divider(thickness: 2, color: dividerColor(context)),
                     const SizedBox(height: 16),
-                    isPlatformIos(context)
+                    isIOS
                         ? CupertinoButton(
                             child: const Text('Delete app account',
                                 textAlign: TextAlign.center,

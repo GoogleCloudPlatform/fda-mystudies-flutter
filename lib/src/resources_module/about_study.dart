@@ -3,9 +3,7 @@ import 'dart:ui';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/study_datastore_service.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:html/parser.dart';
 
 import '../common/future_loading_page.dart';

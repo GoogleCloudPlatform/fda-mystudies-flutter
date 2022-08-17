@@ -1,7 +1,6 @@
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pbserver.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../common/widget_util.dart';
 import 'trends_view.dart';
@@ -13,7 +12,7 @@ class TrendsDashboardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (isPlatformIos(context));
+    final isIOS = (isPlatformIos(context));
     return GestureDetector(
         onTap: () {
           push(context, TrendsView(charts));
@@ -21,7 +20,7 @@ class TrendsDashboardTile extends StatelessWidget {
         child: Container(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
             decoration: BoxDecoration(
-                color: platformIsIos
+                color: isIOS
                     ? CupertinoTheme.of(context).barBackgroundColor
                     : Theme.of(context).bottomAppBarColor),
             child: Row(
@@ -29,13 +28,11 @@ class TrendsDashboardTile extends StatelessWidget {
                 children: [
                   Text('Trends', style: _titleStyle(context)),
                   Icon(
-                      (platformIsIos
+                      (isIOS
                           ? CupertinoIcons.right_chevron
                           : Icons.chevron_right_sharp),
                       size: 16,
-                      color: platformIsIos
-                          ? CupertinoColors.inactiveGray
-                          : Colors.grey)
+                      color: isIOS ? CupertinoColors.inactiveGray : Colors.grey)
                 ])));
   }
 

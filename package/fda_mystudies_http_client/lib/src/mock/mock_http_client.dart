@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
@@ -173,7 +172,7 @@ class MockHttpClient implements http.Client {
     var yamlDir = urlPathToMockYamlPath[url.path];
     var activityId = url.queryParameters['activityId'] ?? 'default';
     var code = config.scenarios[urlPathToServiceMethod[url.path]];
-    if (code == null && activityId != null) {
+    if (code == null) {
       code = activityId;
     } else {
       code = 'default';

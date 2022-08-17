@@ -1,0 +1,66 @@
+{
+    "navigationBarTitle": "FDA MyStudies",
+    "@navigationBarTitle": {
+        "description": "Title displayed on top of navigation-bar"
+    },
+
+    "navigationBarSubitle": "Powered by FDA MyStudies on Google Cloud",
+    "@navigationBarSubitle": {
+        "description": "Sub-title displayed on top of navigation-bar"
+    },
+
+    "homePage": "Home",
+    "@homePage": {
+        "description": "Title of option in navigation-bar to Home page"
+    },
+
+    "myAccountPage": "My account",
+    "@myAccountPage": {
+        "description": "Title of option in navigation-bar to My Account page"
+    },
+
+    "reachOutPage": "Reach out",
+    "@reachOutPage": {
+        "description": "Title of option in navigation-bar to Reach Out page"
+    },
+
+    "signOut": "Sign out",
+    "@signOut": {
+        "description": "Title of option in navigation-bar to Sign out of the app"
+    },
+
+    "signOutAlertTitle": "Sign out",
+    "@signOutAlertTitle": {
+        "description": "Title of alert box displayed while Signing out of the app"
+    },
+
+    "signOutAlertSubtitle": "Are you sure you want to sign out?",
+    "@signOutAlertSubtitle": {
+        "description": "Sub-title of alert box displayed while Signing out of the app"
+    },
+
+    "signOutAlertConfirm": "Sign out",
+    "@signOutAlertConfirm": {
+        "description": "Text for confirm button of alert box displayed while Signing out of the app"
+    },
+
+    "signOutAlertCancel": "Cancel",
+    "@signOutAlertCancel": {
+        "description": "Text for cancel button of alert box displayed while Signing out of the app"
+    },
+
+    "activitiesBottomNavigationBarTitle": "Activities",
+    "@activitiesBottomNavigationBarTitle": {
+        "description": "Title for Activities page in Bottom navigation bar title"
+    },
+
+    "dashboardBottomNavigationBarTitle": "Dashboard",
+    "@dashboardBottomNavigationBarTitle": {
+        "description": "Title for Dashboard page in Bottom navigation bar title"
+    },
+
+    "resourcesBottomNavigationBarTitle": "Resources",
+    "@dashboardBottomNavigationBarTitle": {
+        "description": "Title for Resources page in Bottom navigation bar title"
+    }
+}

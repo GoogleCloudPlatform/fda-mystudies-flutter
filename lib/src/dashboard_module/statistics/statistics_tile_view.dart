@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../common/widget_util.dart';
 

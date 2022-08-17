@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
@@ -16,7 +15,7 @@ class ReachOut extends StatelessWidget {
     const reachOutTitle = 'Reach Out';
     const leaveFeedbackTitle = 'Leave feedback anonymously';
     const needHelpTitle = 'Need help? Contact us.';
-    var isIos = isPlatformIos(context);
+    var isIOS = isPlatformIos(context);
     bool isDarkModeEnabled =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return HomeScaffold(
@@ -24,15 +23,15 @@ class ReachOut extends StatelessWidget {
         child: SafeArea(
             bottom: false,
             child: Container(
-                decoration: isIos
+                decoration: isIOS
                     ? BoxDecoration(
                         color: isDarkModeEnabled
                             ? CupertinoColors.black
                             : CupertinoColors.extraLightBackgroundGray)
                     : null,
                 child: ListView(
-                    padding: EdgeInsets.fromLTRB(0, isIos ? 0 : 10, 0, 0),
-                    children: isPlatformIos(context)
+                    padding: EdgeInsets.fromLTRB(0, isIOS ? 0 : 10, 0, 0),
+                    children: isIOS
                         ? [
                             CupertinoListTile(
                                 title: leaveFeedbackTitle,

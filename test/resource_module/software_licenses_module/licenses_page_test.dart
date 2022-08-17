@@ -1,4 +1,3 @@
-import 'package:fda_mystudies/fda_mystudies_app.dart';
 import 'package:fda_mystudies/src/resources_module/resources.dart';
 import 'package:fda_mystudies/src/study_home.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';

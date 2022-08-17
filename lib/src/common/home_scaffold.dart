@@ -1,12 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'widget_util.dart';
 import '../drawer_menu/drawer_menu.dart';
 
+/// Common Scaffolding shared by home screen and other screens sharing Navigation bars and bottom navigation bars.
 class HomeScaffold extends StatefulWidget {
   final Widget child;
   final String title;

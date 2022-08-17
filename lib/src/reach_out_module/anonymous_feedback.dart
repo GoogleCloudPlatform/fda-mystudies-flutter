@@ -2,7 +2,6 @@ import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart
 import 'package:fda_mystudies_http_client/participant_user_datastore_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
@@ -29,6 +28,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
     const feedbackHintText = 'Enter your feedback here!';
     const feedbackPlaceholder = 'Feedback';
     const submitButtonLabel = 'SUBMIT';
+    final isIOS = isPlatformIos(context);
     return Stack(
         children: <Widget>[
               GestureDetector(
@@ -47,7 +47,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
                                             'We\'d love to hear from you! Please share your thoughts on how we can improve your experience of participating in health sutdies and contributing to a healthier world! Your feedback will be anonymous.',
                                             style: _bodyStyle(context)))
                                   ] +
-                                  (isPlatformIos(context)
+                                  (isIOS
                                       ? [
                                           Divider(
                                               thickness: 2,
@@ -143,7 +143,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
                                             .style)
                                   ])))))
             ] +
-            (isPlatformIos(context)
+            (isIOS
                 ? [
                     Positioned(
                         bottom: 0,
