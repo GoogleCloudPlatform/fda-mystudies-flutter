@@ -72,6 +72,7 @@ class _EligibilityDecisionState extends State<EligibilityDecision> {
 
   @override
   Widget build(BuildContext context) {
+    final isIOS = isPlatformIos(context);
     return ValueListenableBuilder(
         valueListenable: widget.userIsEligible,
         builder: (BuildContext context, bool newValue, Widget? child) {
@@ -100,10 +101,10 @@ class _EligibilityDecisionState extends State<EligibilityDecision> {
                     height: 100,
                     decoration: BoxDecoration(
                         color: newValue
-                            ? (isPlatformIos(context)
+                            ? (isIOS
                                 ? CupertinoColors.activeBlue
                                 : Theme.of(context).colorScheme.primary)
-                            : (isPlatformIos(context)
+                            : (isIOS
                                 ? CupertinoColors.destructiveRed
                                 : Theme.of(context).colorScheme.error),
                         borderRadius:

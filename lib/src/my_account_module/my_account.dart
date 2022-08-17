@@ -40,12 +40,13 @@ class _MyAccountState extends State<MyAccount> {
 
   @override
   Widget build(BuildContext context) {
+    final isIOS = isPlatformIos(context);
     return HomeScaffold(
         title: 'My Account',
         child: SafeArea(
             child: _isLoading
                 ? Center(
-                    child: isPlatformIos(context)
+                    child: isIOS
                         ? const CupertinoActivityIndicator()
                         : const CircularProgressIndicator())
                 : ListView(padding: const EdgeInsets.all(12), children: [
@@ -148,7 +149,7 @@ class _MyAccountState extends State<MyAccount> {
                         ]),
                     Divider(thickness: 2, color: dividerColor(context)),
                     const SizedBox(height: 16),
-                    isPlatformIos(context)
+                    isIOS
                         ? CupertinoButton(
                             child: const Text('Delete app account',
                                 textAlign: TextAlign.center,

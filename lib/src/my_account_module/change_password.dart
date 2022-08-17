@@ -32,7 +32,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         '${widget.isChangingTemporaryPassword ? 'Temporary' : 'Current'} Password';
     const newPasswordPlaceholder = 'New Password';
     const confirmNewPasswordPlaceholder = 'Confirm New Password';
-
+    final isIOS = isPlatformIos(context);
     return Stack(
         children: <Widget>[
               GestureDetector(
@@ -43,7 +43,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                       child: SafeArea(
                           child: ListView(
                               padding: const EdgeInsets.all(12),
-                              children: isPlatformIos(context)
+                              children: isIOS
                                   ? [
                                       CupertinoTextField.borderless(
                                           placeholder:
@@ -163,7 +163,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                             .style)
                                   ])))))
             ] +
-            (isPlatformIos(context)
+            (isIOS
                 ? [
                     Positioned(
                         bottom: 0,
