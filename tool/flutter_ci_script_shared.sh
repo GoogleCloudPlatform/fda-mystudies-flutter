@@ -48,7 +48,7 @@ function ci_projects () {
         # Run the actual tests.
         if [ -d "test" ]
         then
-            if ["${channel}" == "beta"]
+            if [ "${channel}" == "beta" ]
             then
                 flutter test --exclude-tags golden
             else
