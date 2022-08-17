@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const activitiesTitle = 'Activities';
@@ -48,6 +49,9 @@ class TestUtil {
   }
 
   static Widget wrapInMaterialApp(Widget widget) {
-    return MaterialApp(home: widget);
+    return MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: widget);
   }
 }
