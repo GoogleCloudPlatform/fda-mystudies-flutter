@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'common/home_scaffold.dart';
 import 'common/widget_util.dart';
@@ -19,9 +20,12 @@ class _StudyHomeState extends State<StudyHome> {
 
   @override
   Widget build(BuildContext context) {
-    const activitiesTitle = 'Activities';
-    const dashboardTitle = 'Dashboard';
-    const resourcesTitle = 'Resources';
+    var activitiesTitle =
+        AppLocalizations.of(context).activitiesBottomNavigationBarTitle;
+    var dashboardTitle =
+        AppLocalizations.of(context).dashboardBottomNavigationBarTitle;
+    var resourcesTitle =
+        AppLocalizations.of(context).resourcesBottomNavigationBarTitle;
     var tabs = [activitiesTitle, dashboardTitle, resourcesTitle];
     var views = const [Activities(), Dashboard(), Resources()];
 
@@ -30,17 +34,17 @@ class _StudyHomeState extends State<StudyHome> {
           title: tabs[_currentTab],
           child: CupertinoTabScaffold(
             tabBar: CupertinoTabBar(
-              items: const <BottomNavigationBarItem>[
+              items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.waveform, size: 24),
+                  icon: const Icon(CupertinoIcons.waveform, size: 24),
                   label: activitiesTitle,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.graph_square, size: 24),
+                  icon: const Icon(CupertinoIcons.graph_square, size: 24),
                   label: dashboardTitle,
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(CupertinoIcons.book, size: 24),
+                  icon: const Icon(CupertinoIcons.book, size: 24),
                   label: resourcesTitle,
                 ),
               ],
@@ -60,13 +64,14 @@ class _StudyHomeState extends State<StudyHome> {
         ),
         title: tabs[_currentTab],
         bottomNavigationBar: BottomNavigationBar(
-          items: const [
+          items: [
             BottomNavigationBarItem(
-                icon: Icon(Icons.waves), label: activitiesTitle),
+                icon: const Icon(Icons.waves), label: activitiesTitle),
             BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard), label: dashboardTitle),
+                icon: const Icon(Icons.dashboard), label: dashboardTitle),
             BottomNavigationBarItem(
-                icon: Icon(Icons.menu_book_rounded), label: resourcesTitle)
+                icon: const Icon(Icons.menu_book_rounded),
+                label: resourcesTitle)
           ],
           onTap: (index) => setState(() {
             _currentTab = index;

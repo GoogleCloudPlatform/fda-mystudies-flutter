@@ -28,6 +28,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
     const feedbackHintText = 'Enter your feedback here!';
     const feedbackPlaceholder = 'Feedback';
     const submitButtonLabel = 'SUBMIT';
+    final isIOS = isPlatformIos(context);
     return Stack(
         children: <Widget>[
               GestureDetector(
@@ -46,7 +47,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
                                             'We\'d love to hear from you! Please share your thoughts on how we can improve your experience of participating in health sutdies and contributing to a healthier world! Your feedback will be anonymous.',
                                             style: _bodyStyle(context)))
                                   ] +
-                                  (isPlatformIos(context)
+                                  (isIOS
                                       ? [
                                           Divider(
                                               thickness: 2,
@@ -142,7 +143,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
                                             .style)
                                   ])))))
             ] +
-            (isPlatformIos(context)
+            (isIOS
                 ? [
                     Positioned(
                         bottom: 0,

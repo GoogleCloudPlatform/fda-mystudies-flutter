@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import '../../common/widget_util.dart';
 import 'visual_screen_template.dart';
 
+// This class will be used to display visual steps of the consent section that
+// need to be displayed before the comprehension test.
 class VisualScreen extends StatelessWidget {
   final List<GetEligibilityAndConsentResponse_Consent_VisualScreen>
       visualScreens;

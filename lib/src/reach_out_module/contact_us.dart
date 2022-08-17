@@ -34,6 +34,7 @@ class _ContactUsState extends State<ContactUs> {
     const feedbackPlaceholder = 'Feedback';
     const feedbackHintText = 'Enter your feedback here!';
     const submitButtonLabel = 'SUBMIT';
+    final isIOS = isPlatformIos(context);
     return Stack(
         children: <Widget>[
               GestureDetector(
@@ -44,7 +45,7 @@ class _ContactUsState extends State<ContactUs> {
                       child: SafeArea(
                           child: ListView(
                               padding: const EdgeInsets.all(12),
-                              children: isPlatformIos(context)
+                              children: isIOS
                                   ? [
                                       CupertinoTextField.borderless(
                                           placeholder: firstNamePlaceholder,
@@ -183,7 +184,7 @@ class _ContactUsState extends State<ContactUs> {
                                             .style)
                                   ])))))
             ] +
-            (isPlatformIos(context)
+            (isIOS
                 ? [
                     Positioned(
                         bottom: 0,
