@@ -40,7 +40,7 @@ function ci_projects () {
             find . -name "*.proto" | xargs -I {} protoc --dart_out=. "{}"
         fi
 
-        if ["${PROJECT_NAME}" == "."]
+        if [ "${PROJECT_NAME}" == "." ]
         then
             flutter gen-l10n
         fi
