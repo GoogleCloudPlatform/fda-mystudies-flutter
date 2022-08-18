@@ -13,6 +13,27 @@ import 'src/study_home.dart';
 import 'src/user/user_data.dart';
 
 class FDAMyStudiesApp extends StatelessWidget {
+  static final androidLightTheme = ThemeData.light().copyWith(
+      appBarTheme: ThemeData.light().appBarTheme.copyWith(
+          foregroundColor: Colors.black87,
+          backgroundColor: Colors.white,
+          toolbarTextStyle: const TextTheme(
+                  subtitle1: TextStyle(color: Colors.black87, fontSize: 18),
+                  subtitle2: TextStyle(color: Colors.black54, fontSize: 14))
+              .bodyText2,
+          titleTextStyle: const TextTheme(
+                  subtitle1: TextStyle(color: Colors.black87, fontSize: 18),
+                  subtitle2: TextStyle(color: Colors.black54, fontSize: 14))
+              .headline6));
+
+  static final androidDarkTheme = ThemeData.dark().copyWith(
+      scaffoldBackgroundColor: Colors.black,
+      cardColor: Colors.black,
+      bottomNavigationBarTheme: ThemeData.light()
+          .bottomNavigationBarTheme
+          .copyWith(backgroundColor: Colors.black),
+      appBarTheme: ThemeData.light().appBarTheme.copyWith(
+          foregroundColor: Colors.white, backgroundColor: Colors.black));
   const FDAMyStudiesApp({Key? key}) : super(key: key);
 
   @override
