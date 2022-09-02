@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/participant_enroll_datastore_service.dart';
 import 'package:fda_mystudies_http_client/study_datastore_service.dart';
@@ -8,13 +6,16 @@ import 'package:fda_mystudies_spec/participant_enroll_datastore_service/get_stud
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_list.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
 import 'package:flutter/material.dart';
-import 'package:html/parser.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../main.dart';
 import '../common/future_loading_page.dart';
 import '../common/widget_util.dart';
-import '../theme/fda_text_theme.dart';
+import '../theme/fda_color_scheme.dart';
+import '../theme/fda_text_style.dart';
 import '../user/user_data.dart';
 import '../widget/fda_button.dart';
+import '../widget/fda_scaffold.dart';
 import 'study_status_router.dart';
 import 'study_tile/pb_user_study_data.dart';
 
@@ -29,60 +30,58 @@ class StandaloneHome extends StatefulWidget {
 
 class _StandaloneHomeState extends State<StandaloneHome> {
   var _isLoading = false;
+  late final Future<Object>? studyInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    StudyDatastoreService studyDatastoreService =
+        getIt<StudyDatastoreService>();
+    studyInfo =
+        studyDatastoreService.getStudyInfo(UserData.shared.curStudyId, '');
+  }
 
   @override
   Widget build(BuildContext context) {
-    StudyDatastoreService studyDatastoreService =
-        getIt<StudyDatastoreService>();
     return FutureLoadingPage.build(context,
         scaffoldTitle: '',
-        future: studyDatastoreService.getStudyInfo(
-            UserData.shared.curStudyId, UserData.shared.userId),
-        builder: (context, snapshot) {
+        wrapInScaffold: false,
+        future: studyInfo, builder: (context, snapshot) {
       var response = snapshot.data as StudyInfoResponse;
       var infoItem = response.infos.first;
-      var isDarkModeEnabled =
-          MediaQuery.of(context).platformBrightness == Brightness.dark;
-      var blendMode = isDarkModeEnabled ? BlendMode.darken : BlendMode.lighten;
-      var blendColor = isDarkModeEnabled ? Colors.black : Colors.white;
-      return Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: Image.memory(
-                        Uri.parse(infoItem.image).data!.contentAsBytes())
-                    .image,
-                colorFilter:
-                    ColorFilter.mode(blendColor.withOpacity(0.5), blendMode),
-                fit: BoxFit.cover),
-          ),
-          child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-              child: Container(
-                  color: Colors.black.withOpacity(0.1),
-                  child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Center(
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                            Text(infoItem.title,
-                                style: FDATextTheme.headerTextStyle(context),
-                                textAlign: TextAlign.center),
-                            const SizedBox(height: 22),
-                            Text(
-                                parse(parse(infoItem.text).body?.text)
-                                        .documentElement
-                                        ?.text ??
-                                    '',
-                                style: FDATextTheme.bodyTextStyle(context),
-                                textAlign: TextAlign.center),
-                            const SizedBox(height: 22),
-                            FDAButton(
-                                isLoading: _isLoading,
-                                title: 'Participate',
-                                onPressed: _proceedToParticipate(context))
-                          ]))))));
+      return FDAScaffold(
+          child: ListView(padding: const EdgeInsets.all(24), children: [
+        const SizedBox(height: 18),
+        Image(
+          image: const AssetImage('assets/images/logo.png'),
+          color: FDAColorScheme.googleBlue(context),
+          width: 52,
+          height: 47,
+        ),
+        const SizedBox(height: 40),
+        Text(curConfig.appName,
+            textAlign: TextAlign.center, style: FDATextStyle.heading(context)),
+        const SizedBox(height: 12),
+        Text(curConfig.organization,
+            textAlign: TextAlign.center,
+            style: FDATextStyle.subHeadingBold(context)),
+        const SizedBox(height: 28),
+        const Divider(
+          thickness: 1,
+          color: Color(0x1A000000),
+        ),
+        const SizedBox(height: 28),
+        Text(infoItem.text,
+            textAlign: TextAlign.center,
+            style: FDATextStyle.subHeadingRegular(context)),
+        const SizedBox(height: 155),
+        Padding(
+            padding: const EdgeInsets.fromLTRB(58, 0, 58, 0),
+            child: FDAButton(
+                title: AppLocalizations.of(context)
+                    .standaloneHomeParticipateButton,
+                onPressed: _proceedToParticipate(context)))
+      ]));
     });
   }
 
@@ -116,7 +115,7 @@ class _StandaloneHomeState extends State<StandaloneHome> {
     ParticipantEnrollDatastoreService participantEnrollDatastoreService =
         getIt<ParticipantEnrollDatastoreService>();
     var commonErrorDescription =
-        'No valid user states found for the study with id : ${UserData.shared.curStudyId}.';
+        '${AppLocalizations.of(context).noUserStateFoundForStudyErrorMsg} : ${UserData.shared.curStudyId}.';
     return Future.wait([
       studyDatastoreService.getStudyList(UserData.shared.userId),
       participantEnrollDatastoreService.getStudyState(UserData.shared.userId)

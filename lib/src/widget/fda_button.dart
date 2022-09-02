@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../common/widget_util.dart';
+import '../theme/fda_text_style.dart';
 
 class FDAButton extends StatelessWidget {
   final String title;
@@ -17,16 +16,12 @@ class FDAButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoButton.filled(
-          child: isLoading ? const CupertinoActivityIndicator() : Text(title),
-          onPressed: onPressed);
-    }
     return ElevatedButton(
+        style: ElevatedButton.styleFrom(primary: const Color(0xFF1A73E8)),
         onPressed: onPressed,
         child: isLoading
             ? const SizedBox(
                 height: 16, width: 16, child: CircularProgressIndicator())
-            : Text(title));
+            : Text(title, style: FDATextStyle.button(context)));
   }
 }

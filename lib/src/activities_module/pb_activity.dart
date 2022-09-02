@@ -52,17 +52,17 @@ extension PbActivityStatusExtension on PbActivityStatus {
   String get name {
     switch (this) {
       case PbActivityStatus.completed:
-        return 'COMPLETED';
+        return 'Completed';
       case PbActivityStatus.ended:
-        return 'ENDED';
+        return 'Ended';
       case PbActivityStatus.inPorgress:
-        return 'IN-PROGRESS';
+        return 'In Progress';
       case PbActivityStatus.missed:
-        return 'MISSED';
+        return 'Missed';
       case PbActivityStatus.start:
-        return 'START';
+        return 'Start';
       case PbActivityStatus.upcoming:
-        return 'UPCOMING';
+        return 'Upcoming';
     }
   }
 
@@ -86,17 +86,17 @@ extension PbActivityStatusExtension on PbActivityStatus {
   Color get badgeText {
     switch (this) {
       case PbActivityStatus.completed:
-        return Colors.white;
+        return Colors.green.shade600;
       case PbActivityStatus.missed:
         return Colors.red.shade700;
       case PbActivityStatus.start:
-        return Colors.blue.shade800;
+        return Colors.blue.shade700;
       case PbActivityStatus.ended:
-        return Colors.white;
+        return Colors.grey.shade500;
       case PbActivityStatus.inPorgress:
         return Colors.green.shade800;
       case PbActivityStatus.upcoming:
-        return Colors.grey.shade900;
+        return Colors.grey.shade500;
     }
   }
 

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../common/widget_util.dart';
-import '../cupertino_widget/cupertino_ink_well.dart';
-import '../theme/fda_text_theme.dart';
+import '../theme/fda_text_style.dart';
 
 class FDAInkWell extends StatelessWidget {
   final String text;
@@ -11,13 +9,7 @@ class FDAInkWell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoInkWell(text, onTap: onTap);
-    }
     return InkWell(
-        child: Text(text,
-            style: FDATextTheme.bodyTextStyle(context)
-                ?.apply(color: Theme.of(context).colorScheme.primary)),
-        onTap: onTap);
+        child: Text(text, style: FDATextStyle.inkwell(context)), onTap: onTap);
   }
 }
