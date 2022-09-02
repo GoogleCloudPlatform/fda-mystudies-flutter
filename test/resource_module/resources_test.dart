@@ -28,7 +28,7 @@ void main() {
     expect(find.text(Resources.environmentSubtitle), findsOneWidget);
   },
       variant: const TargetPlatformVariant(
-          <TargetPlatform>{TargetPlatform.android, TargetPlatform.iOS}));
+          <TargetPlatform>{TargetPlatform.android}));
 
   testWidgets('Show leave study dialog', (WidgetTester tester) async {
     await tester.pumpWidget(TestUtil.wrapInMaterialApp(const StudyHome()));
@@ -49,5 +49,5 @@ void main() {
     expect(find.text(leaveStudyDialogTitle), findsNothing);
   },
       variant: const TargetPlatformVariant(
-          <TargetPlatform>{TargetPlatform.android, TargetPlatform.iOS}));
+          <TargetPlatform>{TargetPlatform.android}));
 }

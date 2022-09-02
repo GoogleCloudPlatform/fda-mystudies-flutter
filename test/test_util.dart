@@ -1,3 +1,4 @@
+import 'package:fda_mystudies/fda_mystudies_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -48,10 +49,14 @@ class TestUtil {
     }
   }
 
-  static Widget wrapInMaterialApp(Widget widget) {
+  static Widget wrapInMaterialApp(Widget widget, {bool useDarkTheme = false}) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
+        theme: useDarkTheme
+            ? FDAMyStudiesApp.androidDarkTheme
+            : FDAMyStudiesApp.androidLightTheme,
         home: widget);
   }
 }

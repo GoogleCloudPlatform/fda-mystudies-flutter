@@ -13,7 +13,7 @@ response: |
               "total": 100
             },
             "activityRunId": "18",
-            "activityState": "inProgress",
+            "activityState": "start",
             "activityVersion": "1.1"
         },
         {
