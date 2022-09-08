@@ -22,7 +22,8 @@ class MaterialActivityTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             leading: Container(
-                child: const Icon(Icons.description_outlined),
+                child: const Icon(Icons.description_outlined,
+                    color: Color(0xFF5F6368)),
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
