@@ -3,11 +3,12 @@ import 'package:fda_mystudies_http_client/participant_user_datastore_service.dar
 import 'package:fda_mystudies_spec/participant_user_datastore_service/registration.pb.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../common/home_scaffold.dart';
 import '../common/string_extension.dart';
 import '../common/widget_util.dart';
-import '../theme/fda_text_theme.dart';
+import '../theme/fda_text_style.dart';
 import '../user/user_data.dart';
 import '../widget/fda_button.dart';
 import '../widget/fda_check_box.dart';
@@ -34,9 +35,12 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    const emailIdPlaceholder = 'Enter email';
-    const passwordPlaceholder = 'Add password';
-    const confirmPasswordPlaceholder = 'Confirm password';
+    var emailIdPlaceholder =
+        AppLocalizations.of(context).signUpEmailPlaceholder;
+    var passwordPlaceholder =
+        AppLocalizations.of(context).signUpPasswordPlaceholder;
+    var confirmPasswordPlaceholder =
+        AppLocalizations.of(context).signUpConfirmPasswordPlaceholder;
     return Stack(children: [
       GestureDetector(
           onTap: () {
@@ -45,7 +49,7 @@ class _SignUpState extends State<SignUp> {
           child: HomeScaffold(
               child: SafeArea(
                   child: ListView(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(24),
                 children: [
                   FDATextField(
                       placeholder: emailIdPlaceholder,
@@ -59,7 +63,7 @@ class _SignUpState extends State<SignUp> {
                           _emailId = value;
                         });
                       }),
-                  const SizedBox(height: 22),
+                  const SizedBox(height: 24),
                   FDATextField(
                       placeholder: passwordPlaceholder,
                       textEditingController: _passwordController,
@@ -73,7 +77,14 @@ class _SignUpState extends State<SignUp> {
                           _password = value;
                         });
                       }),
-                  const SizedBox(height: 22),
+                  const SizedBox(height: 10),
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                      child: Text(
+                          AppLocalizations.of(context)
+                              .signUpPasswordConstraintsInfoText,
+                          style: FDATextStyle.information(context))),
+                  const SizedBox(height: 24),
                   FDATextField(
                       placeholder: confirmPasswordPlaceholder,
                       textEditingController: _confirmPasswordController,
@@ -87,7 +98,7 @@ class _SignUpState extends State<SignUp> {
                           _confirmPassword = value;
                         });
                       }),
-                  const SizedBox(height: 22),
+                  const SizedBox(height: 24),
                   Wrap(children: [
                     FDACheckBox(
                         enabled: !_isLoading,
@@ -95,25 +106,30 @@ class _SignUpState extends State<SignUp> {
                         onTap: (value) => setState(() {
                               _termsAndConditionsAgreed = value;
                             })),
-                    Text('  I agree to ',
-                        style: FDATextTheme.bodyTextStyle(context)),
-                    FDAInkWell('terms ',
+                    Text('  ${AppLocalizations.of(context).iAgreeTo} ',
+                        style: FDATextStyle.inlineText(context)),
+                    FDAInkWell(
+                        '${AppLocalizations.of(context).termsAndConditions} ',
                         onTap: () => showWebviewModalBottomSheet(context,
                             url: 'https://policies.google.com/terms?hl=en-US')),
-                    Text('and ', style: FDATextTheme.bodyTextStyle(context)),
-                    FDAInkWell('privacy policy',
+                    Text('${AppLocalizations.of(context).and} ',
+                        style: FDATextStyle.inlineText(context)),
+                    FDAInkWell(AppLocalizations.of(context).privacyPolicy,
                         onTap: () => showWebviewModalBottomSheet(context,
                             url:
                                 'https://policies.google.com/privacy?hl=en-US'))
                   ]),
                   const SizedBox(height: 24),
-                  FDAButton(
-                      title: 'Submit',
-                      isLoading: _isLoading,
-                      onPressed: _signUpUser())
+                  Padding(
+                      padding: const EdgeInsets.all(55),
+                      child: FDAButton(
+                          title:
+                              AppLocalizations.of(context).signUpSubmitButton,
+                          isLoading: _isLoading,
+                          onPressed: _signUpUser()))
                 ],
               )),
-              title: 'Sign Up',
+              title: AppLocalizations.of(context).signUpPageTitle,
               showDrawer: false))
     ]);
   }
@@ -135,7 +151,8 @@ class _SignUpState extends State<SignUp> {
             participantUserDatastoreService
                 .register(_emailId, _password)
                 .then((value) {
-              const successfulResponse = 'User Registered successfully';
+              var successfulResponse =
+                  AppLocalizations.of(context).registrationSuccessfulMsg;
               var response = processResponse(value, successfulResponse);
               setState(() {
                 _isLoading = false;
@@ -162,19 +179,19 @@ class _SignUpState extends State<SignUp> {
 
   String? _alertMessage() {
     if (_emailId.isEmpty && _password.isEmpty && _confirmPassword.isEmpty) {
-      return 'Please fill-in all the fields';
+      return AppLocalizations.of(context).missingFieldsErrorMsg;
     } else if (_emailId.isEmpty) {
-      return 'Please enter your Email ID';
+      return AppLocalizations.of(context).missingEmailIdErrorMsg;
     } else if (_password.isEmpty) {
-      return 'Please enter password';
+      return AppLocalizations.of(context).missingPasswordErrorMsg;
     } else if (_confirmPassword.isEmpty) {
-      return 'Please confirm password';
+      return AppLocalizations.of(context).missingConfirmPasswordErrorMsg;
     } else if (!_password.isAValidPassword()) {
-      return 'Your password should be at least 8 characters long, and should contain a lower-case character, an upper-case character, a digit & a special character.';
+      return AppLocalizations.of(context).violatingPasswordConstraintsErrorMsg;
     } else if (_password != _confirmPassword) {
-      return 'Password & Confirm Password values do not match!';
+      return AppLocalizations.of(context).confirmedPasswordNotMatchingErrorMsg;
     } else if (!_termsAndConditionsAgreed) {
-      return 'Please Read & Agree to the terms & privacy policy.';
+      return AppLocalizations.of(context).termsAndConditionsNotAgreedToErrorMsg;
     }
     return null;
   }

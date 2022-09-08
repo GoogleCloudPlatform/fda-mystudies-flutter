@@ -17,4 +17,8 @@ class FDAColorScheme {
     }
     return Theme.of(context).bottomAppBarColor;
   }
+
+  static Color? googleBlue(BuildContext context) {
+    return const Color(0xFF4285F4);
+  }
 }

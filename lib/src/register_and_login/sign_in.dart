@@ -4,6 +4,7 @@ import 'package:fda_mystudies_http_client/authentication_service.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../common/future_loading_page.dart';
 import '../common/home_scaffold.dart';
@@ -45,7 +46,7 @@ class _SignInState extends State<SignIn> {
                     URLRequest(url: authenticationService.getSignInPageURI()),
                 shouldOverrideUrlLoading: (controller, request) async =>
                     _processNavigationRequest(request))),
-        title: 'Sign in',
+        title: AppLocalizations.of(context).signInPageTitle,
         showDrawer: false);
   }
 

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'common/home_scaffold.dart';
-import 'common/widget_util.dart';
 import 'activities_module/activities.dart';
 import 'dashboard_module/dashboard.dart';
 import 'resources_module/resources.dart';
@@ -29,34 +28,6 @@ class _StudyHomeState extends State<StudyHome> {
     var tabs = [activitiesTitle, dashboardTitle, resourcesTitle];
     var views = const [Activities(), Dashboard(), Resources()];
 
-    if (isPlatformIos(context)) {
-      return HomeScaffold(
-          title: tabs[_currentTab],
-          child: CupertinoTabScaffold(
-            tabBar: CupertinoTabBar(
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: const Icon(CupertinoIcons.waveform, size: 24),
-                  label: activitiesTitle,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(CupertinoIcons.graph_square, size: 24),
-                  label: dashboardTitle,
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(CupertinoIcons.book, size: 24),
-                  label: resourcesTitle,
-                ),
-              ],
-              onTap: (value) => setState(() {
-                _currentTab = value;
-              }),
-            ),
-            tabBuilder: (BuildContext context, int index) {
-              return views[index];
-            },
-          ));
-    }
     return HomeScaffold(
         child: IndexedStack(
           children: views,
@@ -66,12 +37,13 @@ class _StudyHomeState extends State<StudyHome> {
         bottomNavigationBar: BottomNavigationBar(
           items: [
             BottomNavigationBarItem(
-                icon: const Icon(Icons.waves), label: activitiesTitle),
+                icon: const Icon(Icons.graphic_eq_outlined),
+                label: activitiesTitle),
             BottomNavigationBarItem(
-                icon: const Icon(Icons.dashboard), label: dashboardTitle),
+                icon: const Icon(Icons.insert_chart_outlined_outlined),
+                label: dashboardTitle),
             BottomNavigationBarItem(
-                icon: const Icon(Icons.menu_book_rounded),
-                label: resourcesTitle)
+                icon: const Icon(CupertinoIcons.book), label: resourcesTitle)
           ],
           onTap: (index) => setState(() {
             _currentTab = index;

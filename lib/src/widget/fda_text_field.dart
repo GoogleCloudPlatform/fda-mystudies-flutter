@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../common/widget_util.dart';
+import '../theme/fda_text_style.dart';
 
 class FDATextField extends StatefulWidget {
   final String? placeholder;
@@ -32,38 +31,25 @@ class FDATextField extends StatefulWidget {
 class _FDATextFieldState extends State<FDATextField> {
   @override
   Widget build(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTextField(
-          placeholder: widget.placeholder,
-          controller: widget.textEditingController,
-          maxLines: widget.maxLines,
-          autocorrect: widget.autocorrect,
-          readOnly: widget.readOnly,
-          obscureText: widget.obscureText,
-          textInputAction: widget.textInputAction,
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom:
-                      BorderSide(width: 2.0, color: dividerColor(context)))),
-          onChanged: (value) {
-            if (widget.onChanged != null) {
-              widget.onChanged!(value);
-            }
-          });
-    }
     return TextField(
         controller: widget.textEditingController,
         maxLines: widget.maxLines,
         autocorrect: widget.autocorrect,
+        style: FDATextStyle.inputText(context),
         onChanged: (value) {
           if (widget.onChanged != null) {
             widget.onChanged!(value);
           }
         },
+        cursorHeight: 18,
         readOnly: widget.readOnly,
         obscureText: widget.obscureText,
         textInputAction: widget.textInputAction,
         decoration: InputDecoration(
-            border: const OutlineInputBorder(), labelText: widget.placeholder));
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            contentPadding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+            border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8))),
+            labelText: widget.placeholder));
   }
 }

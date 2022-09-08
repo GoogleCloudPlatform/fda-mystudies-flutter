@@ -16,7 +16,6 @@ import '../common/future_loading_page.dart';
 import '../common/widget_util.dart';
 import '../user/user_data.dart';
 import 'cupertino_activity_response_processor.dart';
-import 'cupertino_activity_tile.dart';
 import 'material_activity_response_processor.dart';
 import 'material_activity_tile.dart';
 import 'pb_activity.dart';
@@ -38,14 +37,12 @@ class _ActivitiesState extends State<Activities> {
             participantId: UserData.shared.curParticipantId),
         builder: (context, snapshot) {
       var pbActivityList = snapshot.data as List<PbActivity>;
-      return ListView.builder(
+      return ListView.separated(
+          padding: const EdgeInsets.all(16),
           itemCount: pbActivityList.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 24),
           itemBuilder: (context, index) {
             var curItem = pbActivityList[index];
-            if (isPlatformIos(context)) {
-              return CupertinoActivityTile(
-                  curItem, () => _openActivityUI(context, curItem));
-            }
             return MaterialActivityTile(
                 curItem, () => _openActivityUI(context, curItem));
           });

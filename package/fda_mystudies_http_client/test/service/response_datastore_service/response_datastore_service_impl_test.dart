@@ -34,7 +34,7 @@ void main() {
                       ..missed = 2
                       ..total = 100)
                 ..activityRunId = '18'
-                ..activityState = 'inProgress'
+                ..activityState = 'start'
                 ..activityVersion = '1.1',
               GetActivityStateResponse_ActivityState()
                 ..activityId = 'default'

@@ -29,5 +29,5 @@ void main() {
     });
   },
       variant: const TargetPlatformVariant(
-          <TargetPlatform>{TargetPlatform.android, TargetPlatform.iOS}));
+          <TargetPlatform>{TargetPlatform.android}));
 }

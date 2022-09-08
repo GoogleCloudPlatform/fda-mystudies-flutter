@@ -20,6 +20,9 @@ class DemoConfig implements Config {
   String get appName => 'FDA MyStudies';
 
   @override
+  String get organization => 'Google Cloud Platform';
+
+  @override
   String get baseParticipantUrl => 'participants.fda-mystudies.test-url.com';
 
   @override

@@ -22,6 +22,9 @@ abstract class Config {
   /// Name of the app.
   String get appName;
 
+  /// Name of the organization publishing the app.
+  String get organization;
+
   /// URL of participant user datastore server.
   String get baseParticipantUrl;
 

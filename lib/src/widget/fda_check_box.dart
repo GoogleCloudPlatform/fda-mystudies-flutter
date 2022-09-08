@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../common/widget_util.dart';
-import '../cupertino_widget/cupertino_check_mark.dart';
-
 class FDACheckBox extends StatelessWidget {
   final bool value;
   final bool enabled;
@@ -14,19 +11,15 @@ class FDACheckBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoCheckMark(value: value, enabled: enabled, onTap: onTap);
-    }
     return SizedBox(
-        child: Checkbox(
-            value: value,
-            onChanged: (enabled
-                ? (newValue) {
-                    if (newValue != null) {
-                      onTap(newValue);
-                    }
-                  }
-                : null)),
+        child: IconButton(
+            onPressed: (enabled ? () => onTap(!value) : null),
+            icon: (value
+                ? const Icon(Icons.radio_button_checked_sharp,
+                    color: Color(0xFF1A73E8))
+                : const Icon(Icons.radio_button_unchecked_sharp,
+                    color: Color(0xFF5F6368))),
+            padding: EdgeInsets.zero),
         height: 22,
         width: 22);
   }
