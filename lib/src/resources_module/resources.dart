@@ -2,10 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../common/widget_util.dart';
-import '../cupertino_widget/cupertino_list_tile.dart';
+import '../theme/fda_text_style.dart';
 import 'about_study.dart';
 import 'environment_module/environment.dart';
-import 'software_licenses_module/licenses_page.dart';
 import 'view_consent_pdf.dart';
 
 class Resources extends StatelessWidget {
@@ -21,71 +20,39 @@ class Resources extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDarkModeEnabled =
-        MediaQuery.of(context).platformBrightness == Brightness.dark;
-    if (isPlatformIos(context)) {
-      return Container(
-          decoration: BoxDecoration(
-              color: isDarkModeEnabled
-                  ? CupertinoColors.black
-                  : CupertinoColors.extraLightBackgroundGray),
-          child: ListView(
-            children: [
-              CupertinoListTile(
-                  title: aboutTheStudyTitle,
-                  onTap: () => push(context, const AboutStudy())),
-              CupertinoListTile(
-                  title: softwareLicensesTitle,
-                  onTap: () => push(context, const LicensesPage())),
-              CupertinoListTile(
-                  title: consentPDFTitle,
-                  onTap: () => push(context, const ViewConsentPdf())),
-              CupertinoListTile(
-                  title: leaveStudyTitle,
-                  subTitle: leaveStudySubtitle,
-                  showChevron: false,
-                  onTap: () => _showAlert(context)),
-              const SizedBox(height: 48),
-              CupertinoListTile(
-                  title: environmentTitle,
-                  subTitle: environmentSubtitle,
-                  onTap: () => push(context, const Environment()))
-            ],
-          ));
-    }
     return ListView(
-      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+      padding: const EdgeInsets.fromLTRB(28, 10, 28, 0),
       children: [
-        ListTile(
-            title: const Text(aboutTheStudyTitle),
-            trailing: const Icon(Icons.arrow_forward_ios_outlined, size: 16),
+        _resourceTile(context, aboutTheStudyTitle,
             onTap: () => push(context, const AboutStudy())),
-        const Divider(),
-        ListTile(
-            title: const Text(softwareLicensesTitle),
-            trailing: const Icon(Icons.arrow_forward_ios_outlined, size: 16),
+        _resourceTile(context, softwareLicensesTitle,
             onTap: () => showLicensePage(
                 context: context, applicationName: 'FDA MyStudies')),
-        const Divider(),
-        ListTile(
-            title: const Text(consentPDFTitle),
-            trailing: const Icon(Icons.arrow_forward_ios_outlined, size: 16),
+        _resourceTile(context, consentPDFTitle,
             onTap: () => push(context, const ViewConsentPdf())),
+        _resourceTile(context, leaveStudyTitle,
+            subtitle: leaveStudySubtitle, onTap: () => _showAlert(context)),
+        const SizedBox(height: 32),
         const Divider(),
-        ListTile(
-            title: const Text(leaveStudyTitle),
-            subtitle: const Text(leaveStudySubtitle),
-            onTap: () => _showAlert(context)),
-        const Divider(),
-        const SizedBox(height: 48),
-        const Divider(),
-        ListTile(
-            title: const Text(environmentTitle),
-            subtitle: const Text(environmentSubtitle),
-            trailing: const Icon(Icons.arrow_forward_ios_outlined, size: 16),
+        const SizedBox(height: 32),
+        _resourceTile(context, environmentTitle,
+            subtitle: environmentSubtitle,
             onTap: () => push(context, const Environment()))
       ],
     );
+  }
+
+  Widget _resourceTile(BuildContext context, String title,
+      {String? subtitle, void Function()? onTap}) {
+    return ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading:
+            const Icon(Icons.description_outlined, color: Color(0xFF5F6368)),
+        title: Text(title, style: FDATextStyle.resourceTileTitle(context)),
+        subtitle: subtitle != null
+            ? Text(subtitle, style: FDATextStyle.activityTileFrequency(context))
+            : null,
+        onTap: onTap);
   }
 
   void _showAlert(BuildContext context) {

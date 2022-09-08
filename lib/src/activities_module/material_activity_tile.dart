@@ -12,36 +12,39 @@ class MaterialActivityTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(
-            color: Color(0xFFDADCE0),
-          ),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        leading: Container(
-            child: const Icon(Icons.description_outlined),
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: const Color(0xFFDADCE0), width: 1))),
-        trailing: _statusTag(context),
-        title: Text(activity.activity.title,
-            style: FDATextStyle.activityTileTitle(context)),
-        subtitle: _frequencyTypeTag(context),
-        onTap: () {
-          var status = activity.status;
-          if (status.inactiveActivityText != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(status.inactiveActivityText!)));
-            return;
-          }
-          if (onTap != null) {
-            onTap!();
-          }
-        },
-        contentPadding: const EdgeInsets.fromLTRB(12, 6, 20, 6));
+    return Card(
+        elevation: 0,
+        child: ListTile(
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(
+                color: Color(0xFFDADCE0),
+              ),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            leading: Container(
+                child: const Icon(Icons.description_outlined),
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border:
+                        Border.all(color: const Color(0xFFDADCE0), width: 1))),
+            trailing: _statusTag(context),
+            title: Text(activity.activity.title,
+                style: FDATextStyle.activityTileTitle(context)),
+            subtitle: _frequencyTypeTag(context),
+            onTap: () {
+              var status = activity.status;
+              if (status.inactiveActivityText != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(status.inactiveActivityText!)));
+                return;
+              }
+              if (onTap != null) {
+                onTap!();
+              }
+            },
+            contentPadding: const EdgeInsets.fromLTRB(12, 6, 20, 6)));
   }
 
   Widget _statusTag(context) {
