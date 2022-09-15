@@ -1,3 +1,4 @@
+import 'package:fda_mystudies/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +28,7 @@ class Resources extends StatelessWidget {
             onTap: () => push(context, const AboutStudy())),
         _resourceTile(context, softwareLicensesTitle,
             onTap: () => showLicensePage(
-                context: context, applicationName: 'FDA MyStudies')),
+                context: context, applicationName: curConfig.appName)),
         _resourceTile(context, consentPDFTitle,
             onTap: () => push(context, const ViewConsentPdf())),
         _resourceTile(context, leaveStudyTitle,
