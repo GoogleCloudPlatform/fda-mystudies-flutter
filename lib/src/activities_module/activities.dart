@@ -40,7 +40,7 @@ class _ActivitiesState extends State<Activities> {
       return ListView.separated(
           padding: const EdgeInsets.all(16),
           itemCount: pbActivityList.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 24),
+          separatorBuilder: (context, index) => const SizedBox(height: 14),
           itemBuilder: (context, index) {
             var curItem = pbActivityList[index];
             return MaterialActivityTile(

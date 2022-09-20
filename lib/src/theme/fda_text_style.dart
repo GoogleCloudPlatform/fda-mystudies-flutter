@@ -159,4 +159,14 @@ class FDATextStyle {
         fontStyle: FontStyle.normal,
         color: const Color(0xFF70757A));
   }
+
+  static TextStyle? resourceTileTitle(BuildContext context) {
+    return GoogleFonts.roboto(
+        decoration: TextDecoration.none,
+        fontSize: 18,
+        height: (20.0 / 18.0),
+        fontWeight: FontWeight.w400,
+        fontStyle: FontStyle.normal,
+        color: const Color(0xFF202124));
+  }
 }

@@ -29,15 +29,18 @@ class AboutStudy extends StatelessWidget {
       var blendMode = isDarkModeEnabled ? BlendMode.darken : BlendMode.lighten;
       var blendColor = isDarkModeEnabled ? Colors.black : Colors.white;
       return Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: Image.memory(
-                        Uri.parse(infoItem.image).data!.contentAsBytes())
-                    .image,
-                colorFilter:
-                    ColorFilter.mode(blendColor.withOpacity(0.5), blendMode),
-                fit: BoxFit.cover),
-          ),
+          decoration: infoItem.image.isEmpty ||
+                  Uri.parse(infoItem.image).data == null
+              ? null
+              : BoxDecoration(
+                  image: DecorationImage(
+                      image: Image.memory(
+                              Uri.parse(infoItem.image).data!.contentAsBytes())
+                          .image,
+                      colorFilter: ColorFilter.mode(
+                          blendColor.withOpacity(0.5), blendMode),
+                      fit: BoxFit.cover),
+                ),
           child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
               child: Container(
