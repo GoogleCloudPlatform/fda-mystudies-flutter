@@ -312,10 +312,12 @@ class QuestionnaireTemplate extends StatelessWidget {
                                     ? null
                                     : () =>
                                         _navigateToNextScreen(context, false),
-                                child: const Padding(
-                                    padding:
-                                        EdgeInsets.fromLTRB(100, 8, 100, 8),
-                                    child: Text('Next')),
+                                child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        100, 8, 100, 8),
+                                    child: Text('Next',
+                                        style: ActivityTextStyle
+                                            .elevatedButtonText(context))),
                               )
                             ] +
                             (_step.skippable
@@ -323,10 +325,12 @@ class QuestionnaireTemplate extends StatelessWidget {
                                     TextButton(
                                         onPressed: () => _navigateToNextScreen(
                                             context, true),
-                                        child: const Padding(
-                                            padding: EdgeInsets.fromLTRB(
+                                        child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(
                                                 100, 8, 100, 8),
-                                            child: Text('Skip')),
+                                            child: Text('Skip',
+                                                style: ActivityTextStyle
+                                                    .textdButtonText(context))),
                                         style: Theme.of(context)
                                             .textButtonTheme
                                             .style)

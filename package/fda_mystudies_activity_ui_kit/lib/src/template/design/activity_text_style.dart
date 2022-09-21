@@ -31,4 +31,24 @@ class ActivityTextStyle {
         fontStyle: FontStyle.normal,
         color: const Color(0xFF80868B));
   }
+
+  static TextStyle? elevatedButtonText(BuildContext context) {
+    return GoogleFonts.roboto(
+        decoration: TextDecoration.none,
+        fontSize: 14,
+        height: (20.0 / 14.0),
+        fontWeight: FontWeight.w500,
+        fontStyle: FontStyle.normal,
+        color: const Color(0xFFFFFFFF));
+  }
+
+  static TextStyle? textdButtonText(BuildContext context) {
+    return GoogleFonts.roboto(
+        decoration: TextDecoration.none,
+        fontSize: 14,
+        height: (20.0 / 14.0),
+        fontWeight: FontWeight.w500,
+        fontStyle: FontStyle.normal,
+        color: const Color(0xFF1A73E8));
+  }
 }
