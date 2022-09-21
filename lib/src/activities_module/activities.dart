@@ -124,11 +124,8 @@ class _ActivitiesState extends State<Activities> {
             builder: (context, snapshot) {
           var response = snapshot.data as FetchActivityStepsResponse;
           var activityBuilder = ui_kit.getIt<ActivityBuilder>();
-          return isPlatformIos(context)
-              ? activityBuilder.buildActivity(response.activity.steps,
-                  CupertinoActivityResponseProcessor(activity), uniqueId)
-              : activityBuilder.buildActivity(response.activity.steps,
-                  MaterialActivityResponseProcessor(), uniqueId);
+          return activityBuilder.buildActivity(response.activity.steps,
+              MaterialActivityResponseProcessor(), uniqueId);
         }, wrapInScaffold: false));
   }
 

@@ -3,15 +3,13 @@ import 'dart:developer' as developer;
 
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 
 import '../../activity_response_processor.dart';
-import '../injection/injection.dart';
 import '../activity_builder_impl.dart';
-import '../config.dart';
+import '../template/design/activity_text_style.dart';
 import 'unimplemented_template.dart';
 
 class QuestionnaireTemplate extends StatelessWidget {
@@ -102,13 +100,8 @@ class QuestionnaireTemplate extends StatelessWidget {
       _savePastResult()
           .then((value) => nextScreen.processResponses(stepResultList));
     }
-    if (getIt<Config>().isIOS) {
-      Navigator.of(context).push(CupertinoPageRoute<void>(
-          builder: (BuildContext context) => nextScreen));
-    } else if (getIt<Config>().isAndroid) {
-      Navigator.of(context).push<void>(MaterialPageRoute<void>(
-          builder: (BuildContext context) => nextScreen));
-    }
+    Navigator.of(context).push<void>(
+        MaterialPageRoute<void>(builder: (BuildContext context) => nextScreen));
   }
 
   static String _generateStepKey(bool temporary, String stepKey) {
@@ -220,152 +213,19 @@ class QuestionnaireTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     var stepTitle = _step.title;
     var subTitle = _step.text;
-    if (getIt<Config>().isIOS) {
-      var titleStyle =
-          CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle;
-      var subTitleStyle = CupertinoTheme.of(context).textTheme.textStyle;
-      return GestureDetector(
-          onTap: () {
-            FocusScope.of(context).unfocus();
-          },
-          child: Stack(children: [
-            CupertinoPageScaffold(
-                navigationBar: CupertinoNavigationBar(
-                    middle: Text(_title,
-                        style:
-                            const TextStyle(color: CupertinoColors.systemGrey)),
-                    trailing: CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          showCupertinoModalPopup<void>(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                CupertinoActionSheet(
-                              actions: <CupertinoActionSheetAction>[
-                                CupertinoActionSheetAction(
-                                  child: const Text('Save for Later'),
-                                  onPressed: () {
-                                    Navigator.of(context).popUntil(
-                                        ModalRoute.withName(
-                                            ActivityBuilderImpl.exitRoute));
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('Discard Results'),
-                                  isDestructiveAction: true,
-                                  onPressed: () {
-                                    _discardAllTemporaryResults();
-                                    Navigator.of(context).popUntil(
-                                        ModalRoute.withName(
-                                            ActivityBuilderImpl.exitRoute));
-                                  },
-                                )
-                              ],
-                              cancelButton: CupertinoActionSheetAction(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  isDefaultAction: true,
-                                  child: const Text('Cancel')),
-                            ),
-                          );
-                        },
-                        child: _allowExit
-                            ? const Icon(Icons.exit_to_app,
-                                color: CupertinoColors.destructiveRed)
-                            : const SizedBox(width: 0))),
-                child: SafeArea(
-                  bottom: false,
-                  maintainBottomViewPadding: true,
-                  child: ListView(
-                      padding: const EdgeInsets.all(20),
-                      children: [
-                            Text(stepTitle, style: titleStyle),
-                            SizedBox(height: subTitle.isEmpty ? 0 : 12),
-                          ] +
-                          (_step.type == 'instruction'
-                              ? []
-                              : [
-                                  Text(subTitle, style: subTitleStyle),
-                                  SizedBox(height: subTitle.isEmpty ? 12 : 36)
-                                ]) +
-                          _children +
-                          [
-                            // This sized box is to add padding to the bottom of
-                            // the scaffold view to allow it to scroll over the
-                            // view that holds the NEXT and SKIP buttons i.e. BOTTOM_VIEW.
-                            // We are using bottom viewInset to detect if keyboard is
-                            // showing. If keyboard is showing remove the extra padding
-                            // meant for scrolling over the BOTTOM_VIEW.
-                            //
-                            // 20 - Default padding so that widgets from this component
-                            //      don't stick to the BOTTOM_VIEW.
-                            // 142 + 40 x textScaleFactor - This Padding is to match the
-                            //      height of the BOTTOM_VIEW. Hacky solution, but it works
-                            //      at all textScaleFactors.
-                            SizedBox(
-                                height: 20 +
-                                    (MediaQuery.of(context).viewInsets.bottom ==
-                                            0
-                                        ? 142 +
-                                            40 *
-                                                MediaQuery.of(context)
-                                                    .textScaleFactor
-                                        : 0))
-                          ]),
-                )),
-            Positioned(
-                bottom: 0,
-                width: MediaQuery.of(context).size.width,
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: CupertinoTheme.of(context).barBackgroundColor),
-                    child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                                  CupertinoButton.filled(
-                                      child: const Text('NEXT',
-                                          style: TextStyle(
-                                              color: CupertinoColors.white)),
-                                      onPressed: selectedValue == null &&
-                                              _step.type.toLowerCase() ==
-                                                  'question'
-                                          ? null
-                                          : () => _navigateToNextScreen(
-                                              context, false))
-                                ].cast<Widget>() +
-                                (_step.skippable
-                                    ? [
-                                        const SizedBox(height: 20),
-                                        Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: CupertinoColors
-                                                        .activeBlue),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(8.0))),
-                                            child: CupertinoButton(
-                                                child: const Text('SKIP',
-                                                    style: TextStyle(
-                                                        color: CupertinoColors
-                                                            .activeBlue)),
-                                                onPressed: () =>
-                                                    _navigateToNextScreen(
-                                                        context, true)))
-                                      ]
-                                    : [])))))
-          ]));
-    }
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: Scaffold(
             appBar: AppBar(
-                title: Text(_title),
+                leading: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon:
+                        const Icon(Icons.arrow_back, color: Color(0xFF3C4043))),
+                title:
+                    Text(_title, style: ActivityTextStyle.appBarTitle(context)),
+                elevation: 0,
                 actions: _allowExit
                     ? [
                         TextButton(
@@ -421,43 +281,56 @@ class QuestionnaireTemplate extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 children: [
                       Text(stepTitle,
-                          style: Theme.of(context).textTheme.headline4),
+                          style: ActivityTextStyle.activityTitle(context),
+                          textAlign: TextAlign.center),
                       SizedBox(height: subTitle.isEmpty ? 0 : 12),
                     ] +
                     (_step.type == 'instruction'
                         ? []
                         : [
                             Text(subTitle,
-                                style: Theme.of(context).textTheme.headline6),
+                                style:
+                                    ActivityTextStyle.activitySubTitle(context),
+                                textAlign: TextAlign.center),
                             const SizedBox(height: 24)
                           ]) +
                     _children),
             bottomNavigationBar: BottomAppBar(
+                elevation: 0,
                 child: Padding(
                     padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                    child: Row(
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: (_step.skippable
-                                ? <Widget>[
-                                    OutlinedButton(
-                                        onPressed: () => _navigateToNextScreen(
-                                            context, true),
-                                        child: const Text('SKIP'),
-                                        style: Theme.of(context)
-                                            .textButtonTheme
-                                            .style)
-                                  ]
-                                : <Widget>[]) +
-                            [
+                        children: [
                               const SizedBox(width: 20),
                               ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: const Color(0xFF1A73E8)),
                                 onPressed: selectedValue == null &&
                                         _step.type.toLowerCase() == 'question'
                                     ? null
                                     : () =>
                                         _navigateToNextScreen(context, false),
-                                child: const Text('NEXT'),
+                                child: const Padding(
+                                    padding:
+                                        EdgeInsets.fromLTRB(100, 8, 100, 8),
+                                    child: Text('Next')),
                               )
-                            ])))));
+                            ] +
+                            (_step.skippable
+                                ? <Widget>[
+                                    TextButton(
+                                        onPressed: () => _navigateToNextScreen(
+                                            context, true),
+                                        child: const Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                100, 8, 100, 8),
+                                            child: Text('Skip')),
+                                        style: Theme.of(context)
+                                            .textButtonTheme
+                                            .style)
+                                  ]
+                                : <Widget>[]))))));
   }
 }
