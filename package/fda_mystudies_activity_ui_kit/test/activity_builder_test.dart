@@ -55,7 +55,7 @@ void main() {
           allowExit: true, exitRouteName: '/');
       await tester.pumpWidget(TestUtils.createWidgetForTesting(returnedWidget));
 
-      final scaffoldTitleFinder = find.text('Step 1 of 1');
+      final scaffoldTitleFinder = find.text('1 of 1');
 
       expect(returnedWidget is QuestionnaireTemplate, true);
       expect(scaffoldTitleFinder, findsOneWidget);
@@ -106,12 +106,12 @@ void main() {
       await tester.pumpWidget(MaterialApp(home: returnedWidget));
 
       expect(returnedWidget is VerticalScaleTemplate, true);
-      expect(find.text('Step 1 of 1'), findsOneWidget);
+      expect(find.text('1 of 1'), findsOneWidget);
       expect(find.text('Vertical Scale'), findsOneWidget);
       expect(find.text('0'), findsOneWidget);
       expect(find.text('5'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Horizontal Scale test', (WidgetTester tester) async {
@@ -160,8 +160,8 @@ void main() {
       expect(find.text('Horizontal Scale'), findsOneWidget);
       expect(find.text('0'), findsOneWidget);
       expect(find.text('5'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsNothing);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsNothing);
     });
 
     testWidgets('Vertical Continuous Scale test', (WidgetTester tester) async {
@@ -210,8 +210,8 @@ void main() {
       expect(find.text('Vertical Continuous Scale'), findsOneWidget);
       expect(find.text('0.0'), findsOneWidget);
       expect(find.text('5.0'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Horizontal Continuous Scale test',
@@ -261,8 +261,8 @@ void main() {
       expect(find.text('Horizontal Continuous Scale'), findsOneWidget);
       expect(find.text('0.0'), findsOneWidget);
       expect(find.text('5.0'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsNothing);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsNothing);
     });
 
     testWidgets('Vertical Text Scale test', (WidgetTester tester) async {
@@ -365,8 +365,8 @@ void main() {
       // Since default value is 2, Agree the second item is selected value.
       expect(find.text('Agree'), findsNWidgets(2));
       expect(find.text('Strongly Agree'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Horizontal Text Scale test', (WidgetTester tester) async {
@@ -466,8 +466,8 @@ void main() {
       expect(find.text('Strongly Disagree'), findsOneWidget);
       expect(find.text('Disagree'), findsOneWidget); // Selected Item
       expect(find.text('Strongly Agree'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Value Picker test', (WidgetTester tester) async {
@@ -538,8 +538,8 @@ void main() {
       expect(returnedWidget is ValuePickerTemplate, true);
       expect(find.text('Value Picker'), findsOneWidget);
       expect(find.text(''), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
 
       await tester.tap(find.text(''));
       await tester.pumpAndSettle();
@@ -634,8 +634,8 @@ void main() {
       expect(find.text('Image Choice'), findsOneWidget);
       expect(find.byWidgetPredicate((widget) => widget is Image),
           findsNWidgets(4));
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Single Text Choice test', (WidgetTester tester) async {
@@ -736,8 +736,8 @@ void main() {
       expect(find.text('Write down something about the shape you listed'),
           findsOneWidget);
       expect(find.text('Rhombus'), findsNothing);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
 
       await tester.tap(find.text('Other Shape'));
       await tester.pumpAndSettle();
@@ -834,8 +834,8 @@ void main() {
       expect(find.text('WYSIWYG'), findsOneWidget);
       expect(find.text('4-D'), findsOneWidget);
       expect(find.text('Where time stops'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Boolean test', (WidgetTester tester) async {
@@ -884,8 +884,8 @@ void main() {
       expect(find.text('Boolean'), findsOneWidget);
       expect(find.text('Yes'), findsOneWidget);
       expect(find.text('No'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Numerical Text test', (WidgetTester tester) async {
@@ -929,8 +929,8 @@ void main() {
       expect(returnedWidget is NumericalTextTemplate, true);
       expect(find.text('Decimal Numeric'), findsOneWidget);
       expect(find.text('placeholder'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Time of day test', (WidgetTester tester) async {
@@ -967,8 +967,8 @@ void main() {
 
       expect(returnedWidget is TimeOfDayTemplate, true);
       expect(find.text('Time of the day'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Date test', (WidgetTester tester) async {
@@ -1011,8 +1011,8 @@ void main() {
 
       expect(returnedWidget is DateTemplate, true);
       expect(find.text('Date'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Text test', (WidgetTester tester) async {
@@ -1055,8 +1055,8 @@ void main() {
 
       expect(returnedWidget is TextTemplate, true);
       expect(find.text('SIngle Line Text'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Time Interval test', (WidgetTester tester) async {
@@ -1096,8 +1096,8 @@ void main() {
 
       expect(returnedWidget is TimeIntervalTemplate, true);
       expect(find.text('Time Interval'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsOneWidget);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
     });
 
     testWidgets('Instruction test', (WidgetTester tester) async {
@@ -1109,7 +1109,7 @@ void main() {
                 "resultType": "",
                 "key": "GoBack",
                 "title": "Go Back",
-                "text": "<p><b>DO NOT CLICK NEXT!</b></p><p><b>DO NOT SUBMIT</b></p>",
+                "text": "<p><b>DO NOT CLICK Next!</b></p><p><b>DO NOT SUBMIT</b></p>",
                 "skippable": false,
                 "groupName": "",
                 "repeatable": false,
@@ -1134,8 +1134,8 @@ void main() {
 
       expect(returnedWidget is InstructionTemplate, true);
       expect(find.text('Go Back'), findsOneWidget);
-      expect(find.widgetWithText(ElevatedButton, 'NEXT'), findsOneWidget);
-      expect(find.widgetWithText(OutlinedButton, 'SKIP'), findsNothing);
+      expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Skip'), findsNothing);
     });
   });
 }

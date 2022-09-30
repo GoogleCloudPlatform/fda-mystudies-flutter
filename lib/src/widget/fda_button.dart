@@ -17,7 +17,8 @@ class FDAButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        style: ElevatedButton.styleFrom(primary: const Color(0xFF1A73E8)),
+        style:
+            ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1A73E8)),
         onPressed: onPressed,
         child: isLoading
             ? const SizedBox(

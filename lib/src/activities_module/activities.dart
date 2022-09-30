@@ -15,7 +15,6 @@ import 'package:flutter/widgets.dart';
 import '../common/future_loading_page.dart';
 import '../common/widget_util.dart';
 import '../user/user_data.dart';
-import 'cupertino_activity_response_processor.dart';
 import 'material_activity_response_processor.dart';
 import 'material_activity_tile.dart';
 import 'pb_activity.dart';
