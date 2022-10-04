@@ -1,11 +1,7 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../config.dart';
-import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
-import 'cupertino_widget/cupertino_checkbox_list_tile.dart';
 
 class MultipleTextChoiceTemplate extends StatefulWidget {
   final ActivityStep step;
@@ -48,42 +44,15 @@ class _MultipleTextChoiceTemplateState
   Widget build(BuildContext context) {
     var textChoiceList = widget.step.textChoice.textChoices;
 
-    List<Widget> widgetList = [];
-
-    if (getIt<Config>().isIOS) {
-      widgetList = [
-        Container(
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-                border: Border.all(color: CupertinoColors.inactiveGray),
-                borderRadius: BorderRadius.circular(5)),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: textChoiceList
-                    .map((e) {
-                      return CupertinoCheckboxListTile(
-                          e.text,
-                          e.detail,
-                          e.value,
-                          _selectedValue.contains(e.value),
-                          e == textChoiceList.last,
-                          onChanged: (value) => _updateState(e));
-                    })
-                    .toList()
-                    .cast<Widget>()))
-      ];
-    } else if (getIt<Config>().isAndroid) {
-      widgetList = textChoiceList
-          .map((e) => CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              title: Text(e.text),
-              subtitle: e.detail.isNotEmpty ? Text(e.detail) : null,
-              value: _selectedValue.contains(e.value),
-              onChanged: (value) => _updateState(e)))
-          .cast<Widget>()
-          .toList();
-    }
+    List<Widget> widgetList = textChoiceList
+        .map((e) => CheckboxListTile(
+            controlAffinity: ListTileControlAffinity.leading,
+            title: Text(e.text),
+            subtitle: e.detail.isNotEmpty ? Text(e.detail) : null,
+            value: _selectedValue.contains(e.value),
+            onChanged: (value) => _updateState(e)))
+        .cast<Widget>()
+        .toList();
 
     return QuestionnaireTemplate(
         widget.step,

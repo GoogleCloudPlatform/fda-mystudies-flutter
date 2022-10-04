@@ -1,9 +1,6 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../config.dart';
-import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class HorizontalScaleTemplate extends StatefulWidget {
@@ -70,66 +67,31 @@ class _HorizontalScaleTemplateState extends State<HorizontalScaleTemplate> {
             widget.step.scaleFormat.step)
         : null;
 
-    List<Widget> widgetList = [];
-
-    if (getIt<Config>().isIOS) {
-      widgetList = [
-        Center(
-            child: Text(selectedValueLabel,
-                style: CupertinoTheme.of(context).textTheme.pickerTextStyle)),
-        CupertinoSlider(
-            value: _selectedValue ?? defaultValue.toDouble(),
-            min: minValue.toDouble(),
-            max: maxValue.toDouble(),
-            divisions: divisions,
-            onChanged: (double value) {
-              setState(() {
-                _selectedValue =
-                    double.parse(value.toStringAsFixed(maxFractionDigits));
-              });
-            }),
-        Padding(
-            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(minValueLabel,
-                    style:
-                        CupertinoTheme.of(context).textTheme.pickerTextStyle),
-                Text(maxValueLabel,
-                    style: CupertinoTheme.of(context).textTheme.pickerTextStyle)
-              ],
-            ))
-      ];
-    } else if (getIt<Config>().isAndroid) {
-      widgetList = [
-        Center(
-            child: Text(selectedValueLabel,
-                style: Theme.of(context).textTheme.headline6)),
-        Slider(
-            value: _selectedValue ?? defaultValue.toDouble(),
-            min: minValue.toDouble(),
-            max: maxValue.toDouble(),
-            divisions: divisions,
-            onChanged: (double value) {
-              setState(() {
-                _selectedValue =
-                    double.parse(value.toStringAsFixed(maxFractionDigits));
-              });
-            }),
-        Padding(
-            padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(minValueLabel,
-                    style: Theme.of(context).textTheme.headline6),
-                Text(maxValueLabel,
-                    style: Theme.of(context).textTheme.headline6)
-              ],
-            ))
-      ];
-    }
+    List<Widget> widgetList = [
+      Center(
+          child: Text(selectedValueLabel,
+              style: Theme.of(context).textTheme.headline6)),
+      Slider(
+          value: _selectedValue ?? defaultValue.toDouble(),
+          min: minValue.toDouble(),
+          max: maxValue.toDouble(),
+          divisions: divisions,
+          onChanged: (double value) {
+            setState(() {
+              _selectedValue =
+                  double.parse(value.toStringAsFixed(maxFractionDigits));
+            });
+          }),
+      Padding(
+          padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(minValueLabel, style: Theme.of(context).textTheme.headline6),
+              Text(maxValueLabel, style: Theme.of(context).textTheme.headline6)
+            ],
+          ))
+    ];
 
     return QuestionnaireTemplate(
         widget.step,

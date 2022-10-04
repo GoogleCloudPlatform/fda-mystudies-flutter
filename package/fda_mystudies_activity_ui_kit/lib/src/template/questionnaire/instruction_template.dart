@@ -1,12 +1,9 @@
 import 'dart:convert';
 
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../config.dart';
-import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class InstructionTemplate extends StatefulWidget {
@@ -34,9 +31,7 @@ class _InstructionTemplateState extends State<InstructionTemplate> {
     setState(() {
       _startTime = QuestionnaireTemplate.currentTimeToString();
     });
-    if (getIt<Config>().isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
-    }
+    WebView.platform = SurfaceAndroidWebView();
   }
 
   @override
@@ -73,34 +68,14 @@ class _InstructionTemplateState extends State<InstructionTemplate> {
   }
 
   String _htmlContent() {
-    var bgColor = 'ffffff';
-    var fgColor = '000000';
-
-    if (getIt<Config>().isIOS) {
-      bgColor = CupertinoTheme.of(context)
-          .scaffoldBackgroundColor
-          .value
-          .toRadixString(16)
-          .substring(2, 8);
-      fgColor = CupertinoTheme.of(context)
-          .textTheme
-          .textStyle
-          .color!
-          .value
-          .toRadixString(16)
-          .substring(2, 8);
-    } else if (getIt<Config>().isAndroid) {
-      bgColor = Theme.of(context)
-          .scaffoldBackgroundColor
-          .toString()
-          .substring(10, 16);
-      fgColor = Theme.of(context)
-          .textTheme
-          .bodyText1!
-          .color
-          .toString()
-          .substring(10, 16);
-    }
+    var bgColor =
+        Theme.of(context).scaffoldBackgroundColor.toString().substring(10, 16);
+    var fgColor = Theme.of(context)
+        .textTheme
+        .bodyText1!
+        .color
+        .toString()
+        .substring(10, 16);
 
     var content = """<!DOCTYPE html>
                     <html>

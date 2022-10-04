@@ -1,10 +1,7 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../config.dart';
-import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class TextTemplate extends StatefulWidget {
@@ -44,44 +41,23 @@ class _TextTemplateState extends State<TextTemplate> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgetList = [];
-
-    if (getIt<Config>().isIOS) {
-      widgetList = [
-        CupertinoTextField(
-            controller: _textEditingController,
-            onChanged: (value) {
-              setState(() {
-                _selectedValue = value;
-              });
-            },
-            maxLength: widget.step.textFormat.maxLength,
-            keyboardType: widget.step.textFormat.multipleLines
-                ? TextInputType.multiline
-                : TextInputType.text,
-            maxLines: widget.step.textFormat.multipleLines ? null : 1,
-            inputFormatters: _inputFormatters(widget.step),
-            placeholder: widget.step.textFormat.placeholder)
-      ];
-    } else if (getIt<Config>().isAndroid) {
-      widgetList = [
-        TextField(
-            controller: _textEditingController,
-            onChanged: (value) {
-              setState(() {
-                _selectedValue = value;
-              });
-            },
-            maxLength: widget.step.textFormat.maxLength,
-            keyboardType: widget.step.textFormat.multipleLines
-                ? TextInputType.multiline
-                : TextInputType.text,
-            maxLines: widget.step.textFormat.multipleLines ? null : 1,
-            inputFormatters: _inputFormatters(widget.step),
-            decoration:
-                InputDecoration(hintText: widget.step.textFormat.placeholder))
-      ];
-    }
+    List<Widget> widgetList = [
+      TextField(
+          controller: _textEditingController,
+          onChanged: (value) {
+            setState(() {
+              _selectedValue = value;
+            });
+          },
+          maxLength: widget.step.textFormat.maxLength,
+          keyboardType: widget.step.textFormat.multipleLines
+              ? TextInputType.multiline
+              : TextInputType.text,
+          maxLines: widget.step.textFormat.multipleLines ? null : 1,
+          inputFormatters: _inputFormatters(widget.step),
+          decoration:
+              InputDecoration(hintText: widget.step.textFormat.placeholder))
+    ];
 
     return QuestionnaireTemplate(
         widget.step,

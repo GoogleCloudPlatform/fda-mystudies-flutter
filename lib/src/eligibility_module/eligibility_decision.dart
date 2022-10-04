@@ -5,7 +5,6 @@ import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/participant_enroll_datastore_service.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -72,7 +71,6 @@ class _EligibilityDecisionState extends State<EligibilityDecision> {
 
   @override
   Widget build(BuildContext context) {
-    final isIOS = isPlatformIos(context);
     return ValueListenableBuilder(
         valueListenable: widget.userIsEligible,
         builder: (BuildContext context, bool newValue, Widget? child) {
@@ -101,12 +99,8 @@ class _EligibilityDecisionState extends State<EligibilityDecision> {
                     height: 100,
                     decoration: BoxDecoration(
                         color: newValue
-                            ? (isIOS
-                                ? CupertinoColors.activeBlue
-                                : Theme.of(context).colorScheme.primary)
-                            : (isIOS
-                                ? CupertinoColors.destructiveRed
-                                : Theme.of(context).colorScheme.error),
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.error,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(50))),
                     child: Icon(newValue ? Icons.check : Icons.error,

@@ -1,5 +1,4 @@
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -41,33 +40,9 @@ class VisualScreenTemplate extends StatelessWidget {
     return HomeScaffold(
         child: SafeArea(
             bottom: false,
-            child: Stack(
-                children: <Widget>[
-                      ListView(
-                          padding: const EdgeInsets.all(16), children: content)
-                    ] +
-                    (isPlatformIos(context)
-                        ? [
-                            Positioned(
-                                bottom: 0,
-                                width: MediaQuery.of(context).size.width,
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color: CupertinoTheme.of(context)
-                                            .barBackgroundColor),
-                                    child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            20, 20, 20, 40),
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
-                                            children: [
-                                              FDAButton(
-                                                  title: 'NEXT',
-                                                  onPressed: nextStep)
-                                            ]))))
-                          ]
-                        : []))),
+            child: Stack(children: <Widget>[
+              ListView(padding: const EdgeInsets.all(16), children: content)
+            ])),
         bottomNavigationBar: BottomAppBar(
             child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),

@@ -1,12 +1,10 @@
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/participant_user_datastore_service.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/get_user_profile.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
-import '../cupertino_widget/cupertino_ink_well.dart';
 import '../user/user_data.dart';
 import 'change_password.dart';
 import 'delete_account.dart';
@@ -40,15 +38,11 @@ class _MyAccountState extends State<MyAccount> {
 
   @override
   Widget build(BuildContext context) {
-    final isIOS = isPlatformIos(context);
     return HomeScaffold(
         title: 'My Account',
         child: SafeArea(
             child: _isLoading
-                ? Center(
-                    child: isIOS
-                        ? const CupertinoActivityIndicator()
-                        : const CircularProgressIndicator())
+                ? const Center(child: CircularProgressIndicator())
                 : ListView(padding: const EdgeInsets.all(12), children: [
                     Padding(
                         padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
@@ -69,8 +63,9 @@ class _MyAccountState extends State<MyAccount> {
                             children: [
                               _label(context, 'Password'),
                               Expanded(
-                                  child: CupertinoInkWell('Change password',
-                                      textAlign: TextAlign.right,
+                                  child: InkWell(
+                                      child: const Text('Change password',
+                                          textAlign: TextAlign.right),
                                       onTap: () => push(
                                           context, const ChangePassword())))
                             ])),
@@ -82,8 +77,10 @@ class _MyAccountState extends State<MyAccount> {
                             children: [
                               _label(context, 'Passcode'),
                               Expanded(
-                                  child: CupertinoInkWell('Change passcode',
-                                      textAlign: TextAlign.right, onTap: () {}))
+                                  child: InkWell(
+                                      child: const Text('Change passcode',
+                                          textAlign: TextAlign.right),
+                                      onTap: () {}))
                             ])),
                     Divider(thickness: 2, color: dividerColor(context)),
                     Row(
@@ -149,22 +146,13 @@ class _MyAccountState extends State<MyAccount> {
                         ]),
                     Divider(thickness: 2, color: dividerColor(context)),
                     const SizedBox(height: 16),
-                    isIOS
-                        ? CupertinoButton(
-                            child: const Text('Delete app account',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: CupertinoColors.white)),
-                            color: CupertinoColors.destructiveRed,
-                            onPressed: () =>
-                                push(context, const DeleteAccount()))
-                        : ElevatedButton(
-                            onPressed: () =>
-                                push(context, const DeleteAccount()),
-                            child: const Text('Delete app account',
-                                textAlign: TextAlign.center),
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.error))
+                    ElevatedButton(
+                        onPressed: () => push(context, const DeleteAccount()),
+                        child: const Text('Delete app account',
+                            textAlign: TextAlign.center),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.error))
                   ])));
   }
 
@@ -207,19 +195,10 @@ class _MyAccountState extends State<MyAccount> {
   }
 
   TextStyle? _labelStyle(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context)
-          .textTheme
-          .navTitleTextStyle
-          .apply(fontSizeFactor: 0.9);
-    }
     return Theme.of(context).textTheme.subtitle2;
   }
 
   TextStyle? _style(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context).textTheme.textStyle;
-    }
     return Theme.of(context).textTheme.bodyText1;
   }
 }

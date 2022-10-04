@@ -1,6 +1,5 @@
 import 'package:fda_mystudies_http_client/authentication_service.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../common/home_scaffold.dart';
@@ -32,158 +31,75 @@ class _ChangePasswordState extends State<ChangePassword> {
         '${widget.isChangingTemporaryPassword ? 'Temporary' : 'Current'} Password';
     const newPasswordPlaceholder = 'New Password';
     const confirmNewPasswordPlaceholder = 'Confirm New Password';
-    final isIOS = isPlatformIos(context);
-    return Stack(
-        children: <Widget>[
-              GestureDetector(
-                  onTap: () {
-                    FocusScope.of(context).unfocus();
-                  },
-                  child: HomeScaffold(
-                      child: SafeArea(
-                          child: ListView(
-                              padding: const EdgeInsets.all(12),
-                              children: isIOS
-                                  ? [
-                                      CupertinoTextField.borderless(
-                                          placeholder:
-                                              currentPasswordPlaceholder,
-                                          controller:
-                                              _currentPasswordController,
-                                          maxLines: 1,
-                                          autocorrect: false,
-                                          readOnly: _isLoading,
-                                          textInputAction: TextInputAction.next,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _currentPassword = value;
-                                            });
-                                          }),
-                                      Divider(
-                                          thickness: 2,
-                                          color: dividerColor(context)),
-                                      CupertinoTextField.borderless(
-                                          placeholder: newPasswordPlaceholder,
-                                          controller: _newPasswordController,
-                                          maxLines: 1,
-                                          autocorrect: false,
-                                          readOnly: _isLoading,
-                                          textInputAction: TextInputAction.next,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _newPassword = value;
-                                            });
-                                          }),
-                                      Divider(
-                                          thickness: 2,
-                                          color: dividerColor(context)),
-                                      CupertinoTextField.borderless(
-                                          placeholder:
-                                              confirmNewPasswordPlaceholder,
-                                          controller:
-                                              _confirmNewPasswordController,
-                                          maxLines: 1,
-                                          autocorrect: false,
-                                          readOnly: _isLoading,
-                                          textInputAction: TextInputAction.done,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _confirmNewPassword = value;
-                                            });
-                                          })
-                                    ]
-                                  : [
-                                      TextField(
-                                          controller:
-                                              _currentPasswordController,
-                                          autocorrect: false,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _currentPassword = value;
-                                            });
-                                          },
-                                          readOnly: _isLoading,
-                                          textInputAction: TextInputAction.next,
-                                          decoration: InputDecoration(
-                                              border:
-                                                  const OutlineInputBorder(),
-                                              labelText:
-                                                  currentPasswordPlaceholder)),
-                                      const SizedBox(height: 16),
-                                      TextField(
-                                          controller: _newPasswordController,
-                                          autocorrect: false,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _newPassword = value;
-                                            });
-                                          },
-                                          readOnly: _isLoading,
-                                          textInputAction: TextInputAction.next,
-                                          decoration: const InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              labelText:
-                                                  newPasswordPlaceholder)),
-                                      const SizedBox(height: 16),
-                                      TextField(
-                                          controller:
-                                              _confirmNewPasswordController,
-                                          autocorrect: false,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              _confirmNewPassword = value;
-                                            });
-                                          },
-                                          readOnly: _isLoading,
-                                          textInputAction: TextInputAction.done,
-                                          decoration: const InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              labelText:
-                                                  confirmNewPasswordPlaceholder)),
-                                    ])),
-                      title: 'Change Password',
-                      showDrawer: false,
-                      bottomNavigationBar: BottomAppBar(
-                          child: Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    ElevatedButton(
-                                        onPressed: _changePassword(),
-                                        child: _isLoading
-                                            ? const SizedBox(
-                                                height: 16,
-                                                width: 16,
-                                                child:
-                                                    CircularProgressIndicator())
-                                            : const Text('Submit'),
-                                        style: Theme.of(context)
-                                            .textButtonTheme
-                                            .style)
-                                  ])))))
-            ] +
-            (isIOS
-                ? [
-                    Positioned(
-                        bottom: 0,
-                        width: MediaQuery.of(context).size.width,
-                        child: Container(
-                            decoration: BoxDecoration(
-                                color: CupertinoTheme.of(context)
-                                    .barBackgroundColor),
-                            child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 20, 20, 40),
-                                child: CupertinoButton.filled(
-                                    child: _isLoading
-                                        ? const CupertinoActivityIndicator()
-                                        : const Text('Submit',
-                                            style: TextStyle(
-                                                color: CupertinoColors.white)),
-                                    onPressed: _changePassword()))))
-                  ]
-                : []));
+    return Stack(children: <Widget>[
+      GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: HomeScaffold(
+              child: SafeArea(
+                  child: ListView(padding: const EdgeInsets.all(12), children: [
+                TextField(
+                    controller: _currentPasswordController,
+                    autocorrect: false,
+                    onChanged: (value) {
+                      setState(() {
+                        _currentPassword = value;
+                      });
+                    },
+                    readOnly: _isLoading,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        labelText: currentPasswordPlaceholder)),
+                const SizedBox(height: 16),
+                TextField(
+                    controller: _newPasswordController,
+                    autocorrect: false,
+                    onChanged: (value) {
+                      setState(() {
+                        _newPassword = value;
+                      });
+                    },
+                    readOnly: _isLoading,
+                    textInputAction: TextInputAction.next,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: newPasswordPlaceholder)),
+                const SizedBox(height: 16),
+                TextField(
+                    controller: _confirmNewPasswordController,
+                    autocorrect: false,
+                    onChanged: (value) {
+                      setState(() {
+                        _confirmNewPassword = value;
+                      });
+                    },
+                    readOnly: _isLoading,
+                    textInputAction: TextInputAction.done,
+                    decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: confirmNewPasswordPlaceholder)),
+              ])),
+              title: 'Change Password',
+              showDrawer: false,
+              bottomNavigationBar: BottomAppBar(
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                                onPressed: _changePassword(),
+                                child: _isLoading
+                                    ? const SizedBox(
+                                        height: 16,
+                                        width: 16,
+                                        child: CircularProgressIndicator())
+                                    : const Text('Submit'),
+                                style: Theme.of(context).textButtonTheme.style)
+                          ])))))
+    ]);
   }
 
   void Function()? _changePassword() {
