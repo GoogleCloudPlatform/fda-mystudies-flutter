@@ -43,7 +43,7 @@ class DeleteAccount extends StatelessWidget {
                                     'I agree, proceed to deleting my account',
                                     textAlign: TextAlign.center),
                                 style: ElevatedButton.styleFrom(
-                                    primary:
+                                    backgroundColor:
                                         Theme.of(context).colorScheme.error)),
                             const SizedBox(height: 8),
                             ElevatedButton(

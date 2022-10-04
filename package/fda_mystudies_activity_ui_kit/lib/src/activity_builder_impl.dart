@@ -51,7 +51,7 @@ class ActivityBuilderImpl implements ActivityBuilder {
             operator: ''));
       }
       widgetMap[steps[i].key] = _generateUIForStep(
-          steps[i], widgetMap, allowExit, 'Step ${i + 1} of ${steps.length}');
+          steps[i], widgetMap, allowExit, '${i + 1} of ${steps.length}');
     }
     stepKeys.clear();
     stepKeys.addAll(steps.map((e) => e.key).toList());

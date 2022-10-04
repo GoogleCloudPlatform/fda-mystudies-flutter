@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -32,12 +31,11 @@ class OnboardingProcessOverview extends StatelessWidget {
       const SizedBox(height: 52),
       Row(children: [
         const SizedBox(width: 18),
-        Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                border: Border.all(color: const Color(0xFFDADCE0))),
-            width: 40,
-            height: 40),
+        const Icon(
+          Icons.account_circle_outlined,
+          size: 24,
+          color: Color(0xFF80868B),
+        ),
         const SizedBox(width: 18),
         Flexible(
             child: Text(
@@ -47,12 +45,11 @@ class OnboardingProcessOverview extends StatelessWidget {
       const SizedBox(height: 20),
       Row(children: [
         const SizedBox(width: 18),
-        Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                border: Border.all(color: const Color(0xFFDADCE0))),
-            width: 40,
-            height: 40),
+        const Icon(
+          Icons.poll_outlined,
+          size: 24,
+          color: Color(0xFF80868B),
+        ),
         const SizedBox(width: 18),
         Flexible(
             child: Text(
@@ -63,12 +60,12 @@ class OnboardingProcessOverview extends StatelessWidget {
       const SizedBox(height: 20),
       Row(children: [
         const SizedBox(width: 18),
-        Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                border: Border.all(color: const Color(0xFFDADCE0))),
-            width: 40,
-            height: 40),
+        const Image(
+          image: AssetImage('assets/images/rebase_edit.png'),
+          color: Color(0xFF80868B),
+          width: 24,
+          height: 24,
+        ),
         const SizedBox(width: 18),
         Flexible(
             child: Text(
@@ -79,12 +76,12 @@ class OnboardingProcessOverview extends StatelessWidget {
       const SizedBox(height: 20),
       Row(children: [
         const SizedBox(width: 18),
-        Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                border: Border.all(color: const Color(0xFFDADCE0))),
-            width: 40,
-            height: 40),
+        const Image(
+          image: AssetImage('assets/images/edit_document.png'),
+          color: Color(0xFF80868B),
+          width: 24,
+          height: 24,
+        ),
         const SizedBox(width: 18),
         Flexible(
             child: Text(AppLocalizations.of(context).onboardingPageConsentStep,

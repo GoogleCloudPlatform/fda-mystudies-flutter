@@ -19,7 +19,7 @@ class PbActivity {
     var completed = state.activityRun.completed;
     var missed = state.activityRun.missed;
     if (runId == completed + missed) {
-      if (state.activityState == 'completed') {
+      if (state.activityState.toLowerCase() == 'completed') {
         return PbActivityStatus.completed;
       } else {
         return PbActivityStatus.missed;

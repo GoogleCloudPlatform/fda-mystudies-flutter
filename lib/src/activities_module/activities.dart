@@ -15,7 +15,6 @@ import 'package:flutter/widgets.dart';
 import '../common/future_loading_page.dart';
 import '../common/widget_util.dart';
 import '../user/user_data.dart';
-import 'cupertino_activity_response_processor.dart';
 import 'material_activity_response_processor.dart';
 import 'material_activity_tile.dart';
 import 'pb_activity.dart';
@@ -124,11 +123,8 @@ class _ActivitiesState extends State<Activities> {
             builder: (context, snapshot) {
           var response = snapshot.data as FetchActivityStepsResponse;
           var activityBuilder = ui_kit.getIt<ActivityBuilder>();
-          return isPlatformIos(context)
-              ? activityBuilder.buildActivity(response.activity.steps,
-                  CupertinoActivityResponseProcessor(activity), uniqueId)
-              : activityBuilder.buildActivity(response.activity.steps,
-                  MaterialActivityResponseProcessor(), uniqueId);
+          return activityBuilder.buildActivity(response.activity.steps,
+              MaterialActivityResponseProcessor(), uniqueId);
         }, wrapInScaffold: false));
   }
 

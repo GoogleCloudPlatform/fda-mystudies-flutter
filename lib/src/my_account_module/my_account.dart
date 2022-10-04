@@ -163,7 +163,8 @@ class _MyAccountState extends State<MyAccount> {
                             child: const Text('Delete app account',
                                 textAlign: TextAlign.center),
                             style: ElevatedButton.styleFrom(
-                                primary: Theme.of(context).colorScheme.error))
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.error))
                   ])));
   }
 
