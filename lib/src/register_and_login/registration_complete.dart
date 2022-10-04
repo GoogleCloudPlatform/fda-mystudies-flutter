@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../common/widget_util.dart';
 import '../theme/fda_text_theme.dart';
 import '../widget/fda_button.dart';
 import '../widget/fda_scaffold.dart';
@@ -27,9 +25,7 @@ class RegistrationComplete extends StatelessWidget {
             width: 100,
             height: 100,
             decoration: BoxDecoration(
-                color: isPlatformIos(context)
-                    ? CupertinoColors.activeBlue
-                    : Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.primary,
                 borderRadius: const BorderRadius.all(Radius.circular(50))),
             child: const Icon(Icons.check, color: Colors.white, size: 50))
       ]),

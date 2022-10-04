@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../common/widget_util.dart';
 
 class FDADialogAction extends StatelessWidget {
   final String title;
@@ -12,12 +9,6 @@ class FDADialogAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoDialogAction(
-          child: Text(title),
-          onPressed: onPressed,
-          isDefaultAction: isPrimary ?? false);
-    }
     return TextButton(
         child: Text(title),
         onPressed: onPressed,

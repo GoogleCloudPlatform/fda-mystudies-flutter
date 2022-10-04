@@ -1,14 +1,11 @@
-import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart'
     as http_client;
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/mock_scenario_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../main.dart';
 import '../../common/future_loading_page.dart';
-import '../../common/widget_util.dart';
 
 class DemoConfigScenariosView extends StatefulWidget {
   final String serviceName;
@@ -44,22 +41,6 @@ class _DemoConfigScenariosViewState extends State<DemoConfigScenariosView> {
             widget.serviceName, widget.methodName),
         builder: (context, snapshot) {
       var scenarios = (snapshot.data ?? []) as List<Scenario>;
-      if (isPlatformIos(context)) {
-        return CupertinoScrollbar(
-            child: ListView.builder(
-                itemCount: scenarios.length,
-                itemBuilder: (context, index) {
-                  var curScenario = scenarios[index];
-                  return CupertinoRadioListTile(
-                      curScenario.title,
-                      '(${curScenario.response.statusCode}) ${curScenario.description}',
-                      curScenario.scenarioCode,
-                      curScenario.scenarioCode == selectedScenario,
-                      true,
-                      onChanged: (value) =>
-                          _selectScenario(curScenario.scenarioCode));
-                }));
-      }
       return Scrollbar(
           child: ListView.builder(
               itemCount: scenarios.length,

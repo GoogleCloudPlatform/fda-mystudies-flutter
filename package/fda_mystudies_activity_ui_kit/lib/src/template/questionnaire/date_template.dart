@@ -1,10 +1,7 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../config.dart';
-import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class DateTemplate extends StatefulWidget {
@@ -44,67 +41,48 @@ class _DateTemplateState extends State<DateTemplate> {
       _selectedValueLabel = _formattedDateTimeToString(time);
     }
 
-    List<Widget> widgetList = [];
-
-    if (getIt<Config>().isIOS) {
-      widgetList = [
-        SizedBox(
-            height: 300,
-            child: CupertinoDatePicker(
-                mode: widget.step.dateTime.style == 'Date'
-                    ? CupertinoDatePickerMode.date
-                    : CupertinoDatePickerMode.dateAndTime,
-                onDateTimeChanged: (dateTime) {
-                  setState(() {
-                    _selectedValue = _dateTimeToString(dateTime);
+    List<Widget> widgetList = [
+      ElevatedButton(
+          onPressed: () {
+            showDatePicker(
+                    context: context,
+                    initialDate: time,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime(2100))
+                .then((dateTime) {
+              if (dateTime != null) {
+                setState(() {
+                  _selectedValue = _dateTimeToString(dateTime);
+                  _selectedValueLabel = _formattedDateTimeToString(dateTime);
+                });
+                if (widget.step.dateTime.style == 'Date-Time') {
+                  showTimePicker(
+                          context: context,
+                          initialTime:
+                              TimeOfDay(hour: time.hour, minute: time.minute))
+                      .then((value) {
+                    if (value != null) {
+                      setState(() {
+                        var updatedDateTime = DateTime(
+                            dateTime.year,
+                            dateTime.month,
+                            dateTime.day,
+                            value.hour,
+                            value.minute);
+                        _selectedValue = _dateTimeToString(updatedDateTime);
+                        _selectedValueLabel =
+                            _formattedDateTimeToString(updatedDateTime);
+                      });
+                    }
                   });
-                },
-                initialDateTime: time))
-      ];
-    } else if (getIt<Config>().isAndroid) {
-      widgetList = [
-        ElevatedButton(
-            onPressed: () {
-              showDatePicker(
-                      context: context,
-                      initialDate: time,
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime(2100))
-                  .then((dateTime) {
-                if (dateTime != null) {
-                  setState(() {
-                    _selectedValue = _dateTimeToString(dateTime);
-                    _selectedValueLabel = _formattedDateTimeToString(dateTime);
-                  });
-                  if (widget.step.dateTime.style == 'Date-Time') {
-                    showTimePicker(
-                            context: context,
-                            initialTime:
-                                TimeOfDay(hour: time.hour, minute: time.minute))
-                        .then((value) {
-                      if (value != null) {
-                        setState(() {
-                          var updatedDateTime = DateTime(
-                              dateTime.year,
-                              dateTime.month,
-                              dateTime.day,
-                              value.hour,
-                              value.minute);
-                          _selectedValue = _dateTimeToString(updatedDateTime);
-                          _selectedValueLabel =
-                              _formattedDateTimeToString(updatedDateTime);
-                        });
-                      }
-                    });
-                  }
                 }
-              });
-            },
-            child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Text(_selectedValueLabel!)))
-      ];
-    }
+              }
+            });
+          },
+          child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Text(_selectedValueLabel!)))
+    ];
     return QuestionnaireTemplate(
         widget.step,
         widget.allowExit,

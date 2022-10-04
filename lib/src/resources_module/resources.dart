@@ -1,5 +1,4 @@
 import 'package:fda_mystudies/main.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../common/widget_util.dart';
@@ -58,43 +57,25 @@ class Resources extends StatelessWidget {
 
   void _showAlert(BuildContext context) {
     const alertTitle = 'Are you sure you want to leave the study?';
-    if (isPlatformIos(context)) {
-      showCupertinoDialog(
-          context: context,
-          builder: (BuildContext context) => CupertinoAlertDialog(
-                title: const Text(alertTitle),
-                actions: [
-                  CupertinoDialogAction(
-                      child: const Text('Yes'),
-                      onPressed: () {
-                        // TODO (cg2092): Call Leave study API.
-                      }),
-                  CupertinoDialogAction(
-                      child: const Text('Cancel'),
-                      onPressed: () => Navigator.of(context).pop()),
-                ],
-              ));
-    } else {
-      var alertDialog = AlertDialog(
-        title: const Text(alertTitle),
-        actions: [
-          TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-          TextButton(
-              child: const Text('Yes'),
-              onPressed: () {
-                // TODO (cg2092): Call Leave study API.
-              }),
-        ],
-      );
-      showDialog(
-          context: context,
-          builder: (context) {
-            return alertDialog;
-          });
-    }
+    var alertDialog = AlertDialog(
+      title: const Text(alertTitle),
+      actions: [
+        TextButton(
+            child: const Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            }),
+        TextButton(
+            child: const Text('Yes'),
+            onPressed: () {
+              // TODO (cg2092): Call Leave study API.
+            }),
+      ],
+    );
+    showDialog(
+        context: context,
+        builder: (context) {
+          return alertDialog;
+        });
   }
 }

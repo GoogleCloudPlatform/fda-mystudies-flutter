@@ -7,7 +7,6 @@ import '../../theme/fda_text_theme.dart';
 import '../../widget/fda_button.dart';
 import '../../widget/fda_scaffold_with_overlay_actions.dart';
 import '../../widget/fda_text_field.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'consent_confirmed.dart';
@@ -131,7 +130,7 @@ class Signature extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Platform.isIOS ? CupertinoColors.activeBlue : Colors.blue
+      ..color = Colors.blue
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 1.0;
     for (int i = 0; i < points.length - 1; ++i) {

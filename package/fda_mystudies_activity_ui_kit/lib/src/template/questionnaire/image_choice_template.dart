@@ -3,11 +3,8 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../config.dart';
-import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class ImageChoiceTemplate extends StatefulWidget {
@@ -47,22 +44,11 @@ class _ImageChoiceTemplateState extends State<ImageChoiceTemplate> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgetList = [];
-
-    if (getIt<Config>().isIOS) {
-      widgetList = [
-        Center(
-            child: Text(_selectedText,
-                style: CupertinoTheme.of(context).textTheme.pickerTextStyle,
-                textAlign: TextAlign.center))
-      ];
-    } else if (getIt<Config>().isAndroid) {
-      widgetList = [
-        Text(_selectedText,
-            style: Theme.of(context).textTheme.headline6,
-            textAlign: TextAlign.center)
-      ];
-    }
+    List<Widget> widgetList = [
+      Text(_selectedText,
+          style: Theme.of(context).textTheme.headline6,
+          textAlign: TextAlign.center)
+    ];
     widgetList.add(Wrap(
       children: widget.step.imageChoice.imageChoices.map((e) {
         var isSelected = e.value == _selectedValue;

@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../injection/injection.dart';
-import '../config.dart';
 
 class UnimplementedTemplate extends StatelessWidget {
   static const pageContent = 'This activity type is not implemented yet!';
@@ -14,15 +10,6 @@ class UnimplementedTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var title = 'Unimplemented $stepKey';
-    if (getIt<Config>().isIOS) {
-      return CupertinoPageScaffold(
-          navigationBar: CupertinoNavigationBar(middle: Text(title)),
-          child: Center(
-              child: Text(pageContent,
-                  textAlign: TextAlign.center,
-                  style:
-                      CupertinoTheme.of(context).textTheme.navTitleTextStyle)));
-    }
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: Center(
