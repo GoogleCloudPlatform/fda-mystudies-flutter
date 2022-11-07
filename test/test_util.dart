@@ -1,15 +1,39 @@
-import 'package:fda_mystudies/fda_mystudies_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const activitiesTitle = 'Activities';
 const dashboardTitle = 'Dashboard';
 const resourcesTitle = 'Resources';
 
 class TestUtil {
+  static final androidLightTheme = ThemeData.light().copyWith(
+      textTheme: GoogleFonts.robotoTextTheme(),
+      appBarTheme: ThemeData.light().appBarTheme.copyWith(
+          foregroundColor: Colors.black87,
+          backgroundColor: Colors.white,
+          toolbarTextStyle: const TextTheme(
+                  subtitle1: TextStyle(color: Colors.black87, fontSize: 18),
+                  subtitle2: TextStyle(color: Colors.black54, fontSize: 14))
+              .bodyText2,
+          titleTextStyle: const TextTheme(
+                  subtitle1: TextStyle(color: Colors.black87, fontSize: 18),
+                  subtitle2: TextStyle(color: Colors.black54, fontSize: 14))
+              .headline6));
+
+  static final androidDarkTheme = ThemeData.dark().copyWith(
+      textTheme: GoogleFonts.robotoTextTheme(),
+      scaffoldBackgroundColor: Colors.black,
+      cardColor: Colors.black,
+      bottomNavigationBarTheme: ThemeData.light()
+          .bottomNavigationBarTheme
+          .copyWith(backgroundColor: Colors.black),
+      appBarTheme: ThemeData.light().appBarTheme.copyWith(
+          foregroundColor: Colors.white, backgroundColor: Colors.black));
+
   static Finder findBottomBarItemWithLabel(String label) {
     if (debugDefaultTargetPlatformOverride == TargetPlatform.iOS) {
       return find.descendant(
@@ -54,9 +78,7 @@ class TestUtil {
         debugShowCheckedModeBanner: false,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        theme: useDarkTheme
-            ? FDAMyStudiesApp.androidDarkTheme
-            : FDAMyStudiesApp.androidLightTheme,
+        theme: useDarkTheme ? androidDarkTheme : androidLightTheme,
         home: widget);
   }
 }

@@ -54,5 +54,9 @@
 				</array>
 			</dict>
 		</array>
-	</dict>
+		<key>NSFaceIDUsageDescription</key>
+		<string>FDA MyStudies app uses face ID for local authentication</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+</dict>
 </plist>
