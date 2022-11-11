@@ -18,7 +18,7 @@ void main() {
         child: testWidget,
       ),
     ));
-    await screenMatchesGolden(tester, 'text_theme.light');
+    await screenMatchesGolden(tester, 'light.typography_tokens');
   });
 
   testGoldens('Typography Token should be displayed correctly in Dark Theme',
@@ -33,6 +33,6 @@ void main() {
         child: testWidget,
       ),
     ));
-    await screenMatchesGolden(tester, 'text_theme.dark');
+    await screenMatchesGolden(tester, 'dark.typography_tokens');
   });
 }
