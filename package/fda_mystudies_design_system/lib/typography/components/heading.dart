@@ -7,6 +7,10 @@ class Heading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: Theme.of(context).textTheme.headlineLarge);
+    return Text(text,
+        style: Theme.of(context)
+            .textTheme
+            .headlineLarge
+            ?.apply(color: Theme.of(context).colorScheme.onSurface));
   }
 }

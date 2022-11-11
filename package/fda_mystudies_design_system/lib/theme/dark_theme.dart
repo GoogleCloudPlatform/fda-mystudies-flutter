@@ -15,7 +15,8 @@ class DarkTheme {
       background: Colors.grey.shade900,
       onBackground: Colors.grey.shade200,
       surface: Colors.grey.shade900,
-      onSurface: Colors.grey.shade200);
+      onSurface: Colors.grey.shade200,
+      onSurfaceVariant: Colors.grey.shade500);
 
   static final ThemeData _themeData = ThemeData(
       colorScheme: _colorScheme,

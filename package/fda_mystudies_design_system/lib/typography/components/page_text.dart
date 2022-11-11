@@ -7,8 +7,9 @@ class PageText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text,
-        style: Theme.of(context).textTheme.bodyLarge?.apply(
-            color:
-                Theme.of(context).colorScheme.onBackground.withOpacity(0.6)));
+        style: Theme.of(context)
+            .textTheme
+            .bodyLarge
+            ?.apply(color: Theme.of(context).colorScheme.onSurfaceVariant));
   }
 }
