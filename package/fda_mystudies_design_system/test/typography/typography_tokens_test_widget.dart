@@ -42,6 +42,34 @@ class TypographyTokensTestWidget extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelMedium!),
               Token('Label', TokenSize.small,
                   style: Theme.of(context).textTheme.labelSmall!),
+              Wrap(children: [
+                Container(
+                    width: 255,
+                    padding: const EdgeInsets.all(8),
+                    alignment: Alignment.bottomLeft,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1.5,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onBackground
+                                .withOpacity(0.8)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8))),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Legend',
+                              style: Theme.of(context).textTheme.titleLarge),
+                          const SizedBox(height: 16),
+                          Text('FS: FontSize',
+                              style: Theme.of(context).textTheme.bodyLarge),
+                          Text('LS: LetterSpacing',
+                              style: Theme.of(context).textTheme.bodyLarge),
+                          Text('LH: LineHeight',
+                              style: Theme.of(context).textTheme.bodyLarge)
+                        ]))
+              ])
             ]));
   }
 }
@@ -72,7 +100,7 @@ class Token extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(children: [
       Container(
-        width: 255,
+        width: 255 * MediaQuery.of(context).textScaleFactor,
         padding: const EdgeInsets.all(8),
         alignment: Alignment.bottomLeft,
         decoration: BoxDecoration(
@@ -88,10 +116,11 @@ class Token extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text(style.fontSize!.toInt().toString(),
+                Text('FS: ${style.fontSize!.toInt()}',
                     style: Theme.of(context).textTheme.bodySmall),
-                Text(
-                    (style.fontSize! * style.height!).ceil().toInt().toString(),
+                Text('LS: ${style.letterSpacing}',
+                    style: Theme.of(context).textTheme.bodySmall),
+                Text('LH: ${(style.fontSize! * style.height!).round()}',
                     style: Theme.of(context).textTheme.bodySmall),
               ]),
               const SizedBox(height: 10),
@@ -99,8 +128,8 @@ class Token extends StatelessWidget {
                 Text(text, textAlign: TextAlign.left, style: style),
                 const SizedBox(width: 10),
                 Container(
-                  width: 20,
-                  height: 20,
+                  width: 20 * MediaQuery.of(context).textScaleFactor,
+                  height: 20 * MediaQuery.of(context).textScaleFactor,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                       color: Colors.pink[100],
