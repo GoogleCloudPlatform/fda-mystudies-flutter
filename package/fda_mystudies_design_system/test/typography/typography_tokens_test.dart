@@ -6,7 +6,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'typography_tokens_test_widget.dart';
 
 void main() {
-  testGoldens('Elements should be displayed correctly in Light Theme',
+  testGoldens('Typography Token should be displayed correctly in Light Theme',
       (tester) async {
     var testWidget = MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -21,7 +21,7 @@ void main() {
     await screenMatchesGolden(tester, 'text_theme.light');
   });
 
-  testGoldens('Elements should be displayed correctly in Dark Theme',
+  testGoldens('Typography Token should be displayed correctly in Dark Theme',
       (tester) async {
     var testWidget = MaterialApp(
         debugShowCheckedModeBanner: false,
