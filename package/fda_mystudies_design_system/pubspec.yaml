@@ -13,6 +13,8 @@ dependencies:
   google_fonts: ^3.0.1
   golden_toolkit: ^0.13.0
   shimmer: ^2.0.0
+  flutter_html: ^2.2.1
+  html_unescape: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -24,6 +26,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  uses-material-design: true
   fonts:
     - family: Roboto
       fonts:
