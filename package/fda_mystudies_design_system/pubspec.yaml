@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  google_fonts: ^3.0.1
+  golden_toolkit: ^0.13.0
 
 dev_dependencies:
   flutter_test:
@@ -21,7 +23,15 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto/Roboto-Black.ttf
+        - asset: assets/fonts/Roboto/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto/Roboto-Light.ttf
+        - asset: assets/fonts/Roboto/Roboto-Medium.ttf
+        - asset: assets/fonts/Roboto/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto/Roboto-Thin.ttf
   # To add assets to your package, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
