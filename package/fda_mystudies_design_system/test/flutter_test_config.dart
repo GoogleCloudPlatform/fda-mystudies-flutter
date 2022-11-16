@@ -11,5 +11,6 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
       config: GoldenToolkitConfiguration(
           defaultDevices: const [Device.iphone11, Device.phone],
           // Only allow Golden tests on MacOS on github actions
-          skipGoldenAssertion: () => !Platform.isMacOS));
+          skipGoldenAssertion: () => !Platform.isMacOS,
+          enableRealShadows: true));
 }
