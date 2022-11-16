@@ -15,6 +15,7 @@ dependencies:
   shimmer: ^2.0.0
   flutter_html: ^2.2.1
   html_unescape: ^2.0.0
+  webview_flutter: ^2.0.4
 
 dev_dependencies:
   flutter_test:
