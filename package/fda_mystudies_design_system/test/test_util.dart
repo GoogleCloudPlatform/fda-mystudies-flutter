@@ -56,4 +56,12 @@ class TestUtil {
   }
 
   static Future<void> _noAction() async {}
+
+  static Future<void> tapIconButton(
+      {required WidgetTester tester, required IconData icon}) async {
+    for (final element in find.byIcon(icon).evaluate()) {
+      await tester.tap(find.byWidget(element.widget));
+      await tester.pump();
+    }
+  }
 }

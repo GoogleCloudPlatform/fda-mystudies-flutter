@@ -21,7 +21,7 @@ class PageTextBlock extends StatelessWidget {
     var lineHeight = 24.0 * MediaQuery.of(context).textScaleFactor;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+      padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
       child: displayShimmer
           ? ShimmerBlock(height: lineHeight * shimmerHeightMultiplier)
           : PageText(text: text, textAlign: textAlign),
