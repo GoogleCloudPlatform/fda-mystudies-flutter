@@ -15,7 +15,8 @@ class LightTheme {
       background: Colors.white,
       onBackground: Colors.grey.shade900,
       surface: Colors.white,
-      onSurface: Colors.grey.shade800);
+      onSurface: Colors.grey.shade900,
+      onSurfaceVariant: Colors.grey.shade600);
 
   static final ThemeData _themeData = ThemeData(
       colorScheme: _colorScheme,
