@@ -3,5 +3,8 @@
 
     "bannerBrokenConnectionMessage": "Your connection seems broken!",
     "bannerDismussButtonTitle": "Dismiss",
-    "bannerConnectButtonTitle": "Connect"
+    "bannerConnectButtonTitle": "Connect",
+
+    "signatureBlockSignInstructions": "Sign using your finger",
+    "signatureBlockEraseSignActionText": "clear"
 }
