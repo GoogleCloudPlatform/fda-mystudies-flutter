@@ -1,0 +1,7 @@
+{
+    "requiredErrorMessage": "Required!",
+
+    "bannerBrokenConnectionMessage": "Your connection seems broken!",
+    "bannerDismussButtonTitle": "Dismiss",
+    "bannerConnectButtonTitle": "Connect"
+}

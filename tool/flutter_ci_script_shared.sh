@@ -22,6 +22,14 @@ function ci_projects () {
             find . -name "*.dart" ! -path './package/fda_mystudies_spec/*' | xargs flutter format --set-exit-if-changed
         fi
 
+        if [ "${PROJECT_NAME}" == "package/fda_mystudies_design_system" ]
+        then
+            flutter gen-l10n
+
+            # Run the analyzer to find any static analysis issues.
+            dart analyze
+        fi
+
         if [ "${PROJECT_NAME}" == "package/fda_mystudies_activity_ui_kit" ]
         then
             flutter pub run build_runner build --delete-conflicting-outputs
