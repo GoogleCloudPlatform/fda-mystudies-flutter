@@ -1,6 +1,7 @@
 import 'package:fda_mystudies_design_system/theme/dark_theme.dart';
 import 'package:fda_mystudies_design_system/theme/light_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
@@ -8,6 +9,8 @@ class TestUtil {
   static Widget wrapInApp(Widget widget, {bool useDarkTheme = false}) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         theme:
             useDarkTheme ? DarkTheme.getThemeData() : LightTheme.getThemeData(),
         home: widget);

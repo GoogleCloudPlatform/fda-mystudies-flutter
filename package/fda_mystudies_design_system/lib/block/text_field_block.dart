@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TextFieldBlock extends StatefulWidget {
   final String placeholder;
@@ -60,6 +61,7 @@ class _TextFieldBlockState extends State<TextFieldBlock> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     var textScaleFactor = MediaQuery.of(context).textScaleFactor;
     return Container(
         width: double.infinity,
@@ -81,7 +83,7 @@ class _TextFieldBlockState extends State<TextFieldBlock> {
                           helperText: widget.helperText,
                           helperMaxLines: 10,
                           errorText: _showErrorText
-                              ? 'Required!\n${widget.helperText ?? ''}'
+                              ? '${l10n.requiredErrorMessage}\n${widget.helperText ?? ''}'
                               : null,
                           errorMaxLines: 10,
                           floatingLabelBehavior: FloatingLabelBehavior.auto,
