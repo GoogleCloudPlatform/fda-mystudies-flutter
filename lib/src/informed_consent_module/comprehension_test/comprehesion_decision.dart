@@ -1,7 +1,6 @@
 import 'package:fda_mystudies_activity_ui_kit/activity_response_processor.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/widget_util.dart';
@@ -19,7 +18,6 @@ class ComprehensionDecision extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final isIOS = isPlatformIos(context);
     return ValueListenableBuilder(
         valueListenable: userPassedComprehensionTest,
         builder: (BuildContext context, bool newValue, Widget? child) {
@@ -46,12 +44,8 @@ class ComprehensionDecision extends StatelessWidget
                     height: 100,
                     decoration: BoxDecoration(
                         color: newValue
-                            ? (isIOS
-                                ? CupertinoColors.activeBlue
-                                : Theme.of(context).colorScheme.primary)
-                            : (isIOS
-                                ? CupertinoColors.destructiveRed
-                                : Theme.of(context).colorScheme.error),
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.error,
                         borderRadius:
                             const BorderRadius.all(Radius.circular(50))),
                     child: Icon(newValue ? Icons.check : Icons.error,

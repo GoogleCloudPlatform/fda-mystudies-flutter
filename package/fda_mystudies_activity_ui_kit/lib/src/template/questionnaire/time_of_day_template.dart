@@ -1,9 +1,6 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../config.dart';
-import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class TimeOfDayTemplate extends StatefulWidget {
@@ -38,44 +35,26 @@ class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
     _selectedValue ??= _timeToHhMm(time.hour, time.minute);
     time = _selectedValueToTimeOfDay(_selectedValue!);
 
-    List<Widget> widgetList = [];
-
-    if (getIt<Config>().isIOS) {
-      widgetList = [
-        SizedBox(
-            height: 300,
-            child: CupertinoDatePicker(
-                mode: CupertinoDatePickerMode.time,
-                initialDateTime: time,
-                onDateTimeChanged: (dateTime) {
-                  setState(() {
-                    _selectedValue =
-                        _timeToHhMm(dateTime.hour, dateTime.minute);
-                  });
-                }))
-      ];
-    } else if (getIt<Config>().isAndroid) {
-      widgetList = [
-        ElevatedButton(
-            onPressed: () {
-              showTimePicker(
-                      context: context,
-                      initialTime:
-                          TimeOfDay(hour: time.hour, minute: time.minute))
-                  .then((value) {
-                if (value != null) {
-                  setState(() {
-                    _selectedValue = _timeToHhMm(value.hour, value.minute);
-                  });
-                }
-              });
-            },
-            child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Text(
-                    _selectedValue ?? _timeToHhMm(time.hour, time.minute))))
-      ];
-    }
+    List<Widget> widgetList = [
+      ElevatedButton(
+          onPressed: () {
+            showTimePicker(
+                    context: context,
+                    initialTime:
+                        TimeOfDay(hour: time.hour, minute: time.minute))
+                .then((value) {
+              if (value != null) {
+                setState(() {
+                  _selectedValue = _timeToHhMm(value.hour, value.minute);
+                });
+              }
+            });
+          },
+          child: Padding(
+              padding: const EdgeInsets.all(10),
+              child:
+                  Text(_selectedValue ?? _timeToHhMm(time.hour, time.minute))))
+    ];
 
     return QuestionnaireTemplate(
         widget.step,

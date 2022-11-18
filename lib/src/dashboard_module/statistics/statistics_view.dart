@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:clock/clock.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -28,14 +27,10 @@ class _StatisticsViewState extends State<StatisticsView> {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (isPlatformIos(context));
     return Container(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
         height: _containerHeight(context),
-        decoration: BoxDecoration(
-            color: platformIsIos
-                ? CupertinoTheme.of(context).barBackgroundColor
-                : Theme.of(context).bottomAppBarColor),
+        decoration: BoxDecoration(color: Theme.of(context).bottomAppBarColor),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           const SizedBox(height: 8),
           SizedBox(
@@ -67,11 +62,7 @@ class _StatisticsViewState extends State<StatisticsView> {
           const SizedBox(height: 8),
           _divider(context),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            _iconButton(
-                context,
-                platformIsIos
-                    ? CupertinoIcons.left_chevron
-                    : Icons.arrow_left_sharp, () {
+            _iconButton(context, Icons.arrow_left_sharp, () {
               setState(() {
                 modeToCounterMap[curMode] =
                     (modeToCounterMap[curMode] ?? 0) - 1;
@@ -80,17 +71,10 @@ class _StatisticsViewState extends State<StatisticsView> {
             Expanded(
                 child: Text(_timeFormat(),
                     textAlign: TextAlign.center,
-                    style: (platformIsIos
-                        ? CupertinoTheme.of(context)
-                            .textTheme
-                            .textStyle
-                            .apply(fontSizeFactor: 0.7)
-                        : Theme.of(context).textTheme.bodyText1))),
+                    style: Theme.of(context).textTheme.bodyText1)),
             _iconButton(
                 context,
-                platformIsIos
-                    ? CupertinoIcons.right_chevron
-                    : Icons.arrow_right_sharp,
+                Icons.arrow_right_sharp,
                 _shouldDisableNextButton()
                     ? null
                     : () {
@@ -117,12 +101,6 @@ class _StatisticsViewState extends State<StatisticsView> {
   }
 
   TextStyle? _titleStyle(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context)
-          .textTheme
-          .pickerTextStyle
-          .apply(fontSizeFactor: 0.6, fontWeightDelta: 3);
-    }
     return Theme.of(context)
         .textTheme
         .headline6
@@ -131,11 +109,6 @@ class _StatisticsViewState extends State<StatisticsView> {
 
   Widget _iconButton(
       BuildContext context, IconData icon, void Function()? onPressed) {
-    if (isPlatformIos(context)) {
-      return CupertinoButton(
-          child: Icon(icon, size: 12),
-          onPressed: onPressed == null ? null : () => onPressed());
-    }
     return IconButton(
         onPressed: onPressed == null ? null : () => onPressed(),
         icon: Icon(icon, size: 16));

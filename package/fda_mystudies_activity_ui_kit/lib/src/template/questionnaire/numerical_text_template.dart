@@ -1,10 +1,7 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../config.dart';
-import '../../injection/injection.dart';
 import '../questionnaire_template.dart';
 
 class NumericalTextTemplate extends StatefulWidget {
@@ -45,51 +42,25 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> widgetList = [];
-
-    if (getIt<Config>().isIOS) {
-      widgetList = [
-        Row(children: [
-          Expanded(
-              child: CupertinoTextField(
-                  controller: _textEditController,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedValue =
-                          _stringToSelectedValue(widget.step, value);
-                    });
-                  },
-                  placeholder: widget.step.numericalFormat.placeholder,
-                  keyboardType: _textInputType(widget.step),
-                  inputFormatters: _inputFormatters(widget.step))),
-          Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-              child: Text(widget.step.numericalFormat.unit,
-                  style: CupertinoTheme.of(context).textTheme.textStyle))
-        ])
-      ];
-    } else if (getIt<Config>().isAndroid) {
-      widgetList = [
-        Row(children: [
-          Expanded(
-              child: TextField(
-                  controller: _textEditController,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedValue =
-                          _stringToSelectedValue(widget.step, value);
-                    });
-                  },
-                  decoration: InputDecoration(
-                      hintText: widget.step.numericalFormat.placeholder),
-                  keyboardType: _textInputType(widget.step),
-                  inputFormatters: _inputFormatters(widget.step))),
-          Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
-              child: Text(widget.step.numericalFormat.unit))
-        ])
-      ];
-    }
+    List<Widget> widgetList = [
+      Row(children: [
+        Expanded(
+            child: TextField(
+                controller: _textEditController,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = _stringToSelectedValue(widget.step, value);
+                  });
+                },
+                decoration: InputDecoration(
+                    hintText: widget.step.numericalFormat.placeholder),
+                keyboardType: _textInputType(widget.step),
+                inputFormatters: _inputFormatters(widget.step))),
+        Padding(
+            padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
+            child: Text(widget.step.numericalFormat.unit))
+      ])
+    ];
 
     return QuestionnaireTemplate(
         widget.step,

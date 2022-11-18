@@ -1,6 +1,5 @@
 import 'package:fda_mystudies_http_client/authentication_service.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -149,50 +148,27 @@ class _DrawerMenuState extends State<DrawerMenu> {
   void _showSignOutAlert(BuildContext context) {
     var alertTitle = AppLocalizations.of(context).signOutAlertTitle;
     var alertContent = AppLocalizations.of(context).signOutAlertSubtitle;
-    if (isPlatformIos(context)) {
-      showCupertinoDialog(
-          context: context,
-          builder: (BuildContext context) => CupertinoAlertDialog(
-                title: Text(alertTitle),
-                content: Text(alertContent),
-                actions: [
-                  CupertinoDialogAction(
-                      child: Text(
-                          AppLocalizations.of(context).signOutAlertConfirm),
-                      onPressed: _isLoading ? null : () => _signOut(context)),
-                  CupertinoDialogAction(
-                      child:
-                          Text(AppLocalizations.of(context).signOutAlertCancel),
-                      onPressed: _isLoading
-                          ? null
-                          : () => Navigator.of(context).pop()),
-                ],
-              ));
-    } else {
-      var alertTitle = AppLocalizations.of(context).signOutAlertTitle;
-      var alertContent = AppLocalizations.of(context).signOutAlertSubtitle;
-      var alertDialog = AlertDialog(
-        title: Text(alertTitle),
-        content: Text(alertContent),
-        actions: [
-          TextButton(
-              child: Text(AppLocalizations.of(context).signOutAlertCancel),
-              onPressed: _isLoading
-                  ? null
-                  : () {
-                      Navigator.of(context).pop();
-                    }),
-          TextButton(
-              child: Text(AppLocalizations.of(context).signOutAlertConfirm),
-              onPressed: _isLoading ? null : () => _signOut(context)),
-        ],
-      );
-      showDialog(
-          context: context,
-          builder: (context) {
-            return alertDialog;
-          });
-    }
+    var alertDialog = AlertDialog(
+      title: Text(alertTitle),
+      content: Text(alertContent),
+      actions: [
+        TextButton(
+            child: Text(AppLocalizations.of(context).signOutAlertCancel),
+            onPressed: _isLoading
+                ? null
+                : () {
+                    Navigator.of(context).pop();
+                  }),
+        TextButton(
+            child: Text(AppLocalizations.of(context).signOutAlertConfirm),
+            onPressed: _isLoading ? null : () => _signOut(context)),
+      ],
+    );
+    showDialog(
+        context: context,
+        builder: (context) {
+          return alertDialog;
+        });
   }
 
   void _signOut(BuildContext context) {
