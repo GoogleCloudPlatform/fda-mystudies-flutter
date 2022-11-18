@@ -168,5 +168,12 @@
     },
 
     "welcomeScreenToOnboardingButtonText": "Tap to continue",
-    "welcomeScreenToSignInButtonText": "Skip to sign in page"
+    "welcomeScreenToSignInButtonText": "Skip to sign in page",
+
+    "onboardingScreenTitleText": "To get started, here are things that you’ll be asked to do: ",
+    "onboardingScreenToRegisterButtonText": "Tap to continue",
+    "onboardingScreenCreateAccountStepText": "Create your account",
+    "onboardingScreenEligibilityStepText": "Do eligibility survey to see if you are eligible for this study",
+    "onboardingScreenComprehensionStepText": "Do a simple comprehension survey to test your understanding of this study",
+    "onboardingScreenConsentStepText": "Consent agreement of sharing your data"
 }
