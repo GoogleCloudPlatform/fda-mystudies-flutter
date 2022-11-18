@@ -165,5 +165,8 @@
     "resourcesBottomNavigationBarTitle": "Resources",
     "@dashboardBottomNavigationBarTitle": {
         "description": "Title for Resources page in Bottom navigation bar title"
-    }
+    },
+
+    "welcomeScreenToOnboardingButtonText": "Tap to continue",
+    "welcomeScreenToSignInButtonText": "Skip to sign in page"
 }
