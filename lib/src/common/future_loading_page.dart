@@ -1,9 +1,7 @@
 import 'package:fda_mystudies/src/common/home_scaffold.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'widget_util.dart';
 import 'common_error_widget.dart';
 
 class FutureLoadingPage {
@@ -23,11 +21,8 @@ class FutureLoadingPage {
                 (BuildContext buildContext, AsyncSnapshot<Object> snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return isPlatformIos(context)
-                      ? const CupertinoPageScaffold(
-                          child: Center(child: CupertinoActivityIndicator()))
-                      : const Scaffold(
-                          body: Center(child: CircularProgressIndicator()));
+                  return const Scaffold(
+                      body: Center(child: CircularProgressIndicator()));
                 default:
                   if (snapshot.hasError) {
                     return CommonErrorWidget(snapshot.error.toString());

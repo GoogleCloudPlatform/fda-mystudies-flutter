@@ -1,10 +1,8 @@
 import 'dart:math';
 
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../common/widget_util.dart';
 import 'recorded_value.dart';
 
 class ChartTile extends StatelessWidget {
@@ -17,16 +15,12 @@ class ChartTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (isPlatformIos(context));
     final isDarkModeEnabled =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     var scale = MediaQuery.of(context).textScaleFactor;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Container(
-          decoration: BoxDecoration(
-              color: platformIsIos
-                  ? CupertinoTheme.of(context).barBackgroundColor
-                  : Theme.of(context).bottomAppBarColor),
+          decoration: BoxDecoration(color: Theme.of(context).bottomAppBarColor),
           padding: const EdgeInsets.all(8),
           child: Text(chartDisplayName, style: _titleStyle(context))),
       Container(
@@ -83,12 +77,6 @@ class ChartTile extends StatelessWidget {
   }
 
   TextStyle? _titleStyle(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context)
-          .textTheme
-          .textStyle
-          .apply(fontSizeFactor: 0.9);
-    }
     return Theme.of(context).textTheme.subtitle1;
   }
 }

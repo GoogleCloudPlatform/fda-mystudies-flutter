@@ -1,7 +1,6 @@
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/study_datastore_service.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

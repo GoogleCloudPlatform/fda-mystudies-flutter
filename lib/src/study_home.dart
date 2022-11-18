@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -43,7 +42,8 @@ class _StudyHomeState extends State<StudyHome> {
                 icon: const Icon(Icons.insert_chart_outlined_outlined),
                 label: dashboardTitle),
             BottomNavigationBarItem(
-                icon: const Icon(CupertinoIcons.book), label: resourcesTitle)
+                icon: const Icon(Icons.import_contacts_rounded),
+                label: resourcesTitle)
           ],
           onTap: (index) => setState(() {
             _currentTab = index;

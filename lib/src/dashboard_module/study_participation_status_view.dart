@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../common/widget_util.dart';
@@ -13,12 +12,8 @@ class StudyParticipationStatusView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (isPlatformIos(context));
     return Container(
-        decoration: BoxDecoration(
-            color: platformIsIos
-                ? CupertinoTheme.of(context).barBackgroundColor
-                : Theme.of(context).bottomAppBarColor),
+        decoration: BoxDecoration(color: Theme.of(context).bottomAppBarColor),
         child: IntrinsicHeight(
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,12 +51,6 @@ class StudyParticipationStatusView extends StatelessWidget {
   }
 
   TextStyle? _titleStyle(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context)
-          .textTheme
-          .pickerTextStyle
-          .apply(fontSizeFactor: 0.6, fontWeightDelta: 3);
-    }
     return Theme.of(context)
         .textTheme
         .headline6
@@ -69,12 +58,6 @@ class StudyParticipationStatusView extends StatelessWidget {
   }
 
   TextStyle? _statusStyle(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context)
-          .textTheme
-          .pickerTextStyle
-          .apply(fontSizeFactor: 0.6);
-    }
     return Theme.of(context).textTheme.headline6?.apply(fontSizeFactor: 0.7);
   }
 }

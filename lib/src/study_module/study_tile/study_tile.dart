@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/widget_util.dart';
@@ -96,24 +95,12 @@ class StudyTile extends StatelessWidget {
   }
 
   TextStyle? _titleStyle(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context)
-          .textTheme
-          .navLargeTitleTextStyle
-          .apply(fontSizeFactor: 0.5);
-    }
     return Theme.of(context).textTheme.headline3?.apply(
         fontSizeFactor: 0.5,
         color: Theme.of(context).textTheme.bodyText1?.color);
   }
 
   TextStyle? _tagLineStyle(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context)
-          .textTheme
-          .pickerTextStyle
-          .apply(fontSizeFactor: 0.6);
-    }
     return Theme.of(context).textTheme.subtitle1;
   }
 }

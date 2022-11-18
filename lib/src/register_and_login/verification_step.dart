@@ -1,6 +1,5 @@
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/participant_user_datastore_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../common/home_scaffold.dart';

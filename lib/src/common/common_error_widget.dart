@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'widget_util.dart';
 
 class CommonErrorWidget extends StatelessWidget {
   final String errorDescription;
@@ -10,13 +7,6 @@ class CommonErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return Center(
-          child: Text(errorDescription,
-              textAlign: TextAlign.center,
-              style:
-                  CupertinoTheme.of(context).textTheme.navLargeTitleTextStyle));
-    }
     return Center(
         child: Text(errorDescription,
             textAlign: TextAlign.center,

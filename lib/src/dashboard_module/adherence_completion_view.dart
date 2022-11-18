@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../common/widget_util.dart';
@@ -16,13 +15,9 @@ class AdherenceCompletionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final platformIsIos = (isPlatformIos(context));
     return Container(
         padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-        decoration: BoxDecoration(
-            color: platformIsIos
-                ? CupertinoTheme.of(context).barBackgroundColor
-                : Theme.of(context).bottomAppBarColor),
+        decoration: BoxDecoration(color: Theme.of(context).bottomAppBarColor),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,12 +50,6 @@ class AdherenceCompletionView extends StatelessWidget {
   }
 
   TextStyle? _statusStyle(BuildContext context) {
-    if (isPlatformIos(context)) {
-      return CupertinoTheme.of(context)
-          .textTheme
-          .pickerTextStyle
-          .apply(fontSizeFactor: 0.6);
-    }
     return Theme.of(context).textTheme.headline6?.apply(fontSizeFactor: 0.7);
   }
 }
