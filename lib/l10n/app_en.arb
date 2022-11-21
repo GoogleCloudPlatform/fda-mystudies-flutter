@@ -195,5 +195,21 @@
     "registerScreenInvalidPasswordErrorMessage": "Please enter a valid password.",
     "registerScreenPasswordsDontMatchErrorMessage": "Passwords do not match.",
     "registerScreenTnCNotAcceptedErrorMessage": "You must review and accept the terms and conditions to continue.",
-    "registerScreenErrorMessageOkayed": "OK"
+    "registerScreenErrorMessageOkayed": "OK",
+
+    "forgotPasswordScreenTitle": "Password help",
+    "forgotPasswordScreenInfoText": "Please enter your registered email to receive password help.",
+    "forgotPasswordScreenEmailTextFieldPlaceholder": "Enter email",
+    "forgotPasswordScreenSubmitButtonText": "Submit",
+    "forgotPasswordScreenMissingRequiredFieldsErrorMessage": "Please fill in all the required fields.",
+    "forgotPasswordScreenInvalidEmailErrorMessage": "Please enter a valid email.",
+    "forgotPasswordScreenTemporaryPasswordSentMessageDialogTitle": "Message",
+    "forgotPasswordScreenTemporaryPasswordSentMessage": "We have sent a temporary password to your registered email. Please sign in with the temporary password and then change your password.",
+    "forgotPasswordScreenTemporaryPasswordSentMessageOkButtonText": "OK",
+
+    "enrollmentTokenScreenTitle": "Enrollment Token",
+    "enrollmentTokenScreenInfoText": "Participating in this study requires an invitation. If you have received one, please enter the token provided.",
+    "enrollmentTokenScreenTokenFieldPlaceholder": "Enrollment token",
+    "enrollmentTokenScreenTokenFieldEmpty": "Missing enrollment token",
+    "enrollmentTokenScreenContinueToNextStepButton": "Submit"
 }
