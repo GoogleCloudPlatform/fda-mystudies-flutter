@@ -6,5 +6,10 @@
     "bannerConnectButtonTitle": "Connect",
 
     "signatureBlockSignInstructions": "Sign using your finger",
-    "signatureBlockEraseSignActionText": "clear"
+    "signatureBlockEraseSignActionText": "clear",
+
+    "iAgreeToText": "I agree to",
+    "termsAndConditionsText": "terms & conditions",
+    "andText": "and",
+    "privacyPolicyText": "privacy policy"
 }
