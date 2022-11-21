@@ -175,5 +175,25 @@
     "onboardingScreenCreateAccountStepText": "Create your account",
     "onboardingScreenEligibilityStepText": "Do eligibility survey to see if you are eligible for this study",
     "onboardingScreenComprehensionStepText": "Do a simple comprehension survey to test your understanding of this study",
-    "onboardingScreenConsentStepText": "Consent agreement of sharing your data"
+    "onboardingScreenConsentStepText": "Consent agreement of sharing your data",
+
+    "registerScreenTitle": "Sign up to get started",
+    "registerScreenEmailTextFieldPlaceholder": "Enter email",
+    "registerScreenPasswordTextFieldPlaceholder": "Add password",
+    "registerScreenPasswordConstraintsInformation": "Must be at least 8 characters and contain at least 1 number and 1 special chacter.",
+    "registerScreenConfirmPasswordTextFieldPlaceholder": "Confirm password",
+    "registerScreenTermsAndConditionsURL": "https://policies.google.com/terms?hl=en-US",
+    "registerScreenPrivacyPolicyURL": "https://policies.google.com/privacy?hl=en-US",
+    "requiredErrorMessage": "Required!",
+    "iAgreeToText": "I agree to",
+    "termsAndConditionsText": "terms & conditions",
+    "andText": "and",
+    "privacyPolicyText": "privacy policy",
+    "registerScreenSubmitButtonText": "Submit",
+    "registerScreenMissingRequiredFieldsErrorMessage": "Please fill in all the required fields.",
+    "registerScreenInvalidEmailErrorMessage": "Please enter a valid email.",
+    "registerScreenInvalidPasswordErrorMessage": "Please enter a valid password.",
+    "registerScreenPasswordsDontMatchErrorMessage": "Passwords do not match.",
+    "registerScreenTnCNotAcceptedErrorMessage": "You must review and accept the terms and conditions to continue.",
+    "registerScreenErrorMessageOkayed": "OK"
 }
