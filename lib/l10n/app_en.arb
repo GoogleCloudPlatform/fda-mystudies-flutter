@@ -215,5 +215,17 @@
 
     "accountActivatedScreenTitle": "Account activated",
     "accountActivatedScreenInfoText": "Your app account is now set up and ready to use.",
-    "accountActivatedScreenContinueToOnboardButtonTitle": "Next"
+    "accountActivatedScreenContinueToOnboardButtonTitle": "Next",
+
+    "signatureBlockSignInstructions": "Sign using your finger",
+    "signatureBlockEraseSignActionText": "clear",
+    "consentScreenTitle": "Consent agreement",
+    "consentScreenInfoText": "By agreeing to consent you confirm that you have reviewed the consent document and agree to participating in the study.",
+    "consentScreenEnterNameActionText": "Enter your name",
+    "consentScreenFirstNameFieldPlaceholder": "Enter first name",
+    "consentScreenLastNameFieldPlaceholder": "Enter last name",
+    "consentScreenSignUsingFingerActionText": "Sign using your finger",
+    "consentScreenCleanSignatureCanvasButtonTitle": "clear",
+    "consentScreenViewConsentFormButtonTitle": "View Consent Form",
+    "consentScreenContinueButtonTitle": "Continue"
 }
