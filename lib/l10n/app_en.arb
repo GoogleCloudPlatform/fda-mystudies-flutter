@@ -227,5 +227,19 @@
     "consentScreenSignUsingFingerActionText": "Sign using your finger",
     "consentScreenCleanSignatureCanvasButtonTitle": "clear",
     "consentScreenViewConsentFormButtonTitle": "View Consent Form",
-    "consentScreenContinueButtonTitle": "Continue"
+    "consentScreenContinueButtonTitle": "Continue",
+
+    "resetPasswordScreenTitle": "Reset password",
+    "resetPasswordScreenInfoText": "Set the new password for your account so you can login and access all the features",
+    "resetPasswordScreenTemporaryPasswordTextfieldPlaceholder": "Temporary password",
+    "resetPasswordScreenNewPasswordTextfieldPlaceholder": "New password",
+    "resetPasswordScreenPasswordConstraintsInformation": "Must be at least 8 characters and contain at least 1 number and 1 special chacter. Should be different from old passwords.",
+    "resetPasswordScreenConfirmNewPasswordTextfieldPlaceholder": "Confirm new password",
+    "resetPasswordScreenResetPasswordButtonText": "Reset password",
+    "resetPasswordScreenMissingRequiredFieldsErrorMessage": "Please fill in all the required fields.",
+    "resetPasswordScreenPasswordsDontMatchErrorMessage": "Passwords do not match.",
+    "resetPasswordScreenInvalidPasswordErrorMessage": "Please enter a valid new password. Must be at least 8 characters and contain at least 1 number and 1 special chacter.",
+    "resetPasswordScreenPasswordResetDialogTitle": "Password reset",
+    "resetPasswordScreenPasswordResetDialogContent": "Your password has been reset.",
+    "resetPasswordScreenPasswordResetDialogOkButtonText": "OK"
 }
