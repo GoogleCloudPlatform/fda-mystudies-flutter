@@ -241,5 +241,8 @@
     "resetPasswordScreenInvalidPasswordErrorMessage": "Please enter a valid new password. Must be at least 8 characters and contain at least 1 number and 1 special chacter.",
     "resetPasswordScreenPasswordResetDialogTitle": "Password reset",
     "resetPasswordScreenPasswordResetDialogContent": "Your password has been reset.",
-    "resetPasswordScreenPasswordResetDialogOkButtonText": "OK"
+    "resetPasswordScreenPasswordResetDialogOkButtonText": "OK",
+
+    "sharingOptionsScreenTitle": "Sharing options",
+    "sharingOptionsScreenContinueButtonText": "Continue"
 }
