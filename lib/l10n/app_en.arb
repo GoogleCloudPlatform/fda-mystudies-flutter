@@ -211,5 +211,9 @@
     "enrollmentTokenScreenInfoText": "Participating in this study requires an invitation. If you have received one, please enter the token provided.",
     "enrollmentTokenScreenTokenFieldPlaceholder": "Enrollment token",
     "enrollmentTokenScreenTokenFieldEmpty": "Missing enrollment token",
-    "enrollmentTokenScreenContinueToNextStepButton": "Submit"
+    "enrollmentTokenScreenContinueToNextStepButton": "Submit",
+
+    "accountActivatedScreenTitle": "Account activated",
+    "accountActivatedScreenInfoText": "Your app account is now set up and ready to use.",
+    "accountActivatedScreenContinueToOnboardButtonTitle": "Next"
 }
