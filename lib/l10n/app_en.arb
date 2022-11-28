@@ -197,6 +197,23 @@
     "registerScreenTnCNotAcceptedErrorMessage": "You must review and accept the terms and conditions to continue.",
     "registerScreenErrorMessageOkayed": "OK",
 
+    "verificationStepTitle": "Verification Step",
+    "verificationStepInfoText": "An email has been sent to {email}. Please type in the verification code received in the email to complete account setup.",
+    "@verificationStepInfoText": {
+      "placeholders": {
+          "email": {
+              "type": "String",
+              "example": "test@gmail.com"
+          }
+      }
+    },
+    "verificationStepVerificationCodeFieldPlaceholder": "Enter verification code",
+    "verificationStepVerifyCodeButtonTitle": "Continue",
+    "verificationStepResendVerificationCodeButtonTitle": "Resend verification code",
+    "verificationStepVerificationCodeFieldEmpty": "Missing verification code",
+    "verificationStepVerificationCodeResentDialogTitle": "Verification code sent",
+    "verificationStepVerificationCodeResentDialogText": "A verification code has been sent to your registered email",
+
     "forgotPasswordScreenTitle": "Password help",
     "forgotPasswordScreenInfoText": "Please enter your registered email to receive password help.",
     "forgotPasswordScreenEmailTextFieldPlaceholder": "Enter email",
@@ -211,5 +228,38 @@
     "enrollmentTokenScreenInfoText": "Participating in this study requires an invitation. If you have received one, please enter the token provided.",
     "enrollmentTokenScreenTokenFieldPlaceholder": "Enrollment token",
     "enrollmentTokenScreenTokenFieldEmpty": "Missing enrollment token",
-    "enrollmentTokenScreenContinueToNextStepButton": "Submit"
+    "enrollmentTokenScreenContinueToNextStepButton": "Submit",
+
+    "accountActivatedScreenTitle": "Account activated",
+    "accountActivatedScreenInfoText": "Your app account is now set up and ready to use.",
+    "accountActivatedScreenContinueToOnboardButtonTitle": "Next",
+
+    "signatureBlockSignInstructions": "Sign using your finger",
+    "signatureBlockEraseSignActionText": "clear",
+    "consentScreenTitle": "Consent agreement",
+    "consentScreenInfoText": "By agreeing to consent you confirm that you have reviewed the consent document and agree to participating in the study.",
+    "consentScreenEnterNameActionText": "Enter your name",
+    "consentScreenFirstNameFieldPlaceholder": "Enter first name",
+    "consentScreenLastNameFieldPlaceholder": "Enter last name",
+    "consentScreenSignUsingFingerActionText": "Sign using your finger",
+    "consentScreenCleanSignatureCanvasButtonTitle": "clear",
+    "consentScreenViewConsentFormButtonTitle": "View Consent Form",
+    "consentScreenContinueButtonTitle": "Continue",
+
+    "resetPasswordScreenTitle": "Reset password",
+    "resetPasswordScreenInfoText": "Set the new password for your account so you can login and access all the features",
+    "resetPasswordScreenTemporaryPasswordTextfieldPlaceholder": "Temporary password",
+    "resetPasswordScreenNewPasswordTextfieldPlaceholder": "New password",
+    "resetPasswordScreenPasswordConstraintsInformation": "Must be at least 8 characters and contain at least 1 number and 1 special chacter. Should be different from old passwords.",
+    "resetPasswordScreenConfirmNewPasswordTextfieldPlaceholder": "Confirm new password",
+    "resetPasswordScreenResetPasswordButtonText": "Reset password",
+    "resetPasswordScreenMissingRequiredFieldsErrorMessage": "Please fill in all the required fields.",
+    "resetPasswordScreenPasswordsDontMatchErrorMessage": "Passwords do not match.",
+    "resetPasswordScreenInvalidPasswordErrorMessage": "Please enter a valid new password. Must be at least 8 characters and contain at least 1 number and 1 special chacter.",
+    "resetPasswordScreenPasswordResetDialogTitle": "Password reset",
+    "resetPasswordScreenPasswordResetDialogContent": "Your password has been reset.",
+    "resetPasswordScreenPasswordResetDialogOkButtonText": "OK",
+
+    "sharingOptionsScreenTitle": "Sharing options",
+    "sharingOptionsScreenContinueButtonText": "Continue"
 }

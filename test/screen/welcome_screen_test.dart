@@ -1,4 +1,4 @@
-import 'package:fda_mystudies/provider/welcome_provider.dart';
+import 'package:fda_mystudies/src/provider/welcome_provider.dart';
 import 'package:fda_mystudies/src/screen/welcome_screen.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:provider/provider.dart';
