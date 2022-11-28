@@ -44,9 +44,9 @@ class WelcomeScreen extends StatelessWidget {
           const SizedBox(height: 96),
           PrimaryButtonBlock(
               title: l10n.welcomeScreenToOnboardingButtonText,
-              onPressed: continueToOnboarding),
+              onPressed: displayShimmer ? null : continueToOnboarding),
           TextButton(
-              onPressed: continueToSignIn,
+              onPressed: displayShimmer ? null : continueToSignIn,
               child: Text(l10n.welcomeScreenToSignInButtonText)),
           const SizedBox(height: 96)
         ]));

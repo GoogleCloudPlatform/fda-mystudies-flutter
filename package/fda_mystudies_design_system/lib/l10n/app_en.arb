@@ -2,7 +2,7 @@
     "requiredErrorMessage": "Required!",
 
     "bannerBrokenConnectionMessage": "Your connection seems broken!",
-    "bannerDismussButtonTitle": "Dismiss",
+    "bannerDismissButtonTitle": "Dismiss",
     "bannerConnectButtonTitle": "Connect",
 
     "signatureBlockSignInstructions": "Sign using your finger",

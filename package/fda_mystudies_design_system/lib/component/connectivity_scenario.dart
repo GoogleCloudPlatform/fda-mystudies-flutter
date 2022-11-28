@@ -13,7 +13,7 @@ class ConnectivityScenario {
               onPressed: () {
                 ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
               },
-              child: Text(l10n.bannerDismussButtonTitle)),
+              child: Text(l10n.bannerDismissButtonTitle)),
           TextButton(
               onPressed: () {
                 OpenSettings.openWIFISetting();

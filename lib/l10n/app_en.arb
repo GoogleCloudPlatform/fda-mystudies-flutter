@@ -163,9 +163,10 @@
     },
 
     "resourcesBottomNavigationBarTitle": "Resources",
-    "@dashboardBottomNavigationBarTitle": {
-        "description": "Title for Resources page in Bottom navigation bar title"
-    },
+
+    "bannerBrokenConnectionMessage": "Your connection seems broken!",
+    "bannerDismissButtonTitle": "Dismiss",
+    "bannerConnectButtonTitle": "Connect",
 
     "welcomeScreenToOnboardingButtonText": "Tap to continue",
     "welcomeScreenToSignInButtonText": "Skip to sign in page",
@@ -185,6 +186,7 @@
     "registerScreenTermsAndConditionsURL": "https://policies.google.com/terms?hl=en-US",
     "registerScreenPrivacyPolicyURL": "https://policies.google.com/privacy?hl=en-US",
     "requiredErrorMessage": "Required!",
+    "retryErrorMessage": "Retry",
     "iAgreeToText": "I agree to",
     "termsAndConditionsText": "terms & conditions",
     "andText": "and",

@@ -52,6 +52,8 @@ dependencies:
   html: ^0.15.0
   golden_toolkit: ^0.13.0
   google_fonts: ^3.0.1
+  go_router: ^5.1.1
+  connectivity_plus: ^3.0.2
 
 dev_dependencies:
   flutter_test:
