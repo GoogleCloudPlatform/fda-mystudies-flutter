@@ -187,6 +187,7 @@
     "registerScreenPrivacyPolicyURL": "https://policies.google.com/privacy?hl=en-US",
     "requiredErrorMessage": "Required!",
     "retryErrorMessage": "Retry",
+    "errorMessageOkayed": "OK",
     "iAgreeToText": "I agree to",
     "termsAndConditionsText": "terms & conditions",
     "andText": "and",

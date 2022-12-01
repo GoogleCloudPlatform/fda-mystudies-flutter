@@ -36,62 +36,46 @@ class _RegisterScreenControllerState extends State<RegisterScreenController> {
         registrationInProgress: _registrationInProgress,
         agreedToTnC: _agreeToTnC,
         toggledAgreement: _agreementToggled,
-        register: _register());
+        register: _register);
   }
 
   void _agreementToggled(bool? newState) {
-    if (!_registrationInProgress) {
-      setState(() {
-        _agreeToTnC = newState ?? false;
-      });
-    }
+    setState(() {
+      _agreeToTnC = newState ?? false;
+    });
   }
 
-  void Function()? _register() {
-    return _registrationInProgress
-        ? null
-        : () {
-            final error = _errorMessage();
-            if (error != null) {
-              ErrorScenario.displayErrorMessage(context, error,
-                  action: SnackBarAction(
-                      label: AppLocalizations.of(context)
-                          .registerScreenErrorMessageOkayed,
-                      onPressed: () =>
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar()));
-              return;
-            }
-            setState(() {
-              _registrationInProgress = true;
-            });
-            Provider.of<MyAccountProvider>(context, listen: false)
-                .updateContent(email: _emailFieldController.text);
-
-            var participantUserDatastoreService =
-                getIt<ParticipantUserDatastoreService>();
-            participantUserDatastoreService
-                .register(
-                    _emailFieldController.text, _passwordFieldController.text)
-                .then((value) {
-              var successfulResponse =
-                  AppLocalizations.of(context).registrationSuccessfulMsg;
-              var response = processResponse(value, successfulResponse);
-              setState(() {
-                _registrationInProgress = false;
-              });
-              if (response == successfulResponse) {
-                Provider.of<MyAccountProvider>(context, listen: false)
-                    .updateContent(
-                        email: _emailFieldController.text,
-                        tempRegId: (value as RegistrationResponse).tempRegId,
-                        userId: value.userId);
-                // TODO(cg2092): Replace with context.goNamed(RouteName.verificationStep)
-                pushAndRemoveUntil(context, const VerificationStep());
-                return;
-              }
-              showUserMessage(context, response);
-            });
-          };
+  void _register() {
+    final error = _errorMessage();
+    if (error != null) {
+      ErrorScenario.displayErrorMessageWithOKAction(context, error);
+      return;
+    }
+    setState(() {
+      _registrationInProgress = true;
+    });
+    var participantUserDatastoreService =
+        getIt<ParticipantUserDatastoreService>();
+    participantUserDatastoreService
+        .register(_emailFieldController.text, _passwordFieldController.text)
+        .then((value) {
+      var successfulResponse =
+          AppLocalizations.of(context).registrationSuccessfulMsg;
+      var response = processResponse(value, successfulResponse);
+      setState(() {
+        _registrationInProgress = false;
+      });
+      if (response == successfulResponse) {
+        Provider.of<MyAccountProvider>(context, listen: false).updateContent(
+            email: _emailFieldController.text,
+            tempRegId: (value as RegistrationResponse).tempRegId,
+            userId: value.userId);
+        // TODO(cg2092): Replace with context.goNamed(RouteName.verificationStep)
+        pushAndRemoveUntil(context, const VerificationStep());
+        return;
+      }
+      ErrorScenario.displayErrorMessageWithOKAction(context, response);
+    });
   }
 
   String? _errorMessage() {

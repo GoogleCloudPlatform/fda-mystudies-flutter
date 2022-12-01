@@ -26,10 +26,10 @@ class _OnboardingScreenControllerState
     ];
     return OnboardingScreen(
         onboardingSteps: onboardingSteps,
-        continueToRegister: _continueToRegister());
+        continueToRegister: _continueToRegister);
   }
 
-  void Function()? _continueToRegister() {
-    return () => context.goNamed(RouteName.register);
+  void _continueToRegister() {
+    context.goNamed(RouteName.register);
   }
 }

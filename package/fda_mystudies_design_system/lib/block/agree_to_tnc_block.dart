@@ -8,7 +8,7 @@ class AgreeToTnCBlock extends StatelessWidget {
   final bool agreedToTnC;
   final String termsAndConditionsURL;
   final String privacyPolicyURL;
-  final void Function(bool?) toggledAgreement;
+  final void Function(bool?)? toggledAgreement;
 
   const AgreeToTnCBlock(
       {super.key,

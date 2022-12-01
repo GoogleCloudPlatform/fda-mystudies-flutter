@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorScenario {
   static void displayErrorMessage(BuildContext context, String message,
@@ -13,5 +14,14 @@ class ErrorScenario {
             ? const Duration(milliseconds: 200)
             : const Duration(seconds: 10),
         action: action));
+  }
+
+  static void displayErrorMessageWithOKAction(
+      BuildContext context, String message) {
+    displayErrorMessage(context, message,
+        action: SnackBarAction(
+            label: AppLocalizations.of(context)!.errorMessageOkayed,
+            onPressed: () =>
+                ScaffoldMessenger.of(context).hideCurrentSnackBar()));
   }
 }

@@ -6,10 +6,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingScreen extends StatelessWidget {
   final List<String> onboardingSteps;
-  final void Function()? continueToRegister;
+  final void Function() continueToRegister;
 
   const OnboardingScreen(
-      {Key? key, required this.onboardingSteps, this.continueToRegister})
+      {Key? key,
+      required this.onboardingSteps,
+      required this.continueToRegister})
       : super(key: key);
 
   @override
