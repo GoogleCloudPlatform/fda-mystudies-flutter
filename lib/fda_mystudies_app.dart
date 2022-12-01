@@ -1,82 +1,72 @@
-import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
+import 'dart:async';
+import 'dart:developer' as developer;
+
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:fda_mystudies_design_system/theme/dark_theme.dart';
+import 'package:fda_mystudies_design_system/theme/light_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import 'main.dart';
-import 'src/drawer_menu/drawer_menu.dart';
-import 'src/my_account_module/my_account.dart';
-import 'src/reach_out_module/reach_out.dart';
-import 'src/register_and_login/welcome.dart';
-import 'src/study_home.dart';
-import 'src/theme/fda_text_style.dart';
-import 'src/user/user_data.dart';
+import 'src/provider/connectivity_provider.dart';
+import 'src/route/app_router.dart';
 
-class FDAMyStudiesApp extends StatelessWidget {
-  static final androidLightTheme = ThemeData.light().copyWith(
-      textTheme: GoogleFonts.robotoTextTheme(),
-      appBarTheme: ThemeData.light().appBarTheme.copyWith(
-          foregroundColor: Colors.black87,
-          backgroundColor: Colors.white,
-          toolbarTextStyle: const TextTheme(
-                  subtitle1: TextStyle(color: Colors.black87, fontSize: 18),
-                  subtitle2: TextStyle(color: Colors.black54, fontSize: 14))
-              .bodyText2,
-          titleTextStyle: const TextTheme(
-                  subtitle1: TextStyle(color: Colors.black87, fontSize: 18),
-                  subtitle2: TextStyle(color: Colors.black54, fontSize: 14))
-              .headline6));
-
-  static final androidDarkTheme = ThemeData.dark().copyWith(
-      textTheme: GoogleFonts.robotoTextTheme(),
-      scaffoldBackgroundColor: Colors.black,
-      cardColor: Colors.black,
-      bottomNavigationBarTheme: ThemeData.light()
-          .bottomNavigationBarTheme
-          .copyWith(backgroundColor: Colors.black),
-      appBarTheme: ThemeData.light().appBarTheme.copyWith(
-          foregroundColor: Colors.white, backgroundColor: Colors.black));
+class FDAMyStudiesApp extends StatefulWidget {
   const FDAMyStudiesApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    if (curConfig.appType == AppType.standalone) {
-      UserData.shared.curStudyId = curConfig.studyId;
+  State<FDAMyStudiesApp> createState() => _FDAMyStudiesAppState();
+}
+
+class _FDAMyStudiesAppState extends State<FDAMyStudiesApp> {
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    initConnectivity();
+
+    _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+  }
+
+  @override
+  void dispose() {
+    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+  Future<void> initConnectivity() async {
+    late ConnectivityResult result;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      developer.log('Couldn\'t check connectivity status', error: e);
+      return;
     }
-    return MaterialApp(
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    Provider.of<ConnectivityProvider>(context, listen: false)
+        .updateStatus(result: result);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
         title: curConfig.appName,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        theme: ThemeData.light().copyWith(
-            scaffoldBackgroundColor: Colors.white,
-            bottomNavigationBarTheme: ThemeData.light()
-                .bottomNavigationBarTheme
-                .copyWith(elevation: 0, backgroundColor: Colors.white),
-            appBarTheme: ThemeData.light().appBarTheme.copyWith(
-                foregroundColor: Colors.black87,
-                backgroundColor: Colors.white,
-                toolbarTextStyle: const TextTheme(
-                        subtitle1:
-                            TextStyle(color: Colors.black87, fontSize: 18),
-                        subtitle2:
-                            TextStyle(color: Colors.black54, fontSize: 14))
-                    .bodyText2,
-                titleTextStyle: FDATextStyle.appBarTitle(context))),
-        darkTheme: ThemeData.dark().copyWith(
-            scaffoldBackgroundColor: Colors.black,
-            cardColor: Colors.black,
-            bottomNavigationBarTheme: ThemeData.light()
-                .bottomNavigationBarTheme
-                .copyWith(backgroundColor: Colors.black),
-            appBarTheme: ThemeData.light().appBarTheme.copyWith(
-                foregroundColor: Colors.white, backgroundColor: Colors.black)),
+        theme: LightTheme.getThemeData(),
+        darkTheme: DarkTheme.getThemeData(),
         debugShowCheckedModeBanner: false,
-        initialRoute: Welcome.welcomeRoute,
-        routes: {
-          DrawerMenu.studyHomeRoute: (context) => const StudyHome(),
-          DrawerMenu.myAccountRoute: (context) => const MyAccount(),
-          DrawerMenu.reachOutRoute: (context) => const ReachOut(),
-          Welcome.welcomeRoute: (context) => const Welcome(),
-        });
+        routerConfig: AppRouter.routeConfig);
   }
 }
