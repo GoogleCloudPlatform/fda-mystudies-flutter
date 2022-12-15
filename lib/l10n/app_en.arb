@@ -264,5 +264,13 @@
     "resetPasswordScreenPasswordResetDialogOkButtonText": "OK",
 
     "sharingOptionsScreenTitle": "Sharing options",
-    "sharingOptionsScreenContinueButtonText": "Continue"
+    "sharingOptionsScreenContinueButtonText": "Continue",
+
+    "signInScreenTitle": "Enter your email to sign in",
+    "signInScreenEmailTextFieldPlaceholder": "Enter email",
+    "signInScreenPasswordTextFieldPlaceholder": "Enter password",
+    "signInScreenForgotPasswordButtonText": "Forgot password?",
+    "signInScreenSignInButtonText": "Sign in",
+    "signInScreenMissingRequiredFieldsErrorMessage": "Please fill in all the required fields.",
+    "signInScreenInvalidEmailErrorMessage": "Please enter a valid email."
 }

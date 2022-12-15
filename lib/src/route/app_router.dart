@@ -2,8 +2,8 @@ import 'package:go_router/go_router.dart';
 
 import '../controller/onboarding_screen_controller.dart';
 import '../controller/register_screen_controller.dart';
+import '../controller/sign_in_screen_controller.dart';
 import '../controller/welcome_screen_controller.dart';
-import '../register_and_login/sign_in.dart';
 import 'route_name.dart';
 
 class AppRouter {
@@ -28,7 +28,7 @@ class AppRouter {
           GoRoute(
             name: RouteName.signIn,
             path: RouteName.signIn,
-            builder: (context, state) => const SignIn(),
+            builder: (context, state) => const SignInScreenController(),
           ),
         ])
   ]);

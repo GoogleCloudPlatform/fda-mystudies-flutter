@@ -55,6 +55,36 @@ class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @override
+  Future<http.Response> fireSignInURI({String? tempRegId}) {
+    Uri uri = getSignInPageURI(tempRegId: tempRegId);
+    return client.get(uri);
+  }
+
+  @override
+  Future<http.Response> signIn(
+      String email, String password, String loginChallenge) {
+    var headers = CommonRequestHeader()..from(config);
+    Map<String, String> headerJson = headers.toHeaderJson();
+    var cookieMap = {
+      'mystudies_login_challenge': loginChallenge,
+      'mystudies_appId': config.appId,
+      'mystudies_correlationId': Session.shared.correlationId,
+      'mystudies_appVersion': config.version,
+      'mystudies_mobilePlatform': config.platform,
+      'mystudies_source': config.source,
+      'mystudies_appName': config.appName
+    };
+    var cookie = '';
+    cookieMap.forEach((k, v) {
+      cookie += '$k=${Uri.encodeQueryComponent(v)};';
+    });
+    headerJson['cookie'] = cookie;
+    Map<String, String> body = {'email': email, 'password': password};
+    Uri uri = Uri.https(config.baseParticipantUrl, '$authServer/login');
+    return client.post(uri, headers: headerJson, body: body);
+  }
+
+  @override
   Future<Object> changePassword(
       String userId, String currentPassword, String newPassword) {
     var headers = CommonRequestHeader()..from(config);
