@@ -1,0 +1,6 @@
+syntax = "proto3";
+package fda_mystudies_spec.authentication_service;
+
+message SignInResponse {
+  string location = 1;
+}

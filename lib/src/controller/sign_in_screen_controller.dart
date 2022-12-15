@@ -3,6 +3,8 @@ import 'dart:developer' as developer;
 import 'package:fda_mystudies_design_system/component/error_scenario.dart';
 import 'package:fda_mystudies_http_client/authentication_service.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
+import 'package:fda_mystudies_spec/authentication_service/sign_in.pb.dart';
+import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +28,6 @@ class _SignInScreenControllerState extends State<SignInScreenController>
   final _emailFieldController = TextEditingController();
   final _passwordFieldController = TextEditingController();
   bool _signinInProgress = false;
-  var loginChallenge = '';
 
   @override
   Widget build(BuildContext context) {
@@ -36,33 +37,6 @@ class _SignInScreenControllerState extends State<SignInScreenController>
         signinInProgress: _signinInProgress,
         continueToForgotPasswordScreen: _continueToForgotPassword,
         signIn: _signIn);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    dispatchOnConnectivityChanges(context, () {
-      _startSignInFlow();
-    });
-  }
-
-  void _startSignInFlow() {
-    var authenticationService = getIt<AuthenticationService>();
-    authenticationService.fireSignInURI().then((value) {
-      developer.inspect(value);
-      String? cookies = value.headers['set-cookie'];
-      if (cookies?.isNotEmpty == true) {
-        var keyValList = cookies!.split(';');
-        Map<String, String> cookieMap = {};
-        for (var element in keyValList) {
-          var keyValPair = element.split('=');
-          if (keyValPair.length == 2) {
-            cookieMap[keyValPair[0]] = keyValPair[1];
-          }
-        }
-        loginChallenge = cookieMap['mystudies_login_challenge'] ?? '';
-      }
-    });
   }
 
   void _continueToForgotPassword() {
@@ -87,18 +61,27 @@ class _SignInScreenControllerState extends State<SignInScreenController>
         .updateContent(email: _emailFieldController.text);
     var authenticationService = getIt<AuthenticationService>();
     authenticationService
-        .signIn(_emailFieldController.text, _passwordFieldController.text,
-            loginChallenge)
+        .signIn(_emailFieldController.text, _passwordFieldController.text)
         .then((value) {
-      developer.inspect(value);
-      developer.log('${value.headers}');
-      developer.log('${value.isRedirect}');
-      developer.log('BODY: ${value.body}');
+      if (value is SignInResponse) {
+        var deeplink = Uri.dataFromString(value.location);
+        if (deeplink.path.endsWith('/mystudies/signup')) {
+          developer.log('SIGN UP');
+        } else if (deeplink.path.endsWith('/mystudies/forgotPassword')) {
+          developer.log('FORGOT PASSWORD');
+        } else if (deeplink.path.endsWith('/mystudies/callback')) {
+          developer.log('CALLBACK');
+        } else if (deeplink.path.endsWith('/mystudies/activation')) {
+          developer.log('ACTIVATION');
+        }
+      } else if (value is CommonErrorResponse) {
+        developer.log('ERROR: ${value.errorDescription}');
+      }
     }).whenComplete(() {
       setState(() {
         _signinInProgress = false;
       });
-    }).ignore();
+    });
   }
 
   String? _errorMessage() {

@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 
 import 'package:fda_mystudies_spec/authentication_service/change_password.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
+import 'package:fda_mystudies_spec/authentication_service/sign_in.pb.dart';
+import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 import 'package:fda_mystudies_spec/fda_mystudies_spec.dart';
 import 'package:http/http.dart' as http;
@@ -32,8 +35,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
 
   AuthenticationServiceImpl(this.client, this.config);
 
-  @override
-  Uri getSignInPageURI({String? tempRegId}) {
+  Future<String> _fetchLoginChallenge({String? tempRegId}) {
     Map<String, String> parameters = {
       'source': config.source,
       'client_id': config.hydraClientId, // HYDRA_CLIENT_ID
@@ -51,18 +53,30 @@ class AuthenticationServiceImpl implements AuthenticationService {
       'state': Session.shared.state,
       'appName': config.appName
     };
-    return Uri.https(config.baseParticipantUrl, signInPath, parameters);
+    Uri uri = Uri.https(config.baseParticipantUrl, signInPath, parameters);
+    return client.get(uri).then((value) {
+      String? cookies = value.headers['set-cookie'];
+      if (cookies?.isNotEmpty == true) {
+        var keyValList = cookies!.split(';');
+        Map<String, String> cookieMap = {};
+        for (var element in keyValList) {
+          var keyValPair = element.split('=');
+          if (keyValPair.length == 2) {
+            cookieMap[keyValPair[0]] = keyValPair[1];
+          }
+        }
+        return cookieMap['mystudies_login_challenge'] ?? '';
+      }
+      return '';
+    });
   }
 
-  @override
-  Future<http.Response> fireSignInURI({String? tempRegId}) {
-    Uri uri = getSignInPageURI(tempRegId: tempRegId);
-    return client.get(uri);
-  }
-
-  @override
-  Future<http.Response> signIn(
+  Future<Object> _signInHelper(
       String email, String password, String loginChallenge) {
+    if (loginChallenge.isEmpty) {
+      return Future.value(CommonErrorResponse.create()
+        ..errorDescription = 'Invalid loginChallenge!');
+    }
     var headers = CommonRequestHeader()..from(config);
     Map<String, String> headerJson = headers.toHeaderJson();
     var cookieMap = {
@@ -81,7 +95,18 @@ class AuthenticationServiceImpl implements AuthenticationService {
     headerJson['cookie'] = cookie;
     Map<String, String> body = {'email': email, 'password': password};
     Uri uri = Uri.https(config.baseParticipantUrl, '$authServer/login');
-    return client.post(uri, headers: headerJson, body: body);
+    return client.post(uri, headers: headerJson, body: body).then((response) =>
+        ResponseParser.parseHttpResponse('sign_in', response,
+            () => SignInResponse()..fromJson(jsonEncode(response.headers))));
+  }
+
+  @override
+  Future<Object> signIn(String email, String password, {String? tempRegId}) {
+    Future<String> futureLoginChallenge =
+        _fetchLoginChallenge(tempRegId: tempRegId);
+
+    return futureLoginChallenge.then(
+        (loginChallenge) => _signInHelper(email, password, loginChallenge));
   }
 
   @override

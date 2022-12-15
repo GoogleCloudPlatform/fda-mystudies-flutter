@@ -125,13 +125,4 @@ void main() {
             ..status = 200);
     });
   });
-
-  group('sign-in uri tests', () {
-    test('test default scenario', () {
-      var signInUri = authenticationService!.getSignInPageURI();
-
-      expect(signInUri.authority, config.baseParticipantUrl);
-      expect(signInUri.path, '/oauth2/auth');
-    });
-  });
 }
