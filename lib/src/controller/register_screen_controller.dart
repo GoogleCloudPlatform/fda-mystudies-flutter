@@ -4,12 +4,13 @@ import 'package:fda_mystudies_http_client/participant_user_datastore_service.dar
 import 'package:fda_mystudies_spec/participant_user_datastore_service/registration.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../common/widget_util.dart';
 import '../extension/string_extension.dart';
 import '../provider/my_account_provider.dart';
-import '../register_and_login/verification_step.dart';
+import '../route/route_name.dart';
 import '../screen/register_screen.dart';
 
 class RegisterScreenController extends StatefulWidget {
@@ -70,8 +71,7 @@ class _RegisterScreenControllerState extends State<RegisterScreenController> {
             email: _emailFieldController.text,
             tempRegId: (value as RegistrationResponse).tempRegId,
             userId: value.userId);
-        // TODO(cg2092): Replace with context.goNamed(RouteName.verificationStep)
-        pushAndRemoveUntil(context, const VerificationStep());
+        context.goNamed(RouteName.verificationStep);
         return;
       }
       ErrorScenario.displayErrorMessageWithOKAction(context, response);

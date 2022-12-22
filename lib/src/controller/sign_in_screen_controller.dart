@@ -7,11 +7,13 @@ import 'package:fda_mystudies_spec/authentication_service/sign_in.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../mixin/connectivity_actions.dart';
 import '../extension/string_extension.dart';
 import '../provider/my_account_provider.dart';
+import '../route/route_name.dart';
 import '../screen/sign_in_screen.dart';
 
 class SignInScreenController extends StatefulWidget {
@@ -72,7 +74,7 @@ class _SignInScreenControllerState extends State<SignInScreenController>
         } else if (deeplink.path.endsWith('/mystudies/callback')) {
           developer.log('CALLBACK');
         } else if (deeplink.path.endsWith('/mystudies/activation')) {
-          developer.log('ACTIVATION');
+          context.goNamed(RouteName.verificationStep);
         }
       } else if (value is CommonErrorResponse) {
         developer.log('ERROR: ${value.errorDescription}');

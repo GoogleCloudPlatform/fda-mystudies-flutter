@@ -216,6 +216,7 @@
     "verificationStepVerificationCodeFieldEmpty": "Missing verification code",
     "verificationStepVerificationCodeResentDialogTitle": "Verification code sent",
     "verificationStepVerificationCodeResentDialogText": "A verification code has been sent to your registered email",
+    "verificationStepVerificationCodeSuccessfullyVerified": "Email ID verified successfully!",
 
     "forgotPasswordScreenTitle": "Password help",
     "forgotPasswordScreenInfoText": "Please enter your registered email to receive password help.",

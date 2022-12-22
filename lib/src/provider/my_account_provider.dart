@@ -12,9 +12,15 @@ class MyAccountProvider extends ChangeNotifier {
   }
 
   void updateContent({String? email, String? userId, String? tempRegId}) {
-    _email = email;
-    _userId = userId;
-    _tempRegistrationId = tempRegId;
+    if (email != null && email.isNotEmpty) {
+      _email = email;
+    }
+    if (userId != null && userId.isNotEmpty) {
+      _userId = userId;
+    }
+    if (tempRegId != null && tempRegId.isNotEmpty) {
+      _tempRegistrationId = tempRegId;
+    }
     notifyListeners();
   }
 
