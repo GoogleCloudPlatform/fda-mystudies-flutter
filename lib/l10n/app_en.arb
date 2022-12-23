@@ -273,5 +273,13 @@
     "signInScreenForgotPasswordButtonText": "Forgot password?",
     "signInScreenSignInButtonText": "Sign in",
     "signInScreenMissingRequiredFieldsErrorMessage": "Please fill in all the required fields.",
-    "signInScreenInvalidEmailErrorMessage": "Please enter a valid email."
+    "signInScreenInvalidEmailErrorMessage": "Please enter a valid email.",
+
+    "updatePasswordScreenTemporaryPasswordTitle": "Set Up Password",
+    "updatePasswordScreenCurrentPasswordTitle": "Update Password",
+    "updatePasswordScreenTemperorayPasswordFieldPlaceholder": "Temporary Password",
+    "updatePasswordScreenCurrentPasswordFieldPlaceholder": "Current Password",
+    "updatePasswordScreenNewPasswordFieldPlaceholder": "New Password",
+    "updatePasswordScreenConfirmNewPasswordFieldPlaceholder": "Confirm New Password",
+    "updatePasswordScreenSubmitButtonText": "Submit"
 }
