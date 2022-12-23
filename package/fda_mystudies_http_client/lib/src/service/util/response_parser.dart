@@ -12,17 +12,24 @@ class ResponseParser {
     developer.log('${apiName.toUpperCase()} RESPONSE : ${response.body}');
     developer.log('${apiName.toUpperCase()} HEADERS : ${response.headers}');
     try {
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && apiName != 'sign_in') {
         return successResponse();
       } else if (apiName == 'register' && response.statusCode == 201) {
         return successResponse();
       } else if (apiName == 'sign_in') {
-        if (response.statusCode == 200 &&
-            response.body.contains(
-                'Wrong email or password. Try again or click Forgot Password')) {
-          return CommonErrorResponse.create()
-            ..errorDescription =
-                'Wrong email or password. Try again or click Forgot Password!';
+        if (response.statusCode == 200) {
+          if (response.body.contains(
+              'Wrong email or password. Try again or click Forgot Password')) {
+            return CommonErrorResponse.create()
+              ..errorDescription =
+                  'Wrong email or password. Try again or click Forgot Password!';
+          } else if (response.body
+              .contains('The temporary password entered is either invalid')) {
+            return CommonErrorResponse.create()
+              ..errorDescription =
+                  'The temporary password entered is either invalid or expired. Please use the Forgot Password link to get password help!';
+          }
+          return successResponse();
         } else if (response.statusCode == 302) {
           return successResponse();
         }

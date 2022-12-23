@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 import 'package:fda_mystudies_spec/fda_mystudies_spec.dart';
+import 'package:fda_mystudies_spec/participant_user_datastore_service/app_info.pb.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/get_user_profile.pb.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/registration.pb.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/update_user_profile.pb.dart';
@@ -23,6 +24,7 @@ class ParticipantUserDatastoreServiceImpl
   static const participantUserDatastore = '/participant-user-datastore';
 
   // Endpoints
+  static const appInfoPath = '/apps';
   static const registerPath = '/register';
   static const verifyEmailPath = '/verifyEmailId';
   static const resendConfirmationPath = '/resendConfirmation';
@@ -36,6 +38,26 @@ class ParticipantUserDatastoreServiceImpl
   final Config config;
 
   ParticipantUserDatastoreServiceImpl(this.client, this.config);
+
+  @override
+  Future<Object> appInfo() {
+    var headers = CommonRequestHeader()..from(config);
+    var uri = Uri.https(config.baseParticipantUrl,
+        '$participantUserDatastore$appInfoPath', {'appId': config.appId});
+
+    return client
+        .get(uri, headers: headers.toHeaderJson())
+        .then((response) => ResponseParser.parseHttpResponse('app_info',
+            response, () => AppInfoResponse()..fromJson(response.body)))
+        .then((value) {
+      if (value is AppInfoResponse) {
+        Session.shared.contactUsEmail = value.contactUsEmail;
+        Session.shared.fromEmail = value.fromEmail;
+        Session.shared.supportEmail = value.supportEmail;
+      }
+      return value;
+    });
+  }
 
   @override
   Future<Object> contactUs(String userId, String subject, String feedbackBody,

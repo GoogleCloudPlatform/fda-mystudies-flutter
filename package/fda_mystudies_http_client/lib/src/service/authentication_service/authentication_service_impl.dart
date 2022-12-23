@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer' as developer;
 
 import 'package:fda_mystudies_spec/authentication_service/change_password.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
@@ -199,13 +198,24 @@ class AuthenticationServiceImpl implements AuthenticationService {
   Future<Object> resetPassword(String emailId) {
     var headers = CommonRequestHeader()
       ..from(config, contentType: ContentType.json);
-    var body = {'appId': config.appId, 'email': emailId};
+    Map<String, String> headerJson = headers.toHeaderJson();
+    headerJson.addAll({
+      'contactEmail': Session.shared.contactUsEmail,
+      'fromEmail': Session.shared.fromEmail,
+      'supportEmail': Session.shared.supportEmail
+    });
+    var body = {
+      'appId': config.appId,
+      'email': emailId,
+      'contactEmail': Session.shared.contactUsEmail,
+      'fromEmail': Session.shared.fromEmail,
+      'supportEmail': Session.shared.supportEmail
+    };
     var uri =
         Uri.https(config.baseParticipantUrl, '$authServer$resetPasswordPath');
 
-    return client
-        .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
-        .then((response) => ResponseParser.parseHttpResponse(
+    return client.post(uri, headers: headerJson, body: jsonEncode(body)).then(
+        (response) => ResponseParser.parseHttpResponse(
             'reset_password', response, () => CommonResponses.successResponse));
   }
 
