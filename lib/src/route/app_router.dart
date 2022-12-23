@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../controller/account_activated_screen_controller.dart';
+import '../controller/forgot_password_screen_controller.dart';
 import '../controller/onboarding_screen_controller.dart';
 import '../controller/register_screen_controller.dart';
 import '../controller/sign_in_screen_controller.dart';
@@ -29,10 +30,16 @@ class AppRouter {
                         const RegisterScreenController()))
               ]),
           GoRoute(
-            name: RouteName.signIn,
-            path: RouteName.signIn,
-            builder: (context, state) => const SignInScreenController(),
-          ),
+              name: RouteName.signIn,
+              path: RouteName.signIn,
+              builder: (context, state) => const SignInScreenController(),
+              routes: [
+                GoRoute(
+                    name: RouteName.forgotPassword,
+                    path: RouteName.forgotPassword,
+                    builder: (context, state) =>
+                        const ForgotPasswordScreenController())
+              ])
         ]),
     GoRoute(
         name: RouteName.verificationStep,

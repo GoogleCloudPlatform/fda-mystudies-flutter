@@ -42,7 +42,7 @@ class _SignInScreenControllerState extends State<SignInScreenController>
   }
 
   void _continueToForgotPassword() {
-    // context.goNamed(RouteName.forgotPassword);
+    context.pushNamed(RouteName.forgotPassword);
   }
 
   void _signIn() {
@@ -77,7 +77,8 @@ class _SignInScreenControllerState extends State<SignInScreenController>
           context.goNamed(RouteName.verificationStep);
         }
       } else if (value is CommonErrorResponse) {
-        developer.log('ERROR: ${value.errorDescription}');
+        ErrorScenario.displayErrorMessageWithOKAction(
+            context, value.errorDescription);
       }
     }).whenComplete(() {
       setState(() {

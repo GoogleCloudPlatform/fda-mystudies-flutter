@@ -38,11 +38,7 @@ class _VerificationStepScreenControllerState
     final error = _errorMessage();
     var l10n = AppLocalizations.of(context);
     if (error != null) {
-      ErrorScenario.displayErrorMessage(context, error,
-          action: SnackBarAction(
-              label: l10n.registerScreenErrorMessageOkayed,
-              onPressed: () =>
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar()));
+      ErrorScenario.displayErrorMessageWithOKAction(context, error);
       return;
     }
     setState(() {
