@@ -7,4 +7,5 @@ class RouteName {
   static const verificationStep = 'verification_step';
   static const accountActivated = 'account_activated';
   static const onboardingFlow = 'onboarding_flow';
+  static const updateTemporaryPassword = 'update_temporary_password';
 }

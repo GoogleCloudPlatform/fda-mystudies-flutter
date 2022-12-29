@@ -48,12 +48,7 @@ class _SignInScreenControllerState extends State<SignInScreenController>
   void _signIn() {
     final error = _errorMessage();
     if (error != null) {
-      ErrorScenario.displayErrorMessage(context, error,
-          action: SnackBarAction(
-              label:
-                  AppLocalizations.of(context).registerScreenErrorMessageOkayed,
-              onPressed: () =>
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar()));
+      ErrorScenario.displayErrorMessageWithOKAction(context, error);
       return;
     }
     setState(() {
@@ -70,9 +65,9 @@ class _SignInScreenControllerState extends State<SignInScreenController>
         if (deeplink.path.endsWith('/mystudies/signup')) {
           developer.log('SIGN UP');
         } else if (deeplink.path.endsWith('/mystudies/forgotPassword')) {
-          developer.log('FORGOT PASSWORD');
+          context.goNamed(RouteName.updateTemporaryPassword);
         } else if (deeplink.path.endsWith('/mystudies/callback')) {
-          developer.log('CALLBACK');
+          _handleCallback(value);
         } else if (deeplink.path.endsWith('/mystudies/activation')) {
           context.goNamed(RouteName.verificationStep);
         }
@@ -85,6 +80,30 @@ class _SignInScreenControllerState extends State<SignInScreenController>
         _signinInProgress = false;
       });
     });
+  }
+
+  void _handleCallback(SignInResponse response) {
+    if (response.userId.isNotEmpty) {
+      Provider.of<MyAccountProvider>(context, listen: false)
+          .updateContent(userId: response.userId);
+    }
+    switch (response.accountStatus) {
+      case 0: // verified
+        developer.log('VERIFIED STATUS');
+        break;
+      case 1: // pending
+        context.goNamed(RouteName.verificationStep);
+        break;
+      case 2: // account locked
+        developer.log('ACCOUNT LOCKED');
+        break;
+      case 3: // temporary password
+        context.goNamed(RouteName.updateTemporaryPassword);
+        break;
+      default:
+        developer.log('UNKNOWN STATUS');
+        break;
+    }
   }
 
   String? _errorMessage() {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 
 import 'package:fda_mystudies_spec/authentication_service/change_password.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
@@ -38,7 +39,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
     Map<String, String> parameters = {
       'source': config.source,
       'client_id': config.hydraClientId, // HYDRA_CLIENT_ID
-      'scope': 'offline_access',
+      'scope': 'offline_access openid',
       'response_type': 'code',
       'appId': config.appId,
       'appVersion': config.version,
@@ -95,8 +96,47 @@ class AuthenticationServiceImpl implements AuthenticationService {
     Map<String, String> body = {'email': email, 'password': password};
     Uri uri = Uri.https(config.baseParticipantUrl, '$authServer/login');
     return client.post(uri, headers: headerJson, body: body).then((response) =>
-        ResponseParser.parseHttpResponse('sign_in', response,
-            () => SignInResponse()..fromJson(jsonEncode(response.headers))));
+        ResponseParser.parseHttpResponse('sign_in', response, () {
+          Map<String, String> headerMap = response.headers;
+          var newMap = <String, String?>{};
+          if (headerMap['location']?.isNotEmpty == true) {
+            newMap['location'] = headerMap['location'];
+            final location = Uri.dataFromString(headerMap['location']!);
+            var redirectUri = location.queryParameters['redirect_uri'] ?? '';
+            if (redirectUri.isNotEmpty) {
+              newMap['redirectTo'] = Uri.decodeFull(redirectUri);
+            }
+          }
+          for (var keyValue in headerMap['set-cookie']?.split(';') ?? []) {
+            var tokens = keyValue.split('=');
+            if (tokens.length == 2) {
+              if (tokens[0].contains('mystudies_accountStatus')) {
+                newMap['accountStatus'] = tokens[1];
+              } else if (tokens[0].contains('mystudies_userId')) {
+                newMap['userId'] = tokens[1];
+              } else {
+                newMap[tokens[0]] = tokens[1];
+              }
+            }
+          }
+          //
+          // final location = Uri.parse(headerMap['location']!);
+          // headerMap['set-cookie'] = cookie;
+          // developer.log('LOGIN CHALLENGE: $loginChallenge');
+          // headerMap['code'] = loginChallenge;
+          // client.get(location, headers: headerMap).then((value) {
+          //   developer.log('CALLBACK STATUS CODFE: ${value.statusCode}');
+          //   developer.log('CALLBACK BODY: ${jsonEncode(value.body)}');
+          //    developer.log('CALLBACK HEADER: ${jsonEncode(value.headers)}');
+          // });
+          //
+          developer.log(
+              'STUDY HEADER JSON ENCODED: ${jsonEncode(response.headers)}');
+          developer.log('STUDY HEADER TO BE CONVERTED: ${jsonEncode(newMap)}');
+          developer.log(
+              'STUDY PROTO: ${SignInResponse()..fromJson(jsonEncode(newMap))}');
+          return SignInResponse()..fromJson(jsonEncode(newMap));
+        }));
   }
 
   @override
@@ -118,7 +158,9 @@ class AuthenticationServiceImpl implements AuthenticationService {
     };
     Uri uri = Uri.https(config.baseParticipantUrl,
         '$authServer/users/$userId$changePasswordPath');
-
+    developer.log('URI: ${uri}');
+    developer.log('BODY JSON: ${jsonEncode(body)}');
+    developer.log('HEADER JSON: ${jsonEncode(headers.toHeaderJson())}');
     return client
         .put(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse('change_password',

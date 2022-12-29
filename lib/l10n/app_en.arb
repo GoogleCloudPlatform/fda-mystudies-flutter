@@ -281,5 +281,10 @@
     "updatePasswordScreenCurrentPasswordFieldPlaceholder": "Current Password",
     "updatePasswordScreenNewPasswordFieldPlaceholder": "New Password",
     "updatePasswordScreenConfirmNewPasswordFieldPlaceholder": "Confirm New Password",
-    "updatePasswordScreenSubmitButtonText": "Submit"
+    "updatePasswordScreenSubmitButtonText": "Submit",
+    "updatePasswordScreenCurrentPasswordMissingText": "Please enter current password.",
+    "updatePasswordScreenTemporaryPasswordMissingText": "Please enter temporary password.",
+    "updatePasswordScreenNewPasswordMissingText": "Please enter new password.",
+    "updatePasswordScreenConfirmNewPasswordMissingText": "Please confirm new password",
+    "updatePasswordScreenPasswordSuccessfullyChangedText": "Password Successfully changed!"
 }

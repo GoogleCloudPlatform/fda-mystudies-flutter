@@ -6,6 +6,7 @@ import '../controller/forgot_password_screen_controller.dart';
 import '../controller/onboarding_screen_controller.dart';
 import '../controller/register_screen_controller.dart';
 import '../controller/sign_in_screen_controller.dart';
+import '../controller/update_password_screen_controller.dart';
 import '../controller/verification_step_screen_controller.dart';
 import '../controller/welcome_screen_controller.dart';
 import 'route_name.dart';
@@ -49,6 +50,11 @@ class AppRouter {
         name: RouteName.accountActivated,
         path: '/${RouteName.accountActivated}',
         builder: (context, state) => const AccountActivatedScreenController()),
+    GoRoute(
+        name: RouteName.updateTemporaryPassword,
+        path: '/${RouteName.updateTemporaryPassword}',
+        builder: (context, state) => const UpdatePasswordScreenController(
+            isChangingTemporaryPassword: true)),
     GoRoute(
         name: RouteName.onboardingFlow,
         path: '/${RouteName.onboardingFlow}',
