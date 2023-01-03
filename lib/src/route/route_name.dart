@@ -8,4 +8,7 @@ class RouteName {
   static const accountActivated = 'account_activated';
   static const onboardingFlow = 'onboarding_flow';
   static const updateTemporaryPassword = 'update_temporary_password';
+  static const unknownAccountStatus = 'unknown_account_status';
+  static const gatewayHome = 'gateway_home';
+  static const standaloneHome = 'standalone_home';
 }

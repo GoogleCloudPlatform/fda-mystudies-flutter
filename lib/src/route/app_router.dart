@@ -9,6 +9,9 @@ import '../controller/update_password_screen_controller.dart';
 import '../controller/verification_step_screen_controller.dart';
 import '../controller/welcome_screen_controller.dart';
 import '../register_and_login/sign_in.dart';
+import '../register_and_login/unknown_account_status.dart';
+import '../study_module/gateway_home.dart';
+import '../study_module/standalone_home.dart';
 import 'route_name.dart';
 
 class AppRouter {
@@ -60,7 +63,25 @@ class AppRouter {
         path: '/${RouteName.onboardingFlow}',
         builder: (context, state) {
           return Container();
-        })
+        }),
+    GoRoute(
+        name: RouteName.unknownAccountStatus,
+        path: '/${RouteName.unknownAccountStatus}',
+        builder: (context, state) {
+          return const UnknownAccountStatus();
+        }),
+    GoRoute(
+        name: RouteName.standaloneHome,
+        path: '/${RouteName.standaloneHome}',
+        builder: (context, state) {
+          return const StandaloneHome();
+        }),
+    GoRoute(
+        name: RouteName.gatewayHome,
+        path: '/${RouteName.gatewayHome}',
+        builder: (context, state) {
+          return const GatewayHome();
+        }),
   ]);
 
   static GoRouter get routeConfig => _goRouter;
