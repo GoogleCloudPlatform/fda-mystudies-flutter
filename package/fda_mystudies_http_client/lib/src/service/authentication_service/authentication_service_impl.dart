@@ -35,6 +35,58 @@ class AuthenticationServiceImpl implements AuthenticationService {
 
   AuthenticationServiceImpl(this.client, this.config);
 
+  @override
+  Uri getSignInPageURI({String? tempRegId}) {
+    Map<String, String> parameters = {
+      'source': config.source,
+      'client_id': config.hydraClientId, // HYDRA_CLIENT_ID
+      'scope': 'offline_access',
+      'response_type': 'code',
+      'appId': config.appId,
+      'appVersion': config.version,
+      'mobilePlatform': config.platform,
+      'tempRegId': tempRegId ?? '',
+      'code_challenge_method': 'S256',
+      'code_challenge': Session.shared.codeChallenge,
+      'correlationId': Session.shared.correlationId,
+      'redirect_uri':
+          'https://${config.baseParticipantUrl}$authServer/callback',
+      'state': Session.shared.state,
+      'appName': config.appName
+    };
+    return Uri.https(config.baseParticipantUrl, signInPath, parameters);
+  }
+
+  @override
+  Future<http.Response> fireSignInURI({String? tempRegId}) {
+    Uri uri = getSignInPageURI(tempRegId: tempRegId);
+    return client.get(uri);
+  }
+
+  @override
+  Future<http.Response> signIn(
+      String email, String password, String loginChallenge) {
+    var headers = CommonRequestHeader()..from(config);
+    Map<String, String> headerJson = headers.toHeaderJson();
+    var cookieMap = {
+      'mystudies_login_challenge': loginChallenge,
+      'mystudies_appId': config.appId,
+      'mystudies_correlationId': Session.shared.correlationId,
+      'mystudies_appVersion': config.version,
+      'mystudies_mobilePlatform': config.platform,
+      'mystudies_source': config.source,
+      'mystudies_appName': config.appName
+    };
+    var cookie = '';
+    cookieMap.forEach((k, v) {
+      cookie += '$k=${Uri.encodeQueryComponent(v)};';
+    });
+    headerJson['cookie'] = cookie;
+    Map<String, String> body = {'email': email, 'password': password};
+    Uri uri = Uri.https(config.baseParticipantUrl, '$authServer/login');
+    return client.post(uri, headers: headerJson, body: body);
+  }
+
   Future<String> _fetchLoginChallenge({String? tempRegId}) {
     Map<String, String> parameters = {
       'source': config.source,
@@ -140,7 +192,8 @@ class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @override
-  Future<Object> signIn(String email, String password, {String? tempRegId}) {
+  Future<Object> demoSignIn(String email, String password,
+      {String? tempRegId}) {
     Future<String> futureLoginChallenge =
         _fetchLoginChallenge(tempRegId: tempRegId);
 

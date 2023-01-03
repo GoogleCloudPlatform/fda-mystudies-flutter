@@ -58,7 +58,7 @@ class _SignInScreenControllerState extends State<SignInScreenController>
         .updateContent(email: _emailFieldController.text);
     var authenticationService = getIt<AuthenticationService>();
     authenticationService
-        .signIn(_emailFieldController.text, _passwordFieldController.text)
+        .demoSignIn(_emailFieldController.text, _passwordFieldController.text)
         .then((value) {
       if (value is SignInResponse) {
         var deeplink = Uri.dataFromString(value.location);

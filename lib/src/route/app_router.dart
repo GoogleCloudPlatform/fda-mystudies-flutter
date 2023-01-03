@@ -5,10 +5,10 @@ import '../controller/account_activated_screen_controller.dart';
 import '../controller/forgot_password_screen_controller.dart';
 import '../controller/onboarding_screen_controller.dart';
 import '../controller/register_screen_controller.dart';
-import '../controller/sign_in_screen_controller.dart';
 import '../controller/update_password_screen_controller.dart';
 import '../controller/verification_step_screen_controller.dart';
 import '../controller/welcome_screen_controller.dart';
+import '../register_and_login/sign_in.dart';
 import 'route_name.dart';
 
 class AppRouter {
@@ -33,7 +33,7 @@ class AppRouter {
           GoRoute(
               name: RouteName.signIn,
               path: RouteName.signIn,
-              builder: (context, state) => const SignInScreenController(),
+              builder: (context, state) => const SignIn(),
               routes: [
                 GoRoute(
                     name: RouteName.forgotPassword,

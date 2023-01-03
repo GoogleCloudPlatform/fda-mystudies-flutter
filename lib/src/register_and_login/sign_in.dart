@@ -1,8 +1,18 @@
+import 'dart:developer' as developer;
+
+import 'package:fda_mystudies_http_client/authentication_service.dart';
+import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
+import '../common/future_loading_page.dart';
 import '../common/home_scaffold.dart';
+import '../common/widget_util.dart';
+import '../route/route_name.dart';
+import '../user/user_data.dart';
+import 'account_status.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -26,19 +36,19 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    var authenticationService = getIt<AuthenticationService>();
     return HomeScaffold(
-        child: Container(),
-        // child: SafeArea(
-        //     child: InAppWebView(
-        //         initialOptions: options,
-        //         initialUrlRequest:
-        //             URLRequest(url: authenticationService.getSignInPageURI()),
-        //         shouldOverrideUrlLoading: (controller, request) async =>
-        //             _processNavigationRequest(request))),
+        child: SafeArea(
+            child: InAppWebView(
+                initialOptions: options,
+                initialUrlRequest:
+                    URLRequest(url: authenticationService.getSignInPageURI()),
+                shouldOverrideUrlLoading: (controller, request) async =>
+                    _processNavigationRequest(request))),
         title: AppLocalizations.of(context).signInPageTitle,
         showDrawer: false);
   }
-  /*
+
   NavigationActionPolicy? _processNavigationRequest(NavigationAction request) {
     developer.log(request.toString());
     Uri? uri = request.request.url;
@@ -46,17 +56,17 @@ class _SignInState extends State<SignIn> {
       return NavigationActionPolicy.CANCEL;
     }
     if (uri.path == '/mystudies/signup') {
-      push(context, const SignUp());
+      context.pushNamed(RouteName.register);
       return NavigationActionPolicy.CANCEL;
     } else if (uri.path == '/mystudies/forgotPassword') {
-      push(context, const ForgotPassword());
+      context.pushNamed(RouteName.forgotPassword);
       return NavigationActionPolicy.CANCEL;
     } else if (uri.path == '/mystudies/callback') {
       _handleMyStudiesCallback(uri);
       return NavigationActionPolicy.CANCEL;
     } else if (uri.path == '/mystudies/activation') {
       UserData.shared.emailId = uri.queryParameters['email'] ?? '';
-      push(context, const VerificationStep());
+      context.pushNamed(RouteName.verificationStep);
       return NavigationActionPolicy.CANCEL;
     }
     return null;
@@ -75,5 +85,4 @@ class _SignInState extends State<SignIn> {
           return snapshot.data as Widget;
         }, wrapInScaffold: false));
   }
-  */
 }
