@@ -13,6 +13,8 @@ class ResponseParser {
     try {
       if (response.statusCode == 200) {
         return successResponse();
+      } else if (apiName == 'register' && response.statusCode == 201) {
+        return successResponse();
       }
       return CommonErrorResponse()..fromJson(response.body);
     } on FormatException {

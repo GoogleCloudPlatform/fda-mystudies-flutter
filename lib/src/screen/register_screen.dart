@@ -11,7 +11,7 @@ class RegisterScreen extends StatelessWidget {
   final bool agreedToTnC;
   final bool registrationInProgress;
   final void Function(bool?) toggledAgreement;
-  final void Function()? register;
+  final void Function() register;
 
   const RegisterScreen(
       {Key? key,
@@ -69,11 +69,12 @@ class RegisterScreen extends StatelessWidget {
                       termsAndConditionsURL:
                           l10n.registerScreenTermsAndConditionsURL,
                       privacyPolicyURL: l10n.registerScreenPrivacyPolicyURL,
-                      toggledAgreement: toggledAgreement),
+                      toggledAgreement:
+                          registrationInProgress ? null : toggledAgreement),
                   const SizedBox(height: 96),
                   PrimaryButtonBlock(
                       title: l10n.registerScreenSubmitButtonText,
-                      onPressed: register)
+                      onPressed: registrationInProgress ? null : register)
                 ]))));
   }
 }
