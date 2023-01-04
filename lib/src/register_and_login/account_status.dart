@@ -1,4 +1,3 @@
-import 'package:fda_mystudies/src/route/route_name.dart';
 import 'package:fda_mystudies_http_client/authentication_service.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pbserver.dart';
@@ -6,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../main.dart';
+import '../route/route_name.dart';
 import '../user/user_data.dart';
+import 'auth_utils.dart';
 
 enum AccountStatus {
   verified, // 0
@@ -42,6 +43,11 @@ extension AccountStatusExtension on AccountStatus {
     authenticationService
         .grantVerifiedUser(UserData.shared.userId, UserData.shared.code)
         .then((value) {
+      if (value is RefreshTokenResponse) {
+        AuthUtils.saveRefreshTokens(value, UserData.shared.userId);
+      }
+      return value;
+    }).then((value) {
       if (value is RefreshTokenResponse) {
         switch (curConfig.appType) {
           case AppType.gateway:

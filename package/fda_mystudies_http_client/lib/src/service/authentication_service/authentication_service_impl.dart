@@ -258,27 +258,27 @@ class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @override
-  Future<Object> refreshToken(String userId, String authToken) {
+  Future<Object> refreshToken(String userId, String authToken,
+      {String? refreshToken}) {
     var headers = CommonRequestHeader()
       ..from(config,
           contentType: ContentType.fromUrlEncoded,
           authToken: authToken,
           userId: userId);
-    var body = {
+    var parameters = {
       'client_id': config.hydraClientId,
       'grant_type': 'refresh_token',
       'redirect_uri':
           'https://${config.baseParticipantUrl}$authServer/callback',
-      'refresh_token': Session.shared.refreshToken,
+      'refresh_token': refreshToken ?? Session.shared.refreshToken,
       'userId': userId
     };
-    Uri uri =
-        Uri.https(config.baseParticipantUrl, '$authServer$oauth2TokenPath');
+    Uri uri = Uri.https(
+        config.baseParticipantUrl, '$authServer$oauth2TokenPath', parameters);
 
     return client
         .post(uri,
             headers: headers.toHeaderJson(),
-            body: jsonEncode(body),
             encoding: Encoding.getByName('application/x-www-form-urlencoded'))
         .then((response) =>
             ResponseParser.parseHttpResponse('refresh_token', response, () {

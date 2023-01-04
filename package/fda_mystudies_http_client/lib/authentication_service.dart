@@ -28,7 +28,8 @@ abstract class AuthenticationService {
   ///
   /// [RefreshTokenResponse] for successful response, contains new refresh and access token.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> refreshToken(String userId, String authToken);
+  Future<Object> refreshToken(String userId, String authToken,
+      {String? refreshToken});
 
   /// Return new access token. To be used while new-sign.
   ///
