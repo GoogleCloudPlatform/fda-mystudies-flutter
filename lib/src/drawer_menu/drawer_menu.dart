@@ -1,21 +1,18 @@
+import 'package:fda_mystudies_design_system/component/error_scenario.dart';
 import 'package:fda_mystudies_http_client/authentication_service.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:go_router/go_router.dart';
 
-import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
-import '../register_and_login/welcome.dart';
+import '../route/route_name.dart';
 import '../theme/fda_color_scheme.dart';
 import '../theme/fda_text_style.dart';
 import '../user/user_data.dart';
 
 class DrawerMenu extends StatefulWidget {
-  static const studyHomeRoute = '/studyHome';
-  static const myAccountRoute = '/myAccount';
-  static const reachOutRoute = '/reachOut';
-
   final void Function()? close;
 
   const DrawerMenu({this.close, Key? key}) : super(key: key);
@@ -26,7 +23,6 @@ class DrawerMenu extends StatefulWidget {
 
 class _DrawerMenuState extends State<DrawerMenu> {
   var _isLoading = false;
-  var _selected = HomeScaffold.draweSelectionIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -48,22 +44,26 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     style: FDATextStyle.heading(context))
               ])),
           const SizedBox(height: 30),
-          _listTile(context, Icons.home, AppLocalizations.of(context).homePage,
-              _selected == 0, () => _navigateToStudyHome(context)),
+          _listTile(
+              context,
+              Icons.home,
+              AppLocalizations.of(context).homePage,
+              GoRouter.of(context).location == '/${RouteName.studyHome}',
+              () => context.goNamed(RouteName.studyHome)),
           const SizedBox(height: 8),
           _listTile(
               context,
-              Icons.person,
+              Icons.home,
               AppLocalizations.of(context).myAccountPage,
-              _selected == 1,
-              () => _navigateToMyAccount(context)),
+              GoRouter.of(context).location == '/${RouteName.myAccount}',
+              () => context.goNamed(RouteName.myAccount)),
           const SizedBox(height: 8),
           _listTile(
               context,
               Icons.mail,
               AppLocalizations.of(context).reachOutPage,
-              _selected == 2,
-              () => _navigateToReachOut(context)),
+              GoRouter.of(context).location == '/${RouteName.reachOut}',
+              () => context.goNamed(RouteName.reachOut)),
           const SizedBox(height: 50),
           const Divider(),
           const SizedBox(height: 8),
@@ -107,44 +107,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
         });
   }
 
-  void _navigateToStudyHome(BuildContext context) {
-    setState(() {
-      HomeScaffold.draweSelectionIndex = 0;
-      _selected = 0;
-    });
-    _navigateToRoute(context, DrawerMenu.studyHomeRoute);
-  }
-
-  void _navigateToMyAccount(BuildContext context) {
-    setState(() {
-      HomeScaffold.draweSelectionIndex = 1;
-      _selected = 1;
-    });
-    _navigateToRoute(context, DrawerMenu.myAccountRoute);
-  }
-
-  void _navigateToReachOut(BuildContext context) {
-    setState(() {
-      HomeScaffold.draweSelectionIndex = 2;
-      _selected = 2;
-    });
-    _navigateToRoute(context, DrawerMenu.reachOutRoute);
-  }
-
-  void _navigateToRoute(BuildContext context, String routeName) {
-    if (ModalRoute.of(context)?.settings.name != routeName) {
-      Navigator.of(context).pushReplacementNamed(routeName);
-    } else {
-      if (isPlatformIos(context)) {
-        if (widget.close != null) {
-          widget.close!();
-        }
-      } else {
-        Navigator.of(context).pop();
-      }
-    }
-  }
-
   void _showSignOutAlert(BuildContext context) {
     var alertTitle = AppLocalizations.of(context).signOutAlertTitle;
     var alertContent = AppLocalizations.of(context).signOutAlertSubtitle;
@@ -186,10 +148,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
         }
       });
       if (response == successfulResponse) {
-        Navigator.of(context)
-            .pushNamedAndRemoveUntil(Welcome.welcomeRoute, (route) => false);
+        context.goNamed(RouteName.root);
       }
-      showUserMessage(context, response);
+      ErrorScenario.displayErrorMessage(context, response);
     });
   }
 

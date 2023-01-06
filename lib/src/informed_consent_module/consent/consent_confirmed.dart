@@ -4,9 +4,10 @@ import 'package:fda_mystudies_http_client/participant_enroll_datastore_service.d
 import 'package:fda_mystudies_spec/participant_enroll_datastore_service/enroll_in_study.pbserver.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../common/widget_util.dart';
-import '../../study_home.dart';
+import '../../route/route_name.dart';
 import '../../study_module/study_tile/pb_user_study_status.dart';
 import '../../theme/fda_text_theme.dart';
 import '../../user/user_data.dart';
@@ -102,7 +103,7 @@ class _ConsentConfirmedState extends State<ConsentConfirmed> {
                   setState(() {
                     _isLoading = false;
                   });
-                  pushAndRemoveUntil(context, const StudyHome());
+                  context.goNamed(RouteName.studyHome);
                 });
               }
             });
