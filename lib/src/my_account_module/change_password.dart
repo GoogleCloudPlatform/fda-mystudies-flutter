@@ -116,7 +116,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             });
             var authenticationService = getIt<AuthenticationService>();
             authenticationService
-                .changePassword(
+                .changePassword(UserData.shared.authToken,
                     UserData.shared.userId, _currentPassword, _newPassword)
                 .then((value) {
               const successfulResponse = 'Password Successfully changed!';

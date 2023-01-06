@@ -2,12 +2,12 @@ import 'package:fda_mystudies_activity_ui_kit/activity_response_processor.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../common/widget_util.dart';
+import '../../route/route_name.dart';
 import '../../theme/fda_text_theme.dart';
 import '../../widget/fda_button.dart';
 import '../../widget/fda_scaffold.dart';
-import '../sharing_options/sharing_options.dart';
 
 class ComprehensionDecision extends StatelessWidget
     implements ActivityResponseProcessor {
@@ -56,10 +56,7 @@ class ComprehensionDecision extends StatelessWidget
                   title: newValue ? 'Continue' : 'Try Again',
                   onPressed: () {
                     if (newValue) {
-                      pushAndRemoveUntil(
-                          context,
-                          SharingOptions(consent.sharingScreen,
-                              consent.visualScreens, consent.version));
+                      context.pushNamed(RouteName.sharingOptions);
                     } else {
                       Navigator.of(context).popUntil((route) => route.isFirst);
                     }

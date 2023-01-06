@@ -11,4 +11,6 @@ class RouteName {
   static const unknownAccountStatus = 'unknown_account_status';
   static const gatewayHome = 'gateway_home';
   static const standaloneHome = 'standalone_home';
+  static const visualScreen = 'visual_screen';
+  static const sharingOptions = 'sharing_options';
 }

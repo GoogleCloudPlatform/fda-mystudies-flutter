@@ -9,6 +9,7 @@ import 'config/demo_config.dart' as dc;
 import 'config/platform_config.dart';
 import 'fda_mystudies_app.dart';
 import 'src/provider/connectivity_provider.dart';
+import 'src/provider/eligibility_consent_provider.dart';
 import 'src/provider/my_account_provider.dart';
 import 'src/provider/welcome_provider.dart';
 
@@ -21,6 +22,7 @@ void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => ConnectivityProvider()),
     ChangeNotifierProvider(create: (context) => WelcomeProvider()),
-    ChangeNotifierProvider(create: (context) => MyAccountProvider())
+    ChangeNotifierProvider(create: (context) => MyAccountProvider()),
+    ChangeNotifierProvider(create: (context) => EligibilityConsentProvider())
   ], child: const FDAMyStudiesApp()));
 }

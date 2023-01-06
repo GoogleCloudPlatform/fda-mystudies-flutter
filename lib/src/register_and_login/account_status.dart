@@ -30,12 +30,30 @@ extension AccountStatusExtension on AccountStatus {
       // Follows same procedure as tempPassword
       // [here](https://github.com/GoogleCloudPlatform/fda-mystudies/blob/master/iOS/MyStudies/MyStudies/Controllers/LoginRegisterUI/LoginUI/SignInViewController.swift#L198)
       case AccountStatus.tempPassword:
-        context.pushNamed(RouteName.updateTemporaryPassword);
+        _updateTemporaryPasswordScreen(context);
         break;
       case AccountStatus.unknown:
         context.pushNamed(RouteName.unknownAccountStatus);
         break;
     }
+  }
+
+  void _updateTemporaryPasswordScreen(BuildContext context) {
+    var authenticationService = getIt<AuthenticationService>();
+    authenticationService
+        .grantVerifiedUser(UserData.shared.userId, UserData.shared.code)
+        .then((value) {
+      if (value is RefreshTokenResponse) {
+        AuthUtils.saveRefreshTokens(value, UserData.shared.userId);
+      }
+      return value;
+    }).then((value) {
+      if (value is RefreshTokenResponse) {
+        context.pushNamed(RouteName.updateTemporaryPassword);
+      } else {
+        context.goNamed(RouteName.unknownAccountStatus);
+      }
+    });
   }
 
   void _verifiedScreen(BuildContext context) {

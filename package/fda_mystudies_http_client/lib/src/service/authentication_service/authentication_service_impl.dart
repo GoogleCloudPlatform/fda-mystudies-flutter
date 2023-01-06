@@ -202,18 +202,17 @@ class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @override
-  Future<Object> changePassword(
-      String userId, String currentPassword, String newPassword) {
-    var headers = CommonRequestHeader()..from(config);
+  Future<Object> changePassword(String authToken, String userId,
+      String currentPassword, String newPassword) {
+    var headers = CommonRequestHeader()
+      ..from(config,
+          authToken: authToken, contentType: ContentType.json, userId: userId);
     Map<String, String> body = {
       'currentPassword': currentPassword,
       'newPassword': newPassword
     };
     Uri uri = Uri.https(config.baseParticipantUrl,
         '$authServer/users/$userId$changePasswordPath');
-    developer.log('URI: ${uri}');
-    developer.log('BODY JSON: ${jsonEncode(body)}');
-    developer.log('HEADER JSON: ${jsonEncode(headers.toHeaderJson())}');
     return client
         .put(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse('change_password',

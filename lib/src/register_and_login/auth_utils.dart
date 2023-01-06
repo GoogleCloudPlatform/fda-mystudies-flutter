@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../user/user_data.dart';
 import 'secure_key.dart';
 
 class AuthUtils {
@@ -13,6 +14,7 @@ class AuthUtils {
     String authToken =
         '${tokenType[0].toUpperCase()}${tokenType.substring(1)} $accessToken';
     String refreshToken = response.refreshToken;
+    UserData.shared.authToken = authToken;
     return _saveAuthenticatedUserToDB(authToken, refreshToken, userId);
   }
 

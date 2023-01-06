@@ -6,9 +6,11 @@ import 'package:fda_mystudies_http_client/study_datastore_service.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../common/widget_util.dart';
 import '../eligibility_module/enrollment_token.dart';
+import '../provider/eligibility_consent_provider.dart';
 import '../user/user_data.dart';
 import 'eligibility_decision.dart';
 import 'pb_eligibility_step_type.dart';
@@ -21,6 +23,9 @@ class EligibilityStepTypeRouter {
             UserData.shared.curStudyId, UserData.shared.userId)
         .then((value) {
       if (value is GetEligibilityAndConsentResponse) {
+        Provider.of<EligibilityConsentProvider>(context, listen: false)
+            .updateContent(
+                eligibility: value.eligibility, consent: value.consent);
         var eligibility = value.eligibility;
         switch (eligibility.type.eligibilityStepType) {
           case PbEligibilityStepType.token:

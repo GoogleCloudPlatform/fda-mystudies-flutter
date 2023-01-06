@@ -45,6 +45,6 @@ abstract class AuthenticationService {
 
   /// [ChangePasswordResponse] for successful response.
   /// [CommonErrorResponse] for failed response.
-  Future<Object> changePassword(
-      String userId, String currentPassword, String newPassword);
+  Future<Object> changePassword(String authToken, String userId,
+      String currentPassword, String newPassword);
 }
