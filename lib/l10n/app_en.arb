@@ -9,26 +9,6 @@
         "description": "Sub-title displayed on top of navigation-bar"
     },
 
-    "letsGetStartedTitle": "Let's get started",
-    "@letsGetStartedTitle": {
-        "description": "Title for the landing page"
-    },
-
-    "getStartedButton": "Get started",
-    "@getStartedButton": {
-        "description": "Button title for navigating to Sign Up page from landing page"
-    },
-
-    "alreadyAMemberQuestion": "Already a member?",
-    "@alreadyAMemberQuestion": {
-        "description": "Question text for asking users if they are already a member"
-    },
-
-    "signIn": "Sign In",
-    "@signIn": {
-        "description": "Sign In button text"
-    },
-
     "signUpPageTitle": "Sign up to get started",
     "@signUpPageTitle": {
         "description": "Sign Up page title"
@@ -143,13 +123,6 @@
         "description": "Error message text explaining that no user state was found for study with the given study-id"
     },
 
-    "onboardingPageTitle": "To get you started, here are things that you’ll be asked to do:",
-    "onboardingPageCreateAccountStep": "Create your account",
-    "onboardingPageEligibilitySurveyStep": "Do elgibility survey to see if you are eligible for this study",
-    "onboardingPageComprehensionSurveyStep": "Do a simple comprehension survey to test your understanding of this study",
-    "onboardingPageConsentStep": "Consent agreement of sharing your data",
-
-    "tapToContinueButtonText": "Tap to continue",
     "skipToSignInPageButtonText": "Skip to Sign in page",
 
     "activitiesBottomNavigationBarTitle": "Activities",
