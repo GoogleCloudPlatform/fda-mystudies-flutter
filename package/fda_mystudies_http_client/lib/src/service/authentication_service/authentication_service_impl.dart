@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 
 import 'package:fda_mystudies_spec/authentication_service/change_password.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/logout.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
+import 'package:fda_mystudies_spec/authentication_service/sign_in.pb.dart';
+import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 import 'package:fda_mystudies_spec/fda_mystudies_spec.dart';
 import 'package:http/http.dart' as http;
@@ -55,6 +58,150 @@ class AuthenticationServiceImpl implements AuthenticationService {
   }
 
   @override
+  Future<http.Response> fireSignInURI({String? tempRegId}) {
+    Uri uri = getSignInPageURI(tempRegId: tempRegId);
+    return client.get(uri);
+  }
+
+  @override
+  Future<http.Response> signIn(
+      String email, String password, String loginChallenge) {
+    var headers = CommonRequestHeader()..from(config);
+    Map<String, String> headerJson = headers.toHeaderJson();
+    var cookieMap = {
+      'mystudies_login_challenge': loginChallenge,
+      'mystudies_appId': config.appId,
+      'mystudies_correlationId': Session.shared.correlationId,
+      'mystudies_appVersion': config.version,
+      'mystudies_mobilePlatform': config.platform,
+      'mystudies_source': config.source,
+      'mystudies_appName': config.appName
+    };
+    var cookie = '';
+    cookieMap.forEach((k, v) {
+      cookie += '$k=${Uri.encodeQueryComponent(v)};';
+    });
+    headerJson['cookie'] = cookie;
+    Map<String, String> body = {'email': email, 'password': password};
+    Uri uri = Uri.https(config.baseParticipantUrl, '$authServer/login');
+    return client.post(uri, headers: headerJson, body: body);
+  }
+
+  Future<String> _fetchLoginChallenge({String? tempRegId}) {
+    Map<String, String> parameters = {
+      'source': config.source,
+      'client_id': config.hydraClientId, // HYDRA_CLIENT_ID
+      'scope': 'offline_access openid',
+      'response_type': 'code',
+      'appId': config.appId,
+      'appVersion': config.version,
+      'mobilePlatform': config.platform,
+      'tempRegId': tempRegId ?? '',
+      'code_challenge_method': 'S256',
+      'code_challenge': Session.shared.codeChallenge,
+      'correlationId': Session.shared.correlationId,
+      'redirect_uri':
+          'https://${config.baseParticipantUrl}$authServer/callback',
+      'state': Session.shared.state,
+      'appName': config.appName
+    };
+    Uri uri = Uri.https(config.baseParticipantUrl, signInPath, parameters);
+    return client.get(uri).then((value) {
+      String? cookies = value.headers['set-cookie'];
+      if (cookies?.isNotEmpty == true) {
+        var keyValList = cookies!.split(';');
+        Map<String, String> cookieMap = {};
+        for (var element in keyValList) {
+          var keyValPair = element.split('=');
+          if (keyValPair.length == 2) {
+            cookieMap[keyValPair[0]] = keyValPair[1];
+          }
+        }
+        return cookieMap['mystudies_login_challenge'] ?? '';
+      }
+      return '';
+    });
+  }
+
+  Future<Object> _signInHelper(
+      String email, String password, String loginChallenge) {
+    if (loginChallenge.isEmpty) {
+      return Future.value(CommonErrorResponse.create()
+        ..errorDescription = 'Invalid loginChallenge!');
+    }
+    var headers = CommonRequestHeader()..from(config);
+    Map<String, String> headerJson = headers.toHeaderJson();
+    var cookieMap = {
+      'mystudies_login_challenge': loginChallenge,
+      'mystudies_appId': config.appId,
+      'mystudies_correlationId': Session.shared.correlationId,
+      'mystudies_appVersion': config.version,
+      'mystudies_mobilePlatform': config.platform,
+      'mystudies_source': config.source,
+      'mystudies_appName': config.appName
+    };
+    var cookie = '';
+    cookieMap.forEach((k, v) {
+      cookie += '$k=${Uri.encodeQueryComponent(v)};';
+    });
+    headerJson['cookie'] = cookie;
+    Map<String, String> body = {'email': email, 'password': password};
+    Uri uri = Uri.https(config.baseParticipantUrl, '$authServer/login');
+    return client.post(uri, headers: headerJson, body: body).then((response) =>
+        ResponseParser.parseHttpResponse('sign_in', response, () {
+          Map<String, String> headerMap = response.headers;
+          var newMap = <String, String?>{};
+          if (headerMap['location']?.isNotEmpty == true) {
+            newMap['location'] = headerMap['location'];
+            final location = Uri.dataFromString(headerMap['location']!);
+            var redirectUri = location.queryParameters['redirect_uri'] ?? '';
+            if (redirectUri.isNotEmpty) {
+              newMap['redirectTo'] = Uri.decodeFull(redirectUri);
+            }
+          }
+          for (var keyValue in headerMap['set-cookie']?.split(';') ?? []) {
+            var tokens = keyValue.split('=');
+            if (tokens.length == 2) {
+              if (tokens[0].contains('mystudies_accountStatus')) {
+                newMap['accountStatus'] = tokens[1];
+              } else if (tokens[0].contains('mystudies_userId')) {
+                newMap['userId'] = tokens[1];
+              } else {
+                newMap[tokens[0]] = tokens[1];
+              }
+            }
+          }
+          //
+          // final location = Uri.parse(headerMap['location']!);
+          // headerMap['set-cookie'] = cookie;
+          // developer.log('LOGIN CHALLENGE: $loginChallenge');
+          // headerMap['code'] = loginChallenge;
+          // client.get(location, headers: headerMap).then((value) {
+          //   developer.log('CALLBACK STATUS CODFE: ${value.statusCode}');
+          //   developer.log('CALLBACK BODY: ${jsonEncode(value.body)}');
+          //    developer.log('CALLBACK HEADER: ${jsonEncode(value.headers)}');
+          // });
+          //
+          developer.log(
+              'STUDY HEADER JSON ENCODED: ${jsonEncode(response.headers)}');
+          developer.log('STUDY HEADER TO BE CONVERTED: ${jsonEncode(newMap)}');
+          developer.log(
+              'STUDY PROTO: ${SignInResponse()..fromJson(jsonEncode(newMap))}');
+          return SignInResponse()..fromJson(jsonEncode(newMap));
+        }));
+  }
+
+  @override
+  Future<Object> demoSignIn(String email, String password,
+      {String? tempRegId}) {
+    Future<String> futureLoginChallenge =
+        _fetchLoginChallenge(tempRegId: tempRegId);
+
+    return futureLoginChallenge.then(
+        (loginChallenge) => _signInHelper(email, password, loginChallenge));
+  }
+
+  @override
   Future<Object> changePassword(
       String userId, String currentPassword, String newPassword) {
     var headers = CommonRequestHeader()..from(config);
@@ -64,7 +211,9 @@ class AuthenticationServiceImpl implements AuthenticationService {
     };
     Uri uri = Uri.https(config.baseParticipantUrl,
         '$authServer/users/$userId$changePasswordPath');
-
+    developer.log('URI: ${uri}');
+    developer.log('BODY JSON: ${jsonEncode(body)}');
+    developer.log('HEADER JSON: ${jsonEncode(headers.toHeaderJson())}');
     return client
         .put(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse('change_password',
@@ -144,13 +293,24 @@ class AuthenticationServiceImpl implements AuthenticationService {
   Future<Object> resetPassword(String emailId) {
     var headers = CommonRequestHeader()
       ..from(config, contentType: ContentType.json);
-    var body = {'appId': config.appId, 'email': emailId};
+    Map<String, String> headerJson = headers.toHeaderJson();
+    headerJson.addAll({
+      'contactEmail': Session.shared.contactUsEmail,
+      'fromEmail': Session.shared.fromEmail,
+      'supportEmail': Session.shared.supportEmail
+    });
+    var body = {
+      'appId': config.appId,
+      'email': emailId,
+      'contactEmail': Session.shared.contactUsEmail,
+      'fromEmail': Session.shared.fromEmail,
+      'supportEmail': Session.shared.supportEmail
+    };
     var uri =
         Uri.https(config.baseParticipantUrl, '$authServer$resetPasswordPath');
 
-    return client
-        .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
-        .then((response) => ResponseParser.parseHttpResponse(
+    return client.post(uri, headers: headerJson, body: jsonEncode(body)).then(
+        (response) => ResponseParser.parseHttpResponse(
             'reset_password', response, () => CommonResponses.successResponse));
   }
 

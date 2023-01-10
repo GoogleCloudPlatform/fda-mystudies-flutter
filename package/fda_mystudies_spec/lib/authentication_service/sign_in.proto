@@ -1,0 +1,9 @@
+syntax = "proto3";
+package fda_mystudies_spec.authentication_service;
+
+message SignInResponse {
+  string location = 1;
+  string user_id = 2;
+  int32 account_status = 3;
+  string redirect_to = 4;
+}

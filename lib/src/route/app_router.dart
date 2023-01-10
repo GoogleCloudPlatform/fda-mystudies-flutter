@@ -1,7 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../controller/account_activated_screen_controller.dart';
+import '../controller/forgot_password_screen_controller.dart';
 import '../controller/onboarding_screen_controller.dart';
 import '../controller/register_screen_controller.dart';
+import '../controller/update_password_screen_controller.dart';
+import '../controller/verification_step_screen_controller.dart';
 import '../controller/welcome_screen_controller.dart';
 import '../register_and_login/sign_in.dart';
 import 'route_name.dart';
@@ -26,11 +31,36 @@ class AppRouter {
                         const RegisterScreenController()))
               ]),
           GoRoute(
-            name: RouteName.signIn,
-            path: RouteName.signIn,
-            builder: (context, state) => const SignIn(),
-          ),
-        ])
+              name: RouteName.signIn,
+              path: RouteName.signIn,
+              builder: (context, state) => const SignIn(),
+              routes: [
+                GoRoute(
+                    name: RouteName.forgotPassword,
+                    path: RouteName.forgotPassword,
+                    builder: (context, state) =>
+                        const ForgotPasswordScreenController())
+              ])
+        ]),
+    GoRoute(
+        name: RouteName.verificationStep,
+        path: '/${RouteName.verificationStep}',
+        builder: (context, state) => const VerificationStepScreenController()),
+    GoRoute(
+        name: RouteName.accountActivated,
+        path: '/${RouteName.accountActivated}',
+        builder: (context, state) => const AccountActivatedScreenController()),
+    GoRoute(
+        name: RouteName.updateTemporaryPassword,
+        path: '/${RouteName.updateTemporaryPassword}',
+        builder: (context, state) => const UpdatePasswordScreenController(
+            isChangingTemporaryPassword: true)),
+    GoRoute(
+        name: RouteName.onboardingFlow,
+        path: '/${RouteName.onboardingFlow}',
+        builder: (context, state) {
+          return Container();
+        })
   ]);
 
   static GoRouter get routeConfig => _goRouter;

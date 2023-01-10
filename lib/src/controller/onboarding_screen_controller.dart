@@ -30,6 +30,6 @@ class _OnboardingScreenControllerState
   }
 
   void _continueToRegister() {
-    context.goNamed(RouteName.register);
+    context.pushNamed(RouteName.register);
   }
 }

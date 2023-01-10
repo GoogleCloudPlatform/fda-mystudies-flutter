@@ -5,6 +5,12 @@ import 'package:fda_mystudies_spec/participant_user_datastore_service/registrati
 import 'package:fda_mystudies_spec/participant_user_datastore_service/update_user_profile.pb.dart';
 
 abstract class ParticipantUserDatastoreService {
+  /// Fetch AppInfo.
+  ///
+  /// [AppInfoResponse] for successful response.
+  /// [CommonErrorResponse] for failed response.
+  Future<Object> appInfo();
+
   /// Register a new user on the platform.
   ///
   /// [RegistrationResponse] for successful response. Contains userId, unique per user,

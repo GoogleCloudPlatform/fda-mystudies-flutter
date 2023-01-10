@@ -1,0 +1,25 @@
+syntax = "proto3";
+package fda_mystudies_spec.participant_user_datastore_service;
+
+message AppInfoResponse {
+  int32 status = 1;
+  string from_email = 2;
+  string app_name = 3;
+  string privacy_policy_url = 4;
+  string code = 5;
+  string contact_us_email = 6;
+  string terms_url = 7;
+  string app_website = 8;
+  string support_email = 9;
+
+  message Version {
+    message PlatformInfo {
+      string latest_version = 1;
+      string force_update = 2;
+    }
+    PlatformInfo android = 1;
+    PlatformInfo ios = 2;
+  }
+  Version version = 10;
+  string message = 11;
+}

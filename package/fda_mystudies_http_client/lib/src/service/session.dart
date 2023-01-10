@@ -11,7 +11,10 @@ class Session {
   final String state;
 
   String authToken = '';
+  String contactUsEmail = '';
+  String fromEmail = '';
   String refreshToken = '';
+  String supportEmail = '';
 
   static Session _session = Session.reset();
   static Session get shared => _session;
