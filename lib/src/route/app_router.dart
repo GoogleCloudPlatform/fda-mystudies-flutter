@@ -13,7 +13,10 @@ import '../controller/forgot_password_screen_controller.dart';
 import '../controller/onboarding_screen_controller.dart';
 import '../controller/register_screen_controller.dart';
 import '../controller/sign_in_web_screen_controller.dart';
+import '../controller/study_intro_screen_controller.dart';
+import '../controller/study_state_check_screen_controller.dart';
 import '../controller/update_password_screen_controller.dart';
+import '../controller/user_state_check_screen_controller.dart';
 import '../controller/verification_step_screen_controller.dart';
 import '../controller/welcome_screen_controller.dart';
 import '../informed_consent_module/comprehension_test/comprehension_test.dart';
@@ -28,7 +31,6 @@ import '../register_and_login/secure_key.dart';
 import '../register_and_login/unknown_account_status.dart';
 import '../study_home.dart';
 import '../study_module/gateway_home.dart';
-import '../study_module/standalone_home.dart';
 import '../user/user_data.dart';
 import 'route_name.dart';
 
@@ -65,10 +67,8 @@ class AppRouter {
               if (response is RefreshTokenResponse) {
                 if (curConfig.appType == AppType.standalone) {
                   UserData.shared.curStudyId = curConfig.studyId;
-                  return '/${RouteName.standaloneHome}';
-                } else {
-                  return '/${RouteName.gatewayHome}';
                 }
+                return '/${RouteName.studyStateCheck}';
               }
               return '/';
             });
@@ -135,10 +135,10 @@ class AppRouter {
               return const UnknownAccountStatus();
             }),
         GoRoute(
-            name: RouteName.standaloneHome,
-            path: '/${RouteName.standaloneHome}',
+            name: RouteName.studyIntro,
+            path: '/${RouteName.studyIntro}',
             builder: (context, state) {
-              return const StandaloneHome();
+              return const StudyIntroScreenController();
             }),
         GoRoute(
             name: RouteName.gatewayHome,
@@ -179,7 +179,17 @@ class AppRouter {
         GoRoute(
             name: RouteName.reachOut,
             path: '/${RouteName.reachOut}',
-            builder: (context, state) => const ReachOut())
+            builder: (context, state) => const ReachOut()),
+        GoRoute(
+            name: RouteName.userStateCheck,
+            path: '/${RouteName.userStateCheck}',
+            builder: (context, state) =>
+                const UserStateCheckScreenController()),
+        GoRoute(
+            name: RouteName.studyStateCheck,
+            path: '/${RouteName.studyStateCheck}',
+            builder: (context, state) =>
+                const StudyStateCheckScreenController())
       ]);
 
   static GoRouter get routeConfig => _goRouter;

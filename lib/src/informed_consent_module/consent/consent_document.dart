@@ -5,13 +5,13 @@ import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:html/parser.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../main.dart';
 import '../../common/widget_util.dart';
-import '../../study_module/gateway_home.dart';
-import '../../study_module/standalone_home.dart';
+import '../../route/route_name.dart';
 import '../../widget/fda_button.dart';
 import '../../widget/fda_dialog_action.dart';
 import '../../widget/fda_scaffold_with_overlay_actions.dart';
@@ -88,11 +88,9 @@ class _ConsentDocumentState extends State<ConsentDocument> {
                     }),
                     FDADialogAction('CONTINUE', isPrimary: true, onPressed: () {
                       Navigator.of(context).pop();
-                      pushAndRemoveUntil(
-                          context,
-                          curConfig.appType == AppType.gateway
-                              ? const GatewayHome()
-                              : const StandaloneHome());
+                      context.goNamed(curConfig.appType == AppType.gateway
+                          ? RouteName.gatewayHome
+                          : RouteName.studyIntro);
                     })
                   ]);
             })

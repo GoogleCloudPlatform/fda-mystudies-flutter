@@ -10,10 +10,12 @@ class RouteName {
   static const updateTemporaryPassword = 'update_temporary_password';
   static const unknownAccountStatus = 'unknown_account_status';
   static const gatewayHome = 'gateway_home';
-  static const standaloneHome = 'standalone_home';
+  static const studyIntro = 'study_intro';
   static const visualScreen = 'visual_screen';
   static const sharingOptions = 'sharing_options';
   static const studyHome = 'study_home';
   static const myAccount = 'my_account';
   static const reachOut = 'reach_out';
+  static const userStateCheck = 'user_state_check';
+  static const studyStateCheck = 'study_state_check';
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../common/widget_util.dart';
-import '../standalone_home.dart';
 import '../../theme/fda_text_theme.dart';
+import '../../route/route_name.dart';
 import '../../user/user_data.dart';
 import 'pb_study_enrollment_status.dart';
 import 'pb_user_study_data.dart';
@@ -64,8 +65,8 @@ class StudyTile extends StatelessWidget {
                             // alignment: WrapAlignment.center,
                             children: [
                               Icon(Icons.circle,
-                                  color: userStudyData.study.status
-                                      .studyEnrollmentStatus?.color,
+                                  color: userStudyData
+                                      .study.status.studyStatus?.color,
                                   size: 12),
                               const SizedBox(width: 4),
                               Text(userStudyData.study.status,
@@ -90,7 +91,7 @@ class StudyTile extends StatelessWidget {
           UserData.shared.curStudyCompletion =
               userStudyData.userState.completion;
           UserData.shared.curStudyAdherence = userStudyData.userState.adherence;
-          push(context, StandaloneHome(userStudyData: userStudyData));
+          context.pushNamed(RouteName.studyIntro);
         });
   }
 

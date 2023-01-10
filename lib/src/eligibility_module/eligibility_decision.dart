@@ -138,7 +138,7 @@ class _EligibilityDecisionState extends State<EligibilityDecision> {
                 context.pushNamed(RouteName.visualScreen);
               } else {
                 if (curConfig.appType == AppType.standalone) {
-                  context.goNamed(RouteName.standaloneHome);
+                  context.goNamed(RouteName.studyIntro);
                 } else {
                   context.goNamed(RouteName.gatewayHome);
                 }
