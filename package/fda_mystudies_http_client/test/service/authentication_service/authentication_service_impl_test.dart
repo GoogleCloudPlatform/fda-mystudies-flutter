@@ -23,7 +23,7 @@ void main() {
         'authentication_service.change_password': 'default'
       };
       var response = await authenticationService!
-          .changePassword('userId', 'current', 'new');
+          .changePassword('authToken', 'userId', 'current', 'new');
 
       expect(
           response,
@@ -38,7 +38,7 @@ void main() {
         'authentication_service.change_password': 'common.invalid_json'
       };
       var response = await authenticationService!
-          .changePassword('userId', 'current', 'new');
+          .changePassword('authToken', 'userId', 'current', 'new');
 
       expect(
           response,
@@ -52,7 +52,7 @@ void main() {
         'authentication_service.change_password': 'common.common_error'
       };
       var response = await authenticationService!
-          .changePassword('userId', 'current', 'new');
+          .changePassword('authToken', 'userId', 'current', 'new');
 
       expect(response, CommonTestObject.forbiddenError);
     });

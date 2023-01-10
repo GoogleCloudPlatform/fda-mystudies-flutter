@@ -3,7 +3,6 @@ import 'package:fda_mystudies_http_client/authentication_service.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 
 import '../common/widget_util.dart';
 import '../extension/string_extension.dart';
@@ -75,7 +74,10 @@ class _ForgotPasswordScreenControllerState
                   ),
                   child: Text(l10n
                       .forgotPasswordScreenTemporaryPasswordSentMessageOkButtonText),
-                  onPressed: () => context.pop()),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }),
             ],
           );
         });

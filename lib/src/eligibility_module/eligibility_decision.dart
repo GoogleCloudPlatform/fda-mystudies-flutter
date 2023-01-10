@@ -7,13 +7,10 @@ import 'package:fda_mystudies_spec/response_datastore_service/process_response.p
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../main.dart';
-import '../common/widget_util.dart';
-import '../informed_consent_module/comprehension_test/comprehension_test.dart';
-import '../informed_consent_module/visual_screen/visual_screen.dart';
-import '../study_module/gateway_home.dart';
-import '../study_module/standalone_home.dart';
+import '../route/route_name.dart';
 import '../study_module/study_tile/pb_user_study_status.dart';
 import '../theme/fda_text_theme.dart';
 import '../user/user_data.dart';
@@ -138,16 +135,13 @@ class _EligibilityDecisionState extends State<EligibilityDecision> {
                 _isLoading = false;
               });
               if (isUserEligible) {
-                pushAndRemoveUntil(
-                    context,
-                    VisualScreen(widget.consent.visualScreens,
-                        ComprehensionTest(widget.consent)));
+                context.pushNamed(RouteName.visualScreen);
               } else {
-                pushAndRemoveUntil(
-                    context,
-                    curConfig.appType == AppType.gateway
-                        ? const GatewayHome()
-                        : const StandaloneHome());
+                if (curConfig.appType == AppType.standalone) {
+                  context.goNamed(RouteName.standaloneHome);
+                } else {
+                  context.goNamed(RouteName.gatewayHome);
+                }
               }
             });
           };

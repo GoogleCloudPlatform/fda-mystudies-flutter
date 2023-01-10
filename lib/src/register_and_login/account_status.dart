@@ -1,16 +1,13 @@
 import 'package:fda_mystudies_http_client/authentication_service.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pbserver.dart';
-import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../main.dart';
-import '../my_account_module/change_password.dart';
-import '../study_module/gateway_home.dart';
-import '../study_module/standalone_home.dart';
+import '../route/route_name.dart';
 import '../user/user_data.dart';
-import 'unknown_account_status.dart';
-import 'verification_step.dart';
+import 'auth_utils.dart';
 
 enum AccountStatus {
   verified, // 0
@@ -21,38 +18,67 @@ enum AccountStatus {
 }
 
 extension AccountStatusExtension on AccountStatus {
-  Future<Object> nextScreen(BuildContext context) {
+  void nextScreen(BuildContext context) {
     switch (this) {
       case AccountStatus.verified:
-        return _verifiedScreen(context);
+        _verifiedScreen(context);
+        break;
       case AccountStatus.pending:
-        return Future.value(const VerificationStep());
+        context.pushNamed(RouteName.verificationStep);
+        break;
       case AccountStatus.accountLocked:
       // Follows same procedure as tempPassword
       // [here](https://github.com/GoogleCloudPlatform/fda-mystudies/blob/master/iOS/MyStudies/MyStudies/Controllers/LoginRegisterUI/LoginUI/SignInViewController.swift#L198)
       case AccountStatus.tempPassword:
-        return Future.value(
-            const ChangePassword(isChangingTemporaryPassword: true));
+        _updateTemporaryPasswordScreen(context);
+        break;
       case AccountStatus.unknown:
-        return Future.value(const UnknownAccountStatus());
+        context.pushNamed(RouteName.unknownAccountStatus);
+        break;
     }
   }
 
-  Future<Object> _verifiedScreen(BuildContext context) {
+  void _updateTemporaryPasswordScreen(BuildContext context) {
     var authenticationService = getIt<AuthenticationService>();
-    return authenticationService
+    authenticationService
         .grantVerifiedUser(UserData.shared.userId, UserData.shared.code)
         .then((value) {
       if (value is RefreshTokenResponse) {
+        AuthUtils.saveRefreshTokens(value, UserData.shared.userId);
+      }
+      return value;
+    }).then((value) {
+      if (value is RefreshTokenResponse) {
+        context.pushNamed(RouteName.updateTemporaryPassword);
+      } else {
+        context.goNamed(RouteName.unknownAccountStatus);
+      }
+    });
+  }
+
+  void _verifiedScreen(BuildContext context) {
+    var authenticationService = getIt<AuthenticationService>();
+    authenticationService
+        .grantVerifiedUser(UserData.shared.userId, UserData.shared.code)
+        .then((value) {
+      if (value is RefreshTokenResponse) {
+        AuthUtils.saveRefreshTokens(value, UserData.shared.userId);
+      }
+      return value;
+    }).then((value) {
+      if (value is RefreshTokenResponse) {
         switch (curConfig.appType) {
           case AppType.gateway:
-            return const GatewayHome();
+            context.goNamed(RouteName.gatewayHome);
+            break;
           case AppType.standalone:
             UserData.shared.curStudyId = curConfig.studyId;
-            return const StandaloneHome();
+            context.goNamed(RouteName.standaloneHome);
+            break;
         }
+      } else {
+        context.goNamed(RouteName.unknownAccountStatus);
       }
-      return value as CommonErrorResponse;
     });
   }
 }

@@ -6,10 +6,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-import '../common/future_loading_page.dart';
 import '../common/home_scaffold.dart';
-import '../common/widget_util.dart';
+import '../provider/my_account_provider.dart';
 import '../route/route_name.dart';
 import '../user/user_data.dart';
 import 'account_status.dart';
@@ -75,14 +75,11 @@ class _SignInState extends State<SignIn> {
   void _handleMyStudiesCallback(Uri uri) {
     UserData.shared.code = uri.queryParameters['code'] ?? '';
     UserData.shared.userId = uri.queryParameters['userId'] ?? '';
+    Provider.of<MyAccountProvider>(context, listen: false).updateContent(
+        userId: uri.queryParameters['userId'] ?? '',
+        code: uri.queryParameters['code'] ?? '');
     String status = uri.queryParameters['accountStatus'] ?? '4';
     var accountStatus = AccountStatus.values[int.parse(status)];
-    pushAndRemoveUntil(
-        context,
-        FutureLoadingPage.build(context,
-            scaffoldTitle: '', future: accountStatus.nextScreen(context),
-            builder: (context, snapshot) {
-          return snapshot.data as Widget;
-        }, wrapInScaffold: false));
+    accountStatus.nextScreen(context);
   }
 }

@@ -4,12 +4,11 @@ import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 import '../common/string_extension.dart';
 import '../common/widget_util.dart';
-import '../provider/my_account_provider.dart';
 import '../screen/update_password_screen.dart';
+import '../user/user_data.dart';
 
 class UpdatePasswordScreenController extends StatefulWidget {
   final bool isChangingTemporaryPassword;
@@ -51,11 +50,12 @@ class _UpdatePasswordScreenControllerState
     setState(() {
       _passwordUpdateInProgress = true;
     });
-    final userId =
-        Provider.of<MyAccountProvider>(context, listen: false).userId;
     final authenticationService = getIt<AuthenticationService>();
     authenticationService
-        .changePassword(userId, _currentPasswordFieldController.text,
+        .changePassword(
+            UserData.shared.authToken,
+            UserData.shared.userId,
+            _currentPasswordFieldController.text,
             _newPasswordFieldController.text)
         .then((value) {
       final successfulResponse =

@@ -3,6 +3,7 @@ class UserData {
   var tempRegId = '';
   var code = '';
   var userId = '';
+  var authToken = '';
   var curStudyId = '';
   var curStudyVersion = '';
   var curSiteId = '';
