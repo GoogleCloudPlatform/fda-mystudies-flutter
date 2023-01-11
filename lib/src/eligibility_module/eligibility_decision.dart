@@ -1,6 +1,7 @@
-import 'dart:developer' as developer;
-
 import 'package:fda_mystudies_activity_ui_kit/activity_response_processor.dart';
+import 'package:fda_mystudies_design_system/block/page_text_block.dart';
+import 'package:fda_mystudies_design_system/block/page_title_block.dart';
+import 'package:fda_mystudies_design_system/block/primary_button_block.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/participant_enroll_datastore_service.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
@@ -12,10 +13,7 @@ import 'package:go_router/go_router.dart';
 import '../../main.dart';
 import '../route/route_name.dart';
 import '../study_module/study_tile/pb_user_study_status.dart';
-import '../theme/fda_text_theme.dart';
 import '../user/user_data.dart';
-import '../widget/fda_button.dart';
-import '../widget/fda_scaffold.dart';
 import 'pb_eligibility_step_type.dart';
 
 class EligibilityDecision extends StatefulWidget
@@ -35,7 +33,6 @@ class EligibilityDecision extends StatefulWidget
   @override
   Future<void> processResponses(
       List<ActivityResponse_Data_StepResult> responses) {
-    developer.log('USER IS ELIGIBLE: ${_userRespondedCorrectly(responses)}');
     userIsEligible.value = _userRespondedCorrectly(responses);
     return Future.value();
   }
@@ -68,50 +65,43 @@ class _EligibilityDecisionState extends State<EligibilityDecision> {
 
   @override
   Widget build(BuildContext context) {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return ValueListenableBuilder(
         valueListenable: widget.userIsEligible,
-        builder: (BuildContext context, bool newValue, Widget? child) {
-          return FDAScaffold(
-              child: SafeArea(
-                  child: ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              const SizedBox(height: 84),
-              Text(newValue ? 'Eligibility Confirmed' : 'Ineligible',
-                  textAlign: TextAlign.center,
-                  style: FDATextTheme.headerTextStyle(context)),
-              const SizedBox(height: 22),
-              Text(
-                  newValue
-                      ? (widget.stepType == PbEligibilityStepType.token
-                          ? 'Your eligibility to participate in this study has been successfully verified.\nYou may proceed to the next steps.'
-                          : 'Based on the answers you provided, you are eligible to participate in this study. You may proceed to the next steps.')
-                      : 'Sorry! Based on the answers you provided, you are not eligible to participate in this study',
-                  textAlign: TextAlign.center,
-                  style: FDATextTheme.bodyTextStyle(context)),
-              const SizedBox(height: 22),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                        color: newValue
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.error,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(50))),
-                    child: Icon(newValue ? Icons.check : Icons.error,
-                        color: Colors.white, size: 50))
-              ]),
-              const SizedBox(height: 22),
-              FDAButton(
-                  isLoading: _isLoading,
-                  title: newValue ? 'Continue' : 'Exit',
-                  onPressed: _goToNextStep(
-                    newValue,
-                  ))
-            ],
-          )));
+        builder: (BuildContext context, bool eligible, Widget? child) {
+          return Scaffold(
+              appBar: AppBar(),
+              body: ListView(
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+                      child: Row(children: [
+                        Image(
+                          image: AssetImage(
+                              'assets/images/${eligible ? 'check' : 'error'}.png'),
+                          color: eligible
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.error,
+                          width: 60 * scaleFactor,
+                          height: 60 * scaleFactor,
+                        ),
+                      ])),
+                  PageTitleBlock(
+                      title:
+                          eligible ? 'You are eligible' : 'You are ineligible'),
+                  PageTextBlock(
+                      text: eligible
+                          ? (widget.stepType == PbEligibilityStepType.token
+                              ? 'Your eligibility to participate in this study has been successfully verified. You may proceed to the next steps.'
+                              : 'Based on the answers you provided, you are eligible to participate in this study. You may proceed to the next steps.')
+                          : 'Sorry! Based on the answers you provided, you are not eligible to participate in this study.',
+                      textAlign: TextAlign.left),
+                  const SizedBox(height: 92),
+                  PrimaryButtonBlock(
+                      title: eligible ? 'Continue' : 'Exit',
+                      onPressed: _isLoading ? null : _goToNextStep(eligible))
+                ],
+              ));
         });
   }
 

@@ -1,11 +1,12 @@
+import 'package:fda_mystudies_design_system/block/ink_well_block.dart';
+import 'package:fda_mystudies_design_system/block/page_text_block.dart';
+import 'package:fda_mystudies_design_system/block/primary_button_block.dart';
+import 'package:fda_mystudies_design_system/component/bottom_sheet.dart' as bs;
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../common/home_scaffold.dart';
-import '../../common/widget_util.dart';
 import '../../theme/fda_text_theme.dart';
-import '../../widget/fda_button.dart';
 import '../../widget/fda_ink_well.dart';
 
 class VisualScreenTemplate extends StatelessWidget {
@@ -20,36 +21,32 @@ class VisualScreenTemplate extends StatelessWidget {
     var content = <Widget>[];
     if (visualScreen.text.isNotEmpty) {
       content.addAll([
-        Text(visualScreen.text, style: FDATextTheme.bodyTextStyle(context)),
-        const SizedBox(height: 22)
+        PageTextBlock(text: visualScreen.text, textAlign: TextAlign.left),
       ]);
     } else if (visualScreen.description.isNotEmpty) {
       content.add(
           Text(visualScreen.title, style: FDATextTheme.bodyTextStyle(context)));
     }
     if (visualScreen.html.isNotEmpty) {
-      content.add(FDAInkWell('Learn more',
-          onTap: () => showWebviewModalBottomSheet(context,
+      content.add(InkWellBlock(
+          title: 'Learn more',
+          onTap: () => bs.BottomSheet.showWebview(context,
               htmlText: visualScreen.html)));
     } else if (visualScreen.url.isNotEmpty) {
       content.add(FDAInkWell(visualScreen.url,
           onTap: () =>
-              showWebviewModalBottomSheet(context, url: visualScreen.url)));
+              bs.BottomSheet.showWebview(context, url: visualScreen.url)));
     }
-    content.add(const SizedBox(height: 130));
-    return HomeScaffold(
-        child: SafeArea(
-            bottom: false,
-            child: Stack(children: <Widget>[
-              ListView(padding: const EdgeInsets.all(16), children: content)
-            ])),
-        bottomNavigationBar: BottomAppBar(
-            child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  FDAButton(title: 'NEXT', onPressed: nextStep)
-                ]))),
-        title: toBeginningOfSentenceCase(visualScreen.title) ?? '',
-        showDrawer: false);
+    content.addAll([
+      const SizedBox(height: 92),
+      PrimaryButtonBlock(title: 'Continue', onPressed: nextStep),
+      const SizedBox(height: 92)
+    ]);
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(toBeginningOfSentenceCase(visualScreen.title) ?? ''),
+          elevation: 0,
+        ),
+        body: ListView(children: content));
   }
 }

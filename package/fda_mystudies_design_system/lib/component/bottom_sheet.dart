@@ -1,13 +1,12 @@
+import 'package:fda_mystudies_design_system/block/page_html_text_block.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class BottomSheet {
-  static void showWebview(BuildContext context, {required String url}) {
-    final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
-      Factory(() => EagerGestureRecognizer())
-    };
+  static void showWebview(BuildContext context,
+      {String? url, String? htmlText}) {
     const radius = Radius.circular(16);
     showModalBottomSheet<void>(
         context: context,
@@ -23,13 +22,7 @@ class BottomSheet {
                         color: Theme.of(context).colorScheme.surface,
                         borderRadius: const BorderRadius.only(
                             topLeft: radius, topRight: radius)),
-                    child: url.isEmpty
-                        ? Container()
-                        : WebView(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.surface,
-                            initialUrl: url,
-                            gestureRecognizers: gestureRecognizers)),
+                    child: _displayWidget(context, url, htmlText)),
                 Padding(
                     padding: const EdgeInsets.all(8),
                     child: Row(
@@ -48,5 +41,23 @@ class BottomSheet {
                         ]))
               ]));
         });
+  }
+
+  static Widget _displayWidget(
+      BuildContext context, String? url, String? htmlText) {
+    if (url != null && url.isNotEmpty) {
+      final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers = {
+        Factory(() => EagerGestureRecognizer())
+      };
+      return WebView(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          initialUrl: url,
+          gestureRecognizers: gestureRecognizers);
+    } else if (htmlText != null && htmlText.isNotEmpty) {
+      return ListView(children: [
+        PageHtmlTextBlock(text: htmlText, textAlign: TextAlign.left)
+      ]);
+    }
+    return Container();
   }
 }
