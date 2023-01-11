@@ -13,4 +13,7 @@ class RouteName {
   static const standaloneHome = 'standalone_home';
   static const visualScreen = 'visual_screen';
   static const sharingOptions = 'sharing_options';
+  static const studyHome = 'study_home';
+  static const myAccount = 'my_account';
+  static const reachOut = 'reach_out';
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../common/widget_util.dart';
 import '../eligibility_module/eligibility_step_type_router.dart';
-import '../study_home.dart';
+import '../route/route_name.dart';
 import '../user/user_data.dart';
 import 'study_tile/pb_study_enrollment_status.dart';
 import 'study_tile/pb_user_study_data.dart';
@@ -48,7 +49,7 @@ class StudyStatusRouter {
           pbUserStudyData.userState.participantId;
       UserData.shared.curStudyCompletion = pbUserStudyData.userState.completion;
       UserData.shared.curStudyAdherence = pbUserStudyData.userState.adherence;
-      pushAndRemoveUntil(context, const StudyHome());
+      context.goNamed(RouteName.studyHome);
       return;
     }
   }

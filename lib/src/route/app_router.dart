@@ -12,18 +12,21 @@ import '../controller/account_activated_screen_controller.dart';
 import '../controller/forgot_password_screen_controller.dart';
 import '../controller/onboarding_screen_controller.dart';
 import '../controller/register_screen_controller.dart';
+import '../controller/sign_in_web_screen_controller.dart';
 import '../controller/update_password_screen_controller.dart';
 import '../controller/verification_step_screen_controller.dart';
 import '../controller/welcome_screen_controller.dart';
 import '../informed_consent_module/comprehension_test/comprehension_test.dart';
 import '../informed_consent_module/sharing_options/sharing_options.dart';
 import '../informed_consent_module/visual_screen/visual_screen.dart';
+import '../my_account_module/my_account.dart';
 import '../provider/eligibility_consent_provider.dart';
 import '../provider/my_account_provider.dart';
+import '../reach_out_module/reach_out.dart';
 import '../register_and_login/auth_utils.dart';
 import '../register_and_login/secure_key.dart';
-import '../register_and_login/sign_in.dart';
 import '../register_and_login/unknown_account_status.dart';
+import '../study_home.dart';
 import '../study_module/gateway_home.dart';
 import '../study_module/standalone_home.dart';
 import '../user/user_data.dart';
@@ -94,7 +97,8 @@ class AppRouter {
               GoRoute(
                   name: RouteName.signIn,
                   path: RouteName.signIn,
-                  builder: (context, state) => const SignIn(),
+                  builder: (context, state) =>
+                      const SignInWebScreenController(),
                   routes: [
                     GoRoute(
                         name: RouteName.forgotPassword,
@@ -163,7 +167,19 @@ class AppRouter {
                       .consent;
               return SharingOptions(consent.sharingScreen,
                   consent.visualScreens, consent.version);
-            })
+            }),
+        GoRoute(
+            name: RouteName.studyHome,
+            path: '/${RouteName.studyHome}',
+            builder: (context, state) => const StudyHome()),
+        GoRoute(
+            name: RouteName.myAccount,
+            path: '/${RouteName.myAccount}',
+            builder: (context, state) => const MyAccount()),
+        GoRoute(
+            name: RouteName.reachOut,
+            path: '/${RouteName.reachOut}',
+            builder: (context, state) => const ReachOut())
       ]);
 
   static GoRouter get routeConfig => _goRouter;

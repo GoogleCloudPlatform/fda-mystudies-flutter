@@ -5,8 +5,6 @@ import '../theme/fda_text_style.dart';
 
 /// Common Scaffolding shared by home screen and other screens sharing Navigation bars and bottom navigation bars.
 class HomeScaffold extends StatefulWidget {
-  static var draweSelectionIndex = 0;
-
   final Widget child;
   final String title;
   final Widget? bottomNavigationBar;
