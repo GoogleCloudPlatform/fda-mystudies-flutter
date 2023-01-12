@@ -272,5 +272,10 @@
 
     "consentAgreementScreenMissingFirstNameErrorMessage": "Please enter your first name.",
     "consentAgreementScreenMissingLastNameErrorMessage": "Please enter your last name.",
-    "consentAgreementScreenMissingSignatureErrorMessage": "Please draw your signature in the box."
+    "consentAgreementScreenMissingSignatureErrorMessage": "Please draw your signature in the box.",
+
+    "consentConfirmedScreenTitle": "Consent confirmed",
+    "consentConfirmedScreenSubtitle": "You can now start using the app to participate in the study",
+    "consentConfirmedScreenViewConsentPdfButtonText": "View eConsent PDF",
+    "consentConfirmedScreenNextScreenButtonText": "Continue"
 }
