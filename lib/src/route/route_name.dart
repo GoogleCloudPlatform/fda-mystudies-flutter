@@ -18,4 +18,7 @@ class RouteName {
   static const reachOut = 'reach_out';
   static const userStateCheck = 'user_state_check';
   static const studyStateCheck = 'study_state_check';
+  static const consentDocument = 'consent_document';
+  static const consentAgreement = 'consent_agreement';
+  static const viewSignedConsentPdf = 'view_signed_consent_pdf';
 }

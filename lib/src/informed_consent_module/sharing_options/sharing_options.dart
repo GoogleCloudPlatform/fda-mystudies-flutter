@@ -3,9 +3,11 @@ import 'package:fda_mystudies_design_system/block/page_title_block.dart';
 import 'package:fda_mystudies_design_system/block/primary_button_block.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pbserver.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-import '../../common/widget_util.dart';
-import '../../informed_consent_module/consent/consent_document.dart';
+import '../../provider/eligibility_consent_provider.dart';
+import '../../route/route_name.dart';
 
 class SharingOptions extends StatefulWidget {
   final GetEligibilityAndConsentResponse_Consent_SharingScreen sharing;
@@ -76,11 +78,9 @@ class _SharingOptionsState extends State<SharingOptions> {
       } else if (_selectedValue == widget.sharing.longDesc) {
         selectedOption = 'Not Provided';
       }
-      push(
-          context,
-          ConsentDocument(widget.visualScreens,
-              consentVersion: widget.consentVersion,
-              userSelectedSharingOption: selectedOption));
+      Provider.of<EligibilityConsentProvider>(context, listen: false)
+          .updateUserInfo(selectedSharingOption: selectedOption);
+      context.pushNamed(RouteName.consentDocument);
     };
   }
 }

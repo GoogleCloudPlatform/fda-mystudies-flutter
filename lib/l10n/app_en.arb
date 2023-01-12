@@ -266,5 +266,11 @@
     "studyStatusEnrollmentClosed": "Sorry, enrollment for this study has been closed for now. Please check back later.",
     "studyStatusUserNotEligible": "Sorry, you are not eligible to participate in this study!",
     "studyStatusEnrollmentNotAllowedInStandaloneApp": "Sorry, enrollment for this study has been closed for now. Please check back later.",
-    "studyStatusEnrollmentNotAllowedInGatewayApp": "Sorry, enrollment for this study has been closed for now. Please check back later or explore other studies you could join."
+    "studyStatusEnrollmentNotAllowedInGatewayApp": "Sorry, enrollment for this study has been closed for now. Please check back later or explore other studies you could join.",
+
+    "signedConsentDocumentTitle": "Signed Consent Document",
+
+    "consentAgreementScreenMissingFirstNameErrorMessage": "Please enter your first name.",
+    "consentAgreementScreenMissingLastNameErrorMessage": "Please enter your last name.",
+    "consentAgreementScreenMissingSignatureErrorMessage": "Please draw your signature in the box."
 }

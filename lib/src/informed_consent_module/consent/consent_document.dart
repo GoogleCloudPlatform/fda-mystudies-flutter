@@ -4,31 +4,26 @@ import 'package:fda_mystudies_design_system/block/page_html_text_block.dart';
 import 'package:fda_mystudies_design_system/block/primary_button_block.dart';
 import 'package:fda_mystudies_design_system/block/text_button_block.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
-import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../../main.dart';
 import '../../common/widget_util.dart';
+import '../../provider/eligibility_consent_provider.dart';
 import '../../route/route_name.dart';
 import '../../widget/fda_dialog_action.dart';
-import 'consent_signature.dart';
 
 class ConsentDocument extends StatelessWidget {
-  final List<GetEligibilityAndConsentResponse_Consent_VisualScreen>
-      visualScreens;
-  final String consentVersion;
-  final String userSelectedSharingOption;
-
-  const ConsentDocument(this.visualScreens,
-      {required this.consentVersion,
-      required this.userSelectedSharingOption,
-      Key? key})
-      : super(key: key);
+  const ConsentDocument({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    final visualScreens =
+        Provider.of<EligibilityConsentProvider>(context, listen: false)
+            .consent
+            .visualScreens;
     var contentFromVisualScreens = '''
       <div>
         <h1>Review</h1>
@@ -81,12 +76,7 @@ class ConsentDocument extends StatelessWidget {
                                 FDADialogAction('AGREE', isPrimary: true,
                                     onPressed: () {
                                   Navigator.of(context).pop();
-                                  push(
-                                      context,
-                                      ConsentSignature(visualScreens,
-                                          consentVersion: consentVersion,
-                                          sharingOptions:
-                                              userSelectedSharingOption));
+                                  context.pushNamed(RouteName.consentAgreement);
                                 })
                               ]);
                         }),

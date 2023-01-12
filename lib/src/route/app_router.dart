@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../controller/account_activated_screen_controller.dart';
+import '../controller/consent_agreement_screen_controller.dart';
 import '../controller/forgot_password_screen_controller.dart';
 import '../controller/onboarding_screen_controller.dart';
 import '../controller/register_screen_controller.dart';
@@ -18,8 +19,10 @@ import '../controller/study_state_check_screen_controller.dart';
 import '../controller/update_password_screen_controller.dart';
 import '../controller/user_state_check_screen_controller.dart';
 import '../controller/verification_step_screen_controller.dart';
+import '../controller/view_consent_pdf_screen_controller.dart';
 import '../controller/welcome_screen_controller.dart';
 import '../informed_consent_module/comprehension_test/comprehension_test.dart';
+import '../informed_consent_module/consent/consent_document.dart';
 import '../informed_consent_module/sharing_options/sharing_options.dart';
 import '../informed_consent_module/visual_screen/visual_screen.dart';
 import '../my_account_module/my_account.dart';
@@ -189,7 +192,21 @@ class AppRouter {
             name: RouteName.studyStateCheck,
             path: '/${RouteName.studyStateCheck}',
             builder: (context, state) =>
-                const StudyStateCheckScreenController())
+                const StudyStateCheckScreenController()),
+        GoRoute(
+            name: RouteName.consentAgreement,
+            path: '/${RouteName.consentAgreement}',
+            builder: (context, state) =>
+                const ConsentAgreementScreenController()),
+        GoRoute(
+            name: RouteName.viewSignedConsentPdf,
+            path: '/${RouteName.viewSignedConsentPdf}',
+            builder: (context, state) =>
+                const ViewConsentPdfScreenController()),
+        GoRoute(
+            name: RouteName.consentDocument,
+            path: '/${RouteName.consentDocument}',
+            builder: (context, state) => const ConsentDocument())
       ]);
 
   static GoRouter get routeConfig => _goRouter;
