@@ -1,13 +1,13 @@
+import 'package:fda_mystudies_design_system/block/page_text_block.dart';
+import 'package:fda_mystudies_design_system/block/page_title_block.dart';
+import 'package:fda_mystudies_design_system/block/primary_button_block.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pbserver.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-import '../../common/home_scaffold.dart';
-import '../../common/widget_util.dart';
-import '../../informed_consent_module/consent/consent_document.dart';
-import '../../theme/fda_text_theme.dart';
-import '../../widget/fda_button.dart';
-import '../../widget/fda_check_box.dart';
+import '../../provider/eligibility_consent_provider.dart';
+import '../../route/route_name.dart';
 
 class SharingOptions extends StatefulWidget {
   final GetEligibilityAndConsentResponse_Consent_SharingScreen sharing;
@@ -23,88 +23,47 @@ class SharingOptions extends StatefulWidget {
 }
 
 class _SharingOptionsState extends State<SharingOptions> {
-  var _firstOption = false;
-  var _secondOption = false;
+  var _selectedValue = '';
 
   @override
   Widget build(BuildContext context) {
-    return HomeScaffold(
-        child: SafeArea(
-            child: ListView(
-          padding: const EdgeInsets.all(16),
+    return Scaffold(
+        appBar: AppBar(),
+        body: ListView(
           children: [
-            Text(widget.sharing.title,
-                style: FDATextTheme.headerTextStyle(context)),
-            const SizedBox(height: 22),
-            Text(widget.sharing.text,
-                style: FDATextTheme.bodyTextStyle(context)),
-            const SizedBox(height: 22),
-            GestureDetector(
-              child: Row(children: [
-                FDACheckBox(
-                    value: _firstOption,
-                    onTap: (value) {
-                      setState(() {
-                        _firstOption = !_firstOption;
-                        if (_secondOption) {
-                          _secondOption = false;
-                        }
-                      });
-                    }),
-                const SizedBox(width: 8),
-                Expanded(
-                    child: Text(widget.sharing.shortDesc,
-                        style: FDATextTheme.bodyTextStyle(context)))
-              ]),
-              onTap: () {
-                setState(() {
-                  _firstOption = !_firstOption;
-                  if (_secondOption) {
-                    _secondOption = false;
-                  }
-                });
-              },
-            ),
-            const SizedBox(height: 8),
-            GestureDetector(
-              child: Row(children: [
-                FDACheckBox(
-                    value: _secondOption,
-                    onTap: (value) {
-                      setState(() {
-                        _secondOption = !_secondOption;
-                        if (_firstOption) {
-                          _firstOption = false;
-                        }
-                      });
-                    }),
-                const SizedBox(width: 8),
-                Expanded(
-                    child: Text(widget.sharing.longDesc,
-                        style: FDATextTheme.bodyTextStyle(context)))
-              ]),
-              onTap: () {
-                setState(() {
-                  _secondOption = !_secondOption;
-                  if (_firstOption) {
-                    _firstOption = false;
-                  }
-                });
-              },
-            ),
-            const SizedBox(height: 22),
-            FDAButton(title: 'NEXT', onPressed: _nextStep())
+            PageTitleBlock(title: widget.sharing.title),
+            PageTextBlock(text: widget.sharing.text, textAlign: TextAlign.left),
+            const SizedBox(height: 20),
+            RadioListTile(
+                title: Text(widget.sharing.shortDesc),
+                value: widget.sharing.shortDesc,
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = widget.sharing.shortDesc;
+                  });
+                }),
+            const SizedBox(height: 20),
+            RadioListTile(
+                title: Text(widget.sharing.longDesc),
+                value: widget.sharing.longDesc,
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = widget.sharing.longDesc;
+                  });
+                }),
+            const SizedBox(height: 92),
+            PrimaryButtonBlock(title: 'Continue', onPressed: _nextStep())
           ],
-        )),
-        title: '',
-        showDrawer: false);
+        ));
   }
 
   void Function()? _nextStep() {
     if (widget.sharing.allowWithoutSharing) {
       return _goToConsentStep();
     } else {
-      if (_firstOption || _secondOption) {
+      if (_selectedValue.isNotEmpty) {
         return _goToConsentStep();
       }
     }
@@ -114,16 +73,14 @@ class _SharingOptionsState extends State<SharingOptions> {
   void Function()? _goToConsentStep() {
     return () {
       var selectedOption = 'Not applicable';
-      if (_firstOption) {
+      if (_selectedValue == widget.sharing.shortDesc) {
         selectedOption = 'Provided';
-      } else if (_secondOption) {
+      } else if (_selectedValue == widget.sharing.longDesc) {
         selectedOption = 'Not Provided';
       }
-      push(
-          context,
-          ConsentDocument(widget.visualScreens,
-              consentVersion: widget.consentVersion,
-              userSelectedSharingOption: selectedOption));
+      Provider.of<EligibilityConsentProvider>(context, listen: false)
+          .updateUserInfo(selectedSharingOption: selectedOption);
+      context.pushNamed(RouteName.consentDocument);
     };
   }
 }

@@ -1,19 +1,20 @@
+import 'package:fda_mystudies_design_system/block/ink_well_block.dart';
+import 'package:fda_mystudies_design_system/block/page_text_block.dart';
+import 'package:fda_mystudies_design_system/block/page_title_block.dart';
+import 'package:fda_mystudies_design_system/block/primary_button_block.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/participant_consent_datastore_service.dart';
 import 'package:fda_mystudies_http_client/participant_enroll_datastore_service.dart';
 import 'package:fda_mystudies_spec/participant_enroll_datastore_service/enroll_in_study.pbserver.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../common/widget_util.dart';
 import '../../route/route_name.dart';
 import '../../study_module/study_tile/pb_user_study_status.dart';
-import '../../theme/fda_text_theme.dart';
 import '../../user/user_data.dart';
-import '../../widget/fda_button.dart';
-import '../../widget/fda_scaffold.dart';
-import '../../widget/fda_text_button.dart';
 import 'consent_pdf_generator.dart';
 import 'view_consent_pdf.dart';
 
@@ -42,25 +43,34 @@ class _ConsentConfirmedState extends State<ConsentConfirmed> {
 
   @override
   Widget build(BuildContext context) {
-    return FDAScaffold(
-        child: ListView(padding: const EdgeInsets.all(16), children: [
-      const SizedBox(height: 84),
-      Text('Consent confirmed',
-          style: FDATextTheme.headerTextStyle(context),
-          textAlign: TextAlign.center),
-      const SizedBox(height: 22),
-      Text('You can now start using the app to participate in the study.',
-          style: FDATextTheme.bodyTextStyle(context),
-          textAlign: TextAlign.center),
-      const SizedBox(height: 22),
-      FDATextButton(
-          title: 'View eConsent PDF',
-          onPressed: () =>
-              push(context, ViewConsentPdf(_generateBase64PdfString(context)))),
-      const SizedBox(height: 22),
-      FDAButton(
-          title: 'Done', isLoading: _isLoading, onPressed: _enrollUser(context))
-    ]));
+    var l10n = AppLocalizations.of(context);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    return Scaffold(
+        appBar: AppBar(),
+        body: ListView(children: [
+          Padding(
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+              child: Row(children: [
+                Image(
+                  image: const AssetImage('assets/images/check.png'),
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 60 * scaleFactor,
+                  height: 60 * scaleFactor,
+                ),
+              ])),
+          PageTitleBlock(title: l10n.consentConfirmedScreenTitle),
+          PageTextBlock(
+              text: l10n.consentConfirmedScreenSubtitle,
+              textAlign: TextAlign.left),
+          InkWellBlock(
+              title: l10n.consentConfirmedScreenViewConsentPdfButtonText,
+              onTap: () => push(
+                  context, ViewConsentPdf(_generateBase64PdfString(context)))),
+          const SizedBox(height: 92),
+          PrimaryButtonBlock(
+              title: l10n.consentConfirmedScreenNextScreenButtonText,
+              onPressed: _enrollUser(context))
+        ]));
   }
 
   void Function()? _enrollUser(BuildContext context) {

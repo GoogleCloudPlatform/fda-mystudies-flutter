@@ -1,15 +1,12 @@
-import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
-import 'package:fda_mystudies_http_client/participant_enroll_datastore_service.dart';
-import 'package:fda_mystudies_http_client/study_datastore_service.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:fda_mystudies_spec/participant_enroll_datastore_service/get_study_state.pbserver.dart';
-import 'package:fda_mystudies_spec/study_datastore_service/get_study_list.pb.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../common/future_loading_page.dart';
+import '../provider/user_study_state_provider.dart';
 import '../study_module/study_tile/study_tile.dart';
-import '../user/user_data.dart';
 import 'study_tile/pb_user_study_data.dart';
 
 class GatewayHome extends StatelessWidget {
@@ -19,7 +16,8 @@ class GatewayHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureLoadingPage.build(context,
         scaffoldTitle: curConfig.appName,
-        future: _fetchStudyListAndUserStatus(), builder: (context, snapshot) {
+        future: _fetchStudyListAndUserStatus(context),
+        builder: (context, snapshot) {
       var userStudyStatusList = snapshot.data as List<PbUserStudyData>;
       return ListView.builder(
           itemCount: userStudyStatusList.length,
@@ -28,47 +26,29 @@ class GatewayHome extends StatelessWidget {
     }, showDrawer: true);
   }
 
-  Future<Object> _fetchStudyListAndUserStatus() {
-    var studyDatastoreService = getIt<StudyDatastoreService>();
-    var participantUserDatastoreService =
-        getIt<ParticipantEnrollDatastoreService>();
-    return Future.wait([
-      studyDatastoreService.getStudyList(UserData.shared.userId),
-      participantUserDatastoreService.getStudyState(UserData.shared.userId)
-    ]).then((value) {
-      var studyListResponse = value[0];
-      var userStudyStateListResponse = value[1];
-      if (studyListResponse is CommonErrorResponse) {
-        return studyListResponse;
-      } else if (userStudyStateListResponse is CommonErrorResponse) {
-        return userStudyStateListResponse;
-      } else if (studyListResponse is GetStudyListResponse &&
-          userStudyStateListResponse is GetStudyStateResponse) {
-        var studyList = studyListResponse.studies;
-        var userStudyStateList = userStudyStateListResponse.studies;
-        var uniqueStudyIds = studyList.map((e) => e.studyId).toSet().toList();
-        List<PbUserStudyData> pbUserStudyStatusList = [];
-        for (String studyId in uniqueStudyIds) {
-          var matchingStudyList = studyList.where((e) => e.studyId == studyId);
-          var matchingStudyStateList =
-              userStudyStateList.where((e) => e.studyId == studyId);
-          if (matchingStudyList.isNotEmpty &&
-              matchingStudyStateList.isNotEmpty) {
-            pbUserStudyStatusList.add(PbUserStudyData(studyId,
-                matchingStudyList.first, matchingStudyStateList.first));
-          } else if (matchingStudyList.isNotEmpty &&
-              matchingStudyStateList.isEmpty) {
-            pbUserStudyStatusList.add(PbUserStudyData(studyId,
-                matchingStudyList.first, GetStudyStateResponse_StudyState()));
-          }
-        }
-        if (pbUserStudyStatusList.isNotEmpty) {
-          return pbUserStudyStatusList;
-        }
+  Future<Object> _fetchStudyListAndUserStatus(BuildContext context) {
+    List<PbUserStudyData> pbUserStudyStatusList = [];
+    final studyIds =
+        Provider.of<UserStudyStateProvider>(context, listen: false).studyIds;
+    for (String studyId in studyIds) {
+      final studyState =
+          Provider.of<UserStudyStateProvider>(context, listen: false)
+              .studyState(studyId);
+      final userState =
+          Provider.of<UserStudyStateProvider>(context, listen: false)
+                  .userState(studyId) ??
+              GetStudyStateResponse_StudyState();
+      if (studyState != null) {
+        pbUserStudyStatusList
+            .add(PbUserStudyData(studyId, studyState, userState));
       }
-      return CommonErrorResponse(
-          status: 404,
-          errorDescription: 'No valid user states found for the studies.');
-    });
+    }
+
+    if (pbUserStudyStatusList.isNotEmpty) {
+      return Future.value(pbUserStudyStatusList);
+    }
+    return Future.value(CommonErrorResponse(
+        status: 404,
+        errorDescription: 'No valid user states found for the studies.'));
   }
 }

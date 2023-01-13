@@ -11,6 +11,7 @@ import 'fda_mystudies_app.dart';
 import 'src/provider/connectivity_provider.dart';
 import 'src/provider/eligibility_consent_provider.dart';
 import 'src/provider/my_account_provider.dart';
+import 'src/provider/user_study_state_provider.dart';
 import 'src/provider/welcome_provider.dart';
 
 final demoConfig = dc.DemoConfig();
@@ -23,6 +24,7 @@ void main() {
     ChangeNotifierProvider(create: (context) => ConnectivityProvider()),
     ChangeNotifierProvider(create: (context) => WelcomeProvider()),
     ChangeNotifierProvider(create: (context) => MyAccountProvider()),
-    ChangeNotifierProvider(create: (context) => EligibilityConsentProvider())
+    ChangeNotifierProvider(create: (context) => EligibilityConsentProvider()),
+    ChangeNotifierProvider(create: (context) => UserStudyStateProvider())
   ], child: const FDAMyStudiesApp()));
 }

@@ -259,5 +259,23 @@
     "updatePasswordScreenTemporaryPasswordMissingText": "Please enter temporary password.",
     "updatePasswordScreenNewPasswordMissingText": "Please enter new password.",
     "updatePasswordScreenConfirmNewPasswordMissingText": "Please confirm new password",
-    "updatePasswordScreenPasswordSuccessfullyChangedText": "Password Successfully changed!"
+    "updatePasswordScreenPasswordSuccessfullyChangedText": "Password Successfully changed!",
+
+    "studyStatusEnrollmentPaused": "This study has been temporarily paused. Please check back later.",
+    "studyStatusClosed": "This study has been closed.",
+    "studyStatusEnrollmentClosed": "Sorry, enrollment for this study has been closed for now. Please check back later.",
+    "studyStatusUserNotEligible": "Sorry, you are not eligible to participate in this study!",
+    "studyStatusEnrollmentNotAllowedInStandaloneApp": "Sorry, enrollment for this study has been closed for now. Please check back later.",
+    "studyStatusEnrollmentNotAllowedInGatewayApp": "Sorry, enrollment for this study has been closed for now. Please check back later or explore other studies you could join.",
+
+    "signedConsentDocumentTitle": "Signed Consent Document",
+
+    "consentAgreementScreenMissingFirstNameErrorMessage": "Please enter your first name.",
+    "consentAgreementScreenMissingLastNameErrorMessage": "Please enter your last name.",
+    "consentAgreementScreenMissingSignatureErrorMessage": "Please draw your signature in the box.",
+
+    "consentConfirmedScreenTitle": "Consent confirmed",
+    "consentConfirmedScreenSubtitle": "You can now start using the app to participate in the study",
+    "consentConfirmedScreenViewConsentPdfButtonText": "View eConsent PDF",
+    "consentConfirmedScreenNextScreenButtonText": "Continue"
 }

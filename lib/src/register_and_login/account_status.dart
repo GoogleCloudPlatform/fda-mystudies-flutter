@@ -67,15 +67,10 @@ extension AccountStatusExtension on AccountStatus {
       return value;
     }).then((value) {
       if (value is RefreshTokenResponse) {
-        switch (curConfig.appType) {
-          case AppType.gateway:
-            context.goNamed(RouteName.gatewayHome);
-            break;
-          case AppType.standalone:
-            UserData.shared.curStudyId = curConfig.studyId;
-            context.goNamed(RouteName.standaloneHome);
-            break;
+        if (curConfig.appType == AppType.standalone) {
+          UserData.shared.curStudyId = curConfig.studyId;
         }
+        context.goNamed(RouteName.studyStateCheck);
       } else {
         context.goNamed(RouteName.unknownAccountStatus);
       }

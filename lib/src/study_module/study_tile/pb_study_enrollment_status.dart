@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum PbStudyEnrollmentStatus { active, paused, closed }
 
 extension PbStudyStatusStringExtension on String {
-  PbStudyEnrollmentStatus? get studyEnrollmentStatus {
+  PbStudyEnrollmentStatus? get studyStatus {
     if (this == 'Active') {
       return PbStudyEnrollmentStatus.active;
     } else if (this == 'Paused') {
