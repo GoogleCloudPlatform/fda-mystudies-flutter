@@ -14,7 +14,7 @@ void main() {
           ActivityTileBlock(
               title: 'Baseline Study',
               status: ActivityStatus.inProgress,
-              frequency: Frequency.oneTime,
+              frequency: ActivityFrequency.oneTime,
               onTap: () {})
         ]));
 
@@ -32,8 +32,8 @@ void main() {
         body: ListView(children: [
           ActivityTileBlock(
               title: 'Questionnaire to test all the UI elements',
-              status: ActivityStatus.start,
-              frequency: Frequency.weekly,
+              status: ActivityStatus.yetToJoin,
+              frequency: ActivityFrequency.weekly,
               onTap: () {})
         ]));
 

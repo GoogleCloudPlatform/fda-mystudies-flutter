@@ -30,7 +30,8 @@ class _StatisticsViewState extends State<StatisticsView> {
     return Container(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
         height: _containerHeight(context),
-        decoration: BoxDecoration(color: Theme.of(context).bottomAppBarColor),
+        decoration:
+            BoxDecoration(color: Theme.of(context).colorScheme.surfaceVariant),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           const SizedBox(height: 8),
           SizedBox(

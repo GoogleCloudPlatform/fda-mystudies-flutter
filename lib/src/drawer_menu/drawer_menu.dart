@@ -8,8 +8,6 @@ import 'package:go_router/go_router.dart';
 
 import '../common/widget_util.dart';
 import '../route/route_name.dart';
-import '../theme/fda_color_scheme.dart';
-import '../theme/fda_text_style.dart';
 import '../user/user_data.dart';
 
 class DrawerMenu extends StatefulWidget {
@@ -35,25 +33,27 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
                 Image(
                   image: const AssetImage('assets/images/logo.png'),
-                  color: FDAColorScheme.googleBlue(context),
+                  color: Theme.of(context).colorScheme.primary,
                   width: 36,
                   height: 33,
                 ),
                 const SizedBox(width: 12),
                 Text(AppLocalizations.of(context).navigationBarTitle,
-                    style: FDATextStyle.heading(context))
+                    style: Theme.of(context).textTheme.headlineSmall)
               ])),
           const SizedBox(height: 30),
           _listTile(
               context,
               Icons.home,
               AppLocalizations.of(context).homePage,
-              GoRouter.of(context).location == '/${RouteName.studyHome}',
+              GoRouter.of(context)
+                  .location
+                  .startsWith('/${RouteName.studyHome}'),
               () => context.goNamed(RouteName.studyHome)),
           const SizedBox(height: 8),
           _listTile(
               context,
-              Icons.home,
+              Icons.account_circle,
               AppLocalizations.of(context).myAccountPage,
               GoRouter.of(context).location == '/${RouteName.myAccount}',
               () => context.goNamed(RouteName.myAccount)),
@@ -65,7 +65,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
               GoRouter.of(context).location == '/${RouteName.reachOut}',
               () => context.goNamed(RouteName.reachOut)),
           const SizedBox(height: 50),
-          const Divider(),
+          Divider(
+            thickness: 1,
+            color:
+                Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+          ),
           const SizedBox(height: 8),
           _listTile(
               context,
@@ -79,26 +83,22 @@ class _DrawerMenuState extends State<DrawerMenu> {
   Widget _listTile(BuildContext context, IconData icon, String title,
       bool isSelected, void Function()? onPressed,
       {String? subtitle}) {
-    var color = isSelected ? const Color(0xFF0B57D0) : const Color(0xFF606060);
     return ListTile(
         contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         title: Row(children: [
           const SizedBox(width: 27),
-          Icon(icon, size: 18, color: color),
+          Icon(icon, size: 18),
           const SizedBox(width: 27),
-          Expanded(
-              child: Text(title,
-                  style: FDATextStyle.drawerNavigationItem(context)!
-                      .apply(color: color)))
+          Expanded(child: Text(title))
         ]),
+        selectedTileColor: Theme.of(context).colorScheme.surfaceVariant,
+        selectedColor: Theme.of(context).colorScheme.primary,
+        selected: isSelected,
         subtitle: subtitle == null
             ? null
             : Row(children: [
                 const SizedBox(width: 72),
-                Expanded(
-                    child: Text(subtitle,
-                        style:
-                            FDATextStyle.drawerNavigationItemSubtitle(context)))
+                Expanded(child: Text(subtitle))
               ]),
         onTap: () {
           if (onPressed != null) {

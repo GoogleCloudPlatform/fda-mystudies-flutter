@@ -5,7 +5,7 @@ import '../block/shimmer_block.dart';
 class ActivityTileBlock extends StatelessWidget {
   final String title;
   final ActivityStatus status;
-  final Frequency frequency;
+  final ActivityFrequency frequency;
   final Function() onTap;
   final bool displayShimmer;
 
@@ -21,7 +21,7 @@ class ActivityTileBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
         child: displayShimmer
             ? const ShimmerBlock(height: 75)
             : Card(
@@ -63,22 +63,61 @@ class ActivityTileBlock extends StatelessWidget {
   }
 }
 
-enum ActivityStatus { completed, missed, start, ended, inProgress, upcoming }
+enum ActivityStatus {
+  yetToJoin,
+  inProgress,
+  completed,
+  abandoned,
+  expired,
+  upcoming
+}
 
-enum Frequency { oneTime, daily, weekly, monthly, customSchedule }
+enum ActivityFrequency { oneTime, daily, weekly, monthly, customSchedule }
 
 extension ActivityStatusExtension on ActivityStatus {
+  static ActivityStatus valueFrom(String status) {
+    if (status == 'completed') {
+      return ActivityStatus.completed;
+    } else if (status == 'expired') {
+      return ActivityStatus.expired;
+    } else if (status == 'inProgress') {
+      return ActivityStatus.inProgress;
+    } else if (status == 'abandoned') {
+      return ActivityStatus.abandoned;
+    } else if (status == 'yetToJoin') {
+      return ActivityStatus.yetToJoin;
+    }
+    return ActivityStatus.upcoming;
+  }
+
+  String get toValue {
+    switch (this) {
+      case ActivityStatus.completed:
+        return 'completed';
+      case ActivityStatus.expired:
+        return 'expired';
+      case ActivityStatus.inProgress:
+        return 'inProgress';
+      case ActivityStatus.abandoned:
+        return 'abandoned';
+      case ActivityStatus.yetToJoin:
+        return 'yetToJoin';
+      case ActivityStatus.upcoming:
+        return 'yetToJoin';
+    }
+  }
+
   String get name {
     switch (this) {
       case ActivityStatus.completed:
         return 'Completed';
-      case ActivityStatus.ended:
-        return 'Ended';
+      case ActivityStatus.expired:
+        return 'Expired';
       case ActivityStatus.inProgress:
-        return 'In Progress';
-      case ActivityStatus.missed:
+        return 'Resume';
+      case ActivityStatus.abandoned:
         return 'Missed';
-      case ActivityStatus.start:
+      case ActivityStatus.yetToJoin:
         return 'Start';
       case ActivityStatus.upcoming:
         return 'Upcoming';
@@ -89,13 +128,13 @@ extension ActivityStatusExtension on ActivityStatus {
     switch (this) {
       case ActivityStatus.completed:
         return const Color(0xFF1E8E3E);
-      case ActivityStatus.ended:
+      case ActivityStatus.expired:
         return const Color(0xFF80868B);
       case ActivityStatus.inProgress:
         return const Color(0xFF1A73E8);
-      case ActivityStatus.missed:
+      case ActivityStatus.abandoned:
         return const Color(0xFF80868B);
-      case ActivityStatus.start:
+      case ActivityStatus.yetToJoin:
         return const Color(0xFF1A73E8);
       case ActivityStatus.upcoming:
         return const Color(0xFF80868B);
@@ -103,33 +142,33 @@ extension ActivityStatusExtension on ActivityStatus {
   }
 }
 
-extension FrequencyExtension on Frequency {
-  String get value {
-    switch (this) {
-      case Frequency.oneTime:
-        return 'One time';
-      case Frequency.daily:
-        return 'Daily';
-      case Frequency.weekly:
-        return 'Weekly';
-      case Frequency.monthly:
-        return 'Monthly';
-      case Frequency.customSchedule:
-        return 'Manually Schedule';
+extension ActivityFrequencyExtension on ActivityFrequency {
+  static ActivityFrequency valueFrom(String frequency) {
+    if (frequency == 'One time') {
+      return ActivityFrequency.oneTime;
+    } else if (frequency == 'Daily') {
+      return ActivityFrequency.daily;
+    } else if (frequency == 'Weekly') {
+      return ActivityFrequency.weekly;
+    } else if (frequency == 'Monthly') {
+      return ActivityFrequency.monthly;
+    } else if (frequency == 'Manually Schedule') {
+      return ActivityFrequency.customSchedule;
     }
+    return ActivityFrequency.customSchedule;
   }
 
   String get name {
     switch (this) {
-      case Frequency.oneTime:
+      case ActivityFrequency.oneTime:
         return 'One time';
-      case Frequency.daily:
+      case ActivityFrequency.daily:
         return 'Daily';
-      case Frequency.weekly:
+      case ActivityFrequency.weekly:
         return 'Weekly';
-      case Frequency.monthly:
+      case ActivityFrequency.monthly:
         return 'Monthly';
-      case Frequency.customSchedule:
+      case ActivityFrequency.customSchedule:
         return 'Aperiodic';
     }
   }

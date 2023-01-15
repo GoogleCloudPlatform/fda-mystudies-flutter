@@ -1,11 +1,8 @@
-import 'package:fda_mystudies/main.dart';
+import 'package:fda_mystudies_design_system/block/resource_tile_block.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../common/widget_util.dart';
-import '../theme/fda_text_style.dart';
-import 'about_study.dart';
-import 'environment_module/environment.dart';
-import 'view_consent_pdf.dart';
+import '../route/route_name.dart';
 
 class Resources extends StatelessWidget {
   static const aboutTheStudyTitle = 'About the Study';
@@ -21,38 +18,35 @@ class Resources extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.fromLTRB(28, 10, 28, 0),
       children: [
-        _resourceTile(context, aboutTheStudyTitle,
-            onTap: () => push(context, const AboutStudy())),
-        _resourceTile(context, softwareLicensesTitle,
-            onTap: () => showLicensePage(
-                context: context, applicationName: curConfig.appName)),
-        _resourceTile(context, consentPDFTitle,
-            onTap: () => push(context, const ViewConsentPdf())),
-        _resourceTile(context, leaveStudyTitle,
-            subtitle: leaveStudySubtitle, onTap: () => _showAlert(context)),
+        ResourceTileBlock(
+            title: aboutTheStudyTitle,
+            // onTap: () => push(context, const AboutStudy())),
+            onTap: () => context.pushNamed(RouteName.resourceAboutStudy)),
+        ResourceTileBlock(
+            title: softwareLicensesTitle,
+            onTap: () => context.pushNamed(RouteName.resourceSoftwareLicenses)),
+        ResourceTileBlock(
+            title: consentPDFTitle,
+            onTap: () => context.pushNamed(RouteName.resourceConsentPdf)),
+        ResourceTileBlock(
+            title: leaveStudyTitle,
+            subtitle: leaveStudySubtitle,
+            onTap: () => _showAlert(context)),
         const SizedBox(height: 32),
-        const Divider(),
+        Divider(
+          thickness: 1,
+          indent: 24,
+          endIndent: 24,
+          color:
+              Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+        ),
         const SizedBox(height: 32),
-        _resourceTile(context, environmentTitle,
-            subtitle: environmentSubtitle,
-            onTap: () => push(context, const Environment()))
+        ResourceTileBlock(
+            title: environmentTitle,
+            onTap: () => context.pushNamed(RouteName.configureEnvironment)),
       ],
     );
-  }
-
-  Widget _resourceTile(BuildContext context, String title,
-      {String? subtitle, void Function()? onTap}) {
-    return ListTile(
-        contentPadding: EdgeInsets.zero,
-        leading:
-            const Icon(Icons.description_outlined, color: Color(0xFF5F6368)),
-        title: Text(title, style: FDATextStyle.resourceTileTitle(context)),
-        subtitle: subtitle != null
-            ? Text(subtitle, style: FDATextStyle.activityTileFrequency(context))
-            : null,
-        onTap: onTap);
   }
 
   void _showAlert(BuildContext context) {
@@ -63,7 +57,7 @@ class Resources extends StatelessWidget {
         TextButton(
             child: const Text('Cancel'),
             onPressed: () {
-              Navigator.of(context).pop();
+              context.pop();
             }),
         TextButton(
             child: const Text('Yes'),
