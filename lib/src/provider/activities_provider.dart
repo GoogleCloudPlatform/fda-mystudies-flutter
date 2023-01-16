@@ -1,4 +1,5 @@
 import 'package:fda_mystudies_design_system/block/activity_tile_block.dart';
+import 'package:fda_mystudies_spec/response_datastore_service/get_activity_state.pb.dart';
 import 'package:flutter/material.dart';
 
 class ActivitiesProvider extends ChangeNotifier {
@@ -18,9 +19,11 @@ class ActivitiesProvider extends ChangeNotifier {
 
 class ActivityBundle {
   final String activityId;
+  final String version;
   final String title;
-  final ActivityStatus status;
+  final GetActivityStateResponse_ActivityState state;
   final ActivityFrequency frequency;
 
-  ActivityBundle(this.activityId, this.title, this.status, this.frequency);
+  ActivityBundle(
+      this.activityId, this.version, this.title, this.state, this.frequency);
 }

@@ -277,5 +277,10 @@
     "consentConfirmedScreenTitle": "Consent confirmed",
     "consentConfirmedScreenSubtitle": "You can now start using the app to participate in the study",
     "consentConfirmedScreenViewConsentPdfButtonText": "View eConsent PDF",
-    "consentConfirmedScreenNextScreenButtonText": "Continue"
+    "consentConfirmedScreenNextScreenButtonText": "Continue",
+
+    "activityCompletedStatusMessage": "You have already completed this activity!",
+    "activityExpiredStatusMessage": "This activity has ended!",
+    "activityAbandonedStatusMessage": "The next run of this activity is not available yet. Please try again later.",
+    "activityUpcomingStatusMessage": "This activity has not started yet!"
 }

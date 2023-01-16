@@ -29,4 +29,6 @@ class RouteName {
   static const resourceSoftwareLicenses = 'resource_software_license';
   static const resourceConsentPdf = 'resource_consent_pdf';
   static const configureEnvironment = 'config_environment';
+  static const activityLoader = 'activity_loader';
+  static const activitySteps = 'activity_steps';
 }

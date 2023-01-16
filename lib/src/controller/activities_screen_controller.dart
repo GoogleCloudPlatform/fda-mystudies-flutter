@@ -9,7 +9,6 @@ import 'package:fda_mystudies_spec/study_datastore_service/get_activity_list.pb.
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../common/pair.dart';
 import '../mixin/connectivity_actions.dart';
 import '../provider/activities_provider.dart';
 import '../provider/connectivity_provider.dart';
@@ -26,7 +25,6 @@ class ActivitiesScreenController extends StatefulWidget {
 
 class _ActivitiesScreenControllerState extends State<ActivitiesScreenController>
     with ConnectivityAction {
-  List<ActivityBundle> activities = [];
   var displayShimmer = true;
 
   @override
@@ -41,8 +39,7 @@ class _ActivitiesScreenControllerState extends State<ActivitiesScreenController>
 
   @override
   Widget build(BuildContext context) {
-    return ActivitiesScreen(
-        displayShimmer: displayShimmer, activityList: activities);
+    return ActivitiesScreen(displayShimmer: displayShimmer);
   }
 
   void _fetchData() {
@@ -54,35 +51,52 @@ class _ActivitiesScreenControllerState extends State<ActivitiesScreenController>
 
     Future.wait([_getActivityTitleFrequency(), _getActivityStatus()])
         .then((value) {
-      Map<String, Pair<String, ActivityFrequency>>? idToTitleFrequencyMap =
-          value[0]?.cast<String, Pair<String, ActivityFrequency>>();
-      Map<String, ActivityStatus>? idToStatusMap =
-          value[1]?.cast<String, ActivityStatus>();
-      if (idToTitleFrequencyMap == null || idToStatusMap == null) {
+      Map<String, _ActivityTitleVersionFrequency>? idToTitleFrequencyMap =
+          value[0]?.cast<String, _ActivityTitleVersionFrequency>();
+      Map<String, GetActivityStateResponse_ActivityState>? idToStateMap =
+          value[1]?.cast<String, GetActivityStateResponse_ActivityState>();
+      if (idToTitleFrequencyMap == null || idToStateMap == null) {
         return;
       }
       final activityIdList = idToTitleFrequencyMap.keys.toList();
       List<ActivityBundle> tempList = [];
       for (var activityId in activityIdList) {
-        var titleFrequency = idToTitleFrequencyMap[activityId];
-        var title = titleFrequency!.first;
-        var frequency = titleFrequency.second;
-        var status = idToStatusMap[activityId];
-        if (idToStatusMap.containsKey(activityId)) {
-          tempList.add(ActivityBundle(activityId, title, status!, frequency));
+        var activityTitleVersionFrequency = idToTitleFrequencyMap[activityId];
+        var title = activityTitleVersionFrequency?.title ?? '';
+        var version = activityTitleVersionFrequency?.version ?? '';
+        var frequency = activityTitleVersionFrequency?.frequency ??
+            ActivityFrequency.customSchedule;
+        var status = idToStateMap[activityId];
+        if (idToStateMap.containsKey(activityId)) {
+          tempList.add(
+              ActivityBundle(activityId, version, title, status!, frequency));
         } else {
           tempList.add(ActivityBundle(
-              activityId, title, ActivityStatus.yetToJoin, frequency));
+              activityId,
+              version,
+              title,
+              GetActivityStateResponse_ActivityState.create()
+                ..activityId = activityId
+                ..activityState = ActivityStatus.yetToJoin.toValue
+                ..activityVersion = version
+                ..activityRunId = '1'
+                ..activityRun =
+                    (GetActivityStateResponse_ActivityState_ActivityRun.create()
+                      ..total =
+                          (frequency == ActivityFrequency.oneTime ? 1 : 999)
+                      ..completed = 0
+                      ..missed = 0),
+              frequency));
         }
       }
+      Provider.of<ActivitiesProvider>(context, listen: false).update(tempList);
       setState(() {
-        activities = tempList;
         displayShimmer = false;
       });
     });
   }
 
-  Future<Map<String, Pair<String, ActivityFrequency>>?>
+  Future<Map<String, _ActivityTitleVersionFrequency>?>
       _getActivityTitleFrequency() {
     final studyDatastoreService = getIt<StudyDatastoreService>();
     return studyDatastoreService
@@ -99,16 +113,19 @@ class _ActivitiesScreenControllerState extends State<ActivitiesScreenController>
             'No activities found for this Study! Please check back later.');
         return null;
       }
-      Map<String, Pair<String, ActivityFrequency>> tempMap = {};
+      Map<String, _ActivityTitleVersionFrequency> tempMap = {};
       for (var activity in activities) {
-        tempMap[activity.activityId] = Pair(activity.title,
+        tempMap[activity.activityId] = _ActivityTitleVersionFrequency(
+            activity.title,
+            activity.activityVersion,
             ActivityFrequencyExtension.valueFrom(activity.frequency.type));
       }
       return tempMap;
     });
   }
 
-  Future<Map<String, ActivityStatus>?> _getActivityStatus() {
+  Future<Map<String, GetActivityStateResponse_ActivityState>?>
+      _getActivityStatus() {
     final responseDatastoreService = getIt<ResponseDatastoreService>();
     return responseDatastoreService
         .getActivityState(UserData.shared.userId, UserData.shared.curStudyId,
@@ -120,12 +137,19 @@ class _ActivitiesScreenControllerState extends State<ActivitiesScreenController>
         return null;
       }
       var activities = (value as GetActivityStateResponse).activities;
-      Map<String, ActivityStatus> tempMap = {};
+      Map<String, GetActivityStateResponse_ActivityState> tempMap = {};
       for (var activity in activities) {
-        tempMap[activity.activityId] =
-            ActivityStatusExtension.valueFrom(activity.activityState);
+        tempMap[activity.activityId] = activity;
       }
       return tempMap;
     });
   }
+}
+
+class _ActivityTitleVersionFrequency {
+  final String title;
+  final String version;
+  final ActivityFrequency frequency;
+
+  _ActivityTitleVersionFrequency(this.title, this.version, this.frequency);
 }

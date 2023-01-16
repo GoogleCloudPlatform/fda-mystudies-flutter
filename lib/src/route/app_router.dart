@@ -1,3 +1,6 @@
+import 'package:fda_mystudies_activity_ui_kit/activity_builder.dart';
+import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart'
+    as ui_kit;
 import 'package:fda_mystudies_http_client/authentication_service.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
@@ -8,8 +11,10 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
+import '../activities_module/material_activity_response_processor.dart';
 import '../controller/account_activated_screen_controller.dart';
 import '../controller/activities_screen_controller.dart';
+import '../controller/activity_loader_screen_controller.dart';
 import '../controller/consent_agreement_screen_controller.dart';
 import '../controller/forgot_password_screen_controller.dart';
 import '../controller/onboarding_screen_controller.dart';
@@ -30,6 +35,7 @@ import '../informed_consent_module/consent/consent_document.dart';
 import '../informed_consent_module/sharing_options/sharing_options.dart';
 import '../informed_consent_module/visual_screen/visual_screen.dart';
 import '../my_account_module/my_account.dart';
+import '../provider/activity_step_provider.dart';
 import '../provider/eligibility_consent_provider.dart';
 import '../provider/my_account_provider.dart';
 import '../reach_out_module/reach_out.dart';
@@ -184,6 +190,7 @@ class AppRouter {
                   consent.visualScreens, consent.version);
             }),
         GoRoute(
+            parentNavigatorKey: _rootKey,
             name: RouteName.studyHome,
             path: '/${RouteName.studyHome}',
             builder: (context, state) => Container(),
@@ -197,7 +204,31 @@ class AppRouter {
                         name: RouteName.activities,
                         path: RouteName.activities,
                         pageBuilder: (context, state) => const NoTransitionPage(
-                            child: ActivitiesScreenController())),
+                            child: ActivitiesScreenController()),
+                        routes: [
+                          GoRoute(
+                              parentNavigatorKey: _rootKey,
+                              name: RouteName.activityLoader,
+                              path: RouteName.activityLoader,
+                              builder: (context, state) =>
+                                  const ActivityLoaderScreenController()),
+                          GoRoute(
+                              parentNavigatorKey: _rootKey,
+                              name: RouteName.activitySteps,
+                              path: RouteName.activitySteps,
+                              builder: (context, state) {
+                                var uniqueId =
+                                    '${UserData.shared.userId}:${UserData.shared.curStudyId}:${UserData.shared.activityId}';
+                                var activityBuilder =
+                                    ui_kit.getIt<ActivityBuilder>();
+                                return Consumer<ActivityStepProvider>(
+                                    builder: (context, provider, child) =>
+                                        activityBuilder.buildActivity(
+                                            provider.steps,
+                                            MaterialActivityResponseProcessor(),
+                                            uniqueId));
+                              })
+                        ]),
                     GoRoute(
                         name: RouteName.dashboard,
                         path: RouteName.dashboard,

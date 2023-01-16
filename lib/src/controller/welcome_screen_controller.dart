@@ -88,6 +88,7 @@ class _WelcomeScreenControllerState extends State<WelcomeScreenController>
           displayShimmer = false;
         });
       }
+      return value;
     });
   }
 
@@ -101,6 +102,7 @@ class _WelcomeScreenControllerState extends State<WelcomeScreenController>
                 label: AppLocalizations.of(context).retryErrorMessage,
                 onPressed: () => _fetchData()));
       }
+      return value;
     });
   }
 }
