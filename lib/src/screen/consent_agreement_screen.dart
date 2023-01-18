@@ -68,7 +68,8 @@ class ConsentAgreementScreen extends StatelessWidget {
                       title: l10n.consentScreenViewConsentFormButtonTitle),
                   PrimaryButtonBlock(
                       title: l10n.consentScreenContinueButtonTitle,
-                      onPressed: continueToConsentConfirmed)
+                      onPressed: continueToConsentConfirmed),
+                  const SizedBox(height: 32)
                 ])));
   }
 }

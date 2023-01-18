@@ -1,9 +1,13 @@
 import 'package:fda_mystudies_activity_ui_kit/activity_builder.dart';
 import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart'
     as ui_kit;
+import 'package:fda_mystudies_design_system/component/error_scenario.dart';
 import 'package:fda_mystudies_http_client/authentication_service.dart';
 import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
+import 'package:fda_mystudies_http_client/study_datastore_service.dart';
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
+import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
+import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -19,6 +23,7 @@ import '../controller/consent_agreement_screen_controller.dart';
 import '../controller/forgot_password_screen_controller.dart';
 import '../controller/onboarding_screen_controller.dart';
 import '../controller/register_screen_controller.dart';
+import '../controller/sign_in_screen_controller.dart';
 import '../controller/sign_in_web_screen_controller.dart';
 import '../controller/study_home_screen_controller.dart';
 import '../controller/study_intro_screen_controller.dart';
@@ -30,6 +35,9 @@ import '../controller/view_consent_pdf_screen_controller.dart';
 import '../controller/welcome_screen_controller.dart';
 import '../dashboard_module/dashboard.dart';
 import '../dashboard_module/trends/trends_view.dart';
+import '../eligibility_module/eligibility_decision.dart';
+import '../eligibility_module/enrollment_token.dart';
+import '../eligibility_module/pb_eligibility_step_type.dart';
 import '../informed_consent_module/comprehension_test/comprehension_test.dart';
 import '../informed_consent_module/consent/consent_document.dart';
 import '../informed_consent_module/sharing_options/sharing_options.dart';
@@ -118,8 +126,12 @@ class AppRouter {
               GoRoute(
                   name: RouteName.signIn,
                   path: RouteName.signIn,
-                  builder: (context, state) =>
-                      const SignInWebScreenController(),
+                  builder: (context, state) {
+                    if (curConfig.environment == demo) {
+                      return const SignInScreenController();
+                    }
+                    return const SignInWebScreenController();
+                  },
                   routes: [
                     GoRoute(
                         name: RouteName.forgotPassword,
@@ -144,10 +156,86 @@ class AppRouter {
             builder: (context, state) => const UpdatePasswordScreenController(
                 isChangingTemporaryPassword: true)),
         GoRoute(
-            name: RouteName.onboardingFlow,
-            path: '/${RouteName.onboardingFlow}',
+            name: RouteName.eligibilityRouter,
+            path: '/${RouteName.eligibilityRouter}',
+            redirect: (context, state) {
+              var studyDatastoreService = getIt<StudyDatastoreService>();
+              return studyDatastoreService
+                  .getEligibilityAndConsent(
+                      UserData.shared.curStudyId, UserData.shared.userId)
+                  .then((value) {
+                if (value is GetEligibilityAndConsentResponse) {
+                  Provider.of<EligibilityConsentProvider>(context,
+                          listen: false)
+                      .updateContent(
+                          eligibility: value.eligibility,
+                          consent: value.consent);
+                  var eligibility = value.eligibility;
+                  switch (eligibility.type.eligibilityStepType) {
+                    case PbEligibilityStepType.token:
+                      return '/${RouteName.eligibilityToken}';
+                    case PbEligibilityStepType.test:
+                      return '/${RouteName.eligibilityTest}';
+                    case PbEligibilityStepType.combined:
+                      return '/${RouteName.eligibilityToken}';
+                    default:
+                      break;
+                  }
+                } else if (value is CommonErrorResponse) {
+                  ErrorScenario.displayErrorMessageWithOKAction(
+                      context, value.errorDescription);
+                }
+                return null;
+              });
+            }),
+        GoRoute(
+            name: RouteName.eligibilityToken,
+            path: '/${RouteName.eligibilityToken}',
             builder: (context, state) {
-              return Container();
+              return const EnrollmentToken();
+            }),
+        GoRoute(
+            name: RouteName.eligibilityTest,
+            path: '/${RouteName.eligibilityTest}',
+            builder: (context, state) {
+              var eligibility = Provider.of<EligibilityConsentProvider>(context,
+                      listen: false)
+                  .eligibility;
+              var consent = Provider.of<EligibilityConsentProvider>(context,
+                      listen: false)
+                  .consent;
+              var userId = UserData.shared.userId;
+              var studyId = UserData.shared.curStudyId;
+              var activityId = 'eligibility-test';
+              var uniqueId = '$userId:$studyId:$activityId';
+              List<ActivityStep> steps = [
+                    ActivityStep.create()
+                      ..key = 'info'
+                      ..type = 'instruction'
+                      ..title = 'Eligibility Test'
+                      ..text =
+                          'Please answer the questions that follow to help ascertain your eligibility for this study'
+                  ] +
+                  eligibility.tests;
+              var activityBuilder = ui_kit.getIt<ActivityBuilder>();
+              return activityBuilder.buildActivity(
+                  steps,
+                  EligibilityDecision(eligibility.correctAnswers,
+                      eligibility.type.eligibilityStepType, consent),
+                  uniqueId);
+            }),
+        GoRoute(
+            name: RouteName.eligibilityDecision,
+            path: '/${RouteName.eligibilityDecision}',
+            builder: (context, state) {
+              var eligibility = Provider.of<EligibilityConsentProvider>(context,
+                      listen: false)
+                  .eligibility;
+              var consent = Provider.of<EligibilityConsentProvider>(context,
+                      listen: false)
+                  .consent;
+              return EligibilityDecision(eligibility.correctAnswers,
+                  eligibility.type.eligibilityStepType, consent);
             }),
         GoRoute(
             name: RouteName.unknownAccountStatus,

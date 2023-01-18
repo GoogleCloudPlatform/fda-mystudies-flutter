@@ -32,6 +32,7 @@ class MockScenarioServiceHardcodedImpl implements MockScenarioService {
         'withdraw_from_study'
       ],
       'participant_user_datastore_service': [
+        'app_info',
         'contact_us',
         'deactivate',
         'feedback',

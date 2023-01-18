@@ -49,6 +49,7 @@ flutter:
     - assets/mock/scenario/participant_enroll_datastore_service/update_study_state/
     - assets/mock/scenario/participant_enroll_datastore_service/validate_enrollment_token/
     - assets/mock/scenario/participant_enroll_datastore_service/withdraw_from_study/
+    - assets/mock/scenario/participant_user_datastore_service/app_info/
     - assets/mock/scenario/participant_user_datastore_service/contact_us/
     - assets/mock/scenario/participant_user_datastore_service/deactivate/
     - assets/mock/scenario/participant_user_datastore_service/feedback/

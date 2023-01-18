@@ -59,6 +59,8 @@ class MockHttpClient implements http.Client {
         'assets/mock/scenario/response_datastore_service/update_activity_state',
     '/participant-user-datastore/contactUs':
         'assets/mock/scenario/participant_user_datastore_service/contact_us',
+    '/participant-user-datastore/apps':
+        'assets/mock/scenario/participant_user_datastore_service/app_info',
     '/participant-user-datastore/deactivate':
         'assets/mock/scenario/participant_user_datastore_service/deactivate',
     '/participant-user-datastore/feedback':

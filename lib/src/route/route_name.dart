@@ -6,7 +6,6 @@ class RouteName {
   static const forgotPassword = 'forgot_password';
   static const verificationStep = 'verification_step';
   static const accountActivated = 'account_activated';
-  static const onboardingFlow = 'onboarding_flow';
   static const updateTemporaryPassword = 'update_temporary_password';
   static const unknownAccountStatus = 'unknown_account_status';
   static const gatewayHome = 'gateway_home';
@@ -31,4 +30,8 @@ class RouteName {
   static const configureEnvironment = 'config_environment';
   static const activityLoader = 'activity_loader';
   static const activitySteps = 'activity_steps';
+  static const eligibilityRouter = 'eligibility_router';
+  static const eligibilityToken = 'eligibility_token';
+  static const eligibilityTest = 'eligibility_test';
+  static const eligibilityDecision = 'eligibility_decision';
 }
