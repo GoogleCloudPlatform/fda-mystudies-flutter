@@ -41,7 +41,6 @@ class _BooleanTemplateState extends State<BooleanTemplate> {
     List<Widget> widgetList =
         List<Widget>.of(['Yes', 'No'].map((e) => RadioListTile(
             title: Text(e),
-            contentPadding: EdgeInsets.zero,
             value: e == "Yes",
             groupValue: _selectedValue,
             onChanged: (value) {

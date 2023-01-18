@@ -42,21 +42,23 @@ class _TextTemplateState extends State<TextTemplate> {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgetList = [
-      TextField(
-          controller: _textEditingController,
-          onChanged: (value) {
-            setState(() {
-              _selectedValue = value;
-            });
-          },
-          maxLength: widget.step.textFormat.maxLength,
-          keyboardType: widget.step.textFormat.multipleLines
-              ? TextInputType.multiline
-              : TextInputType.text,
-          maxLines: widget.step.textFormat.multipleLines ? null : 1,
-          inputFormatters: _inputFormatters(widget.step),
-          decoration:
-              InputDecoration(hintText: widget.step.textFormat.placeholder))
+      Padding(
+          padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+          child: TextField(
+              controller: _textEditingController,
+              onChanged: (value) {
+                setState(() {
+                  _selectedValue = value;
+                });
+              },
+              maxLength: widget.step.textFormat.maxLength,
+              keyboardType: widget.step.textFormat.multipleLines
+                  ? TextInputType.multiline
+                  : TextInputType.text,
+              maxLines: widget.step.textFormat.multipleLines ? null : 1,
+              inputFormatters: _inputFormatters(widget.step),
+              decoration: InputDecoration(
+                  hintText: widget.step.textFormat.placeholder)))
     ];
 
     return QuestionnaireTemplate(
