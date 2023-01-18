@@ -5,6 +5,7 @@ class UserData {
   var userId = '';
   var authToken = '';
   var curStudyId = '';
+  var curStudyName = '';
   var curStudyVersion = '';
   var curSiteId = '';
   var currentStudyTokenIdentifier = '';

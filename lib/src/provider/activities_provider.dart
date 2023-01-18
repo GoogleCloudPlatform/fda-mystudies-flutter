@@ -19,11 +19,12 @@ class ActivitiesProvider extends ChangeNotifier {
 
 class ActivityBundle {
   final String activityId;
+  final String type;
   final String version;
   final String title;
   final GetActivityStateResponse_ActivityState state;
   final ActivityFrequency frequency;
 
-  ActivityBundle(
-      this.activityId, this.version, this.title, this.state, this.frequency);
+  ActivityBundle(this.activityId, this.type, this.version, this.title,
+      this.state, this.frequency);
 }

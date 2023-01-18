@@ -63,16 +63,18 @@ class _ActivitiesScreenControllerState extends State<ActivitiesScreenController>
       for (var activityId in activityIdList) {
         var activityTitleVersionFrequency = idToTitleFrequencyMap[activityId];
         var title = activityTitleVersionFrequency?.title ?? '';
+        var type = activityTitleVersionFrequency?.type ?? 'questionnaire';
         var version = activityTitleVersionFrequency?.version ?? '';
         var frequency = activityTitleVersionFrequency?.frequency ??
             ActivityFrequency.customSchedule;
         var status = idToStateMap[activityId];
         if (idToStateMap.containsKey(activityId)) {
-          tempList.add(
-              ActivityBundle(activityId, version, title, status!, frequency));
+          tempList.add(ActivityBundle(
+              activityId, type, version, title, status!, frequency));
         } else {
           tempList.add(ActivityBundle(
               activityId,
+              type,
               version,
               title,
               GetActivityStateResponse_ActivityState.create()
@@ -117,6 +119,7 @@ class _ActivitiesScreenControllerState extends State<ActivitiesScreenController>
       for (var activity in activities) {
         tempMap[activity.activityId] = _ActivityTitleVersionFrequency(
             activity.title,
+            activity.type,
             activity.activityVersion,
             ActivityFrequencyExtension.valueFrom(activity.frequency.type));
       }
@@ -148,8 +151,10 @@ class _ActivitiesScreenControllerState extends State<ActivitiesScreenController>
 
 class _ActivityTitleVersionFrequency {
   final String title;
+  final String type;
   final String version;
   final ActivityFrequency frequency;
 
-  _ActivityTitleVersionFrequency(this.title, this.version, this.frequency);
+  _ActivityTitleVersionFrequency(
+      this.title, this.type, this.version, this.frequency);
 }

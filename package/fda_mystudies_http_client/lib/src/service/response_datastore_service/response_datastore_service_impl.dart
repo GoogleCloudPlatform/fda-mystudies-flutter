@@ -58,10 +58,32 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
     Uri uri = Uri.https(
         config.baseParticipantUrl, '$responseDatastore$processResponsePath');
 
+    var bodyMap = activityResponse.toJson();
+    var updatedResults = [];
+    for (var resultObj in activityResponse.data.results) {
+      var result = resultObj.toJson();
+      if (result.containsKey('intValue')) {
+        result['value'] = result['intValue'];
+        result.remove('intValue');
+      } else if (result.containsKey('doubleValue')) {
+        result['value'] = result['doubleValue'];
+        result.remove('doubleValue');
+      } else if (result.containsKey('stringValue')) {
+        result['value'] = result['stringValue'];
+        result.remove('stringValue');
+      } else if (result.containsKey('boolValue')) {
+        result['value'] = result['boolValue'];
+        result.remove('boolValue');
+      } else if (result.containsKey('listValue')) {
+        result['value'] = result['listValue'];
+        result.remove('listValue');
+      }
+      updatedResults.add(result);
+    }
+    bodyMap['data']['results'] = updatedResults;
+
     return client
-        .post(uri,
-            headers: headers.toHeaderJson(),
-            body: jsonEncode(activityResponse.toJson()))
+        .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(bodyMap))
         .then((response) => ResponseParser.parseHttpResponse('process_response',
             response, () => CommonResponse()..fromJson(response.body)));
   }
