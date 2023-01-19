@@ -22,10 +22,11 @@ class ActivitiesScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
           itemBuilder: (context, index) => _shimmerActivityTile(),
           separatorBuilder: (context, index) => const SizedBox(height: 14),
-          itemCount: 4);
+          itemCount: 7);
     }
     return Consumer<ActivitiesProvider>(
         builder: (context, provider, child) => ListView.separated(
+            padding: const EdgeInsets.fromLTRB(0, 16, 0, 32),
             itemBuilder: (context, index) =>
                 _activityTile(context, provider.activityBundleList[index]),
             separatorBuilder: (context, index) => const SizedBox(height: 14),

@@ -37,6 +37,8 @@ dependency_overrides:
 flutter:
   assets:
     - assets/mock/scenario/
+    - assets/mock/scenario/authentication_service/login/
+    - assets/mock/scenario/authentication_service/sign_in/
     - assets/mock/scenario/authentication_service/change_password/
     - assets/mock/scenario/authentication_service/grant_verified_user/
     - assets/mock/scenario/authentication_service/logout/

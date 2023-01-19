@@ -22,6 +22,9 @@ class MultipleTextChoiceTemplate extends StatefulWidget {
 class _MultipleTextChoiceTemplateState
     extends State<MultipleTextChoiceTemplate> {
   List<String> _selectedValue = [];
+  bool? _showOtherOption;
+  String? _otherPlaceholder;
+  final _otherController = TextEditingController();
   bool _isExclusiveSelected = false;
   String? _startTime;
 
@@ -53,6 +56,14 @@ class _MultipleTextChoiceTemplateState
             onChanged: (value) => _updateState(e)))
         .cast<Widget>()
         .toList();
+    if (_showOtherOption == true) {
+      widgetList.add(Padding(
+          padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
+          child: TextField(
+            controller: _otherController,
+            decoration: InputDecoration(hintText: _otherPlaceholder),
+          )));
+    }
 
     return QuestionnaireTemplate(
         widget.step,
@@ -80,6 +91,13 @@ class _MultipleTextChoiceTemplateState
           _isExclusiveSelected = false;
         }
         _selectedValue.add(e.value);
+      }
+      final otherIsSelected = _selectedValue
+          .firstWhere((e) => e == "other", orElse: () => '')
+          .isNotEmpty;
+      _showOtherOption = otherIsSelected;
+      if (e.hasOther()) {
+        _otherPlaceholder = e.other.placeholder;
       }
     });
   }

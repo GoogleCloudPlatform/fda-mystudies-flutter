@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:fda_mystudies_design_system/block/ink_well_block.dart';
 import 'package:fda_mystudies_design_system/block/page_text_block.dart';
 import 'package:fda_mystudies_design_system/block/primary_button_block.dart';
@@ -18,6 +20,7 @@ class VisualScreenTemplate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var content = <Widget>[];
     if (visualScreen.text.isNotEmpty) {
       content.addAll([
@@ -37,16 +40,39 @@ class VisualScreenTemplate extends StatelessWidget {
           onTap: () =>
               bs.BottomSheet.showWebview(context, url: visualScreen.url)));
     }
-    content.addAll([
-      const SizedBox(height: 92),
-      PrimaryButtonBlock(title: 'Continue', onPressed: nextStep),
-      const SizedBox(height: 92)
-    ]);
     return Scaffold(
         appBar: AppBar(
           title: Text(toBeginningOfSentenceCase(visualScreen.title) ?? ''),
           elevation: 0,
         ),
-        body: ListView(children: content));
+        body: Stack(children: [
+          ListView(children: content),
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+                  child: Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        stops: const [0.1, 0.2, 0.6],
+                        colors: [
+                          Theme.of(context)
+                              .colorScheme
+                              .background
+                              .withOpacity(0.7),
+                          Theme.of(context)
+                              .colorScheme
+                              .background
+                              .withOpacity(0.9),
+                          Theme.of(context).colorScheme.background
+                        ],
+                      )),
+                      child: Column(children: <Widget>[
+                        PrimaryButtonBlock(title: 'Next', onPressed: nextStep),
+                      ]),
+                      height: max(150, 90 * scaleFactor))))
+        ]));
   }
 }

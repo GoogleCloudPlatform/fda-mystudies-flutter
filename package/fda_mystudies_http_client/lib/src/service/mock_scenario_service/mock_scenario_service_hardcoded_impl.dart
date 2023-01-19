@@ -15,6 +15,8 @@ class MockScenarioServiceHardcodedImpl implements MockScenarioService {
   Future<List<String>> listMethods(String service) {
     var serviceMethodMap = {
       'authentication_service': [
+        'login',
+        'sign_in',
         'change_password',
         'grant_verified_user',
         'logout',

@@ -12,6 +12,8 @@ class MockHttpClient implements http.Client {
   MockHttpClient(this.config);
 
   var urlPathToMockYamlPath = {
+    '/oauth2/auth': 'assets/mock/scenario/authentication_service/sign_in',
+    '/auth-server/login': 'assets/mock/scenario/authentication_service/login',
     '/auth-server/users/userId/change_password':
         'assets/mock/scenario/authentication_service/change_password',
     '/auth-server/oauth2/token':
