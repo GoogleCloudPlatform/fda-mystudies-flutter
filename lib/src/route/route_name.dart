@@ -34,4 +34,5 @@ class RouteName {
   static const eligibilityToken = 'eligibility_token';
   static const eligibilityTest = 'eligibility_test';
   static const eligibilityDecision = 'eligibility_decision';
+  static const accessibilityScreen = 'accessibility_screen';
 }

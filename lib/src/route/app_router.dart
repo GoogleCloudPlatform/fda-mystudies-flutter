@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../activities_module/material_activity_response_processor.dart';
+import '../controller/accessibility_screen_controller.dart';
 import '../controller/account_activated_screen_controller.dart';
 import '../controller/activities_screen_controller.dart';
 import '../controller/activity_loader_screen_controller.dart';
@@ -69,6 +70,14 @@ class AppRouter {
           const secureStorage = FlutterSecureStorage(
               iOptions: IOSOptions(),
               aOptions: AndroidOptions(encryptedSharedPreferences: true));
+          final userIsVisitingFirstTime =
+              await secureStorage.read(key: SecureKey.isVisitingFirstTime);
+          if (userIsVisitingFirstTime == null ||
+              userIsVisitingFirstTime == 'true') {
+            await secureStorage.write(
+                key: SecureKey.isVisitingFirstTime, value: 'false');
+            return '/${RouteName.accessibilityScreen}';
+          }
           final refreshToken =
               await secureStorage.read(key: SecureKey.refreshToken);
           final authToken = await secureStorage.read(key: SecureKey.authToken);
@@ -106,6 +115,10 @@ class AppRouter {
         return null;
       }),
       routes: [
+        GoRoute(
+            name: RouteName.accessibilityScreen,
+            path: '/${RouteName.accessibilityScreen}',
+            builder: (context, state) => const AccessibilityScreenController()),
         GoRoute(
             name: RouteName.root,
             path: '/',
