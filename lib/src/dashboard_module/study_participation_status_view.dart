@@ -13,7 +13,8 @@ class StudyParticipationStatusView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(color: Theme.of(context).bottomAppBarColor),
+        decoration:
+            BoxDecoration(color: Theme.of(context).colorScheme.surfaceVariant),
         child: IntrinsicHeight(
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -9,11 +9,13 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../controller/account_activated_screen_controller.dart';
+import '../controller/activities_screen_controller.dart';
 import '../controller/consent_agreement_screen_controller.dart';
 import '../controller/forgot_password_screen_controller.dart';
 import '../controller/onboarding_screen_controller.dart';
 import '../controller/register_screen_controller.dart';
 import '../controller/sign_in_web_screen_controller.dart';
+import '../controller/study_home_screen_controller.dart';
 import '../controller/study_intro_screen_controller.dart';
 import '../controller/study_state_check_screen_controller.dart';
 import '../controller/update_password_screen_controller.dart';
@@ -21,6 +23,8 @@ import '../controller/user_state_check_screen_controller.dart';
 import '../controller/verification_step_screen_controller.dart';
 import '../controller/view_consent_pdf_screen_controller.dart';
 import '../controller/welcome_screen_controller.dart';
+import '../dashboard_module/dashboard.dart';
+import '../dashboard_module/trends/trends_view.dart';
 import '../informed_consent_module/comprehension_test/comprehension_test.dart';
 import '../informed_consent_module/consent/consent_document.dart';
 import '../informed_consent_module/sharing_options/sharing_options.dart';
@@ -32,13 +36,19 @@ import '../reach_out_module/reach_out.dart';
 import '../register_and_login/auth_utils.dart';
 import '../register_and_login/secure_key.dart';
 import '../register_and_login/unknown_account_status.dart';
-import '../study_home.dart';
+import '../resources_module/about_study.dart';
+import '../resources_module/environment_module/environment.dart';
+import '../resources_module/resources.dart';
+import '../resources_module/view_consent_pdf.dart';
 import '../study_module/gateway_home.dart';
 import '../user/user_data.dart';
 import 'route_name.dart';
 
 class AppRouter {
+  static final GlobalKey<NavigatorState> _rootKey = GlobalKey<NavigatorState>();
+
   static final GoRouter _goRouter = GoRouter(
+      navigatorKey: _rootKey,
       debugLogDiagnostics: true,
       redirect: ((context, state) async {
         if (state.location == '/') {
@@ -76,6 +86,8 @@ class AppRouter {
               return '/';
             });
           }
+        } else if (state.location == '/${RouteName.studyHome}') {
+          return '/${RouteName.studyHome}/${RouteName.activities}';
         }
         return null;
       }),
@@ -174,7 +186,56 @@ class AppRouter {
         GoRoute(
             name: RouteName.studyHome,
             path: '/${RouteName.studyHome}',
-            builder: (context, state) => const StudyHome()),
+            builder: (context, state) => Container(),
+            routes: [
+              ShellRoute(
+                  builder: (context, state, child) {
+                    return StudyHomeScreenController(child: child);
+                  },
+                  routes: [
+                    GoRoute(
+                        name: RouteName.activities,
+                        path: RouteName.activities,
+                        pageBuilder: (context, state) => const NoTransitionPage(
+                            child: ActivitiesScreenController())),
+                    GoRoute(
+                        name: RouteName.dashboard,
+                        path: RouteName.dashboard,
+                        pageBuilder: (context, state) =>
+                            const NoTransitionPage(child: Dashboard())),
+                    GoRoute(
+                        name: RouteName.resources,
+                        path: RouteName.resources,
+                        pageBuilder: (context, state) =>
+                            const NoTransitionPage(child: Resources()))
+                  ])
+            ]),
+        GoRoute(
+            parentNavigatorKey: _rootKey,
+            name: RouteName.dashboardTrends,
+            path: '/${RouteName.dashboardTrends}',
+            builder: (context, state) => const TrendsView()),
+        GoRoute(
+            parentNavigatorKey: _rootKey,
+            name: RouteName.resourceAboutStudy,
+            path: '/${RouteName.resourceAboutStudy}',
+            builder: (context, state) => const AboutStudy()),
+        GoRoute(
+            parentNavigatorKey: _rootKey,
+            name: RouteName.resourceSoftwareLicenses,
+            path: '/${RouteName.resourceSoftwareLicenses}',
+            builder: (context, state) =>
+                LicensePage(applicationName: curConfig.appName)),
+        GoRoute(
+            parentNavigatorKey: _rootKey,
+            name: RouteName.resourceConsentPdf,
+            path: '/${RouteName.resourceConsentPdf}',
+            builder: (context, state) => const ViewConsentPdf()),
+        GoRoute(
+            parentNavigatorKey: _rootKey,
+            name: RouteName.configureEnvironment,
+            path: '/${RouteName.configureEnvironment}',
+            builder: (context, state) => const Environment()),
         GoRoute(
             name: RouteName.myAccount,
             path: '/${RouteName.myAccount}',

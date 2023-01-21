@@ -1,24 +1,19 @@
-import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pbserver.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../common/widget_util.dart';
-import 'trends_view.dart';
+import '../../route/route_name.dart';
 
 class TrendsDashboardTile extends StatelessWidget {
-  final List<GetStudyDashboardResponse_Dashboard_Chart> charts;
-
-  const TrendsDashboardTile(this.charts, {Key? key}) : super(key: key);
+  const TrendsDashboardTile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          push(context, TrendsView(charts));
-        },
+        onTap: () => context.pushNamed(RouteName.dashboardTrends),
         child: Container(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-            decoration:
-                BoxDecoration(color: Theme.of(context).bottomAppBarColor),
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceVariant),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

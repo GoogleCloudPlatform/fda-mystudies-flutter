@@ -22,13 +22,15 @@ class ReachOut extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(0, isIOS ? 0 : 10, 0, 0),
                 children: [
                   ListTile(
-                      title: const Text(leaveFeedbackTitle),
+                      title: Text(leaveFeedbackTitle,
+                          style: Theme.of(context).textTheme.bodyLarge),
                       trailing: const Icon(Icons.arrow_forward_ios_outlined,
                           size: 16),
                       onTap: () => push(context, const AnonymousFeedback())),
                   const Divider(),
                   ListTile(
-                      title: const Text(needHelpTitle),
+                      title: Text(needHelpTitle,
+                          style: Theme.of(context).textTheme.bodyLarge),
                       trailing: const Icon(Icons.arrow_forward_ios_outlined,
                           size: 16),
                       onTap: () => push(context, const ContactUs())),

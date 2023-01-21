@@ -21,4 +21,12 @@ class RouteName {
   static const consentDocument = 'consent_document';
   static const consentAgreement = 'consent_agreement';
   static const viewSignedConsentPdf = 'view_signed_consent_pdf';
+  static const activities = 'activities';
+  static const dashboard = 'dashboard';
+  static const dashboardTrends = 'dashboard_trends';
+  static const resources = 'resources';
+  static const resourceAboutStudy = 'resource_about_study';
+  static const resourceSoftwareLicenses = 'resource_software_license';
+  static const resourceConsentPdf = 'resource_consent_pdf';
+  static const configureEnvironment = 'config_environment';
 }

@@ -1,27 +1,28 @@
-import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pbserver.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/future_loading_page.dart';
+import '../../provider/dashboard_provider.dart';
 import 'chart_tile.dart';
 import 'recorded_value.dart';
 
 class TrendsView extends StatelessWidget {
-  final List<GetStudyDashboardResponse_Dashboard_Chart> chart;
-
-  const TrendsView(this.chart, {Key? key}) : super(key: key);
+  const TrendsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final charts =
+        Provider.of<DashboardProvider>(context, listen: false).dashboard.charts;
     return FutureLoadingPage.build(context,
         scaffoldTitle: 'TRENDS',
         future: _fetchRecordedValues(), builder: (context, snapshot) {
       var recordedValues = snapshot.data as List<RecordedValue>;
       return SafeArea(
           child: ListView.builder(
-              itemCount: chart.length,
+              itemCount: charts.length,
               padding: EdgeInsets.zero,
-              itemBuilder: (context, index) => ChartTile(chart[index].title,
-                  chart[index].displayName, recordedValues)));
+              itemBuilder: (context, index) => ChartTile(charts[index].title,
+                  charts[index].displayName, recordedValues)));
     });
   }
 
