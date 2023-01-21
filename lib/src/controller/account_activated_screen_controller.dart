@@ -20,6 +20,6 @@ class _AccountActivatedScreenControllerState
   }
 
   void _proceedToOnboarding() {
-    context.goNamed(RouteName.onboardingFlow);
+    context.goNamed(RouteName.eligibilityRouter);
   }
 }

@@ -505,7 +505,7 @@ packages:
     source: hosted
     version: "1.0.2"
   open_settings:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: open_settings
       url: "https://pub.dartlang.org"

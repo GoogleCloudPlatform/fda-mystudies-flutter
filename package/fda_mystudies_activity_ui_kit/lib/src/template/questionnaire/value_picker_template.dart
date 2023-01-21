@@ -46,21 +46,23 @@ class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
     var textChoiceList = widget.step.textChoice.textChoices;
 
     List<Widget> widgetList = [
-      DropdownButton(
-        isExpanded: true,
-        value: _selectedValue,
-        items: textChoiceList
-            .map((e) => DropdownMenuItem(
-                value: e.value,
-                child:
-                    Text(e.text, style: Theme.of(context).textTheme.headline6)))
-            .toList(),
-        onChanged: (value) {
-          setState(() {
-            _selectedValue = '$value';
-          });
-        },
-      )
+      Padding(
+          padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+          child: DropdownButton(
+            isExpanded: true,
+            value: _selectedValue,
+            items: textChoiceList
+                .map((e) => DropdownMenuItem(
+                    value: e.value,
+                    child: Text(e.text,
+                        style: Theme.of(context).textTheme.headline6)))
+                .toList(),
+            onChanged: (value) {
+              setState(() {
+                _selectedValue = '$value';
+              });
+            },
+          ))
     ];
 
     return QuestionnaireTemplate(

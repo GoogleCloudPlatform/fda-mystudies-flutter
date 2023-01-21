@@ -36,24 +36,26 @@ class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
     time = _selectedValueToTimeOfDay(_selectedValue!);
 
     List<Widget> widgetList = [
-      ElevatedButton(
-          onPressed: () {
-            showTimePicker(
-                    context: context,
-                    initialTime:
-                        TimeOfDay(hour: time.hour, minute: time.minute))
-                .then((value) {
-              if (value != null) {
-                setState(() {
-                  _selectedValue = _timeToHhMm(value.hour, value.minute);
+      Padding(
+          padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+          child: ElevatedButton(
+              onPressed: () {
+                showTimePicker(
+                        context: context,
+                        initialTime:
+                            TimeOfDay(hour: time.hour, minute: time.minute))
+                    .then((value) {
+                  if (value != null) {
+                    setState(() {
+                      _selectedValue = _timeToHhMm(value.hour, value.minute);
+                    });
+                  }
                 });
-              }
-            });
-          },
-          child: Padding(
-              padding: const EdgeInsets.all(10),
-              child:
-                  Text(_selectedValue ?? _timeToHhMm(time.hour, time.minute))))
+              },
+              child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                      _selectedValue ?? _timeToHhMm(time.hour, time.minute)))))
     ];
 
     return QuestionnaireTemplate(

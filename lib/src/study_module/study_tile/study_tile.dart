@@ -82,6 +82,7 @@ class StudyTile extends StatelessWidget {
             ])),
         onTap: () {
           UserData.shared.curStudyId = userStudyData.studyId;
+          UserData.shared.curStudyName = userStudyData.study.title;
           UserData.shared.curStudyVersion = userStudyData.study.studyVersion;
           UserData.shared.curParticipantId =
               userStudyData.userState.participantId;

@@ -100,6 +100,7 @@ class _UserStateCheckScreenControllerState
               userStudyState.status.userStudyStatus ==
                   PbUserStudyStatus.enrolled) {
             UserData.shared.curStudyId = userStudyState.studyId;
+            UserData.shared.curStudyName = studyState.title;
             UserData.shared.curStudyVersion = studyState.studyVersion;
             UserData.shared.curParticipantId = userStudyState.participantId;
             UserData.shared.curSiteId = userStudyState.siteId;

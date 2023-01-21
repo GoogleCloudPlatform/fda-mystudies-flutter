@@ -42,46 +42,49 @@ class _DateTemplateState extends State<DateTemplate> {
     }
 
     List<Widget> widgetList = [
-      ElevatedButton(
-          onPressed: () {
-            showDatePicker(
-                    context: context,
-                    initialDate: time,
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime(2100))
-                .then((dateTime) {
-              if (dateTime != null) {
-                setState(() {
-                  _selectedValue = _dateTimeToString(dateTime);
-                  _selectedValueLabel = _formattedDateTimeToString(dateTime);
-                });
-                if (widget.step.dateTime.style == 'Date-Time') {
-                  showTimePicker(
-                          context: context,
-                          initialTime:
-                              TimeOfDay(hour: time.hour, minute: time.minute))
-                      .then((value) {
-                    if (value != null) {
-                      setState(() {
-                        var updatedDateTime = DateTime(
-                            dateTime.year,
-                            dateTime.month,
-                            dateTime.day,
-                            value.hour,
-                            value.minute);
-                        _selectedValue = _dateTimeToString(updatedDateTime);
-                        _selectedValueLabel =
-                            _formattedDateTimeToString(updatedDateTime);
+      Padding(
+          padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+          child: ElevatedButton(
+              onPressed: () {
+                showDatePicker(
+                        context: context,
+                        initialDate: time,
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime(2100))
+                    .then((dateTime) {
+                  if (dateTime != null) {
+                    setState(() {
+                      _selectedValue = _dateTimeToString(dateTime);
+                      _selectedValueLabel =
+                          _formattedDateTimeToString(dateTime);
+                    });
+                    if (widget.step.dateTime.style == 'Date-Time') {
+                      showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay(
+                                  hour: time.hour, minute: time.minute))
+                          .then((value) {
+                        if (value != null) {
+                          setState(() {
+                            var updatedDateTime = DateTime(
+                                dateTime.year,
+                                dateTime.month,
+                                dateTime.day,
+                                value.hour,
+                                value.minute);
+                            _selectedValue = _dateTimeToString(updatedDateTime);
+                            _selectedValueLabel =
+                                _formattedDateTimeToString(updatedDateTime);
+                          });
+                        }
                       });
                     }
-                  });
-                }
-              }
-            });
-          },
-          child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(_selectedValueLabel!)))
+                  }
+                });
+              },
+              child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(_selectedValueLabel!))))
     ];
     return QuestionnaireTemplate(
         widget.step,

@@ -1,6 +1,11 @@
 import 'dart:convert';
 import 'dart:developer' as developer;
+import 'dart:math';
 
+import 'package:fda_mystudies_design_system/block/page_text_block.dart';
+import 'package:fda_mystudies_design_system/block/page_title_block.dart';
+import 'package:fda_mystudies_design_system/block/primary_button_block.dart';
+import 'package:fda_mystudies_design_system/block/text_button_block.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +14,6 @@ import 'package:intl/intl.dart';
 
 import '../../activity_response_processor.dart';
 import '../activity_builder_impl.dart';
-import '../template/design/activity_text_style.dart';
 import 'unimplemented_template.dart';
 
 class QuestionnaireTemplate extends StatelessWidget {
@@ -213,18 +217,16 @@ class QuestionnaireTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     var stepTitle = _step.title;
     var subTitle = _step.text;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    double bottomPaddingHeight = max(150, 90 * scaleFactor) + 92;
     return GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: Scaffold(
             appBar: AppBar(
-                leading: IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon:
-                        const Icon(Icons.arrow_back, color: Color(0xFF3C4043))),
                 title:
-                    Text(_title, style: ActivityTextStyle.appBarTitle(context)),
+                    Text(_title, style: Theme.of(context).textTheme.bodyLarge),
                 elevation: 0,
                 actions: _allowExit
                     ? [
@@ -277,64 +279,63 @@ class QuestionnaireTemplate extends StatelessWidget {
                             child: const Icon(Icons.exit_to_app))
                       ]
                     : []),
-            body: ListView(
-                padding: const EdgeInsets.all(20),
-                children: [
-                      Text(stepTitle,
-                          style: ActivityTextStyle.activityTitle(context),
-                          textAlign: TextAlign.center),
-                      SizedBox(height: subTitle.isEmpty ? 0 : 12),
-                    ] +
-                    (_step.type == 'instruction'
-                        ? []
-                        : [
-                            Text(subTitle,
-                                style:
-                                    ActivityTextStyle.activitySubTitle(context),
-                                textAlign: TextAlign.center),
-                            const SizedBox(height: 24)
-                          ]) +
-                    _children),
-            bottomNavigationBar: BottomAppBar(
-                elevation: 0,
-                child: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                    child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                              const SizedBox(width: 20),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    primary: const Color(0xFF1A73E8)),
-                                onPressed: selectedValue == null &&
-                                        _step.type.toLowerCase() == 'question'
-                                    ? null
-                                    : () =>
-                                        _navigateToNextScreen(context, false),
-                                child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        100, 8, 100, 8),
-                                    child: Text('Next',
-                                        style: ActivityTextStyle
-                                            .elevatedButtonText(context))),
-                              )
-                            ] +
-                            (_step.skippable
-                                ? <Widget>[
-                                    TextButton(
-                                        onPressed: () => _navigateToNextScreen(
-                                            context, true),
-                                        child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                100, 8, 100, 8),
-                                            child: Text('Skip',
-                                                style: ActivityTextStyle
-                                                    .textdButtonText(context))),
-                                        style: Theme.of(context)
-                                            .textButtonTheme
-                                            .style)
-                                  ]
-                                : <Widget>[]))))));
+            body: Stack(children: [
+              ListView(
+                  children: <Widget>[
+                        PageTitleBlock(title: stepTitle),
+                      ] +
+                      (_step.type == 'instruction'
+                          ? []
+                          : [
+                              PageTextBlock(
+                                  text: subTitle, textAlign: TextAlign.left),
+                              const SizedBox(height: 24)
+                            ]) +
+                      _children +
+                      [SizedBox(height: bottomPaddingHeight)]),
+              Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            stops: const [0.1, 0.2, 0.6],
+                            colors: [
+                              Theme.of(context)
+                                  .colorScheme
+                                  .background
+                                  .withOpacity(0.7),
+                              Theme.of(context)
+                                  .colorScheme
+                                  .background
+                                  .withOpacity(0.9),
+                              Theme.of(context).colorScheme.background
+                            ],
+                          )),
+                          child: Column(
+                              children: <Widget>[
+                                    PrimaryButtonBlock(
+                                        title: 'Next',
+                                        onPressed: selectedValue == null &&
+                                                _step.type.toLowerCase() ==
+                                                    'question'
+                                            ? null
+                                            : () => _navigateToNextScreen(
+                                                context, false)),
+                                  ] +
+                                  (_step.skippable
+                                      ? <Widget>[
+                                          TextButtonBlock(
+                                              title: 'Skip',
+                                              onPressed: () =>
+                                                  _navigateToNextScreen(
+                                                      context, true))
+                                        ]
+                                      : <Widget>[])),
+                          height: max(150, 90 * scaleFactor))))
+            ])));
   }
 }
