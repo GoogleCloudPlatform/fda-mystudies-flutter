@@ -60,7 +60,9 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
 
     var bodyMap = activityResponse.toJson();
     var updatedResults = [];
-    for (var resultObj in activityResponse.data.results) {
+    List<ActivityResponse_Data_StepResult> results =
+        activityResponse.data.results;
+    for (var resultObj in results) {
       var result = resultObj.toJson();
       if (result.containsKey('intValue')) {
         result['value'] = result['intValue'];
@@ -80,7 +82,9 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
       }
       updatedResults.add(result);
     }
-    bodyMap['data']['results'] = updatedResults;
+    if (updatedResults.isNotEmpty) {
+      bodyMap['data']['results'] = updatedResults;
+    }
 
     return client
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(bodyMap))

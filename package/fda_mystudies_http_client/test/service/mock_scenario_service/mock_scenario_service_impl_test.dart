@@ -29,8 +29,14 @@ void main() {
     var response =
         await mockScenarioService!.listMethods('authentication_service');
 
-    expect(response,
-        ['change_password', 'grant_verified_user', 'logout', 'reset_password']);
+    expect(response, [
+      'login',
+      'sign_in',
+      'change_password',
+      'grant_verified_user',
+      'logout',
+      'reset_password'
+    ]);
   });
 
   test('test list scenarios', () async {
