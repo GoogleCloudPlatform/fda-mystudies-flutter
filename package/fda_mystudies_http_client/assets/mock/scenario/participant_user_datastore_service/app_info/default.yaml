@@ -1,0 +1,26 @@
+title: App Info Response
+description: Success response
+code: 200
+response: |
+  {
+    "contactUsEmail": "contact@fda-mystudies.com",
+    "fromEmail": "contact@fda-mystudies.com",
+    "appName": "FDA MyStudies",
+    "termsUrl": "https://policies.google.com/terms?hl=en-US",
+    "privacyPolicyUrl": "https://policies.google.com/privacy?hl=en-US",
+    "appWebsite": "https://github.com/GoogleCloudPlatform/fda-mystudies",
+    "supportEmail": "contact@fda-mystudies.com",
+    "version": {
+      "android": {
+        "latestVersion": "1",
+        "forceUpdate": "false"
+      },
+      "ios": {
+        "latestVersion": "1.0.0",
+        "forceUpdate": "false"
+      }
+    },
+    "status": 200,
+    "code": "MSG_0046",
+    "message": "App fetched successfully"
+  }

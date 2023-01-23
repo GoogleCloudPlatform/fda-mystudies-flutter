@@ -48,7 +48,7 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
     List<Widget> widgetList = textChoiceList
         .map((e) => RadioListTile(
             title: Text(e.text),
-            subtitle: Text(e.detail),
+            subtitle: e.detail.isEmpty ? null : Text(e.detail),
             selected: _selectedValue == null
                 ? false
                 : e.value == _selectedValue!.first,

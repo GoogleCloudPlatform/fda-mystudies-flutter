@@ -38,29 +38,31 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
     var _selectedMinutes = (_selectedValue! - _selectedHours * 3600) ~/ 60;
 
     List<Widget> widgetList = [
-      ElevatedButton(
-          onPressed: () {
-            showTimePicker(
-                helpText: 'SELECT TIME INTERVAL',
-                context: context,
-                initialTime:
-                    TimeOfDay(hour: _selectedHours, minute: _selectedMinutes),
-                builder: (context, child) {
-                  return MediaQuery(
-                      data: MediaQuery.of(context)
-                          .copyWith(alwaysUse24HourFormat: true),
-                      child: child!);
-                }).then((value) {
-              if (value != null) {
-                setState(() {
-                  _selectedValue = value.hour * 3600 + value.minute * 60;
+      Padding(
+          padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+          child: ElevatedButton(
+              onPressed: () {
+                showTimePicker(
+                    helpText: 'SELECT TIME INTERVAL',
+                    context: context,
+                    initialTime: TimeOfDay(
+                        hour: _selectedHours, minute: _selectedMinutes),
+                    builder: (context, child) {
+                      return MediaQuery(
+                          data: MediaQuery.of(context)
+                              .copyWith(alwaysUse24HourFormat: true),
+                          child: child!);
+                    }).then((value) {
+                  if (value != null) {
+                    setState(() {
+                      _selectedValue = value.hour * 3600 + value.minute * 60;
+                    });
+                  }
                 });
-              }
-            });
-          },
-          child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(_formattedTimeInterval(_selectedValue!))))
+              },
+              child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(_formattedTimeInterval(_selectedValue!)))))
     ];
 
     return QuestionnaireTemplate(

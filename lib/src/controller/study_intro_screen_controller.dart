@@ -4,13 +4,14 @@ import 'package:fda_mystudies_http_client/study_datastore_service.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';
-import '../eligibility_module/eligibility_step_type_router.dart';
 import '../mixin/connectivity_actions.dart';
 import '../provider/connectivity_provider.dart';
 import '../provider/welcome_provider.dart';
+import '../route/route_name.dart';
 import '../screen/study_intro_screen.dart';
 import '../user/user_data.dart';
 
@@ -46,7 +47,7 @@ class _StudyIntroScreenControllerState extends State<StudyIntroScreenController>
   }
 
   void _participate() {
-    EligibilityStepTypeRouter.nextStep(context);
+    context.pushNamed(RouteName.eligibilityRouter);
   }
 
   void _getStudyInfo() {

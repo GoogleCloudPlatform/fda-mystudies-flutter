@@ -203,6 +203,17 @@ void main() {
                     ..html =
                         'We are asking you to participate in this research study. Participation in this research study is voluntary.'
                     ..visualStep = true)
+              ..sharingScreen =
+                  (GetEligibilityAndConsentResponse_Consent_SharingScreen()
+                    ..title = 'Sharing Options'
+                    ..text =
+                        'The host and its partners will receive your study data from participation in this study. Sharing your coded data more broadly (without information such as your name) may benefit this and future research.'
+                    ..shortDesc =
+                        'Only Share my data with the host and partners'
+                    ..longDesc =
+                        'Share my data with the host and qualified researchers worldwide.'
+                    ..learnMore = ''
+                    ..allowWithoutSharing = false)
               ..comprehension =
                   (GetEligibilityAndConsentResponse_Consent_Comprehension()
                     ..passScore = 1

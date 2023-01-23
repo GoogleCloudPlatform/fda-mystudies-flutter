@@ -1,36 +1,36 @@
 import 'package:fda_mystudies_design_system/block/activity_tile_block.dart';
+import 'package:fda_mystudies_design_system/component/error_scenario.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../provider/activities_provider.dart';
+import '../route/route_name.dart';
+import '../user/user_data.dart';
 
 class ActivitiesScreen extends StatelessWidget {
   final bool displayShimmer;
-  final List<ActivityBundle> activityList;
 
-  const ActivitiesScreen(
-      {Key? key, required this.displayShimmer, required this.activityList})
+  const ActivitiesScreen({Key? key, required this.displayShimmer})
       : super(key: key);
-
-  static final _defaultList = [
-    const SizedBox(height: 16),
-    _shimmerActivityTile(),
-    _shimmerActivityTile(),
-    _shimmerActivityTile(),
-    _shimmerActivityTile()
-  ];
 
   @override
   Widget build(BuildContext context) {
     if (displayShimmer) {
       return ListView.separated(
-          itemBuilder: (context, index) => _defaultList[index],
+          padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+          itemBuilder: (context, index) => _shimmerActivityTile(),
           separatorBuilder: (context, index) => const SizedBox(height: 14),
-          itemCount: _defaultList.length);
+          itemCount: 7);
     }
-    return ListView.separated(
-        itemBuilder: (context, index) => _activityTile(activityList[index]),
-        separatorBuilder: (context, index) => const SizedBox(height: 14),
-        itemCount: activityList.length);
+    return Consumer<ActivitiesProvider>(
+        builder: (context, provider, child) => ListView.separated(
+            padding: const EdgeInsets.fromLTRB(0, 16, 0, 32),
+            itemBuilder: (context, index) =>
+                _activityTile(context, provider.activityBundleList[index]),
+            separatorBuilder: (context, index) => const SizedBox(height: 14),
+            itemCount: provider.activityBundleList.length));
   }
 
   static Widget _shimmerActivityTile() {
@@ -42,12 +42,39 @@ class ActivitiesScreen extends StatelessWidget {
         displayShimmer: true);
   }
 
-  static Widget _activityTile(ActivityBundle activity) {
+  static Widget _activityTile(BuildContext context, ActivityBundle activity) {
+    var l10n = AppLocalizations.of(context);
     return ActivityTileBlock(
         title: activity.title,
         frequency: activity.frequency,
-        status: activity.status,
-        onTap: () {},
+        status: ActivityStatusExtension.valueFrom(activity.state.activityState),
+        onTap: () {
+          switch (
+              ActivityStatusExtension.valueFrom(activity.state.activityState)) {
+            case ActivityStatus.completed:
+              ErrorScenario.displayErrorMessageWithOKAction(
+                  context, l10n.activityCompletedStatusMessage);
+              break;
+            case ActivityStatus.expired:
+              ErrorScenario.displayErrorMessageWithOKAction(
+                  context, l10n.activityExpiredStatusMessage);
+              break;
+            case ActivityStatus.abandoned:
+              ErrorScenario.displayErrorMessageWithOKAction(
+                  context, l10n.activityAbandonedStatusMessage);
+              break;
+            case ActivityStatus.upcoming:
+              ErrorScenario.displayErrorMessageWithOKAction(
+                  context, l10n.activityUpcomingStatusMessage);
+              break;
+            case ActivityStatus.inProgress:
+            case ActivityStatus.yetToJoin:
+              UserData.shared.activityId = activity.activityId;
+              UserData.shared.activityVersion = activity.version;
+              context.pushNamed(RouteName.activityLoader);
+              break;
+          }
+        },
         displayShimmer: false);
   }
 }

@@ -35,7 +35,8 @@ class Dashboard extends StatelessWidget {
             studyCompletionPercent: UserData.shared.curStudyCompletion,
             activitiesCompletionPercent: UserData.shared.curStudyAdherence),
         StatisticsView(statistics),
-        const TrendsDashboardTile()
+        const TrendsDashboardTile(),
+        const SizedBox(height: 8)
       ];
       return SafeArea(
           child: ListView.separated(

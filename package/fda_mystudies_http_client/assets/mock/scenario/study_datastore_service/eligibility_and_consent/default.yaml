@@ -36,6 +36,14 @@ response: |
                   "visualStep": true
               }
           ],
+          "sharing" : {
+            "longDesc" : "Share my data with the host and qualified researchers worldwide.",
+            "shortDesc" : "Only Share my data with the host and partners",
+            "title" : "Sharing Options",
+            "learnMore" : "",
+            "allowWithoutSharing" : false,
+            "text" : "The host and its partners will receive your study data from participation in this study. Sharing your coded data more broadly (without information such as your name) may benefit this and future research."
+          },
           "comprehension": {
               "passScore": 1,
               "questions": [

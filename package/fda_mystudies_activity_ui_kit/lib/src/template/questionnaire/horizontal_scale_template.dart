@@ -70,25 +70,27 @@ class _HorizontalScaleTemplateState extends State<HorizontalScaleTemplate> {
     List<Widget> widgetList = [
       Center(
           child: Text(selectedValueLabel,
-              style: Theme.of(context).textTheme.headline6)),
-      Slider(
-          value: _selectedValue ?? defaultValue.toDouble(),
-          min: minValue.toDouble(),
-          max: maxValue.toDouble(),
-          divisions: divisions,
-          onChanged: (double value) {
-            setState(() {
-              _selectedValue =
-                  double.parse(value.toStringAsFixed(maxFractionDigits));
-            });
-          }),
+              style: Theme.of(context).textTheme.bodyLarge)),
       Padding(
-          padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+          child: Slider(
+              value: _selectedValue ?? defaultValue.toDouble(),
+              min: minValue.toDouble(),
+              max: maxValue.toDouble(),
+              divisions: divisions,
+              onChanged: (double value) {
+                setState(() {
+                  _selectedValue =
+                      double.parse(value.toStringAsFixed(maxFractionDigits));
+                });
+              })),
+      Padding(
+          padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(minValueLabel, style: Theme.of(context).textTheme.headline6),
-              Text(maxValueLabel, style: Theme.of(context).textTheme.headline6)
+              Text(minValueLabel, style: Theme.of(context).textTheme.bodyLarge),
+              Text(maxValueLabel, style: Theme.of(context).textTheme.bodyLarge)
             ],
           ))
     ];

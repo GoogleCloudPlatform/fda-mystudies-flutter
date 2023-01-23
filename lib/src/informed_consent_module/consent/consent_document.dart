@@ -3,12 +3,10 @@ import 'dart:math';
 import 'package:fda_mystudies_design_system/block/page_html_text_block.dart';
 import 'package:fda_mystudies_design_system/block/primary_button_block.dart';
 import 'package:fda_mystudies_design_system/block/text_button_block.dart';
-import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../../main.dart';
 import '../../common/widget_util.dart';
 import '../../provider/eligibility_consent_provider.dart';
 import '../../route/route_name.dart';
@@ -20,6 +18,7 @@ class ConsentDocument extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    double bottomPadding = max(150, 90 * scaleFactor);
     final visualScreens =
         Provider.of<EligibilityConsentProvider>(context, listen: false)
             .consent
@@ -41,8 +40,11 @@ class ConsentDocument extends StatelessWidget {
         const SliverAppBar(title: Text('Consent'), floating: true),
         SliverList(
             delegate: SliverChildBuilderDelegate(
-                (context, index) => PageHtmlTextBlock(
-                    text: contentFromVisualScreens, textAlign: TextAlign.left),
+                (context, index) => Padding(
+                    padding: EdgeInsets.fromLTRB(0, 16, 0, bottomPadding),
+                    child: PageHtmlTextBlock(
+                        text: contentFromVisualScreens,
+                        textAlign: TextAlign.left)),
                 childCount: 1)),
       ]),
       Align(
@@ -94,10 +96,7 @@ class ConsentDocument extends StatelessWidget {
                                 FDADialogAction('CONTINUE', isPrimary: true,
                                     onPressed: () {
                                   Navigator.of(context).pop();
-                                  context.goNamed(
-                                      curConfig.appType == AppType.gateway
-                                          ? RouteName.gatewayHome
-                                          : RouteName.studyIntro);
+                                  context.goNamed(RouteName.root);
                                 })
                               ]);
                         })

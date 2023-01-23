@@ -12,6 +12,8 @@ class MockHttpClient implements http.Client {
   MockHttpClient(this.config);
 
   var urlPathToMockYamlPath = {
+    '/oauth2/auth': 'assets/mock/scenario/authentication_service/sign_in',
+    '/auth-server/login': 'assets/mock/scenario/authentication_service/login',
     '/auth-server/users/userId/change_password':
         'assets/mock/scenario/authentication_service/change_password',
     '/auth-server/oauth2/token':
@@ -59,6 +61,8 @@ class MockHttpClient implements http.Client {
         'assets/mock/scenario/response_datastore_service/update_activity_state',
     '/participant-user-datastore/contactUs':
         'assets/mock/scenario/participant_user_datastore_service/contact_us',
+    '/participant-user-datastore/apps':
+        'assets/mock/scenario/participant_user_datastore_service/app_info',
     '/participant-user-datastore/deactivate':
         'assets/mock/scenario/participant_user_datastore_service/deactivate',
     '/participant-user-datastore/feedback':

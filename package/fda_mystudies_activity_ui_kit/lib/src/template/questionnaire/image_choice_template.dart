@@ -49,19 +49,21 @@ class _ImageChoiceTemplateState extends State<ImageChoiceTemplate> {
           style: Theme.of(context).textTheme.headline6,
           textAlign: TextAlign.center)
     ];
-    widgetList.add(Wrap(
-      children: widget.step.imageChoice.imageChoices.map((e) {
-        var isSelected = e.value == _selectedValue;
-        return GestureDetector(
-            onTap: () {
-              setState(() {
-                _selectedValue = e.value;
-                _selectedText = e.text;
-              });
-            },
-            child: ImageChoiceGridItem(e, isSelected));
-      }).toList(),
-    ));
+    widgetList.add(Padding(
+        padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
+        child: Wrap(
+          children: widget.step.imageChoice.imageChoices.map((e) {
+            var isSelected = e.value == _selectedValue;
+            return GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _selectedValue = e.value;
+                    _selectedText = e.text;
+                  });
+                },
+                child: ImageChoiceGridItem(e, isSelected));
+          }).toList(),
+        )));
 
     return QuestionnaireTemplate(
         widget.step,
