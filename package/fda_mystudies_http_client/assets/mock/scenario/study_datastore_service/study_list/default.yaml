@@ -13,8 +13,8 @@ response: |
           "enrolling": true,
           "platform": "all"
         },
-        "status": "enrolling",
-        "studyId": "test_study_id",
+        "status": "Active",
+        "studyId": "fda-mystudies",
         "studyVersion": "1.0",
         "tagLine": "Demo study to test the app",
         "title": "Sample Study"
