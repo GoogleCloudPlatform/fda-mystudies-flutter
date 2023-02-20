@@ -35,4 +35,5 @@ class RouteName {
   static const eligibilityTest = 'eligibility_test';
   static const eligibilityDecision = 'eligibility_decision';
   static const accessibilityScreen = 'accessibility_screen';
+  static const localAuthScreen = 'local_auth_screen';
 }

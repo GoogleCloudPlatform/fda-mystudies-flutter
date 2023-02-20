@@ -55,6 +55,7 @@ import '../resources_module/about_study.dart';
 import '../resources_module/environment_module/environment.dart';
 import '../resources_module/resources.dart';
 import '../resources_module/view_consent_pdf.dart';
+import '../screen/local_auth_screen.dart';
 import '../study_module/gateway_home.dart';
 import '../user/user_data.dart';
 import 'route_name.dart';
@@ -65,6 +66,7 @@ class AppRouter {
   static final GoRouter _goRouter = GoRouter(
       navigatorKey: _rootKey,
       debugLogDiagnostics: true,
+      observers: [LocalAuthObserver()],
       redirect: ((context, state) async {
         if (state.location == '/') {
           const secureStorage = FlutterSecureStorage(
@@ -396,6 +398,10 @@ class AppRouter {
             path: '/${RouteName.viewSignedConsentPdf}',
             builder: (context, state) =>
                 const ViewConsentPdfScreenController()),
+        GoRoute(
+            name: RouteName.localAuthScreen,
+            path: '/${RouteName.localAuthScreen}',
+            builder: (context, state) => const LocalAuthScreen()),
         GoRoute(
             name: RouteName.consentDocument,
             path: '/${RouteName.consentDocument}',

@@ -2,18 +2,18 @@ import 'dart:async';
 import 'dart:developer' as developer;
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:fda_mystudies_design_system/component/error_scenario.dart';
 import 'package:fda_mystudies_design_system/theme/dark_theme.dart';
 import 'package:fda_mystudies_design_system/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 
 import 'main.dart';
 import 'src/provider/connectivity_provider.dart';
+import 'src/provider/local_auth_provider.dart';
 import 'src/route/app_router.dart';
+import 'src/route/route_name.dart';
 
 class FDAMyStudiesApp extends StatefulWidget {
   const FDAMyStudiesApp({Key? key}) : super(key: key);
@@ -25,8 +25,6 @@ class FDAMyStudiesApp extends StatefulWidget {
 class _FDAMyStudiesAppState extends State<FDAMyStudiesApp>
     with WidgetsBindingObserver {
   final Connectivity _connectivity = Connectivity();
-  final LocalAuthentication auth = LocalAuthentication();
-  var _isAuthenticating = false;
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
@@ -49,42 +47,17 @@ class _FDAMyStudiesAppState extends State<FDAMyStudiesApp>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
-    if (_isAuthenticating) {
-      return;
-    }
     if (state == AppLifecycleState.resumed) {
-      developer.log('APP LIFECYCLE STATE: RESUMED');
-      _displayLocalAuth();
+      var showLock =
+          Provider.of<LocalAuthProvider>(context, listen: false).showLock;
+      if (AppRouter.routeConfig.location != '/${RouteName.localAuthScreen}' &&
+          showLock) {
+        Provider.of<LocalAuthProvider>(context, listen: false)
+            .updateStatus(showLock: false);
+        AppRouter.routeConfig.pushNamed(RouteName.localAuthScreen);
+      }
     } else if (state != AppLifecycleState.resumed) {
       developer.log('APP LIFECYCLE STATE: ${state.toString()}');
-    }
-  }
-
-  Future<void> _displayLocalAuth() async {
-    try {
-      setState(() {
-        _isAuthenticating = true;
-      });
-      await auth
-          .authenticate(
-              localizedReason: 'Let OS determine authentication method',
-              options: const AuthenticationOptions(stickyAuth: true))
-          .then((isAuthenticated) {
-        if (isAuthenticated) {
-          auth.stopAuthentication();
-        }
-        return true;
-      });
-      Future.delayed(const Duration(seconds: 1)).then(((value) => setState(() {
-            _isAuthenticating = false;
-          })));
-    } on PlatformException catch (e) {
-      ErrorScenario.displayErrorMessageWithOKAction(context,
-          e.message ?? 'Something went wrong while displaying lock screen');
-      setState(() {
-        _isAuthenticating = false;
-      });
-      return;
     }
   }
 
