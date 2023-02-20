@@ -72,7 +72,7 @@ class _StatisticsViewState extends State<StatisticsView> {
             Expanded(
                 child: Text(_timeFormat(),
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
             _iconButton(
                 context,
                 Icons.arrow_right_sharp,
@@ -104,7 +104,7 @@ class _StatisticsViewState extends State<StatisticsView> {
   TextStyle? _titleStyle(BuildContext context) {
     return Theme.of(context)
         .textTheme
-        .headline6
+        .titleLarge
         ?.apply(fontSizeFactor: 0.7, fontWeightDelta: 3);
   }
 

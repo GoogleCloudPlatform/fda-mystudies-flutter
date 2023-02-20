@@ -26,7 +26,7 @@ class TrendsDashboardTile extends StatelessWidget {
   TextStyle? _titleStyle(BuildContext context) {
     return Theme.of(context)
         .textTheme
-        .headline6
+        .titleLarge
         ?.apply(fontSizeFactor: 0.7, fontWeightDelta: 3);
   }
 }

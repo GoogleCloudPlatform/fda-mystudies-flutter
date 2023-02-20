@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../common/widget_util.dart';
-import '../../theme/fda_text_theme.dart';
 import '../../route/route_name.dart';
 import '../../user/user_data.dart';
 import 'pb_study_enrollment_status.dart';
@@ -18,12 +16,13 @@ class StudyTile extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> studyData = [
       Text(userStudyData.userState.status.userStudyStatus.description,
-          style: FDATextTheme.bodyTextStyle(context)),
-      Text(userStudyData.study.title, style: _titleStyle(context))
+          style: Theme.of(context).textTheme.bodyLarge),
+      Text(userStudyData.study.title,
+          style: Theme.of(context).textTheme.titleMedium)
     ];
     if (userStudyData.study.tagLine.isNotEmpty) {
-      studyData.add(
-          Text(userStudyData.study.tagLine, style: _tagLineStyle(context)));
+      studyData.add(Text(userStudyData.study.tagLine,
+          style: Theme.of(context).textTheme.labelSmall));
     }
     return GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -32,8 +31,12 @@ class StudyTile extends StatelessWidget {
             margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
             decoration: BoxDecoration(
                 border: Border(
-                    bottom:
-                        BorderSide(width: 2.0, color: dividerColor(context)))),
+                    bottom: BorderSide(
+                        width: 2.0,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurfaceVariant
+                            .withOpacity(0.5)))),
             child: Row(children: [
               Stack(children: [
                 Container(
@@ -94,15 +97,5 @@ class StudyTile extends StatelessWidget {
           UserData.shared.curStudyAdherence = userStudyData.userState.adherence;
           context.pushNamed(RouteName.studyIntro);
         });
-  }
-
-  TextStyle? _titleStyle(BuildContext context) {
-    return Theme.of(context).textTheme.headline3?.apply(
-        fontSizeFactor: 0.5,
-        color: Theme.of(context).textTheme.bodyText1?.color);
-  }
-
-  TextStyle? _tagLineStyle(BuildContext context) {
-    return Theme.of(context).textTheme.subtitle1;
   }
 }

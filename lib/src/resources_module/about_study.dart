@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 
 import '../common/future_loading_page.dart';
-import '../theme/fda_text_theme.dart';
 import '../user/user_data.dart';
 
 class AboutStudy extends StatelessWidget {
@@ -53,7 +52,7 @@ class AboutStudy extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                             Text(infoItem.title,
-                                style: FDATextTheme.headerTextStyle(context),
+                                style: Theme.of(context).textTheme.titleLarge,
                                 textAlign: TextAlign.center),
                             const SizedBox(height: 20),
                             Text(
@@ -61,7 +60,7 @@ class AboutStudy extends StatelessWidget {
                                         .documentElement
                                         ?.text ??
                                     '',
-                                style: FDATextTheme.bodyTextStyle(context),
+                                style: Theme.of(context).textTheme.bodyLarge,
                                 textAlign: TextAlign.center)
                           ]))))));
     });

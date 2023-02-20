@@ -54,11 +54,11 @@ class StudyParticipationStatusView extends StatelessWidget {
   TextStyle? _titleStyle(BuildContext context) {
     return Theme.of(context)
         .textTheme
-        .headline6
+        .titleLarge
         ?.apply(fontSizeFactor: 0.7, fontWeightDelta: 3);
   }
 
   TextStyle? _statusStyle(BuildContext context) {
-    return Theme.of(context).textTheme.headline6?.apply(fontSizeFactor: 0.7);
+    return Theme.of(context).textTheme.titleLarge?.apply(fontSizeFactor: 0.7);
   }
 }

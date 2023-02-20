@@ -12,8 +12,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  google_fonts: ^3.0.1
-  golden_toolkit: ^0.13.0
+  google_fonts: ^4.0.3
+  golden_toolkit: ^0.14.0
   shimmer: ^2.0.0
   flutter_html: ^2.2.1
   html_unescape: ^2.0.0

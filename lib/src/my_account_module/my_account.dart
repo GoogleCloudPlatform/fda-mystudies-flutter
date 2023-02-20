@@ -55,7 +55,12 @@ class _MyAccountState extends State<MyAccount> {
                                       textAlign: TextAlign.right,
                                       style: _style(context)))
                             ])),
-                    Divider(thickness: 2, color: dividerColor(context)),
+                    Divider(
+                        thickness: 2,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurfaceVariant
+                            .withOpacity(0.5)),
                     Padding(
                         padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                         child: Row(
@@ -69,20 +74,12 @@ class _MyAccountState extends State<MyAccount> {
                                       onTap: () => push(
                                           context, const ChangePassword())))
                             ])),
-                    Divider(thickness: 2, color: dividerColor(context)),
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              _label(context, 'Passcode'),
-                              Expanded(
-                                  child: InkWell(
-                                      child: const Text('Change passcode',
-                                          textAlign: TextAlign.right),
-                                      onTap: () {}))
-                            ])),
-                    Divider(thickness: 2, color: dividerColor(context)),
+                    Divider(
+                        thickness: 2,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurfaceVariant
+                            .withOpacity(0.5)),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -102,7 +99,12 @@ class _MyAccountState extends State<MyAccount> {
                                 }
                               })
                         ]),
-                    Divider(thickness: 2, color: dividerColor(context)),
+                    Divider(
+                        thickness: 2,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurfaceVariant
+                            .withOpacity(0.5)),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -123,7 +125,12 @@ class _MyAccountState extends State<MyAccount> {
                                 }
                               })
                         ]),
-                    Divider(thickness: 2, color: dividerColor(context)),
+                    Divider(
+                        thickness: 2,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurfaceVariant
+                            .withOpacity(0.5)),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -144,7 +151,12 @@ class _MyAccountState extends State<MyAccount> {
                                 }
                               })
                         ]),
-                    Divider(thickness: 2, color: dividerColor(context)),
+                    Divider(
+                        thickness: 2,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurfaceVariant
+                            .withOpacity(0.5)),
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () => push(context, const DeleteAccount()),
@@ -195,10 +207,10 @@ class _MyAccountState extends State<MyAccount> {
   }
 
   TextStyle? _labelStyle(BuildContext context) {
-    return Theme.of(context).textTheme.subtitle2;
+    return Theme.of(context).textTheme.titleSmall;
   }
 
   TextStyle? _style(BuildContext context) {
-    return Theme.of(context).textTheme.bodyText1;
+    return Theme.of(context).textTheme.bodyLarge;
   }
 }

@@ -289,5 +289,9 @@
     "accessibilityScreenPositiveAnswer": "Yes",
     "accessibilityScreenNegativeAnswer": "No, it's difficult for me to read",
     "accessibilityScreenGoToAccessibilitySettings": "Go to Accessibility Settings",
-    "accessibilityScreenReadingPassage": "<p>Welcome to FDA MyStudies app!<p>"
+    "accessibilityScreenReadingPassage": "<p>Welcome to FDA MyStudies app!<p>",
+
+    "passwordUpdatedScreenPasswordUpdatedSuccessfullyTitle": "Done!",
+    "passwordUpdatedScreenPasswordUpdatedSuccessfullyMessage": "Password updated successfully",
+    "passwordUpdatedScreenPasswordReturnToSignIn": "OK"
 }

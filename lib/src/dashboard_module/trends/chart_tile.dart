@@ -20,7 +20,8 @@ class ChartTile extends StatelessWidget {
     var scale = MediaQuery.of(context).textScaleFactor;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Container(
-          decoration: BoxDecoration(color: Theme.of(context).bottomAppBarColor),
+          decoration:
+              BoxDecoration(color: Theme.of(context).bottomAppBarTheme.color),
           padding: const EdgeInsets.all(8),
           child: Text(chartDisplayName, style: _titleStyle(context))),
       Container(
@@ -77,6 +78,6 @@ class ChartTile extends StatelessWidget {
   }
 
   TextStyle? _titleStyle(BuildContext context) {
-    return Theme.of(context).textTheme.subtitle1;
+    return Theme.of(context).textTheme.titleMedium;
   }
 }
