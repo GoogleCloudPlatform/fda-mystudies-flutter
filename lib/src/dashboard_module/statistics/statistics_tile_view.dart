@@ -44,21 +44,21 @@ class StatisticsTileView extends StatelessWidget {
   TextStyle? _displayNameStyle(BuildContext context) {
     return Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyLarge
         ?.apply(fontWeightDelta: 2, color: Colors.white);
   }
 
   TextStyle? _valueStyle(BuildContext context) {
     return Theme.of(context)
         .textTheme
-        .headline4
+        .headlineMedium
         ?.apply(color: Colors.white, fontWeightDelta: 2, fontSizeFactor: 0.7);
   }
 
   TextStyle? _unitStyle(BuildContext context) {
     return Theme.of(context)
         .textTheme
-        .bodyText1
+        .bodyLarge
         ?.apply(fontWeightDelta: 2, color: Colors.white);
   }
 }

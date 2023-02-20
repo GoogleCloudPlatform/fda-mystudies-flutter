@@ -11,7 +11,9 @@ import 'package:provider/provider.dart';
 
 import 'main.dart';
 import 'src/provider/connectivity_provider.dart';
+import 'src/provider/local_auth_provider.dart';
 import 'src/route/app_router.dart';
+import 'src/route/route_name.dart';
 
 class FDAMyStudiesApp extends StatefulWidget {
   const FDAMyStudiesApp({Key? key}) : super(key: key);
@@ -20,13 +22,15 @@ class FDAMyStudiesApp extends StatefulWidget {
   State<FDAMyStudiesApp> createState() => _FDAMyStudiesAppState();
 }
 
-class _FDAMyStudiesAppState extends State<FDAMyStudiesApp> {
+class _FDAMyStudiesAppState extends State<FDAMyStudiesApp>
+    with WidgetsBindingObserver {
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     initConnectivity();
 
     _connectivitySubscription =
@@ -35,8 +39,26 @@ class _FDAMyStudiesAppState extends State<FDAMyStudiesApp> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _connectivitySubscription.cancel();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      var showLock =
+          Provider.of<LocalAuthProvider>(context, listen: false).showLock;
+      if (AppRouter.routeConfig.location != '/${RouteName.localAuthScreen}' &&
+          showLock) {
+        Provider.of<LocalAuthProvider>(context, listen: false)
+            .updateStatus(showLock: false);
+        AppRouter.routeConfig.pushNamed(RouteName.localAuthScreen);
+      }
+    } else if (state != AppLifecycleState.resumed) {
+      developer.log('APP LIFECYCLE STATE: ${state.toString()}');
+    }
   }
 
   Future<void> initConnectivity() async {

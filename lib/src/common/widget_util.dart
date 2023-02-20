@@ -32,10 +32,6 @@ Color contrastingDividerColor(BuildContext context) {
   return Theme.of(context).scaffoldBackgroundColor;
 }
 
-Color dividerColor(BuildContext context) {
-  return Theme.of(context).bottomAppBarColor;
-}
-
 String processResponse(dynamic response, String successfulMessage) {
   if (response is CommonErrorResponse) {
     var errorResponse = response.errorDescription;

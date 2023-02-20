@@ -8,7 +8,6 @@ import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_c
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../theme/fda_text_theme.dart';
 import '../../widget/fda_ink_well.dart';
 
 class VisualScreenTemplate extends StatelessWidget {
@@ -27,8 +26,8 @@ class VisualScreenTemplate extends StatelessWidget {
         PageTextBlock(text: visualScreen.text, textAlign: TextAlign.left),
       ]);
     } else if (visualScreen.description.isNotEmpty) {
-      content.add(
-          Text(visualScreen.title, style: FDATextTheme.bodyTextStyle(context)));
+      content.add(Text(visualScreen.title,
+          style: Theme.of(context).textTheme.bodyLarge));
     }
     if (visualScreen.html.isNotEmpty) {
       content.add(InkWellBlock(

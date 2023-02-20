@@ -6,7 +6,7 @@ class FDAColorScheme {
   }
 
   static Color? bottomAppBarColor(BuildContext context) {
-    return Theme.of(context).bottomAppBarColor;
+    return Theme.of(context).bottomAppBarTheme.color;
   }
 
   static Color? googleBlue(BuildContext context) {

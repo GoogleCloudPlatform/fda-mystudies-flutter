@@ -13,6 +13,7 @@ import 'src/provider/activity_step_provider.dart';
 import 'src/provider/connectivity_provider.dart';
 import 'src/provider/dashboard_provider.dart';
 import 'src/provider/eligibility_consent_provider.dart';
+import 'src/provider/local_auth_provider.dart';
 import 'src/provider/my_account_provider.dart';
 import 'src/provider/user_study_state_provider.dart';
 import 'src/provider/welcome_provider.dart';
@@ -25,6 +26,7 @@ void main() {
   ui_kit.configureDependencies(PlatformConfig());
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => ConnectivityProvider()),
+    ChangeNotifierProvider(create: (context) => LocalAuthProvider()),
     ChangeNotifierProvider(create: (context) => WelcomeProvider()),
     ChangeNotifierProvider(create: (context) => MyAccountProvider()),
     ChangeNotifierProvider(create: (context) => EligibilityConsentProvider()),

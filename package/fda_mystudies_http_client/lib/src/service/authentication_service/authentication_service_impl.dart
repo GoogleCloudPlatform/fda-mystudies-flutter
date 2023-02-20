@@ -194,11 +194,13 @@ class AuthenticationServiceImpl implements AuthenticationService {
   @override
   Future<Object> demoSignIn(String email, String password,
       {String? tempRegId}) {
-    Future<String> futureLoginChallenge =
-        _fetchLoginChallenge(tempRegId: tempRegId);
-
-    return futureLoginChallenge.then(
-        (loginChallenge) => _signInHelper(email, password, loginChallenge));
+    var headers = CommonRequestHeader()..from(config);
+    Map<String, String> headerJson = headers.toHeaderJson();
+    Map<String, String> body = {'email': email, 'password': password};
+    Uri uri = Uri.https(config.baseParticipantUrl, signInPath);
+    return client.post(uri, headers: headerJson, body: body).then((response) =>
+        ResponseParser.parseHttpResponse('sign_in', response,
+            () => SignInResponse()..fromJson(response.body)));
   }
 
   @override

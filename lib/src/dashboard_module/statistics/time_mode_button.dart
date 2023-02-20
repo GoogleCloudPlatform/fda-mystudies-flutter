@@ -21,13 +21,13 @@ class TimeModeButton extends StatelessWidget {
             decoration: BoxDecoration(
                 color: isActive
                     ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).bottomAppBarColor,
+                    : Theme.of(context).bottomAppBarTheme.color,
                 borderRadius: BorderRadius.circular(5.0)),
             child: Text(mode, style: _statusStyle(context))));
   }
 
   TextStyle? _statusStyle(BuildContext context) {
-    return Theme.of(context).textTheme.headline6?.apply(
+    return Theme.of(context).textTheme.titleLarge?.apply(
         fontSizeFactor: 0.7,
         color: isActive ? Colors.white : Theme.of(context).colorScheme.primary);
   }

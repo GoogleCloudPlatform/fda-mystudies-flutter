@@ -139,6 +139,6 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
   }
 
   TextStyle? _bodyStyle(BuildContext context) {
-    return Theme.of(context).textTheme.bodyText2?.apply(fontSizeFactor: 1.2);
+    return Theme.of(context).textTheme.bodyMedium?.apply(fontSizeFactor: 1.2);
   }
 }

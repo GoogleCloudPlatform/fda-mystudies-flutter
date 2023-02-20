@@ -4,10 +4,12 @@ import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 import '../common/string_extension.dart';
 import '../common/widget_util.dart';
 import '../screen/update_password_screen.dart';
+import '../route/route_name.dart';
 import '../user/user_data.dart';
 
 class UpdatePasswordScreenController extends StatefulWidget {
@@ -65,12 +67,34 @@ class _UpdatePasswordScreenControllerState
         _passwordUpdateInProgress = false;
       });
       if (response == successfulResponse) {
-        // TODO(cg2092): Move ahead to next screen.
+        _showPasswordUpdatedSuccessfullyDialog();
       } else if (value is CommonErrorResponse) {
         ErrorScenario.displayErrorMessageWithOKAction(
             context, value.errorDescription);
       }
     });
+  }
+
+  void _showPasswordUpdatedSuccessfullyDialog() {
+    var alertTitle = AppLocalizations.of(context)
+        .passwordUpdatedScreenPasswordUpdatedSuccessfullyTitle;
+    var alertContent = AppLocalizations.of(context)
+        .passwordUpdatedScreenPasswordUpdatedSuccessfullyMessage;
+    var alertDialog = AlertDialog(
+      title: Text(alertTitle),
+      content: Text(alertContent),
+      actions: [
+        TextButton(
+            child: Text(AppLocalizations.of(context)
+                .passwordUpdatedScreenPasswordReturnToSignIn),
+            onPressed: () => context.pushNamed(RouteName.signIn)),
+      ],
+    );
+    showDialog(
+        context: context,
+        builder: (context) {
+          return alertDialog;
+        });
   }
 
   String? _errorMessage() {
