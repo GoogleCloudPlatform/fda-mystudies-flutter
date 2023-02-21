@@ -19,6 +19,7 @@ dependencies:
   uuid: ^3.0.5
   yaml: ^3.1.0
   path: ^1.8.0
+  sqflite:
 
 dev_dependencies:
   flutter_test:
