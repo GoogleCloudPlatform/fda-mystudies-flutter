@@ -68,10 +68,15 @@ class AppRouter {
       debugLogDiagnostics: true,
       observers: [LocalAuthObserver()],
       redirect: ((context, state) async {
+        const secureStorage = FlutterSecureStorage(
+            iOptions: IOSOptions(),
+            aOptions: AndroidOptions(encryptedSharedPreferences: true));
+        // Setup demo environment.
+        if (curConfig.environment == demo) {
+          secureStorage.write(key: SecureKey.userId, value: 'userId');
+          UserData.shared.userId = 'userId';
+        }
         if (state.location == '/') {
-          const secureStorage = FlutterSecureStorage(
-              iOptions: IOSOptions(),
-              aOptions: AndroidOptions(encryptedSharedPreferences: true));
           final userIsVisitingFirstTime =
               await secureStorage.read(key: SecureKey.isVisitingFirstTime);
           if (userIsVisitingFirstTime == null ||

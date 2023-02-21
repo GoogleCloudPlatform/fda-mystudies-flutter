@@ -87,7 +87,7 @@ class _UpdatePasswordScreenControllerState
         TextButton(
             child: Text(AppLocalizations.of(context)
                 .passwordUpdatedScreenPasswordReturnToSignIn),
-            onPressed: () => context.pushNamed(RouteName.signIn)),
+            onPressed: () => context.goNamed(RouteName.signIn)),
       ],
     );
     showDialog(
