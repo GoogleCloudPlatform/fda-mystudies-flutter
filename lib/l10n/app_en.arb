@@ -291,7 +291,7 @@
     "accessibilityScreenGoToAccessibilitySettings": "Go to Accessibility Settings",
     "accessibilityScreenReadingPassage": "<p>Welcome to FDA MyStudies app!<p>",
 
-    "passwordUpdatedScreenPasswordUpdatedSuccessfullyTitle": "Done!",
-    "passwordUpdatedScreenPasswordUpdatedSuccessfullyMessage": "Password updated successfully",
+    "passwordUpdatedScreenPasswordUpdatedSuccessfullyTitle": "Password updated successfully",
+    "passwordUpdatedScreenPasswordUpdatedSuccessfullyMessage": "Please sign-in using your new password.",
     "passwordUpdatedScreenPasswordReturnToSignIn": "OK"
 }
