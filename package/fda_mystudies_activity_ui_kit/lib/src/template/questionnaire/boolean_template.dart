@@ -43,6 +43,7 @@ class _BooleanTemplateState extends State<BooleanTemplate> {
             title: Text(e),
             value: e == "Yes",
             groupValue: _selectedValue,
+            activeColor: Theme.of(context).colorScheme.primary,
             onChanged: (value) {
               setState(() {
                 _selectedValue = value as bool;

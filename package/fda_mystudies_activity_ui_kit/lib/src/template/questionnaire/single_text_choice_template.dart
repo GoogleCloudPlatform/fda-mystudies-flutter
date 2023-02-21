@@ -53,6 +53,7 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
                 ? false
                 : e.value == _selectedValue!.first,
             value: e.value,
+            activeColor: Theme.of(context).colorScheme.primary,
             groupValue: _selectedValue?.first,
             onChanged: (value) {
               setState(() {

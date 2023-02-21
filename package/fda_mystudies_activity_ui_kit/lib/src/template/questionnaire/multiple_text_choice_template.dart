@@ -52,6 +52,7 @@ class _MultipleTextChoiceTemplateState
             controlAffinity: ListTileControlAffinity.leading,
             title: Text(e.text),
             subtitle: e.detail.isNotEmpty ? Text(e.detail) : null,
+            activeColor: Theme.of(context).colorScheme.primary,
             value: _selectedValue.contains(e.value),
             onChanged: (value) => _updateState(e)))
         .cast<Widget>()
