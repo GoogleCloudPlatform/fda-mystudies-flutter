@@ -26,6 +26,7 @@ class AgreeToTnCBlock extends StatelessWidget {
         groupValue: agreedToTnC,
         toggleable: true,
         onChanged: toggledAgreement,
+        activeColor: Theme.of(context).colorScheme.primary,
         title: Wrap(crossAxisAlignment: WrapCrossAlignment.center, children: [
           Text('${l10n.iAgreeToText} ', style: textStyle),
           InkWellComponent(
