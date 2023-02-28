@@ -36,6 +36,7 @@ class _SharingOptionsState extends State<SharingOptions> {
             const SizedBox(height: 20),
             RadioListTile(
                 title: Text(widget.sharing.shortDesc),
+                activeColor: Theme.of(context).colorScheme.primary,
                 value: widget.sharing.shortDesc,
                 groupValue: _selectedValue,
                 onChanged: (value) {
@@ -46,6 +47,7 @@ class _SharingOptionsState extends State<SharingOptions> {
             const SizedBox(height: 20),
             RadioListTile(
                 title: Text(widget.sharing.longDesc),
+                activeColor: Theme.of(context).colorScheme.primary,
                 value: widget.sharing.longDesc,
                 groupValue: _selectedValue,
                 onChanged: (value) {
