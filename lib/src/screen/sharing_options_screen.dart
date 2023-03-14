@@ -45,6 +45,7 @@ class SharingOptionsScreen extends StatelessWidget {
     return options
         .map((value) => RadioListTile<String>(
               title: Text(value, style: Theme.of(context).textTheme.bodyLarge),
+              activeColor: Theme.of(context).colorScheme.primary,
               value: value,
               toggleable: true,
               groupValue: selectedOption,
