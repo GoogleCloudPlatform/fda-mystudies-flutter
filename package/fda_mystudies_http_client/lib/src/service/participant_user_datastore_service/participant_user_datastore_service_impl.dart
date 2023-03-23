@@ -14,6 +14,7 @@ import '../../../participant_user_datastore_service.dart';
 import '../../service/session.dart';
 import '../config.dart';
 import '../util/common_responses.dart';
+import '../util/http_client_wrapper.dart';
 import '../util/request_header.dart';
 import '../util/response_parser.dart';
 
@@ -45,7 +46,7 @@ class ParticipantUserDatastoreServiceImpl
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantUserDatastore$appInfoPath', {'appId': config.appId});
 
-    return client
+    return HTTPClientWrapper(client)
         .get(uri, headers: headers.toHeaderJson())
         .then((response) => ResponseParser.parseHttpResponse('app_info',
             response, () => AppInfoResponse()..fromJson(response.body)))
@@ -76,7 +77,7 @@ class ParticipantUserDatastoreServiceImpl
     var uri = Uri.https(
         config.baseParticipantUrl, '$participantUserDatastore$contactUsPath');
 
-    return client
+    return HTTPClientWrapper(client)
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'contact_us', response, () => CommonResponses.successResponse));
@@ -98,7 +99,7 @@ class ParticipantUserDatastoreServiceImpl
     var uri = Uri.https(
         config.baseParticipantUrl, '$participantUserDatastore$deactivatePath');
 
-    return client
+    return HTTPClientWrapper(client)
         .delete(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'deactivate', response, () => CommonResponses.successResponse));
@@ -115,7 +116,7 @@ class ParticipantUserDatastoreServiceImpl
     var uri = Uri.https(
         config.baseParticipantUrl, '$participantUserDatastore$feedbackPath');
 
-    return client
+    return HTTPClientWrapper(client)
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'feedback', response, () => CommonResponses.successResponse));
@@ -128,9 +129,10 @@ class ParticipantUserDatastoreServiceImpl
     var uri = Uri.https(
         config.baseParticipantUrl, '$participantUserDatastore$userProfilePath');
 
-    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
-        ResponseParser.parseHttpResponse('user_profile', response,
-            () => GetUserProfileResponse()..fromJson(response.body)));
+    return HTTPClientWrapper(client)
+        .get(uri, headers: headers.toHeaderJson())
+        .then((response) => ResponseParser.parseHttpResponse('user_profile',
+            response, () => GetUserProfileResponse()..fromJson(response.body)));
   }
 
   @override
@@ -141,7 +143,7 @@ class ParticipantUserDatastoreServiceImpl
     var uri = Uri.https(
         config.baseParticipantUrl, '$participantUserDatastore$registerPath');
 
-    return client
+    return HTTPClientWrapper(client)
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse('register',
             response, () => RegistrationResponse()..fromJson(response.body)));
@@ -155,7 +157,7 @@ class ParticipantUserDatastoreServiceImpl
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantUserDatastore$resendConfirmationPath');
 
-    return client
+    return HTTPClientWrapper(client)
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'resend_confirmation',
@@ -183,7 +185,7 @@ class ParticipantUserDatastoreServiceImpl
     Uri uri = Uri.https(config.baseParticipantUrl,
         '$participantUserDatastore$updateUserProfilePath');
 
-    return client
+    return HTTPClientWrapper(client)
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'update_user_profile',
@@ -200,7 +202,7 @@ class ParticipantUserDatastoreServiceImpl
     var uri = Uri.https(
         config.baseParticipantUrl, '$participantUserDatastore$verifyEmailPath');
 
-    return client
+    return HTTPClientWrapper(client)
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse('verify_email',
             response, () => VerifyEmailResponse()..fromJson(response.body)));
