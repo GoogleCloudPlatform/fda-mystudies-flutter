@@ -39,6 +39,8 @@ class ResponseParser {
       return CommonErrorResponse.create()
         ..errorDescription =
             'Invalid json received while making the $apiName call!';
+    } catch (e) {
+      return CommonErrorResponse.create()..errorDescription = e.toString();
     }
   }
 }
