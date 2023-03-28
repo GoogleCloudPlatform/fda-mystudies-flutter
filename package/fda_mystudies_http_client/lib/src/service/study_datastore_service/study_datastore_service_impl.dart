@@ -132,7 +132,7 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
         config.baseStudiesUrl, '$studyDatastore$getStudyInfoPath', params);
 
     return HTTPClientWrapper(client)
-        .get(uri, headers: headers.toHeaderJson())
+        .cachedGet(uri, headers: headers.toHeaderJson())
         .then((response) => ResponseParser.parseHttpResponse('study_info',
             response, () => StudyInfoResponse()..fromJson(response.body)));
   }

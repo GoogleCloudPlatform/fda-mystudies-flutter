@@ -82,11 +82,11 @@ extension ActivityStatusExtension on ActivityStatus {
         return ActivityStatus.completed;
       case 'expired':
         return ActivityStatus.expired;
-      case 'inProgress':
+      case 'inprogress':
         return ActivityStatus.inProgress;
       case 'abandoned':
         return ActivityStatus.abandoned;
-      case 'yetToJoin':
+      case 'yettojoin':
         return ActivityStatus.yetToJoin;
       default:
         return ActivityStatus.upcoming;

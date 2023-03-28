@@ -4,6 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorScenario {
+  static void displayAppropriateErrorMessage(
+      BuildContext context, String message,
+      {SnackBarAction? action}) {
+    if (message.toLowerCase().contains('failed host lookup')) {
+      displayErrorMessageWithOKAction(context, message);
+    } else {
+      displayErrorMessage(context, message, action: action);
+    }
+  }
+
   static void displayErrorMessage(BuildContext context, String message,
       {SnackBarAction? action}) {
     var isTestEnv = Platform.environment.containsKey('FLUTTER_TEST');

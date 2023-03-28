@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class HTTPClientWrapper {
@@ -11,6 +12,31 @@ class HTTPClientWrapper {
     try {
       return await client.get(url, headers: headers);
     } catch (e) {
+      return Future.value(
+          http.Response('{"error_description": "${e.toString()}"}', 502));
+    }
+  }
+
+  Future<http.Response> cachedGet(Uri url,
+      {Map<String, String>? headers}) async {
+    const secureStorage = FlutterSecureStorage(
+        iOptions: IOSOptions(),
+        aOptions: AndroidOptions(encryptedSharedPreferences: true));
+    final cacheKey = url.toString();
+    try {
+      final response = await client.get(url, headers: headers);
+      if (response.statusCode == 200) {
+        await secureStorage.write(key: cacheKey, value: response.body);
+      }
+      return response;
+    } catch (e) {
+      final isCached = await secureStorage.containsKey(key: cacheKey);
+      if (isCached) {
+        final responseBody = await secureStorage.read(key: cacheKey);
+        if (responseBody != null) {
+          return http.Response(responseBody, 200);
+        }
+      }
       return Future.value(
           http.Response('{"error_description": "${e.toString()}"}', 502));
     }
