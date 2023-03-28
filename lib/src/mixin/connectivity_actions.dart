@@ -16,9 +16,9 @@ mixin ConnectivityAction {
   }
 
   void _performActionIfConnected(BuildContext context, void Function() action) {
+    action();
     if (Provider.of<ConnectivityProvider>(context, listen: false).isConnected) {
       ConnectivityScenario.hideBrokenConnectionBanner(context);
-      action();
     } else {
       ConnectivityScenario.displayBrokenConnectionBanner(context);
     }

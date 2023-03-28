@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 import 'package:fda_mystudies_spec/fda_mystudies_spec.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/fetch_activity_steps.pb.dart';
@@ -13,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
 import '../util/common_responses.dart';
+import '../util/http_client_wrapper.dart';
 import '../util/request_header.dart';
 import '../util/response_parser.dart';
 import '../config.dart';
@@ -51,8 +51,11 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
     var uri = Uri.https(config.baseStudiesUrl,
         '$studyDatastore$fetchActivityStepsPath', params);
 
-    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
-        ResponseParser.parseHttpResponse('activity_steps', response,
+    return HTTPClientWrapper(client)
+        .get(uri, headers: headers.toHeaderJson())
+        .then((response) => ResponseParser.parseHttpResponse(
+            'activity_steps',
+            response,
             () => _fetchActivityStepsResponseFromJson(response.body)));
   }
 
@@ -64,8 +67,11 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
     var uri = Uri.https(
         config.baseStudiesUrl, '$studyDatastore$getActivityListPath', params);
 
-    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
-        ResponseParser.parseHttpResponse('activity_list', response,
+    return HTTPClientWrapper(client)
+        .get(uri, headers: headers.toHeaderJson())
+        .then((response) => ResponseParser.parseHttpResponse(
+            'activity_list',
+            response,
             () => GetActivityListResponse()..fromJson(response.body)));
   }
 
@@ -77,8 +83,11 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
     var uri = Uri.https(config.baseStudiesUrl,
         '$studyDatastore$getConsentDocumentPath', params);
 
-    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
-        ResponseParser.parseHttpResponse('consent_document', response,
+    return HTTPClientWrapper(client)
+        .get(uri, headers: headers.toHeaderJson())
+        .then((response) => ResponseParser.parseHttpResponse(
+            'consent_document',
+            response,
             () => GetConsentDocumentResponse()..fromJson(response.body)));
   }
 
@@ -90,8 +99,11 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
     var uri = Uri.https(config.baseStudiesUrl,
         '$studyDatastore$getEligibilityAndConsentPath', params);
 
-    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
-        ResponseParser.parseHttpResponse('eligibility_and_consent', response,
+    return HTTPClientWrapper(client)
+        .get(uri, headers: headers.toHeaderJson())
+        .then((response) => ResponseParser.parseHttpResponse(
+            'eligibility_and_consent',
+            response,
             () => _getEligibilityAndConsentResponseFromJson(response.body)));
   }
 
@@ -103,8 +115,11 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
     var uri = Uri.https(
         config.baseStudiesUrl, '$studyDatastore$studyDashboardPath', params);
 
-    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
-        ResponseParser.parseHttpResponse('study_dashboard', response,
+    return HTTPClientWrapper(client)
+        .get(uri, headers: headers.toHeaderJson())
+        .then((response) => ResponseParser.parseHttpResponse(
+            'study_dashboard',
+            response,
             () => GetStudyDashboardResponse()..fromJson(response.body)));
   }
 
@@ -116,9 +131,10 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
     var uri = Uri.https(
         config.baseStudiesUrl, '$studyDatastore$getStudyInfoPath', params);
 
-    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
-        ResponseParser.parseHttpResponse('study_info', response,
-            () => StudyInfoResponse()..fromJson(response.body)));
+    return HTTPClientWrapper(client)
+        .cachedGet(uri, headers: headers.toHeaderJson())
+        .then((response) => ResponseParser.parseHttpResponse('study_info',
+            response, () => StudyInfoResponse()..fromJson(response.body)));
   }
 
   @override
@@ -127,9 +143,10 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
       ..from(config, userId: userId, authType: AuthorizationType.basic);
     var uri = Uri.https(config.baseStudiesUrl, '$studyDatastore$studyListPath');
 
-    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
-        ResponseParser.parseHttpResponse('study_list', response,
-            () => GetStudyListResponse()..fromJson(response.body)));
+    return HTTPClientWrapper(client)
+        .get(uri, headers: headers.toHeaderJson())
+        .then((response) => ResponseParser.parseHttpResponse('study_list',
+            response, () => GetStudyListResponse()..fromJson(response.body)));
   }
 
   @override
@@ -139,8 +156,9 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
     var uri =
         Uri.https(config.baseStudiesUrl, '$studyDatastore$versionInfoPath');
 
-    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
-        ResponseParser.parseHttpResponse(
+    return HTTPClientWrapper(client)
+        .get(uri, headers: headers.toHeaderJson())
+        .then((response) => ResponseParser.parseHttpResponse(
             'version_info', response, () => CommonResponses.successResponse));
   }
 

@@ -8,6 +8,7 @@ import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_c
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/get_study_list.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/study_info.pb.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../common/common_test_object.dart';
@@ -19,6 +20,7 @@ void main() {
   setUpAll(() {
     TestWidgetsFlutterBinding.ensureInitialized();
     configureDependencies(config);
+    FlutterSecureStorage.setMockInitialValues({});
     studyDatastoreService = getIt<StudyDatastoreService>();
   });
 

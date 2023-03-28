@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../mixin/connectivity_actions.dart';
-import '../provider/connectivity_provider.dart';
 import '../provider/welcome_provider.dart';
 import '../route/route_name.dart';
 import '../screen/welcome_screen.dart';
@@ -34,9 +33,7 @@ class _WelcomeScreenControllerState extends State<WelcomeScreenController>
   void initState() {
     super.initState();
     dispatchOnConnectivityChanges(context, () {
-      if (displayShimmer) {
-        _fetchData();
-      }
+      _fetchData();
     });
   }
 
@@ -57,9 +54,7 @@ class _WelcomeScreenControllerState extends State<WelcomeScreenController>
   }
 
   void _fetchData() {
-    if (!Provider.of<ConnectivityProvider>(context, listen: false)
-            .isConnected ||
-        !displayShimmer) {
+    if (!displayShimmer) {
       return;
     }
     Future.wait([_getAppInfo(), _getStudyInfo()]).then((value) {
@@ -77,7 +72,8 @@ class _WelcomeScreenControllerState extends State<WelcomeScreenController>
         .getStudyInfo(curConfig.studyId, '')
         .then((value) {
       if (value is CommonErrorResponse) {
-        ErrorScenario.displayErrorMessage(context, value.errorDescription,
+        ErrorScenario.displayAppropriateErrorMessage(
+            context, value.errorDescription,
             action: SnackBarAction(
                 label: AppLocalizations.of(context).retryErrorMessage,
                 onPressed: () => _fetchData()));
@@ -97,7 +93,8 @@ class _WelcomeScreenControllerState extends State<WelcomeScreenController>
         getIt<ParticipantUserDatastoreService>();
     return participantUserDatastoreService.appInfo().then((value) {
       if (value is CommonErrorResponse) {
-        ErrorScenario.displayErrorMessage(context, value.errorDescription,
+        ErrorScenario.displayAppropriateErrorMessage(
+            context, value.errorDescription,
             action: SnackBarAction(
                 label: AppLocalizations.of(context).retryErrorMessage,
                 onPressed: () => _fetchData()));

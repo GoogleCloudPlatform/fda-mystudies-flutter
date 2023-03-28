@@ -76,18 +76,21 @@ enum ActivityFrequency { oneTime, daily, weekly, monthly, customSchedule }
 
 extension ActivityStatusExtension on ActivityStatus {
   static ActivityStatus valueFrom(String status) {
-    if (status == 'completed') {
-      return ActivityStatus.completed;
-    } else if (status == 'expired') {
-      return ActivityStatus.expired;
-    } else if (status == 'inProgress') {
-      return ActivityStatus.inProgress;
-    } else if (status == 'abandoned') {
-      return ActivityStatus.abandoned;
-    } else if (status == 'yetToJoin') {
-      return ActivityStatus.yetToJoin;
+    final lowercaseStatus = status.toLowerCase();
+    switch (lowercaseStatus) {
+      case 'completed':
+        return ActivityStatus.completed;
+      case 'expired':
+        return ActivityStatus.expired;
+      case 'inprogress':
+        return ActivityStatus.inProgress;
+      case 'abandoned':
+        return ActivityStatus.abandoned;
+      case 'yettojoin':
+        return ActivityStatus.yetToJoin;
+      default:
+        return ActivityStatus.upcoming;
     }
-    return ActivityStatus.upcoming;
   }
 
   String get toValue {
