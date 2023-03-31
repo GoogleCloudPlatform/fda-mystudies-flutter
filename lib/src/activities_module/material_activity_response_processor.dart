@@ -156,10 +156,8 @@ class MaterialActivityResponseProcessor extends StatelessWidget
         });
       }
       return null;
-    }).then((value) {
-      if (value != null) {
-        _exitToActivitiesPage(context);
-      }
+    }).whenComplete(() {
+      _exitToActivitiesPage(context);
     });
   }
 }

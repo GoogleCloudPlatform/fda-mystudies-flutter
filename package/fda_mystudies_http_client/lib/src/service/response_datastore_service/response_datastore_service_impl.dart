@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:fda_mystudies_http_client/src/service/session.dart';
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 import 'package:fda_mystudies_spec/fda_mystudies_spec.dart';
@@ -9,7 +8,10 @@ import 'package:fda_mystudies_spec/response_datastore_service/process_response.p
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
+import '../../../activity_step_key_id.dart';
 import '../../../response_datastore_service.dart';
+import '../../database/activity_response_storage_service.dart';
+import '../../service/session.dart';
 import '../../service/util/common_responses.dart';
 import '../config.dart';
 import '../util/http_client_wrapper.dart';
@@ -28,8 +30,10 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
 
   final http.Client client;
   final Config config;
+  final ActivityResponseStorageService activityResponseStorageService;
 
-  ResponseDatastoreServiceImpl(this.client, this.config);
+  ResponseDatastoreServiceImpl(
+      this.client, this.config, this.activityResponseStorageService);
 
   @override
   Future<Object> getActivityState(
@@ -84,6 +88,14 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
         result['value'] = result['listValue'];
         result.remove('listValue');
       }
+      activityResponseStorageService.upsert(
+          participantId: activityResponse.participantId,
+          studyId: activityResponse.metadata.studyId,
+          activityId: activityResponse.metadata.activityId,
+          stepKey: resultObj.key,
+          recordedAt: DateTime.parse(resultObj.startTime),
+          value: '${result['value']}');
+
       updatedResults.add(result);
     }
     if (updatedResults.isNotEmpty) {
@@ -121,5 +133,21 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
             'update_activity_state',
             response,
             () => CommonResponses.successResponse));
+  }
+
+  @override
+  Future<Object> listResponses(
+      {required String userId,
+      required String studyId,
+      required String participantId,
+      required List<ActivityStepKeyId> activityStepKeyIdList}) {
+    return Future.wait(activityStepKeyIdList
+            .map((activityStepKeyId) => activityResponseStorageService.list(
+                participantId: participantId,
+                studyId: studyId,
+                activityId: activityStepKeyId.activityId,
+                stepKey: activityStepKeyId.stepKey))
+            .toList())
+        .then((value) => value.expand((e) => e).toList());
   }
 }
