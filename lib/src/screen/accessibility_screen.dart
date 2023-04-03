@@ -32,7 +32,10 @@ class AccessibilityScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           HeadingBlock(title: l10n.accessibilityScreenTitle),
-          PageHtmlTextBlock(text: readingPassage),
+          PageHtmlTextBlock(
+              text: readingPassage,
+              fontSize: 12.0 * scaleFactor,
+              lineHeight: 16.0 * scaleFactor),
           const SizedBox(height: 32),
           Text(l10n.accessibilityScreenReadabilityQuestion,
               style: Theme.of(context).textTheme.titleMedium,
@@ -47,7 +50,11 @@ class AccessibilityScreen extends StatelessWidget {
               textAlign: TextAlign.center),
           TextButton(
               onPressed: goToAccessibilitySettings,
-              child: Text(l10n.accessibilityScreenGoToAccessibilitySettings)),
+              child: Text(l10n.accessibilityScreenGoToAccessibilitySettings,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.apply(color: Theme.of(context).colorScheme.primary))),
           const SizedBox(height: 96)
         ]));
   }
