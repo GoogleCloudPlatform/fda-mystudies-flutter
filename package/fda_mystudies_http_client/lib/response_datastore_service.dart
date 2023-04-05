@@ -3,6 +3,8 @@ import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/get_activity_state.pb.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 
+import 'activity_step_key_id.dart';
+
 /// Response server has all the logic related to Responses & Activity states.
 abstract class ResponseDatastoreService {
   /// Return activities state.
@@ -31,4 +33,14 @@ abstract class ResponseDatastoreService {
   /// [CommonErrorResponse] for failed response.
   Future<Object> processResponse(
       String userId, ActivityResponse activityResponse);
+
+  /// Fetch responses for given activity-id + step-key combination.
+  ///
+  /// [List] of [ActivityResponse] when responses fetched correctly.
+  /// [CommonErrorResponse] for failed response.
+  Future<Object> listResponses(
+      {required String userId,
+      required String studyId,
+      required String participantId,
+      required List<ActivityStepKeyId> activityStepKeyIdList});
 }
