@@ -11,7 +11,9 @@ import 'package:provider/provider.dart';
 
 import 'main.dart';
 import 'src/provider/connectivity_provider.dart';
+import 'src/provider/local_auth_provider.dart';
 import 'src/route/app_router.dart';
+import 'src/route/route_name.dart';
 
 class FDAMyStudiesApp extends StatefulWidget {
   const FDAMyStudiesApp({Key? key}) : super(key: key);
@@ -46,16 +48,14 @@ class _FDAMyStudiesAppState extends State<FDAMyStudiesApp>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
-      // TODO (chintanghate): Avoid showing lock screen till GoRouter v9.0.0+ returns
-      // routeConfig.location correctly.
-      // var showLock =
-      //     Provider.of<LocalAuthProvider>(context, listen: false).showLock;
-      // if (AppRouter.routeConfig.location != '/${RouteName.localAuthScreen}' &&
-      //     showLock) {
-      //   Provider.of<LocalAuthProvider>(context, listen: false)
-      //       .updateStatus(showLock: false);
-      //   AppRouter.routeConfig.pushNamed(RouteName.localAuthScreen);
-      // }
+      var showLock =
+          Provider.of<LocalAuthProvider>(context, listen: false).showLock;
+      if (AppRouter.routeConfig.location != '/${RouteName.localAuthScreen}' &&
+          showLock) {
+        Provider.of<LocalAuthProvider>(context, listen: false)
+            .updateStatus(showLock: false);
+        AppRouter.routeConfig.pushNamed(RouteName.localAuthScreen);
+      }
     } else if (state != AppLifecycleState.resumed) {
       developer.log('APP LIFECYCLE STATE: ${state.toString()}');
     }

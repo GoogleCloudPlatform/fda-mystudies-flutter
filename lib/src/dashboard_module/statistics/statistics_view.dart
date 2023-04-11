@@ -15,7 +15,7 @@ class StatisticsView extends StatefulWidget {
   const StatisticsView(this.statistics, {Key? key}) : super(key: key);
 
   @override
-  State<StatisticsView> createState() => _StatisticsViewState();
+  _StatisticsViewState createState() => _StatisticsViewState();
 }
 
 class _StatisticsViewState extends State<StatisticsView> {

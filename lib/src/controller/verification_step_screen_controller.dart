@@ -11,7 +11,6 @@ import '../common/widget_util.dart';
 import '../provider/my_account_provider.dart';
 import '../route/route_name.dart';
 import '../screen/verification_step_screen.dart';
-import '../user/user_data.dart';
 
 class VerificationStepScreenController extends StatefulWidget {
   const VerificationStepScreenController({Key? key}) : super(key: key);
@@ -61,7 +60,6 @@ class _VerificationStepScreenControllerState
       if (response == successfulResponse) {
         Provider.of<MyAccountProvider>(context, listen: false)
             .updateContent(tempRegId: (value as VerifyEmailResponse).tempRegId);
-        UserData.shared.tempRegId = value.tempRegId;
         context.goNamed(RouteName.accountActivated);
         return;
       }

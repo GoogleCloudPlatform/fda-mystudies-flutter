@@ -5,11 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
-import '../../main.dart';
 import '../common/widget_util.dart';
-import '../provider/local_auth_provider.dart';
 import '../route/route_name.dart';
 import '../user/user_data.dart';
 
@@ -41,7 +38,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   height: 33,
                 ),
                 const SizedBox(width: 12),
-                Text(curConfig.appName,
+                Text(AppLocalizations.of(context).navigationBarTitle,
                     style: Theme.of(context).textTheme.headlineSmall)
               ])),
           const SizedBox(height: 30),
@@ -49,8 +46,8 @@ class _DrawerMenuState extends State<DrawerMenu> {
               context,
               Icons.home,
               AppLocalizations.of(context).homePage,
-              GoRouterState.of(context)
-                  .path!
+              GoRouter.of(context)
+                  .location
                   .startsWith('/${RouteName.studyHome}'),
               () => context.goNamed(RouteName.studyHome)),
           const SizedBox(height: 8),
@@ -58,14 +55,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
               context,
               Icons.account_circle,
               AppLocalizations.of(context).myAccountPage,
-              GoRouterState.of(context).path == '/${RouteName.myAccount}',
+              GoRouter.of(context).location == '/${RouteName.myAccount}',
               () => context.goNamed(RouteName.myAccount)),
           const SizedBox(height: 8),
           _listTile(
               context,
               Icons.mail,
               AppLocalizations.of(context).reachOutPage,
-              GoRouterState.of(context).path == '/${RouteName.reachOut}',
+              GoRouter.of(context).location == '/${RouteName.reachOut}',
               () => context.goNamed(RouteName.reachOut)),
           const SizedBox(height: 50),
           Divider(
@@ -118,15 +115,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
       content: Text(alertContent),
       actions: [
         TextButton(
+            child: Text(AppLocalizations.of(context).signOutAlertCancel),
             onPressed: _isLoading
                 ? null
                 : () {
                     Navigator.of(context).pop();
-                  },
-            child: Text(AppLocalizations.of(context).signOutAlertCancel)),
+                  }),
         TextButton(
-            onPressed: _isLoading ? null : () => _signOut(context),
-            child: Text(AppLocalizations.of(context).signOutAlertConfirm)),
+            child: Text(AppLocalizations.of(context).signOutAlertConfirm),
+            onPressed: _isLoading ? null : () => _signOut(context)),
       ],
     );
     showDialog(
@@ -148,10 +145,6 @@ class _DrawerMenuState extends State<DrawerMenu> {
         _isLoading = false;
         if (response == successfulResponse) {
           _clearStorageAndPreferences();
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Provider.of<LocalAuthProvider>(context, listen: false)
-                .updateStatus(showLock: false);
-          });
         }
       });
       if (response == successfulResponse) {

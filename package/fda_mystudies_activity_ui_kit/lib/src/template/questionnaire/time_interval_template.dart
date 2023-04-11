@@ -1,7 +1,6 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 
-import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class TimeIntervalTemplate extends StatefulWidget {
@@ -16,7 +15,7 @@ class TimeIntervalTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<TimeIntervalTemplate> createState() => _TimeIntervalTemplateState();
+  _TimeIntervalTemplateState createState() => _TimeIntervalTemplateState();
 }
 
 class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
@@ -27,7 +26,7 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = LocalStorageUtil.currentTimeToString();
+      _startTime = QuestionnaireTemplate.currentTimeToString();
     });
   }
 
@@ -35,8 +34,8 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
   Widget build(BuildContext context) {
     var defaultSeconds = widget.step.timeInterval.defaultValue;
     _selectedValue ??= defaultSeconds;
-    var selectedHours = _selectedValue! ~/ 3600;
-    var selectedMinutes = (_selectedValue! - selectedHours * 3600) ~/ 60;
+    var _selectedHours = _selectedValue! ~/ 3600;
+    var _selectedMinutes = (_selectedValue! - _selectedHours * 3600) ~/ 60;
 
     List<Widget> widgetList = [
       Padding(
@@ -47,7 +46,7 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
                     helpText: 'SELECT TIME INTERVAL',
                     context: context,
                     initialTime: TimeOfDay(
-                        hour: selectedHours, minute: selectedMinutes),
+                        hour: _selectedHours, minute: _selectedMinutes),
                     builder: (context, child) {
                       return MediaQuery(
                           data: MediaQuery.of(context)
@@ -72,7 +71,7 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? LocalStorageUtil.currentTimeToString(),
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 

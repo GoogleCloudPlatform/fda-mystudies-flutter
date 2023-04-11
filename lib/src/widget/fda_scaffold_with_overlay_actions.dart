@@ -14,6 +14,7 @@ class FDAScaffoldWithOverlayButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HomeScaffold(
+        child: SafeArea(bottom: false, child: Stack(children: <Widget>[child])),
         bottomNavigationBar: BottomAppBar(
             child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
@@ -28,7 +29,6 @@ class FDAScaffoldWithOverlayButtons extends StatelessWidget {
                         .reversed
                         .toList()))),
         title: title ?? '',
-        showDrawer: false,
-        child: SafeArea(bottom: false, child: Stack(children: <Widget>[child])));
+        showDrawer: false);
   }
 }

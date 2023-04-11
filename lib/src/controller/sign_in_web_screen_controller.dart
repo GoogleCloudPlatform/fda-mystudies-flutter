@@ -46,9 +46,7 @@ class _SignInWebScreenControllerState extends State<SignInWebScreenController> {
       _handleMyStudiesCallback(uri);
       return NavigationActionPolicy.CANCEL;
     } else if (uri.path == _verificationStepDeeplink) {
-      Provider.of<MyAccountProvider>(context, listen: false).updateContent(
-        email: uri.queryParameters['email']?.replaceAll(RegExp(r' '), '+') ?? '');
-      UserData.shared.emailId = uri.queryParameters['email']?.replaceAll(RegExp(r' '), '+') ?? '';
+      UserData.shared.emailId = uri.queryParameters['email'] ?? '';
       context.pushNamed(RouteName.verificationStep);
       return NavigationActionPolicy.CANCEL;
     }
@@ -59,7 +57,6 @@ class _SignInWebScreenControllerState extends State<SignInWebScreenController> {
     UserData.shared.code = uri.queryParameters['code'] ?? '';
     UserData.shared.userId = uri.queryParameters['userId'] ?? '';
     Provider.of<MyAccountProvider>(context, listen: false).updateContent(
-        email: uri.queryParameters['email']?.replaceAll(RegExp(r' '), '+') ?? '',
         userId: uri.queryParameters['userId'] ?? '',
         code: uri.queryParameters['code'] ?? '');
     String status = uri.queryParameters['accountStatus'] ?? '4';

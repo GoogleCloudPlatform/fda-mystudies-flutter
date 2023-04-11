@@ -17,14 +17,6 @@ abstract class ResponseDatastoreService {
   Future<Object> getActivityState(
       String userId, String studyId, String participantId);
 
-  /// Return activity state for given activity-id.
-  Future<String> getLocalActivityState(
-      {required String userId,
-      required String studyId,
-      required String participantId,
-      required String activityId,
-      required DateTime date});
-
   /// Update state of activities and run information.
   ///
   /// [CommonResponse] when activity state updated successfully.
@@ -34,17 +26,6 @@ abstract class ResponseDatastoreService {
       String studyId,
       String participantId,
       GetActivityStateResponse_ActivityState activityState);
-
-  /// Update local state of activities and run information.
-  ///
-  /// [CommonResponse] when activity state updated successfully.
-  /// [CommonErrorResponse] for failed response.
-  Future<void> updateLocalActivityState(
-      {required String userId,
-      required String studyId,
-      required String participantId,
-      required String activityId,
-      required String activityState});
 
   /// Submit responses of an activity (questionnaire or active tasks).
   ///

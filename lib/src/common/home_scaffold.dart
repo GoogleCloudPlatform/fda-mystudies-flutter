@@ -18,7 +18,7 @@ class HomeScaffold extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<HomeScaffold> createState() => _HomeScaffoldState();
+  _HomeScaffoldState createState() => _HomeScaffoldState();
 }
 
 class _HomeScaffoldState extends State<HomeScaffold> {

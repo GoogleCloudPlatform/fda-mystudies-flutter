@@ -63,7 +63,6 @@ class ConsentDocument extends StatelessWidget {
                       Theme.of(context).colorScheme.background
                     ],
                   )),
-                  height: max(150, 90 * scaleFactor),
                   child: Column(children: [
                     PrimaryButtonBlock(
                         title: 'Agree',
@@ -101,7 +100,8 @@ class ConsentDocument extends StatelessWidget {
                                 })
                               ]);
                         })
-                  ]))))
+                  ]),
+                  height: max(150, 90 * scaleFactor))))
     ]));
   }
 }

@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 
-import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class ImageChoiceTemplate extends StatefulWidget {
@@ -20,7 +19,7 @@ class ImageChoiceTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ImageChoiceTemplate> createState() => _ImageChoiceTemplateState();
+  _ImageChoiceTemplateState createState() => _ImageChoiceTemplateState();
 }
 
 class _ImageChoiceTemplateState extends State<ImageChoiceTemplate> {
@@ -32,9 +31,9 @@ class _ImageChoiceTemplateState extends State<ImageChoiceTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = LocalStorageUtil.currentTimeToString();
+      _startTime = QuestionnaireTemplate.currentTimeToString();
     });
-    LocalStorageUtil.readSavedResult(widget.step.key).then((value) {
+    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
       if (value != null) {
         setState(() {
           _selectedValue = value;
@@ -47,7 +46,7 @@ class _ImageChoiceTemplateState extends State<ImageChoiceTemplate> {
   Widget build(BuildContext context) {
     List<Widget> widgetList = [
       Text(_selectedText,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.headline6,
           textAlign: TextAlign.center)
     ];
     widgetList.add(Padding(
@@ -72,7 +71,7 @@ class _ImageChoiceTemplateState extends State<ImageChoiceTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? LocalStorageUtil.currentTimeToString(),
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }

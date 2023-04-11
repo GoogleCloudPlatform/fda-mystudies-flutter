@@ -29,10 +29,7 @@ class ComprehensionTest extends StatelessWidget {
                 'Let\'s do a quick and simple test of your understanding of this Study.'
         ] +
         comprehensionTest.questions;
-    return activityBuilder.buildRetriableTestWithSuggtestions(
-        steps: steps,
-        answers: consent.comprehension.correctAnswers,
-        activityResponseProcessor: ComprehensionDecision(consent),
-        uniqueActivityId: uniqueId);
+    return activityBuilder.buildActivity(
+        steps, ComprehensionDecision(consent), uniqueId);
   }
 }

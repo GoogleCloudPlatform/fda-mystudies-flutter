@@ -10,7 +10,6 @@ class FDAInkWell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: onTap,
-        child: Text(text, style: FDATextStyle.inkwell(context)));
+        child: Text(text, style: FDATextStyle.inkwell(context)), onTap: onTap);
   }
 }

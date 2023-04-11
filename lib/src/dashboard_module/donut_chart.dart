@@ -1,7 +1,5 @@
-import 'dart:math';
-
-import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter/widgets.dart';
 
 class DonutChart extends StatelessWidget {
   final double completedPercent;
@@ -13,23 +11,29 @@ class DonutChart extends StatelessWidget {
     return SizedBox(
         height: 170,
         width: 170,
-        child: PieChart(PieChartData(
-          sections: [
-            PieChartSectionData(
-                value: max(completedPercent, 0.1),
-                title: 'completed',
-                color: Theme.of(context).colorScheme.background,
-                borderSide: BorderSide(width: 1.0, color: Theme.of(context).colorScheme.background),
-                showTitle: false),
-            PieChartSectionData(
-                value: 100 - max(completedPercent, 0.1),
-                title: 'remaining',
-                color: Theme.of(context).colorScheme.primary,
-                showTitle: false)
-          ],
-          sectionsSpace: 0,
-          centerSpaceRadius: 0,
-          startDegreeOffset: -90
-        )));
+        child: charts.PieChart(_createData(), animate: false));
   }
+
+  List<charts.Series<GaugeSegment, String>> _createData() {
+    final data = [
+      GaugeSegment('completed', completedPercent),
+      GaugeSegment('remaining', 100 - completedPercent)
+    ];
+
+    return [
+      charts.Series<GaugeSegment, String>(
+        id: 'segments',
+        domainFn: (GaugeSegment segment, _) => segment.segment,
+        measureFn: (GaugeSegment segment, _) => segment.size,
+        data: data,
+      )
+    ];
+  }
+}
+
+class GaugeSegment {
+  final String segment;
+  final double size;
+
+  GaugeSegment(this.segment, this.size);
 }

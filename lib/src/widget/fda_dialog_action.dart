@@ -10,8 +10,8 @@ class FDADialogAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+        child: Text(title),
         onPressed: onPressed,
-        autofocus: isPrimary ?? false,
-        child: Text(title));
+        autofocus: isPrimary ?? false);
   }
 }

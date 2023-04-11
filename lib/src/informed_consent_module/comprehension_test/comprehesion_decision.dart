@@ -51,11 +51,7 @@ class ComprehensionDecision extends StatelessWidget
                       title: testPassed ? 'Continue' : 'Try Again',
                       onPressed: () {
                         if (testPassed) {
-                          if (consent.sharingScreen.title.isEmpty && consent.sharingScreen.text.isEmpty) {
-                            context.pushNamed(RouteName.consentDocument);
-                          } else {
-                            context.pushNamed(RouteName.sharingOptions);
-                          }
+                          context.pushNamed(RouteName.sharingOptions);
                         } else {
                           Navigator.of(context)
                               .popUntil((route) => route.isFirst);

@@ -18,12 +18,12 @@ class FDATextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: onPressed,
-      style: ButtonStyle(alignment: textAlignment),
       child: isLoading
           ? const SizedBox(
               height: 16, width: 16, child: CircularProgressIndicator())
           : Text(title, style: FDATextStyle.textButton(context)),
+      onPressed: onPressed,
+      style: ButtonStyle(alignment: textAlignment),
     );
   }
 }

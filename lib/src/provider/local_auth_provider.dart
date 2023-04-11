@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LocalAuthProvider extends ChangeNotifier {
-  bool _showLock = false;
+  bool _showLock = true;
 
   void updateStatus({required bool showLock}) {
     if (showLock != _showLock) {

@@ -1,7 +1,6 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 
-import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class HorizontalTextScaleTemplate extends StatefulWidget {
@@ -16,7 +15,7 @@ class HorizontalTextScaleTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<HorizontalTextScaleTemplate> createState() =>
+  _HorizontalTextScaleTemplateState createState() =>
       _HorizontalTextScaleTemplateState();
 }
 
@@ -29,9 +28,9 @@ class _HorizontalTextScaleTemplateState
   void initState() {
     super.initState();
     setState(() {
-      _startTime = LocalStorageUtil.currentTimeToString();
+      _startTime = QuestionnaireTemplate.currentTimeToString();
     });
-    LocalStorageUtil.readSavedResult(widget.step.key).then((value) {
+    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
       if (value != null) {
         setState(() {
           _selectedValue = value;
@@ -56,7 +55,7 @@ class _HorizontalTextScaleTemplateState
     List<Widget> widgetList = [
       Center(
           child: Text(textChoiceList[selectedValueIndex].text,
-              style: Theme.of(context).textTheme.bodyLarge)),
+              style: Theme.of(context).textTheme.headline6)),
       Slider(
           value: selectedValueIndex.toDouble(),
           min: 0,
@@ -77,13 +76,13 @@ class _HorizontalTextScaleTemplateState
                   child: Text(minValueLabel,
                       maxLines: 10,
                       textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.bodyLarge)),
+                      style: Theme.of(context).textTheme.headline6)),
               SizedBox(
                   width: (MediaQuery.of(context).size.width - 120) / 2,
                   child: Text(maxValueLabel,
                       maxLines: 10,
                       textAlign: TextAlign.end,
-                      style: Theme.of(context).textTheme.bodyLarge))
+                      style: Theme.of(context).textTheme.headline6))
             ],
           ))
     ];
@@ -94,7 +93,7 @@ class _HorizontalTextScaleTemplateState
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? LocalStorageUtil.currentTimeToString(),
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }

@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
 import 'recorded_value.dart';
@@ -12,6 +15,9 @@ class ChartTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkModeEnabled =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
+    var scale = MediaQuery.of(context).textScaleFactor;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Container(
           decoration:
@@ -19,8 +25,7 @@ class ChartTile extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: Text(chartDisplayName, style: _titleStyle(context))),
       Container(
-          // TODO (chintanghate): Migrate from charts_flutter to fl_charts.
-          /*padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+          padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
           height: 200,
           width: MediaQuery.of(context).size.width,
           child: charts.TimeSeriesChart(
@@ -68,8 +73,7 @@ class ChartTile extends StatelessWidget {
             defaultRenderer: charts.BarRendererConfig<DateTime>(),
             defaultInteractions: false,
             behaviors: [charts.SelectNearest(), charts.DomainHighlighter()],
-          )*/
-          )
+          ))
     ]);
   }
 

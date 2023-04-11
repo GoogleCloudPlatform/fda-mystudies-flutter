@@ -10,7 +10,7 @@ class DemoConfigServicesView extends StatefulWidget {
   const DemoConfigServicesView({Key? key}) : super(key: key);
 
   @override
-  State<DemoConfigServicesView> createState() => _DemoConfigServicesViewState();
+  _DemoConfigServicesViewState createState() => _DemoConfigServicesViewState();
 }
 
 class _DemoConfigServicesViewState extends State<DemoConfigServicesView> {

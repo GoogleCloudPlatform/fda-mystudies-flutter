@@ -127,23 +127,6 @@ extension ActivityStatusExtension on ActivityStatus {
     }
   }
 
-  int get order {
-    switch (this) {
-      case ActivityStatus.inProgress:
-        return 0;
-      case ActivityStatus.yetToJoin:
-        return 1;
-      case ActivityStatus.upcoming:
-        return 2;
-      case ActivityStatus.abandoned:
-        return 3;
-      case ActivityStatus.completed:
-        return 4;
-      case ActivityStatus.expired:
-        return 5;
-    }
-  }
-
   Color get color {
     switch (this) {
       case ActivityStatus.completed:

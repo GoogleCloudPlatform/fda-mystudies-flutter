@@ -1,7 +1,6 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 
-import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class BooleanTemplate extends StatefulWidget {
@@ -15,7 +14,7 @@ class BooleanTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<BooleanTemplate> createState() => _BooleanTemplateState();
+  _BooleanTemplateState createState() => _BooleanTemplateState();
 }
 
 class _BooleanTemplateState extends State<BooleanTemplate> {
@@ -26,9 +25,9 @@ class _BooleanTemplateState extends State<BooleanTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = LocalStorageUtil.currentTimeToString();
+      _startTime = QuestionnaireTemplate.currentTimeToString();
     });
-    LocalStorageUtil.readSavedResult(widget.step.key).then((value) {
+    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
       if (value != null) {
         setState(() {
           _selectedValue = value;
@@ -56,7 +55,7 @@ class _BooleanTemplateState extends State<BooleanTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? LocalStorageUtil.currentTimeToString(),
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }

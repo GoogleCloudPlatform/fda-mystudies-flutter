@@ -39,16 +39,14 @@ class EligibilityDecision extends StatefulWidget
 
   bool _userRespondedCorrectly(
       List<ActivityResponse_Data_StepResult> userResponses) {
-    Map<String, List<dynamic>> correctAnswerMap = {};
+    Map<String, dynamic> correctAnswerMap = {};
     for (var ans in correctAnswers) {
-      if (correctAnswerMap[ans.key] == null) {
-        correctAnswerMap[ans.key] = [];
-      }
-      correctAnswerMap[ans.key]?.add(ans.hasBoolAnswer() ? ans.boolAnswer : ans.textChoiceAnswers);
+      correctAnswerMap[ans.key] =
+          (ans.hasBoolAnswer() ? ans.boolAnswer : ans.textChoiceAnswers);
     }
     for (var response in userResponses) {
       if (response.hasBoolValue()) {
-        if (correctAnswerMap[response.key]?.contains(response.boolValue) != true) {
+        if (response.boolValue != correctAnswerMap[response.key]) {
           return false;
         }
       } else {

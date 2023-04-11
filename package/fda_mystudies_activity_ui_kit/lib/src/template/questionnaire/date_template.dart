@@ -2,7 +2,6 @@ import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class DateTemplate extends StatefulWidget {
@@ -16,7 +15,7 @@ class DateTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<DateTemplate> createState() => _DateTemplateState();
+  _DateTemplateState createState() => _DateTemplateState();
 }
 
 class _DateTemplateState extends State<DateTemplate> {
@@ -28,7 +27,7 @@ class _DateTemplateState extends State<DateTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = LocalStorageUtil.currentTimeToString();
+      _startTime = QuestionnaireTemplate.currentTimeToString();
     });
   }
 
@@ -93,7 +92,7 @@ class _DateTemplateState extends State<DateTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? LocalStorageUtil.currentTimeToString(),
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 

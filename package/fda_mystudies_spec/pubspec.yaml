@@ -11,8 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  protobuf: ^3.0.0
-  protoc_plugin: ^21.0.2
+  protobuf: ^2.0.0
+  protoc_plugin: ^20.0.0
 
 dev_dependencies:
   flutter_test:

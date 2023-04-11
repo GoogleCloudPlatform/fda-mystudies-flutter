@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../drawer_menu/drawer_menu.dart';
-import '../provider/local_auth_provider.dart';
 
 class StudyHomeScreen extends StatelessWidget {
   final int tabIndex;
@@ -21,10 +19,6 @@ class StudyHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<LocalAuthProvider>(context, listen: false)
-          .updateStatus(showLock: true);
-    });
     return Scaffold(
         appBar: AppBar(title: Text(tabs[tabIndex].title)),
         drawer: const Drawer(child: DrawerMenu()),

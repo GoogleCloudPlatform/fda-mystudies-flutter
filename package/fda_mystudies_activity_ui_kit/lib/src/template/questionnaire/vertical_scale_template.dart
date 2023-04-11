@@ -1,7 +1,6 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 
-import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class VerticalScaleTemplate extends StatefulWidget {
@@ -16,7 +15,7 @@ class VerticalScaleTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<VerticalScaleTemplate> createState() => _VerticalScaleTemplateState();
+  _VerticalScaleTemplateState createState() => _VerticalScaleTemplateState();
 }
 
 class _VerticalScaleTemplateState extends State<VerticalScaleTemplate> {
@@ -27,9 +26,9 @@ class _VerticalScaleTemplateState extends State<VerticalScaleTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = LocalStorageUtil.currentTimeToString();
+      _startTime = QuestionnaireTemplate.currentTimeToString();
     });
-    LocalStorageUtil.readSavedResult(widget.step.key).then((value) {
+    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
       if (value != null) {
         setState(() {
           if (value is int) {
@@ -70,7 +69,7 @@ class _VerticalScaleTemplateState extends State<VerticalScaleTemplate> {
     List<Widget> widgetList = [
       Center(
           child: Text(selectedValueLabel,
-              style: Theme.of(context).textTheme.bodyLarge)),
+              style: Theme.of(context).textTheme.headline6)),
       const SizedBox(height: 18),
       SizedBox(
           height: 300,
@@ -81,9 +80,9 @@ class _VerticalScaleTemplateState extends State<VerticalScaleTemplate> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(maxValueLabel,
-                          style: Theme.of(context).textTheme.bodyLarge),
+                          style: Theme.of(context).textTheme.headline6),
                       Text(minValueLabel,
-                          style: Theme.of(context).textTheme.bodyLarge)
+                          style: Theme.of(context).textTheme.headline6)
                     ])),
             SizedBox(
                 height: 300,
@@ -109,7 +108,7 @@ class _VerticalScaleTemplateState extends State<VerticalScaleTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? LocalStorageUtil.currentTimeToString(),
+        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
         selectedValue: widget.step.hasScaleFormat()
             ? _selectedValue?.toInt()
             : _selectedValue?.toDouble());

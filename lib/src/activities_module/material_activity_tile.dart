@@ -22,14 +22,14 @@ class MaterialActivityTile extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             leading: Container(
+                child: const Icon(Icons.description_outlined,
+                    color: Color(0xFF5F6368)),
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     border:
-                        Border.all(color: const Color(0xFFDADCE0), width: 1)),
-                child: const Icon(Icons.description_outlined,
-                    color: Color(0xFF5F6368))),
+                        Border.all(color: const Color(0xFFDADCE0), width: 1))),
             trailing: _statusTag(context),
             title: Text(activity.activity.title,
                 style: FDATextStyle.activityTileTitle(context)),

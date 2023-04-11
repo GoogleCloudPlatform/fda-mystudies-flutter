@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-import '../user/user_data.dart';
-
 class SignInWebScreen extends StatelessWidget {
   static final InAppWebViewGroupOptions _options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
@@ -31,14 +29,11 @@ class SignInWebScreen extends StatelessWidget {
     var authenticationService = getIt<AuthenticationService>();
 
     return Scaffold(
-        appBar: UserData.shared.tempRegId.isNotEmpty
-            ? null
-            : AppBar(title: Text(l10n.signInScreenTitle)),
+        appBar: AppBar(title: Text(l10n.signInScreenTitle)),
         body: InAppWebView(
             initialOptions: _options,
-            initialUrlRequest: URLRequest(
-                url: authenticationService.getSignInPageURI(
-                    tempRegId: UserData.shared.tempRegId)),
+            initialUrlRequest:
+                URLRequest(url: authenticationService.getSignInPageURI()),
             shouldOverrideUrlLoading: (controller, request) async =>
                 processNavigationRequest(request)));
   }

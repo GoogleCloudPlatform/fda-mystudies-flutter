@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 import 'package:fda_mystudies_spec/fda_mystudies_spec.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/fetch_activity_steps.pb.dart';
@@ -53,7 +52,7 @@ class StudyDataStoreServiceImpl implements StudyDatastoreService {
         '$studyDatastore$fetchActivityStepsPath', params);
 
     return HTTPClientWrapper(client)
-        .cachedGet(uri, headers: headers.toHeaderJson(), prioritizeCache: true)
+        .get(uri, headers: headers.toHeaderJson())
         .then((response) => ResponseParser.parseHttpResponse(
             'activity_steps',
             response,
