@@ -29,7 +29,7 @@
         "description": "placeholder for confirm password input textfield"
     },
 
-    "signUpPasswordConstraintsInfoText": "Must be at least 8 characters and contain at least 1 number and 1 special character.",
+    "signUpPasswordConstraintsInfoText": "Your password must be at least 8 characters long and contain lower case and upper case letters, and numeric and special characters.",
     "@signUpPasswordConstraintsInfoText": {
         "description": "information text for displaying password constraints"
     },
@@ -69,7 +69,7 @@
     "missingEmailIdErrorMsg": "Please enter your Email ID",
     "missingPasswordErrorMsg": "Please enter password",
     "missingConfirmPasswordErrorMsg": "Please confirm password",
-    "violatingPasswordConstraintsErrorMsg": "Your password should be at least 8 characters long, and should contain a lower-case character, an upper-case character, a digit & a special character.",
+    "violatingPasswordConstraintsErrorMsg": "Your password must be at least 8 characters long and contain lower case and upper case letters, and numeric and special characters.",
     "confirmedPasswordNotMatchingErrorMsg": "Password & Confirm Password values do not match!",
     "termsAndConditionsNotAgreedToErrorMsg": "Please Read & Agree to the terms & privacy policy.",
 
@@ -154,7 +154,7 @@
     "registerScreenTitle": "Sign up to get started",
     "registerScreenEmailTextFieldPlaceholder": "Enter email",
     "registerScreenPasswordTextFieldPlaceholder": "Add password",
-    "registerScreenPasswordConstraintsInformation": "Must be at least 8 characters and contain at least 1 number and 1 special chacter.",
+    "registerScreenPasswordConstraintsInformation": "Your password must be at least 8 characters long and contain lower case and upper case letters, and numeric and special characters.",
     "registerScreenConfirmPasswordTextFieldPlaceholder": "Confirm password",
     "registerScreenTermsAndConditionsURL": "https://policies.google.com/terms?hl=en-US",
     "registerScreenPrivacyPolicyURL": "https://policies.google.com/privacy?hl=en-US",
@@ -227,12 +227,12 @@
     "resetPasswordScreenInfoText": "Set the new password for your account so you can login and access all the features",
     "resetPasswordScreenTemporaryPasswordTextfieldPlaceholder": "Temporary password",
     "resetPasswordScreenNewPasswordTextfieldPlaceholder": "New password",
-    "resetPasswordScreenPasswordConstraintsInformation": "Must be at least 8 characters and contain at least 1 number and 1 special chacter. Should be different from old passwords.",
+    "resetPasswordScreenPasswordConstraintsInformation": "Your password must be at least 8 characters long and contain lower case and upper case letters, and numeric and special characters.. Should be different from old passwords.",
     "resetPasswordScreenConfirmNewPasswordTextfieldPlaceholder": "Confirm new password",
     "resetPasswordScreenResetPasswordButtonText": "Reset password",
     "resetPasswordScreenMissingRequiredFieldsErrorMessage": "Please fill in all the required fields.",
     "resetPasswordScreenPasswordsDontMatchErrorMessage": "Passwords do not match.",
-    "resetPasswordScreenInvalidPasswordErrorMessage": "Please enter a valid new password. Must be at least 8 characters and contain at least 1 number and 1 special chacter.",
+    "resetPasswordScreenInvalidPasswordErrorMessage": "Please enter a valid new password. Your password must be at least 8 characters long and contain lower case and upper case letters, and numeric and special characters.",
     "resetPasswordScreenPasswordResetDialogTitle": "Password reset",
     "resetPasswordScreenPasswordResetDialogContent": "Your password has been reset.",
     "resetPasswordScreenPasswordResetDialogOkButtonText": "OK",
