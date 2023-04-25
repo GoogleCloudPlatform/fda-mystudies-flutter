@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../common/widget_util.dart';
+import '../provider/local_auth_provider.dart';
 import '../route/route_name.dart';
 import '../user/user_data.dart';
 
@@ -145,6 +147,10 @@ class _DrawerMenuState extends State<DrawerMenu> {
         _isLoading = false;
         if (response == successfulResponse) {
           _clearStorageAndPreferences();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Provider.of<LocalAuthProvider>(context, listen: false)
+                .updateStatus(showLock: false);
+          });
         }
       });
       if (response == successfulResponse) {
