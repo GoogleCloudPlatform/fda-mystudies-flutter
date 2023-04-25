@@ -2,9 +2,11 @@ import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/participant_user_datastore_service.dart';
 import 'package:fda_mystudies_spec/participant_user_datastore_service/get_user_profile.pb.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../common/home_scaffold.dart';
 import '../common/widget_util.dart';
+import '../provider/local_auth_provider.dart';
 import '../user/user_data.dart';
 import 'change_password.dart';
 import 'delete_account.dart';
@@ -89,6 +91,10 @@ class _MyAccountState extends State<MyAccount> {
                           Switch.adaptive(
                               value: _userProfile?.settings.passcode ?? false,
                               onChanged: (value) {
+                                 WidgetsBinding.instance.addPostFrameCallback((_) {
+                                  Provider.of<LocalAuthProvider>(context, listen: false)
+                                      .updateStatus(showLock: value);
+                                });
                                 if (_userProfile?.hasSettings() == true) {
                                   var settings =
                                       GetUserProfileResponse_UserProfileSettings()
