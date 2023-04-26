@@ -11,6 +11,7 @@ import 'package:injectable/injectable.dart';
 import '../../../activity_step_key_id.dart';
 import '../../../response_datastore_service.dart';
 import '../../database/activity_response_storage_service.dart';
+import '../../database/activity_state_storage_service.dart';
 import '../../service/session.dart';
 import '../../service/util/common_responses.dart';
 import '../config.dart';
@@ -31,9 +32,10 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
   final http.Client client;
   final Config config;
   final ActivityResponseStorageService activityResponseStorageService;
+  final ActivityStateStorageService activityStateStorageService;
 
-  ResponseDatastoreServiceImpl(
-      this.client, this.config, this.activityResponseStorageService);
+  ResponseDatastoreServiceImpl(this.client, this.config,
+      this.activityResponseStorageService, this.activityStateStorageService);
 
   @override
   Future<Object> getActivityState(
@@ -53,6 +55,20 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
             'activity_state',
             response,
             () => GetActivityStateResponse()..fromJson(response.body)));
+  }
+
+  @override
+  Future<String> getLocalActivityState(
+      {required String userId,
+      required String studyId,
+      required String participantId,
+      required String activityId,
+      required DateTime date}) {
+    return activityStateStorageService.fetch(
+        participantId: participantId,
+        studyId: studyId,
+        activityId: activityId,
+        recordedAt: DateTime(date.year, date.month, date.day));
   }
 
   @override
@@ -133,6 +149,22 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
             'update_activity_state',
             response,
             () => CommonResponses.successResponse));
+  }
+
+  @override
+  Future<void> updateLocalActivityState({
+      required String userId,
+      required String studyId,
+      required String participantId,
+      required String activityId,
+      required String activityState}) {
+    final now = DateTime.now();
+    return activityStateStorageService.upsert(
+        participantId: participantId,
+        studyId: studyId,
+        activityId: activityId,
+        recordedAt: DateTime(now.year, now.month, now.day),
+        state: activityState);
   }
 
   @override

@@ -133,7 +133,7 @@ class _ActivitiesScreenControllerState extends State<ActivitiesScreenController>
     return responseDatastoreService
         .getActivityState(UserData.shared.userId, UserData.shared.curStudyId,
             UserData.shared.curParticipantId)
-        .then((value) {
+        .then((value) async {
       if (value is CommonErrorResponse) {
         ErrorScenario.displayErrorMessageWithOKAction(
             context, value.errorDescription);
@@ -142,7 +142,17 @@ class _ActivitiesScreenControllerState extends State<ActivitiesScreenController>
       var activities = (value as GetActivityStateResponse).activities;
       Map<String, GetActivityStateResponse_ActivityState> tempMap = {};
       for (var activity in activities) {
-        tempMap[activity.activityId] = activity;
+        var updatedActivityState =
+            await responseDatastoreService.getLocalActivityState(
+                userId: UserData.shared.userId,
+                studyId: UserData.shared.curStudyId,
+                participantId: UserData.shared.curParticipantId,
+                activityId: activity.activityId,
+                date: DateTime.now());
+        tempMap[activity.activityId] = activity
+          ..activityState = (updatedActivityState.isEmpty
+              ? activity.activityState
+              : updatedActivityState);
       }
       return tempMap;
     });
