@@ -127,6 +127,36 @@ class MaterialActivityResponseProcessor extends StatelessWidget
       ..siteId = UserData.shared.curSiteId;
 
     responseDatastoreService
+        .updateLocalActivityState(
+            userId: UserData.shared.userId,
+            participantId: UserData.shared.curParticipantId,
+            studyId: UserData.shared.curStudyId,
+            activityId: UserData.shared.activityId,
+            activityState: ActivityStatus.completed.toValue)
+        .whenComplete(() {
+      var oldActivities =
+          Provider.of<ActivitiesProvider>(context, listen: false)
+              .activityBundleList;
+      List<ActivityBundle> updatedActivities = [];
+      for (final activity in oldActivities) {
+        if (activity.activityId == UserData.shared.activityId) {
+          updatedActivities.add(ActivityBundle(
+              activity.activityId,
+              activity.type,
+              activity.version,
+              activity.title,
+              activity.state..activityState = ActivityStatus.completed.toValue,
+              activity.frequency));
+        } else {
+          updatedActivities.add(activity);
+        }
+      }
+      Provider.of<ActivitiesProvider>(context, listen: false)
+          .update(updatedActivities);
+      _exitToActivitiesPage(context);
+    });
+
+    responseDatastoreService
         .processResponse(UserData.shared.userId, response)
         .then((value) {
       if (value is CommonErrorResponse) {
@@ -156,8 +186,6 @@ class MaterialActivityResponseProcessor extends StatelessWidget
         });
       }
       return null;
-    }).whenComplete(() {
-      _exitToActivitiesPage(context);
     });
   }
 }
