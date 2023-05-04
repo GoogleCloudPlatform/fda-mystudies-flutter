@@ -54,7 +54,7 @@ class MaterialActivityResponseProcessor extends StatelessWidget
           const PageTitleBlock(title: 'Activity Completed'),
           const PageTextBlock(
               text:
-                  'Tap on\'Done\' to submit your responses. Responses cannot be modified after submission.',
+                  'Tap on \'Done\' to submit your responses. Responses cannot be modified after submission.',
               textAlign: TextAlign.left),
           const SizedBox(height: 92),
           PrimaryButtonBlock(
