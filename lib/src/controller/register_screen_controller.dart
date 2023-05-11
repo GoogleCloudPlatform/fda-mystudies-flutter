@@ -12,6 +12,7 @@ import '../extension/string_extension.dart';
 import '../provider/my_account_provider.dart';
 import '../route/route_name.dart';
 import '../screen/register_screen.dart';
+import '../user/user_data.dart';
 
 class RegisterScreenController extends StatefulWidget {
   const RegisterScreenController({Key? key}) : super(key: key);
@@ -71,6 +72,9 @@ class _RegisterScreenControllerState extends State<RegisterScreenController> {
             email: _emailFieldController.text,
             tempRegId: (value as RegistrationResponse).tempRegId,
             userId: value.userId);
+        UserData.shared.emailId = _emailFieldController.text;
+        UserData.shared.tempRegId = value.tempRegId;
+        UserData.shared.userId = value.userId;
         context.goNamed(RouteName.verificationStep);
         return;
       }
