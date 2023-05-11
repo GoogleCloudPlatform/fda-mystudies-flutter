@@ -25,7 +25,7 @@ class _AccountActivatedScreenControllerState
   void _proceedToOnboarding() {
     if (curConfig.appType == AppType.standalone) {
       UserData.shared.curStudyId = curConfig.studyId;
-      context.goNamed(RouteName.eligibilityRouter);
+      context.goNamed(RouteName.signIn);
     } else {
       context.goNamed(RouteName.gatewayHome);
     }
