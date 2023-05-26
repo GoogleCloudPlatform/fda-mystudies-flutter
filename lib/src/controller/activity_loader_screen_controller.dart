@@ -4,18 +4,16 @@ import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/response_datastore_service.dart';
 import 'package:fda_mystudies_http_client/study_datastore_service.dart';
 import 'package:fda_mystudies_spec/common_specs/common_error_response.pb.dart';
-import 'package:fda_mystudies_spec/response_datastore_service/get_activity_state.pb.dart';
+import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/fetch_activity_steps.pb.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../mixin/connectivity_actions.dart';
 import '../provider/activities_provider.dart';
 import '../provider/activity_step_provider.dart';
 import '../provider/connectivity_provider.dart';
-import '../route/route_name.dart';
 import '../screen/activity_loader_screen.dart';
 import '../user/user_data.dart';
 
@@ -30,17 +28,10 @@ class ActivityLoaderScreenController extends StatefulWidget {
 class _ActivityLoaderScreenControllerState
     extends State<ActivityLoaderScreenController> with ConnectivityAction {
   var _activityLoadingInProgress = true;
-  GetActivityStateResponse_ActivityState? activityState;
 
   @override
   void initState() {
     super.initState();
-    final activities = Provider.of<ActivitiesProvider>(context, listen: false)
-        .activityBundleList;
-    activityState = activities
-        .firstWhere(
-            (activity) => activity.activityId == UserData.shared.activityId)
-        .state;
     dispatchOnConnectivityChanges(context, () {
       if (_activityLoadingInProgress) {
         _fetchActivityStepsAndUpdateActivity();
@@ -65,11 +56,7 @@ class _ActivityLoaderScreenControllerState
         setState(() {
           _activityLoadingInProgress = false;
         });
-        context.pop();
-        context.pushNamed(RouteName.activitySteps);
-        if (activityState != null) {
-          _updateActivityState(activityState!);
-        }
+        _updateActivityState();
       }
     });
   }
@@ -96,13 +83,29 @@ class _ActivityLoaderScreenControllerState
     });
   }
 
-  Future<void> _updateActivityState(
-      GetActivityStateResponse_ActivityState activityState) {
+  Future<CommonResponse?> _updateActivityState() {
+    final activities = Provider.of<ActivitiesProvider>(context, listen: false)
+        .activityBundleList;
+    var activityState = activities
+        .firstWhere(
+            (activity) => activity.activityId == UserData.shared.activityId)
+        .state;
     var responseDataStoreService = getIt<ResponseDatastoreService>();
-    return responseDataStoreService.updateActivityState(
-        UserData.shared.userId,
-        UserData.shared.curStudyId,
-        UserData.shared.curParticipantId,
-        activityState..activityState = ActivityStatus.inProgress.toValue);
+    return responseDataStoreService
+        .updateActivityState(
+            UserData.shared.userId,
+            UserData.shared.curStudyId,
+            UserData.shared.curParticipantId,
+            activityState..activityState = ActivityStatus.inProgress.toValue)
+        .then((value) {
+      if (value is CommonErrorResponse) {
+        ErrorScenario.displayErrorMessageWithOKAction(
+            context, value.errorDescription);
+        return null;
+      } else if (value is CommonResponse) {
+        return value;
+      }
+      return null;
+    });
   }
 }
