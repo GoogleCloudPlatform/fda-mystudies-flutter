@@ -45,32 +45,37 @@ class _ConsentConfirmedState extends State<ConsentConfirmed> {
   Widget build(BuildContext context) {
     var l10n = AppLocalizations.of(context);
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
-    return Scaffold(
-        appBar: AppBar(),
-        body: ListView(children: [
-          Padding(
-              padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-              child: Row(children: [
-                Image(
-                  image: const AssetImage('assets/images/check.png'),
-                  color: Theme.of(context).colorScheme.primary,
-                  width: 60 * scaleFactor,
-                  height: 60 * scaleFactor,
-                ),
-              ])),
-          PageTitleBlock(title: l10n.consentConfirmedScreenTitle),
-          PageTextBlock(
-              text: l10n.consentConfirmedScreenSubtitle,
-              textAlign: TextAlign.left),
-          InkWellBlock(
-              title: l10n.consentConfirmedScreenViewConsentPdfButtonText,
-              onTap: () => push(
-                  context, ViewConsentPdf(_generateBase64PdfString(context)))),
-          const SizedBox(height: 92),
-          PrimaryButtonBlock(
-              title: l10n.consentConfirmedScreenNextScreenButtonText,
-              onPressed: _enrollUser(context))
-        ]));
+    return WillPopScope(
+        onWillPop: () async => !_isLoading,
+        child: Scaffold(
+            appBar: _isLoading ? null : AppBar(),
+            body: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : ListView(children: [
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+                        child: Row(children: [
+                          Image(
+                            image: const AssetImage('assets/images/check.png'),
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 60 * scaleFactor,
+                            height: 60 * scaleFactor,
+                          ),
+                        ])),
+                    PageTitleBlock(title: l10n.consentConfirmedScreenTitle),
+                    PageTextBlock(
+                        text: l10n.consentConfirmedScreenSubtitle,
+                        textAlign: TextAlign.left),
+                    InkWellBlock(
+                        title:
+                            l10n.consentConfirmedScreenViewConsentPdfButtonText,
+                        onTap: () => push(context,
+                            ViewConsentPdf(_generateBase64PdfString(context)))),
+                    const SizedBox(height: 92),
+                    PrimaryButtonBlock(
+                        title: l10n.consentConfirmedScreenNextScreenButtonText,
+                        onPressed: _enrollUser(context))
+                  ])));
   }
 
   void Function()? _enrollUser(BuildContext context) {
