@@ -45,10 +45,10 @@ class ActivityBuilderImpl implements ActivityBuilder {
     Map<String, Widget> widgetMap = {'': activityResponseProcessor};
     for (int i = 0; i < steps.length; ++i) {
       if (steps[i].destinations.isEmpty) {
-        steps[i].destinations.add(ActivityStep_StepDestination(
-            condition: '',
-            destination: (i == steps.length - 1) ? '' : steps[i + 1].key,
-            operator: ''));
+        steps[i].destinations.add(ActivityStep_StepDestination()
+            ..condition = ''
+            ..destination = (i == steps.length - 1) ? '' : steps[i + 1].key
+            ..operator = '');
       }
       widgetMap[steps[i].key] = _generateUIForStep(
           steps[i], widgetMap, allowExit, '${i + 1} of ${steps.length}');
