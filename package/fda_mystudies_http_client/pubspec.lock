@@ -451,18 +451,18 @@ packages:
     dependency: transitive
     description:
       name: protobuf
-      sha256: "01dd9bd0fa02548bf2ceee13545d4a0ec6046459d847b6b061d8a27237108a08"
+      sha256: "4034a02b7e231e7e60bff30a8ac13a7347abfdac0798595fae0b90a3f0afe759"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "3.0.0"
   protoc_plugin:
     dependency: transitive
     description:
       name: protoc_plugin
-      sha256: e2be5014ba145dc0f8de20ac425afa2a513aff64fe350d338e481d40de0573df
+      sha256: "41f06692f6d46018a6547f088d5598282f6d00cf6c33c535647c075b9ee62dd7"
       url: "https://pub.dev"
     source: hosted
-    version: "20.0.1"
+    version: "21.0.2"
   pub_semver:
     dependency: transitive
     description:
