@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:charts_flutter/flutter.dart' as charts;
+// import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
 import 'recorded_value.dart';
@@ -25,7 +25,8 @@ class ChartTile extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: Text(chartDisplayName, style: _titleStyle(context))),
       Container(
-          padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
+          // TODO (chintanghate): Migrate from charts_flutter to fl_charts.
+          /*padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
           height: 200,
           width: MediaQuery.of(context).size.width,
           child: charts.TimeSeriesChart(
@@ -73,7 +74,8 @@ class ChartTile extends StatelessWidget {
             defaultRenderer: charts.BarRendererConfig<DateTime>(),
             defaultInteractions: false,
             behaviors: [charts.SelectNearest(), charts.DomainHighlighter()],
-          ))
+          )*/
+          )
     ]);
   }
 
