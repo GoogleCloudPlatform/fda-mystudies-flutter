@@ -7,14 +7,11 @@ import 'package:fda_mystudies_design_system/theme/light_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'main.dart';
 import 'src/provider/connectivity_provider.dart';
-import 'src/provider/local_auth_provider.dart';
 import 'src/route/app_router.dart';
-import 'src/route/route_name.dart';
 
 class FDAMyStudiesApp extends StatefulWidget {
   const FDAMyStudiesApp({Key? key}) : super(key: key);

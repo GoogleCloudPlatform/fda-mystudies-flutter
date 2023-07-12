@@ -12,6 +12,8 @@ class FDACheckBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+        height: 22,
+        width: 22,
         child: IconButton(
             onPressed: (enabled ? () => onTap(!value) : null),
             icon: (value
@@ -19,8 +21,6 @@ class FDACheckBox extends StatelessWidget {
                     color: Color(0xFF1A73E8))
                 : const Icon(Icons.radio_button_unchecked_sharp,
                     color: Color(0xFF5F6368))),
-            padding: EdgeInsets.zero),
-        height: 22,
-        width: 22);
+            padding: EdgeInsets.zero));
   }
 }

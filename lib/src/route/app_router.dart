@@ -96,6 +96,8 @@ class AppRouter {
               refreshToken != null &&
               refreshToken.isNotEmpty) {
             UserData.shared.userId = userId;
+            // TODO (chintanghate): Don't use BuildContent asynchronously.
+            // ignore: use_build_context_synchronously
             Provider.of<MyAccountProvider>(context, listen: false)
                 .updateContent(userId: userId);
             var authenticationService = getIt<AuthenticationService>();

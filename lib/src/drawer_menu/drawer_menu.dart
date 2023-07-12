@@ -118,15 +118,15 @@ class _DrawerMenuState extends State<DrawerMenu> {
       content: Text(alertContent),
       actions: [
         TextButton(
-            child: Text(AppLocalizations.of(context).signOutAlertCancel),
             onPressed: _isLoading
                 ? null
                 : () {
                     Navigator.of(context).pop();
-                  }),
+                  },
+            child: Text(AppLocalizations.of(context).signOutAlertCancel)),
         TextButton(
-            child: Text(AppLocalizations.of(context).signOutAlertConfirm),
-            onPressed: _isLoading ? null : () => _signOut(context)),
+            onPressed: _isLoading ? null : () => _signOut(context),
+            child: Text(AppLocalizations.of(context).signOutAlertConfirm)),
       ],
     );
     showDialog(

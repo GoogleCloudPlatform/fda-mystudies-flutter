@@ -1,6 +1,3 @@
-import 'dart:math';
-
-// import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
 import 'recorded_value.dart';
@@ -15,9 +12,6 @@ class ChartTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDarkModeEnabled =
-        MediaQuery.of(context).platformBrightness == Brightness.dark;
-    var scale = MediaQuery.of(context).textScaleFactor;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Container(
           decoration:
