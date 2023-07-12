@@ -15,7 +15,7 @@ class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
 
   @override
-  _MyAccountState createState() => _MyAccountState();
+  State<MyAccount> createState() => _MyAccountState();
 }
 
 class _MyAccountState extends State<MyAccount> {
@@ -166,11 +166,11 @@ class _MyAccountState extends State<MyAccount> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                         onPressed: () => push(context, const DeleteAccount()),
-                        child: const Text('Delete app account',
-                            textAlign: TextAlign.center),
                         style: ElevatedButton.styleFrom(
                             backgroundColor:
-                                Theme.of(context).colorScheme.error))
+                                Theme.of(context).colorScheme.error),
+                        child: const Text('Delete app account',
+                            textAlign: TextAlign.center))
                   ])));
   }
 

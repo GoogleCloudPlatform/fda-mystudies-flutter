@@ -42,7 +42,7 @@ class FutureLoadingPage {
       String scaffoldTitle, bool showDrawer, Widget widget, bool shouldWrap) {
     if (shouldWrap) {
       return HomeScaffold(
-          child: widget, title: scaffoldTitle, showDrawer: showDrawer);
+          title: scaffoldTitle, showDrawer: showDrawer, child: widget);
     }
     return widget;
   }

@@ -10,7 +10,7 @@ class ContactUs extends StatefulWidget {
   const ContactUs({Key? key}) : super(key: key);
 
   @override
-  _ContactUsState createState() => _ContactUsState();
+  State<ContactUs> createState() => _ContactUsState();
 }
 
 class _ContactUsState extends State<ContactUs> {
@@ -39,6 +39,24 @@ class _ContactUsState extends State<ContactUs> {
             FocusScope.of(context).unfocus();
           },
           child: HomeScaffold(
+              title: pageTitle,
+              showDrawer: false,
+              bottomNavigationBar: BottomAppBar(
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                                onPressed: _submitFeedback(),
+                                style: Theme.of(context).textButtonTheme.style,
+                                child: _isLoading
+                                    ? const SizedBox(
+                                        height: 16,
+                                        width: 16,
+                                        child: CircularProgressIndicator())
+                                    : const Text(submitButtonLabel))
+                          ]))),
               child: SafeArea(
                   child: ListView(padding: const EdgeInsets.all(12), children: [
                 TextField(
@@ -97,25 +115,7 @@ class _ContactUsState extends State<ContactUs> {
                             border: OutlineInputBorder(),
                             labelText: feedbackPlaceholder,
                             hintText: feedbackHintText)))
-              ])),
-              title: pageTitle,
-              showDrawer: false,
-              bottomNavigationBar: BottomAppBar(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                                onPressed: _submitFeedback(),
-                                child: _isLoading
-                                    ? const SizedBox(
-                                        height: 16,
-                                        width: 16,
-                                        child: CircularProgressIndicator())
-                                    : const Text(submitButtonLabel),
-                                style: Theme.of(context).textButtonTheme.style)
-                          ])))))
+              ]))))
     ]);
   }
 

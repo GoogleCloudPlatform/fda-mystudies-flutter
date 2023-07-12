@@ -13,7 +13,7 @@ class ChangePassword extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ChangePasswordState createState() => _ChangePasswordState();
+  State<ChangePassword> createState() => _ChangePasswordState();
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
@@ -37,6 +37,24 @@ class _ChangePasswordState extends State<ChangePassword> {
             FocusScope.of(context).unfocus();
           },
           child: HomeScaffold(
+              title: 'Change Password',
+              showDrawer: false,
+              bottomNavigationBar: BottomAppBar(
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                                onPressed: _changePassword(),
+                                style: Theme.of(context).textButtonTheme.style,
+                                child: _isLoading
+                                    ? const SizedBox(
+                                        height: 16,
+                                        width: 16,
+                                        child: CircularProgressIndicator())
+                                    : const Text('Submit'))
+                          ]))),
               child: SafeArea(
                   child: ListView(padding: const EdgeInsets.all(12), children: [
                 TextField(
@@ -80,25 +98,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: confirmNewPasswordPlaceholder)),
-              ])),
-              title: 'Change Password',
-              showDrawer: false,
-              bottomNavigationBar: BottomAppBar(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                                onPressed: _changePassword(),
-                                child: _isLoading
-                                    ? const SizedBox(
-                                        height: 16,
-                                        width: 16,
-                                        child: CircularProgressIndicator())
-                                    : const Text('Submit'),
-                                style: Theme.of(context).textButtonTheme.style)
-                          ])))))
+              ]))))
     ]);
   }
 
