@@ -1,4 +1,5 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
+import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
@@ -46,9 +47,48 @@ class ActivityBuilderImpl implements ActivityBuilder {
     for (int i = 0; i < steps.length; ++i) {
       if (steps[i].destinations.isEmpty) {
         steps[i].destinations.add(ActivityStep_StepDestination()
-            ..condition = ''
-            ..destination = (i == steps.length - 1) ? '' : steps[i + 1].key
-            ..operator = '');
+          ..condition = ''
+          ..destination = (i == steps.length - 1) ? '' : steps[i + 1].key
+          ..operator = '');
+      }
+      widgetMap[steps[i].key] = _generateUIForStep(
+          steps[i], widgetMap, allowExit, '${i + 1} of ${steps.length}');
+    }
+    stepKeys.clear();
+    stepKeys.addAll(steps.map((e) => e.key).toList());
+    return widgetMap[steps.first.key] ?? activityResponseProcessor;
+  }
+
+  @override
+  Widget buildFailFastTest(
+      {required List<ActivityStep> steps,
+      required List<CorrectAnswers> answers,
+      required ActivityResponseProcessor activityResponseProcessor,
+      required String uniqueActivityId,
+      bool allowExit = false,
+      String? exitRouteName}) {
+    prefixUniqueActivityStepId = uniqueActivityId;
+    if (exitRouteName != null) {
+      exitRoute = exitRouteName;
+    }
+    if (steps.isEmpty) {
+      return activityResponseProcessor;
+    }
+    Map<String, String> answerMap = {};
+    for (var answer in answers) {
+      answerMap[answer.key] = '${answer.boolAnswer}';
+    }
+    Map<String, Widget> widgetMap = {'': activityResponseProcessor};
+    for (int i = 0; i < steps.length; ++i) {
+      if (steps[i].destinations.isEmpty) {
+        steps[i].destinations.add(ActivityStep_StepDestination()
+          ..condition = ''
+          ..destination = (i == steps.length - 1) ? '' : steps[i + 1].key
+          ..operator = '');
+        steps[i].destinations.add(ActivityStep_StepDestination()
+          ..condition = '${answerMap[steps[i].key]}'
+          ..destination = ''
+          ..operator = 'ne');
       }
       widgetMap[steps[i].key] = _generateUIForStep(
           steps[i], widgetMap, allowExit, '${i + 1} of ${steps.length}');
