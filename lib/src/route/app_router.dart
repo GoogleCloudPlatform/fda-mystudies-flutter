@@ -240,11 +240,14 @@ class AppRouter {
                   ] +
                   eligibility.tests;
               var activityBuilder = ui_kit.getIt<ActivityBuilder>();
-              return activityBuilder.buildActivity(
-                  steps,
-                  EligibilityDecision(eligibility.correctAnswers,
-                      eligibility.type.eligibilityStepType, consent),
-                  uniqueId);
+              return activityBuilder.buildFailFastTest(
+                  steps: steps,
+                  answers: eligibility.correctAnswers,
+                  activityResponseProcessor: EligibilityDecision(
+                      eligibility.correctAnswers,
+                      eligibility.type.eligibilityStepType,
+                      consent),
+                  uniqueActivityId: uniqueId);
             }),
         GoRoute(
             name: RouteName.eligibilityDecision,
