@@ -98,8 +98,41 @@ class ActivityBuilderImpl implements ActivityBuilder {
     return widgetMap[steps.first.key] ?? activityResponseProcessor;
   }
 
+  @override
+  Widget buildRetriableTestWithSuggtestions(
+      {required List<ActivityStep> steps,
+      required List<CorrectAnswers> answers,
+      required ActivityResponseProcessor activityResponseProcessor,
+      required String uniqueActivityId,
+      bool allowExit = false,
+      String? exitRouteName}) {
+    prefixUniqueActivityStepId = uniqueActivityId;
+    if (exitRouteName != null) {
+      exitRoute = exitRouteName;
+    }
+    if (steps.isEmpty) {
+      return activityResponseProcessor;
+    }
+    Map<String, Widget> widgetMap = {'': activityResponseProcessor};
+    for (int i = 0; i < steps.length; ++i) {
+      if (steps[i].destinations.isEmpty) {
+        steps[i].destinations.add(ActivityStep_StepDestination()
+          ..condition = ''
+          ..destination = (i == steps.length - 1) ? '' : steps[i + 1].key
+          ..operator = '');
+      }
+      widgetMap[steps[i].key] = _generateUIForStep(
+          steps[i], widgetMap, allowExit, '${i + 1} of ${steps.length}',
+          answers: answers);
+    }
+    stepKeys.clear();
+    stepKeys.addAll(steps.map((e) => e.key).toList());
+    return widgetMap[steps.first.key] ?? activityResponseProcessor;
+  }
+
   Widget _generateUIForStep(ActivityStep step, Map<String, Widget> widgetMap,
-      bool allowExit, String title) {
+      bool allowExit, String title,
+      {List<CorrectAnswers>? answers}) {
     if (step.type == 'instruction') {
       return InstructionTemplate(step, allowExit, title, widgetMap);
     } else if (step.type.toLowerCase() == 'question') {
@@ -126,7 +159,9 @@ class ActivityBuilderImpl implements ActivityBuilder {
         if (step.textChoice.selectionStyle == 'Single') {
           return SingleTextChoiceTemplate(step, allowExit, title, widgetMap);
         } else if (step.textChoice.selectionStyle == 'Multiple') {
-          return MultipleTextChoiceTemplate(step, allowExit, title, widgetMap);
+          // Comprehension tests are exclusively comprised of MutlipleTextChoice question.
+          return MultipleTextChoiceTemplate(step, allowExit, title, widgetMap,
+              answers: answers);
         }
       } else if (step.resultType == 'boolean') {
         return BooleanTemplate(step, allowExit, title, widgetMap);

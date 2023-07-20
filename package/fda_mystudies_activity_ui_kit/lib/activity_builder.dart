@@ -19,4 +19,12 @@ abstract class ActivityBuilder {
       required String uniqueActivityId,
       bool allowExit = false,
       String? exitRouteName});
+
+  Widget buildRetriableTestWithSuggtestions(
+      {required List<ActivityStep> steps,
+      required List<CorrectAnswers> answers,
+      required ActivityResponseProcessor activityResponseProcessor,
+      required String uniqueActivityId,
+      bool allowExit = false,
+      String? exitRouteName});
 }
