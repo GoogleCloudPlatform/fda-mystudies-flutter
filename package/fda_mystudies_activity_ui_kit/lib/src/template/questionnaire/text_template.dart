@@ -15,7 +15,7 @@ class TextTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  _TextTemplateState createState() => _TextTemplateState();
+  State<TextTemplate> createState() => _TextTemplateState();
 }
 
 class _TextTemplateState extends State<TextTemplate> {
