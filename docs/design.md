@@ -1,5 +1,7 @@
 # Design of FDA MyStudies flutter app
 
+[Stage: Draft]
+
 
 ## Context
 
@@ -184,5 +186,32 @@ There are currently 3 methods that build different kind of activities:
 - **buildRetriableTestWithSuggtestions** - take steps in with correct answers.
  Builds a test that highlights correct & incorrect answers on second try of the
  test. This is meant to improve the UX for comprehension test.
+
+
+### App
+
+The app uses [MVC architecture](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller). 
+At the momemnt it's not perfectly implemented.
+I'll document the ideal implementation design here and refactor the existing 
+code to match the ideal scenario.
+
+We are using [StatefulWidgets](https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html)
+as Controllers, [StatelessWidgets](https://api.flutter.dev/flutter/widgets/StatelessWidget-class.html) 
+as Screens / Views. Dart Objects or [Providers](https://pub.dev/packages/provider) 
+as Models. We are using Providers to avoid re-rendering of unchanged elements, 
+and sending data down the hierarchy of screens without attaching it in every 
+screens initializer.
+
+Currently, controllers are placed under **lib/src/controller** folder, and
+views are placed under **lib/src/screens** folder. These need to be divided into
+individual modules that exist in **lib/src** folders. As of now the module 
+directories contain unrefactored old code that doesn't confirm to MVC 
+architecture. This needs to be corrected during the next refactoring.
+
+For navigation, we are using [GoRouter](https://pub.dev/packages/go_router).
+This allows us to navigate using string based paths, rather than referencing
+controllers directly from inside another controllers. This helps us generate
+modular flows that manage their own navigation and can be plugged into the app
+without depending on or being dependent on other controllers.
 
 
