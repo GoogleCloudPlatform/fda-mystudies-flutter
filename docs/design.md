@@ -128,4 +128,61 @@ successfully going through the sign-in flow.
 
 ### FDA MyStudies Design System
 
+Design Systems are Design Tokens for the app as a package. We define the 
+common language between designers and engineers using this package. All the 
+reusable UI elements are defined in this package.
+
+All the UI elements are divided in 4 directories.
+
+- **theme** - contains color-schemes and any other theme specific details.
+- **typography** - contains everything relating to fonts
+	- typography tokens define the base tokens of the typography systems.
+	- components define the comonly used aliases built using the typography
+	  tokens.
+- **components** - contains reusable UI elements that need some overhead while
+  placing them in a screen.
+- **block** - contains reusable elements that can be directly placed in a 
+  ListView in any of our screens. Since most of our screens are vertical linear
+  lists that contain one element per row, block elements can be placed directly
+  in a list since they define all the margins / padding, expansion / shrinking
+  behavior correctly.
+
+All the UI elements defined in this package have a golden test for them.
+Golden snapshots are stored in the format
+
+```
+<theme>.<element-name>.<state>
+```
+
+e.g. `dark.agree_to_tnc_block.agreed`
+
+
+### FDA MyStudies Activity UI Kit
+
+Everything that deals with collecting user reponses in form of survey 
+questionnaire, tests & tasks is packaged in this package. This package
+provides methods that accepts the JSON that defines steps of any user facing
+activity, renders them into the survey UIs that collect responses from the user
+, collects the reponses, packages them into JSON that can be sent back to the
+backend and returns it to the caller which can then upload the JSON to the 
+FDA MyStudies backend.
+
+> Activity Step JSON in. User Response JSON out.
+
+The caller doesn't need to bother with how the UI is generated, how to responses
+are collected, how branching is done between questions of the survey. It can 
+rely on this package to take care of this CUJ end to end.
+
+There are currently 3 methods that build different kind of activities:
+
+- **buildActivity** - takes steps in and renders a UI, and spits out user-
+ responses. Simplest of them all, and the most commonly used for daily, weekly
+ monthly & one-time activities.
+- **buildFailFastTest** - takes steps in with correct answers. Builds a test 
+ that displays a failure screen when user responds with an incorrect answer.
+ This has been exclusively built for `Eligibility Test`.
+- **buildRetriableTestWithSuggtestions** - take steps in with correct answers.
+ Builds a test that highlights correct & incorrect answers on second try of the
+ test. This is meant to improve the UX for comprehension test.
+
 
