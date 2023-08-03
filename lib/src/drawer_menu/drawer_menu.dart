@@ -50,7 +50,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               Icons.home,
               AppLocalizations.of(context).homePage,
               GoRouterState.of(context)
-                  .location
+                  .path!
                   .startsWith('/${RouteName.studyHome}'),
               () => context.goNamed(RouteName.studyHome)),
           const SizedBox(height: 8),
@@ -58,14 +58,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
               context,
               Icons.account_circle,
               AppLocalizations.of(context).myAccountPage,
-              GoRouterState.of(context).location == '/${RouteName.myAccount}',
+              GoRouterState.of(context).path == '/${RouteName.myAccount}',
               () => context.goNamed(RouteName.myAccount)),
           const SizedBox(height: 8),
           _listTile(
               context,
               Icons.mail,
               AppLocalizations.of(context).reachOutPage,
-              GoRouterState.of(context).location == '/${RouteName.reachOut}',
+              GoRouterState.of(context).path == '/${RouteName.reachOut}',
               () => context.goNamed(RouteName.reachOut)),
           const SizedBox(height: 50),
           Divider(

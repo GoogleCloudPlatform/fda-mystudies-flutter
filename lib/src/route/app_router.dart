@@ -76,7 +76,7 @@ class AppRouter {
           secureStorage.write(key: SecureKey.userId, value: 'userId');
           UserData.shared.userId = 'userId';
         }
-        if (state.location == '/') {
+        if (state.fullPath == '/') {
           final userIsVisitingFirstTime =
               await secureStorage.read(key: SecureKey.isVisitingFirstTime);
           if (userIsVisitingFirstTime == null ||
@@ -118,7 +118,7 @@ class AppRouter {
               return '/';
             });
           }
-        } else if (state.location == '/${RouteName.studyHome}') {
+        } else if (state.fullPath == '/${RouteName.studyHome}') {
           return '/${RouteName.studyHome}/${RouteName.activities}';
         }
         return null;
