@@ -34,8 +34,7 @@ class BottomSheet {
                                 Icons.close,
                                 color: Theme.of(context)
                                     .colorScheme
-                                    .onSurfaceVariant
-                                    .withOpacity(0.6),
+                                    .onSurfaceVariant,
                                 size: 24,
                               ))
                         ]))
