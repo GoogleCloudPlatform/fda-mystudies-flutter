@@ -1,6 +1,7 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 
+import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class ValuePickerTemplate extends StatefulWidget {
@@ -15,7 +16,7 @@ class ValuePickerTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  _ValuePickerTemplateState createState() => _ValuePickerTemplateState();
+  State<ValuePickerTemplate> createState() => _ValuePickerTemplateState();
 }
 
 class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
@@ -27,9 +28,9 @@ class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = QuestionnaireTemplate.currentTimeToString();
+      _startTime = LocalStorageUtil.currentTimeToString();
     });
-    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+    LocalStorageUtil.readSavedResult(widget.step.key).then((value) {
       if (value != null) {
         setState(() {
           _selectedValue = value;
@@ -71,7 +72,7 @@ class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
+        _startTime ?? LocalStorageUtil.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }
