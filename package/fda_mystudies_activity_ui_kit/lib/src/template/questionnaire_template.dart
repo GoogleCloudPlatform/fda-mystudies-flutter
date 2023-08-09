@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer' as developer;
 import 'dart:math';
 
@@ -9,11 +8,11 @@ import 'package:fda_mystudies_design_system/block/text_button_block.dart';
 import 'package:fda_mystudies_spec/response_datastore_service/process_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 
 import '../../activity_response_processor.dart';
 import '../activity_builder_impl.dart';
+import '../storage/local_storage_util.dart';
 import 'unimplemented_template.dart';
 
 class QuestionnaireTemplate extends StatelessWidget {
@@ -83,15 +82,24 @@ class QuestionnaireTemplate extends StatelessWidget {
 
   void _navigateToNextScreen(BuildContext context, bool skipped) {
     if (!skipped) {
-      _saveTemporaryResult()
+      LocalStorageUtil.saveTemporaryResult(
+              stepKey: _step.key,
+              selectedValue: selectedValue,
+              resultType: _step.resultType,
+              startTime: _startTime)
           .then((value) => developer.log('TEMPORARY RESULT SAVED'));
     } else {
-      _discardTemporaryResult()
+      LocalStorageUtil.discardTemporaryResult(_step.key)
           .then((value) => developer.log('TEMPORARY RESULT DISCARDED'));
     }
     var nextScreen = _findNextScreen(skipped);
     if (_step.type.toLowerCase() == 'question') {
-      var stepResult = _createStepResult(skipped);
+      var stepResult = LocalStorageUtil.createStepResult(
+          stepKey: _step.key,
+          resultType: _step.resultType,
+          startTime: _startTime,
+          selectedValue: selectedValue,
+          skipped: skipped);
       _answers[_step.key] = stepResult;
     }
     if (nextScreen is ActivityResponseProcessor) {
@@ -101,116 +109,10 @@ class QuestionnaireTemplate extends StatelessWidget {
           stepResultList.add(_answers[key]!);
         }
       }
-      _savePastResult()
-          .then((value) => nextScreen.processResponses(stepResultList));
+      nextScreen.processResponses(stepResultList);
     }
     Navigator.of(context).push<void>(
         MaterialPageRoute<void>(builder: (BuildContext context) => nextScreen));
-  }
-
-  static String _generateStepKey(bool temporary, String stepKey) {
-    return ActivityBuilderImpl.prefixUniqueActivityStepId +
-        (temporary ? 'temp' : '') +
-        stepKey;
-  }
-
-  Future<void> _saveTemporaryResult() {
-    var securedStorage = const FlutterSecureStorage();
-    var tempKey = _generateStepKey(true, _step.key);
-    return securedStorage.write(
-        key: tempKey,
-        value: jsonEncode(_createStepResult(false).toProto3Json()));
-  }
-
-  Future<void> _discardTemporaryResult() {
-    var securedStorage = const FlutterSecureStorage();
-    var tempKey = _generateStepKey(true, _step.key);
-    return securedStorage.delete(key: tempKey);
-  }
-
-  Future<void> _discardAllTemporaryResults() {
-    var securedStorage = const FlutterSecureStorage();
-    return Future.wait(ActivityBuilderImpl.stepKeys.map((curStepKey) {
-      var tempKey = _generateStepKey(true, curStepKey);
-      return securedStorage.delete(key: tempKey);
-    })).then((value) => developer.log('DISCARDED'));
-  }
-
-  Future<void> _savePastResult() {
-    var securedStorage = const FlutterSecureStorage();
-    return Future.wait(ActivityBuilderImpl.stepKeys.map((curStepKey) {
-      var tempKey = _generateStepKey(true, curStepKey);
-      return securedStorage.containsKey(key: tempKey).then((hasTemporaryValue) {
-        if (hasTemporaryValue) {
-          var permanentKey = _generateStepKey(false, curStepKey);
-          return securedStorage.read(key: tempKey).then((tempValue) =>
-              securedStorage.write(key: permanentKey, value: tempValue));
-        }
-      });
-    })).then((value) => developer.log('SAVED'));
-  }
-
-  static Future<dynamic> readSavedResult(String curKey) {
-    var securedStorage = const FlutterSecureStorage();
-    String tempKey = _generateStepKey(true, curKey);
-    return securedStorage.containsKey(key: tempKey).then((containsKey) {
-      if (containsKey) {
-        return securedStorage
-            .read(key: tempKey)
-            .then((jsonStr) => _valueFromStepResult(jsonStr));
-      }
-      String permKey = _generateStepKey(false, curKey);
-      return securedStorage
-          .read(key: permKey)
-          .then((jsonStr) => _valueFromStepResult(jsonStr));
-    });
-  }
-
-  static String currentTimeToString() {
-    var currentTime = DateTime.now();
-    return '${dateFormat.format(currentTime)}.${currentTime.millisecond}';
-  }
-
-  static dynamic _valueFromStepResult(String? jsonStr) {
-    if (jsonStr != null) {
-      var stepResult = ActivityResponse_Data_StepResult.create()
-        ..mergeFromProto3Json(jsonDecode(jsonStr));
-      if (stepResult.hasIntValue()) {
-        return stepResult.intValue;
-      } else if (stepResult.hasDoubleValue()) {
-        return stepResult.doubleValue;
-      } else if (stepResult.hasBoolValue()) {
-        return stepResult.boolValue;
-      } else if (stepResult.hasStringValue()) {
-        return stepResult.stringValue;
-      } else if (stepResult.listValues.isNotEmpty) {
-        return stepResult.listValues;
-      }
-    }
-    return null;
-  }
-
-  ActivityResponse_Data_StepResult _createStepResult(bool skipped) {
-    var stepResult = ActivityResponse_Data_StepResult()
-      ..key = _step.key
-      ..skipped = skipped
-      ..resultType = _step.resultType
-      ..startTime = _startTime
-      ..endTime = currentTimeToString();
-    if (!skipped) {
-      if (selectedValue is int) {
-        stepResult.intValue = selectedValue;
-      } else if (selectedValue is double) {
-        stepResult.doubleValue = selectedValue;
-      } else if (selectedValue is bool) {
-        stepResult.boolValue = selectedValue;
-      } else if (selectedValue is String) {
-        stepResult.stringValue = selectedValue;
-      } else if (selectedValue is List<String>) {
-        stepResult.listValues.addAll(selectedValue);
-      }
-    }
-    return stepResult;
   }
 
   @override
@@ -232,49 +134,11 @@ class QuestionnaireTemplate extends StatelessWidget {
                     ? [
                         TextButton(
                             onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  barrierDismissible: false,
-                                  builder: (BuildContext buildContext) {
-                                    return AlertDialog(
-                                      content: const Text(
-                                          'Your responses are stored on the app if you '
-                                          '`Save for Later` (unless you sign out) so you '
-                                          'can resume and complete the activity before it '
-                                          'expires.'),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).popUntil(
-                                                  ModalRoute.withName(
-                                                      ActivityBuilderImpl
-                                                          .exitRoute));
-                                            },
-                                            child:
-                                                const Text('Save for Later')),
-                                        TextButton(
-                                            onPressed: () {
-                                              _discardAllTemporaryResults();
-                                              Navigator.of(context).popUntil(
-                                                  ModalRoute.withName(
-                                                      ActivityBuilderImpl
-                                                          .exitRoute));
-                                            },
-                                            child: const Text('Discard Results',
-                                                style: TextStyle(
-                                                    color: Colors.red))),
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('Cancel'))
-                                      ],
-                                    );
-                                  });
+                              ActivityBuilderImpl().quickExitFlow(context);
                             },
                             style: TextButton.styleFrom(
+                              foregroundColor: Colors.red,
                               padding: EdgeInsets.zero,
-                              primary: Colors.red,
                             ),
                             child: const Icon(Icons.exit_to_app))
                       ]
@@ -315,6 +179,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                               Theme.of(context).colorScheme.background
                             ],
                           )),
+                          height: max(150, 90 * scaleFactor),
                           child: Column(
                               children: <Widget>[
                                     PrimaryButtonBlock(
@@ -334,8 +199,7 @@ class QuestionnaireTemplate extends StatelessWidget {
                                                   _navigateToNextScreen(
                                                       context, true))
                                         ]
-                                      : <Widget>[])),
-                          height: max(150, 90 * scaleFactor))))
+                                      : <Widget>[])))))
             ])));
   }
 }

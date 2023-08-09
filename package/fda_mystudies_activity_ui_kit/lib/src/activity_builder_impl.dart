@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 
 import '../activity_builder.dart';
 import '../activity_response_processor.dart';
+import 'storage/local_storage_util.dart';
 import 'template/questionnaire_template.dart';
 import 'template/questionnaire/boolean_template.dart';
 import 'template/questionnaire/date_template.dart';
@@ -185,5 +186,54 @@ class ActivityBuilderImpl implements ActivityBuilder {
           step, allowExit, title, widgetMap, const [], '');
     }
     return UnimplementedTemplate(step.key);
+  }
+
+  @override
+  void quickExitFlow(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext buildContext) {
+        return AlertDialog(
+          content: const Text(
+              'Your responses are stored on the app if you '
+              '`Save for Later` (unless you sign out) so you '
+              'can resume and complete the activity before it '
+              'expires.'),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  LocalStorageUtil.savePastResult();
+                  Navigator.of(context).popUntil(
+                      ModalRoute.withName(
+                          ActivityBuilderImpl
+                              .exitRoute));
+                },
+                child:
+                    const Text('Save for Later')),
+            TextButton(
+                onPressed: () {
+                  LocalStorageUtil.discardAllTemporaryResults();
+                  Navigator.of(context).popUntil(
+                      ModalRoute.withName(
+                          ActivityBuilderImpl
+                              .exitRoute));
+                },
+                child: const Text('Discard Results',
+                    style: TextStyle(
+                        color: Colors.red))),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Cancel'))
+          ],
+        );
+      });
+  }
+
+  @override
+  void makeCurrentResponsesDefaultValues() {
+    LocalStorageUtil.savePastResult();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 
+import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class TimeOfDayTemplate extends StatefulWidget {
@@ -14,7 +15,7 @@ class TimeOfDayTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  _TimeOfDayTemplateState createState() => _TimeOfDayTemplateState();
+  State<TimeOfDayTemplate> createState() => _TimeOfDayTemplateState();
 }
 
 class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
@@ -25,7 +26,7 @@ class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = QuestionnaireTemplate.currentTimeToString();
+      _startTime = LocalStorageUtil.currentTimeToString();
     });
   }
 
@@ -64,7 +65,7 @@ class _TimeOfDayTemplateState extends State<TimeOfDayTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
+        _startTime ?? LocalStorageUtil.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 

@@ -1,5 +1,8 @@
 import 'dart:developer' as developer;
 
+import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart'
+    as ui_kit;
+import 'package:fda_mystudies_activity_ui_kit/activity_builder.dart';
 import 'package:fda_mystudies_activity_ui_kit/activity_response_processor.dart';
 import 'package:fda_mystudies_design_system/block/activity_tile_block.dart';
 import 'package:fda_mystudies_design_system/block/page_text_block.dart';
@@ -38,6 +41,7 @@ class MaterialActivityResponseProcessor extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var activityBuilder = ui_kit.getIt<ActivityBuilder>();
     return Scaffold(
         appBar: AppBar(),
         body: ListView(children: [
@@ -59,38 +63,13 @@ class MaterialActivityResponseProcessor extends StatelessWidget
           const SizedBox(height: 92),
           PrimaryButtonBlock(
               title: 'Done',
-              onPressed: () => _processAndExitToActivitiesPage(context)),
+              onPressed: () {
+                activityBuilder.makeCurrentResponsesDefaultValues();
+                _processAndExitToActivitiesPage(context);
+              }),
           TextButtonBlock(
-              title: 'Cancel', onPressed: () => _cancelActivity(context))
+              title: 'Cancel', onPressed: () => activityBuilder.quickExitFlow(context))
         ]));
-  }
-
-  void _cancelActivity(BuildContext context) {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext buildContext) {
-          return AlertDialog(
-            content: const Text('Your responses are stored on the app if you '
-                '`Save for Later` (unless you sign out) so you '
-                'can resume and complete the activity before it '
-                'expires.'),
-            actions: [
-              TextButton(
-                  onPressed: () => _exitToActivitiesPage(context),
-                  child: const Text('Save for Later')),
-              TextButton(
-                  onPressed: () => _exitToActivitiesPage(context),
-                  child: const Text('Discard Results',
-                      style: TextStyle(color: Colors.red))),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Cancel'))
-            ],
-          );
-        });
   }
 
   void _exitToActivitiesPage(BuildContext context) {

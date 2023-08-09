@@ -1,8 +1,8 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class NumericalTextTemplate extends StatefulWidget {
@@ -30,9 +30,9 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = QuestionnaireTemplate.currentTimeToString();
+      _startTime = LocalStorageUtil.currentTimeToString();
     });
-    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+    LocalStorageUtil.readSavedResult(widget.step.key).then((value) {
       if (value != null) {
         setState(() {
           _selectedValue = value;
@@ -75,7 +75,7 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
+        _startTime ?? LocalStorageUtil.currentTimeToString(),
         selectedValue: _numericValueError() == _NumericValueError.none
             ? _selectedValue
             : null);
@@ -139,21 +139,3 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
 
 enum _NumericValueError { none, invalid, outOfRange }
 
-class _NumericalTextInputFormatter extends TextInputFormatter {
-  final double min;
-  final double max;
-
-  _NumericalTextInputFormatter(this.min, this.max) : super();
-
-  @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    if (newValue.text == '') {
-      return const TextEditingValue();
-    } else if (double.parse(newValue.text) > max ||
-        double.parse(newValue.text) < min) {
-      return oldValue;
-    }
-    return newValue;
-  }
-}

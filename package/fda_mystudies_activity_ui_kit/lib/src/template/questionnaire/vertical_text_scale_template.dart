@@ -1,6 +1,7 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 
+import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class VerticalTextScaleTemplate extends StatefulWidget {
@@ -15,7 +16,7 @@ class VerticalTextScaleTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  _VerticalTextScaleTemplateState createState() =>
+  State<VerticalTextScaleTemplate> createState() =>
       _VerticalTextScaleTemplateState();
 }
 
@@ -27,9 +28,9 @@ class _VerticalTextScaleTemplateState extends State<VerticalTextScaleTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = QuestionnaireTemplate.currentTimeToString();
+      _startTime = LocalStorageUtil.currentTimeToString();
     });
-    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+    LocalStorageUtil.readSavedResult(widget.step.key).then((value) {
       if (value != null) {
         setState(() {
           _selectedValue = value;
@@ -61,15 +62,15 @@ class _VerticalTextScaleTemplateState extends State<VerticalTextScaleTemplate> {
                     scrollDirection: Axis.horizontal,
                     child: Text(e.text,
                         textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline6)))
+                        style: Theme.of(context).textTheme.bodyLarge)))
                 .toList()));
     widgetList = [
       Center(
           child: Text(textChoiceList[selectedValueIndex].text,
-              style: Theme.of(context).textTheme.headline6)),
+              style: Theme.of(context).textTheme.bodyLarge)),
       const SizedBox(height: 24),
       SizedBox(
-          height: (Theme.of(context).textTheme.headline6?.fontSize ?? 20) *
+          height: (Theme.of(context).textTheme.bodyLarge?.fontSize ?? 20) *
               3 *
               divisions *
               MediaQuery.of(context).textScaleFactor,
@@ -102,7 +103,7 @@ class _VerticalTextScaleTemplateState extends State<VerticalTextScaleTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
+        _startTime ?? LocalStorageUtil.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }

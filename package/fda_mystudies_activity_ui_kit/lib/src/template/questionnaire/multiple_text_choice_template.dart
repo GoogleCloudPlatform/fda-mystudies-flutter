@@ -2,6 +2,7 @@ import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart
 import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/material.dart';
 
+import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class MultipleTextChoiceTemplate extends StatefulWidget {
@@ -35,9 +36,9 @@ class _MultipleTextChoiceTemplateState
   void initState() {
     super.initState();
     setState(() {
-      _startTime = QuestionnaireTemplate.currentTimeToString();
+      _startTime = LocalStorageUtil.currentTimeToString();
     });
-    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+    LocalStorageUtil.readSavedResult(widget.step.key).then((value) {
       if (value != null) {
         setState(() {
           _previouslySelected = true;
@@ -107,7 +108,7 @@ class _MultipleTextChoiceTemplateState
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
+        _startTime ?? LocalStorageUtil.currentTimeToString(),
         selectedValue: (_selectedValue.isEmpty ? null : _selectedValue));
   }
 
