@@ -75,9 +75,12 @@ class ActivityBuilderImpl implements ActivityBuilder {
     if (steps.isEmpty) {
       return activityResponseProcessor;
     }
-    Map<String, String> answerMap = {};
+    Map<String, List<String>> answerMap = {};
     for (var answer in answers) {
-      answerMap[answer.key] = '${answer.boolAnswer}';
+      if (answerMap[answer.key] == null) {
+        answerMap[answer.key] = [];
+      }
+      answerMap[answer.key]?.add('${answer.boolAnswer}');
     }
     Map<String, Widget> widgetMap = {'': activityResponseProcessor};
     for (int i = 0; i < steps.length; ++i) {
@@ -86,10 +89,20 @@ class ActivityBuilderImpl implements ActivityBuilder {
           ..condition = ''
           ..destination = (i == steps.length - 1) ? '' : steps[i + 1].key
           ..operator = '');
-        steps[i].destinations.add(ActivityStep_StepDestination()
-          ..condition = '${answerMap[steps[i].key]}'
-          ..destination = ''
-          ..operator = 'ne');
+        final answersFromMap = answerMap[steps[i].key] ?? [];
+        if (answersFromMap.length > 1) {
+          for (var answer in answersFromMap) {
+            steps[i].destinations.add(ActivityStep_StepDestination()
+              ..condition = answer
+              ..destination = (i == steps.length - 1) ? '' : steps[i + 1].key
+              ..operator = '');
+          }
+        } else if (answersFromMap.length == 1) {
+          steps[i].destinations.add(ActivityStep_StepDestination()
+            ..condition = answersFromMap.first
+            ..destination = ''
+            ..operator = 'ne');
+        }
       }
       widgetMap[steps[i].key] = _generateUIForStep(
           steps[i], widgetMap, allowExit, '${i + 1} of ${steps.length}');
@@ -191,45 +204,38 @@ class ActivityBuilderImpl implements ActivityBuilder {
   @override
   void quickExitFlow(BuildContext context) {
     showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext buildContext) {
-        return AlertDialog(
-          content: const Text(
-              'Your responses are stored on the app if you '
-              '`Save for Later` (unless you sign out) so you '
-              'can resume and complete the activity before it '
-              'expires.'),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  LocalStorageUtil.savePastResult();
-                  Navigator.of(context).popUntil(
-                      ModalRoute.withName(
-                          ActivityBuilderImpl
-                              .exitRoute));
-                },
-                child:
-                    const Text('Save for Later')),
-            TextButton(
-                onPressed: () {
-                  LocalStorageUtil.discardAllTemporaryResults();
-                  Navigator.of(context).popUntil(
-                      ModalRoute.withName(
-                          ActivityBuilderImpl
-                              .exitRoute));
-                },
-                child: const Text('Discard Results',
-                    style: TextStyle(
-                        color: Colors.red))),
-            TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancel'))
-          ],
-        );
-      });
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext buildContext) {
+          return AlertDialog(
+            content: const Text('Your responses are stored on the app if you '
+                '`Save for Later` (unless you sign out) so you '
+                'can resume and complete the activity before it '
+                'expires.'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    LocalStorageUtil.savePastResult();
+                    Navigator.of(context).popUntil(
+                        ModalRoute.withName(ActivityBuilderImpl.exitRoute));
+                  },
+                  child: const Text('Save for Later')),
+              TextButton(
+                  onPressed: () {
+                    LocalStorageUtil.discardAllTemporaryResults();
+                    Navigator.of(context).popUntil(
+                        ModalRoute.withName(ActivityBuilderImpl.exitRoute));
+                  },
+                  child: const Text('Discard Results',
+                      style: TextStyle(color: Colors.red))),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel'))
+            ],
+          );
+        });
   }
 
   @override
