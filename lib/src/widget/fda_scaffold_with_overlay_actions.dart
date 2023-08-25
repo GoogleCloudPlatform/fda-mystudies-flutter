@@ -29,6 +29,7 @@ class FDAScaffoldWithOverlayButtons extends StatelessWidget {
                         .toList()))),
         title: title ?? '',
         showDrawer: false,
-        child: SafeArea(bottom: false, child: Stack(children: <Widget>[child])));
+        child:
+            SafeArea(bottom: false, child: Stack(children: <Widget>[child])));
   }
 }

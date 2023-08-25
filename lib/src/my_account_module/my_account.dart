@@ -91,8 +91,10 @@ class _MyAccountState extends State<MyAccount> {
                           Switch.adaptive(
                               value: _userProfile?.settings.passcode ?? false,
                               onChanged: (value) {
-                                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                                  Provider.of<LocalAuthProvider>(context, listen: false)
+                                WidgetsBinding.instance
+                                    .addPostFrameCallback((_) {
+                                  Provider.of<LocalAuthProvider>(context,
+                                          listen: false)
                                       .updateStatus(showLock: value);
                                 });
                                 if (_userProfile?.hasSettings() == true) {

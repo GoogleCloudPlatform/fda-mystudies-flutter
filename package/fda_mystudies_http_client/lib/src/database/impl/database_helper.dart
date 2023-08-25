@@ -81,8 +81,7 @@ class DatabaseHelper {
         .whenComplete(
             () => developer.log('DATABASE ACTIVITY_STATES CREATION COMPLETED'));
 
-    return Future.wait(
-            [createActivityStatesTable])
+    return Future.wait([createActivityStatesTable])
         .then((value) => developer.log('ALL TABLE UPDATES COMPLETED'));
   }
 }

@@ -48,7 +48,7 @@ class GatewayHome extends StatelessWidget {
       return Future.value(pbUserStudyStatusList);
     }
     return Future.value(CommonErrorResponse()
-        ..status = 404
-        ..errorDescription = 'No valid user states found for the studies.');
+      ..status = 404
+      ..errorDescription = 'No valid user states found for the studies.');
   }
 }

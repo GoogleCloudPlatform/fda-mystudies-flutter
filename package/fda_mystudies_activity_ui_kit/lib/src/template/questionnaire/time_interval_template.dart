@@ -46,8 +46,8 @@ class _TimeIntervalTemplateState extends State<TimeIntervalTemplate> {
                 showTimePicker(
                     helpText: 'SELECT TIME INTERVAL',
                     context: context,
-                    initialTime: TimeOfDay(
-                        hour: selectedHours, minute: selectedMinutes),
+                    initialTime:
+                        TimeOfDay(hour: selectedHours, minute: selectedMinutes),
                     builder: (context, child) {
                       return MediaQuery(
                           data: MediaQuery.of(context)

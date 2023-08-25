@@ -152,8 +152,8 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
   }
 
   @override
-  Future<void> updateLocalActivityState({
-      required String userId,
+  Future<void> updateLocalActivityState(
+      {required String userId,
       required String studyId,
       required String participantId,
       required String activityId,

@@ -89,12 +89,12 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
       case _NumericValueError.outOfRange:
         final hasDecimalNumberFormat =
             widget.step.numericalFormat.style == 'Decimal';
-        var numberFormater = NumberFormat();
-        numberFormater.minimumFractionDigits = 0;
-        numberFormater.maximumFractionDigits = hasDecimalNumberFormat ? 2 : 0;
+        var numberFormatter = NumberFormat();
+        numberFormatter.minimumFractionDigits = 0;
+        numberFormatter.maximumFractionDigits = hasDecimalNumberFormat ? 2 : 0;
         _helperText = 'Please enter a number between '
-            '${numberFormater.format(widget.step.numericalFormat.minValue)} '
-            'and ${numberFormater.format(widget.step.numericalFormat.maxValue)}.';
+            '${numberFormatter.format(widget.step.numericalFormat.minValue)} '
+            'and ${numberFormatter.format(widget.step.numericalFormat.maxValue)}.';
         break;
       case _NumericValueError.invalid:
         _helperText = 'Please enter a valid number';
@@ -138,4 +138,3 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
 }
 
 enum _NumericValueError { none, invalid, outOfRange }
-

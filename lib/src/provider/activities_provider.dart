@@ -21,18 +21,18 @@ class ActivitiesProvider extends ChangeNotifier {
     list.sort((a, b) {
       // Resume, Start, Upcoming, Missed, Completed, Expired
       final priority1 = ActivityStatusExtension.valueFrom(a.state.activityState)
-        .order
-        .compareTo(
-            ActivityStatusExtension.valueFrom(b.state.activityState).order);
-      
+          .order
+          .compareTo(
+              ActivityStatusExtension.valueFrom(b.state.activityState).order);
+
       // One-Time, Daily, Weekly, Monthly, Custom
       final priority2 = a.frequency.index.compareTo(b.frequency.index);
 
       // Default activity order
       final priority3 = AppDefaults.order
-        .indexOf(a.activityId)
-        .compareTo(AppDefaults.order.indexOf(b.activityId));
-      
+          .indexOf(a.activityId)
+          .compareTo(AppDefaults.order.indexOf(b.activityId));
+
       final result = (priority1 * 100) + (priority2 * 10) + priority3;
       return result == 0 ? 0 : (result > 0 ? 1 : -1);
     });

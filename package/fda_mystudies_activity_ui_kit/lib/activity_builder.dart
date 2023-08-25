@@ -27,7 +27,7 @@ abstract class ActivityBuilder {
       required String uniqueActivityId,
       bool allowExit = false,
       String? exitRouteName});
-  
+
   void quickExitFlow(BuildContext context);
 
   void makeCurrentResponsesDefaultValues();

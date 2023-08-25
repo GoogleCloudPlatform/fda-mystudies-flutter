@@ -19,13 +19,16 @@ class ActivityStateStorageServiceImpl implements ActivityStateStorageService {
     final participantStudyActivityId =
         '$studyId$activityId$participantId'.hashCode;
     return DatabaseHelper.shared.database.then((database) => database
-        .query(DBTables.activityStates,
-            where:
-                '${DBTables.activityStatesTable.participantStudyActivityId} = ? AND ${DBTables.activityStatesTable.recordedAt} = ?',
-            whereArgs: [participantStudyActivityId, recordedAt.toIso8601String()],
-            limit: 1,
-            columns: [DBTables.activityStatesTable.state])
-        .then((activityState) {
+            .query(DBTables.activityStates,
+                where:
+                    '${DBTables.activityStatesTable.participantStudyActivityId} = ? AND ${DBTables.activityStatesTable.recordedAt} = ?',
+                whereArgs: [
+                  participantStudyActivityId,
+                  recordedAt.toIso8601String()
+                ],
+                limit: 1,
+                columns: [DBTables.activityStatesTable.state])
+            .then((activityState) {
           if (activityState.length == 1) {
             return '${activityState[0]['state']}';
           }

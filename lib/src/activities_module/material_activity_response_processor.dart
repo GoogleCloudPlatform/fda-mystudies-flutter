@@ -68,7 +68,8 @@ class MaterialActivityResponseProcessor extends StatelessWidget
                 _processAndExitToActivitiesPage(context);
               }),
           TextButtonBlock(
-              title: 'Cancel', onPressed: () => activityBuilder.quickExitFlow(context))
+              title: 'Cancel',
+              onPressed: () => activityBuilder.quickExitFlow(context))
         ]));
   }
 

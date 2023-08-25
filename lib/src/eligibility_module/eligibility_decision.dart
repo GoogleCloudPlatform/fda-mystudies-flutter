@@ -44,11 +44,13 @@ class EligibilityDecision extends StatefulWidget
       if (correctAnswerMap[ans.key] == null) {
         correctAnswerMap[ans.key] = [];
       }
-      correctAnswerMap[ans.key]?.add(ans.hasBoolAnswer() ? ans.boolAnswer : ans.textChoiceAnswers);
+      correctAnswerMap[ans.key]
+          ?.add(ans.hasBoolAnswer() ? ans.boolAnswer : ans.textChoiceAnswers);
     }
     for (var response in userResponses) {
       if (response.hasBoolValue()) {
-        if (correctAnswerMap[response.key]?.contains(response.boolValue) != true) {
+        if (correctAnswerMap[response.key]?.contains(response.boolValue) !=
+            true) {
           return false;
         }
       } else {
