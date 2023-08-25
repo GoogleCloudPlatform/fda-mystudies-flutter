@@ -29,9 +29,6 @@ dev_dependencies:
   injectable_generator: ^2.1.4
   build_runner: ^2.1.2
 
-dependency_overrides:
-  dart_style: any
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
