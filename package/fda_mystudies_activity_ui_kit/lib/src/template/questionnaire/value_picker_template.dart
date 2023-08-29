@@ -50,6 +50,7 @@ class _ValuePickerTemplateState extends State<ValuePickerTemplate> {
       Padding(
           padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
           child: DropdownButton(
+            key: const Key('valuePickerDropDownButton'),
             isExpanded: true,
             value: _selectedValue,
             items: textChoiceList

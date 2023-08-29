@@ -541,7 +541,7 @@ void main() {
       expect(find.widgetWithText(ElevatedButton, 'Next'), findsOneWidget);
       expect(find.widgetWithText(TextButton, 'Skip'), findsOneWidget);
 
-      await tester.tap(find.text(''));
+      await tester.tap(find.byKey(Key('valuePickerDropDownButton')));
       await tester.pumpAndSettle();
 
       expect(find.text('Ice cream'), findsOneWidget);
