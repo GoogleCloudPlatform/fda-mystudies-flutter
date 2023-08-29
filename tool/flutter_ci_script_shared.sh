@@ -19,7 +19,7 @@ function ci_projects () {
             dart analyze
 
             # Run the formatter on all the dart files to make sure everything's linted.
-            find . -name "*.dart" ! -path './package/fda_mystudies_spec/*' | xargs flutter format --set-exit-if-changed
+            find . -name "*.dart" ! -path './package/fda_mystudies_spec/*' | xargs dart format --set-exit-if-changed
         fi
 
         if [ "${PROJECT_NAME}" == "package/fda_mystudies_design_system" ]
@@ -38,7 +38,7 @@ function ci_projects () {
             dart analyze
 
             # Run the formatter on all the dart files to make sure everything's linted.
-            find . -name "*.dart" ! -path './package/fda_mystudies_spec/*' | xargs flutter format --set-exit-if-changed
+            find . -name "*.dart" ! -path './package/fda_mystudies_spec/*' | xargs dart format --set-exit-if-changed
         fi
 
         if [ "${PROJECT_NAME}" == "package/fda_mystudies_spec" ]
