@@ -46,7 +46,7 @@ class _StudyStateCheckScreenControllerState
   }
 
   void _fetchStudyState() {
-    final l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     if (!Provider.of<ConnectivityProvider>(context, listen: false)
             .isConnected ||
         !_studyStateCheckInProgress) {

@@ -1,7 +1,8 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
+import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class NumericalTextTemplate extends StatefulWidget {
@@ -16,21 +17,22 @@ class NumericalTextTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  _NumericalTextTemplateState createState() => _NumericalTextTemplateState();
+  State<NumericalTextTemplate> createState() => _NumericalTextTemplateState();
 }
 
 class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
   dynamic _selectedValue;
   String? _startTime;
+  String? _helperText;
   final _textEditController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      _startTime = QuestionnaireTemplate.currentTimeToString();
+      _startTime = LocalStorageUtil.currentTimeToString();
     });
-    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+    LocalStorageUtil.readSavedResult(widget.step.key).then((value) {
       if (value != null) {
         setState(() {
           _selectedValue = value;
@@ -53,12 +55,14 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
                       setState(() {
                         _selectedValue =
                             _stringToSelectedValue(widget.step, value);
+                        _setHelperText();
                       });
                     },
                     decoration: InputDecoration(
+                        errorText: _helperText,
+                        errorMaxLines: 10,
                         hintText: widget.step.numericalFormat.placeholder),
-                    keyboardType: _textInputType(widget.step),
-                    inputFormatters: _inputFormatters(widget.step))),
+                    keyboardType: _textInputType(widget.step))),
             Padding(
                 padding: const EdgeInsets.fromLTRB(12, 0, 0, 0),
                 child: Text(widget.step.numericalFormat.unit))
@@ -71,8 +75,41 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
-        selectedValue: _selectedValue);
+        _startTime ?? LocalStorageUtil.currentTimeToString(),
+        selectedValue: _numericValueError() == _NumericValueError.none
+            ? _selectedValue
+            : null);
+  }
+
+  void _setHelperText() {
+    switch (_numericValueError()) {
+      case _NumericValueError.none:
+        _helperText = null;
+        break;
+      case _NumericValueError.outOfRange:
+        final hasDecimalNumberFormat =
+            widget.step.numericalFormat.style == 'Decimal';
+        var numberFormatter = NumberFormat();
+        numberFormatter.minimumFractionDigits = 0;
+        numberFormatter.maximumFractionDigits = hasDecimalNumberFormat ? 2 : 0;
+        _helperText = 'Please enter a number between '
+            '${numberFormatter.format(widget.step.numericalFormat.minValue)} '
+            'and ${numberFormatter.format(widget.step.numericalFormat.maxValue)}.';
+        break;
+      case _NumericValueError.invalid:
+        _helperText = 'Please enter a valid number';
+        break;
+    }
+  }
+
+  _NumericValueError _numericValueError() {
+    if (_selectedValue == null) {
+      return _NumericValueError.invalid;
+    } else if (_selectedValue < widget.step.numericalFormat.minValue ||
+        _selectedValue > widget.step.numericalFormat.maxValue) {
+      return _NumericValueError.outOfRange;
+    }
+    return _NumericValueError.none;
   }
 
   dynamic _stringToSelectedValue(ActivityStep step, String value) {
@@ -81,26 +118,9 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
     }
     if (step.hasNumericalFormat()) {
       if (step.numericalFormat.style == 'Decimal') {
-        return double.parse(value);
+        return double.tryParse(value.trim());
       } else if (step.numericalFormat.style == 'Integer') {
-        return int.parse(value);
-      }
-    }
-    return null;
-  }
-
-  List<TextInputFormatter>? _inputFormatters(ActivityStep step) {
-    if (step.hasNumericalFormat()) {
-      if (step.numericalFormat.style == 'Decimal') {
-        return [
-          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,5}')),
-          _NumericalTextInputFormatter(0, step.numericalFormat.maxValue)
-        ];
-      } else if (step.numericalFormat.style == 'Integer') {
-        return [
-          FilteringTextInputFormatter.digitsOnly,
-          _NumericalTextInputFormatter(0, step.numericalFormat.maxValue)
-        ];
+        return int.tryParse(value.trim());
       }
     }
     return null;
@@ -108,31 +128,13 @@ class _NumericalTextTemplateState extends State<NumericalTextTemplate> {
 
   TextInputType? _textInputType(ActivityStep step) {
     if (step.hasNumericalFormat()) {
-      if (step.numericalFormat.style == 'Decimal') {
-        return const TextInputType.numberWithOptions(decimal: true);
-      } else if (step.numericalFormat.style == 'Integer') {
-        return const TextInputType.numberWithOptions(decimal: false);
-      }
+      final isDecimalFormat = (step.numericalFormat.style == 'Decimal');
+      final isSignedFormat = (step.numericalFormat.minValue < 0);
+      return TextInputType.numberWithOptions(
+          decimal: isDecimalFormat, signed: isSignedFormat);
     }
     return null;
   }
 }
 
-class _NumericalTextInputFormatter extends TextInputFormatter {
-  final double min;
-  final double max;
-
-  _NumericalTextInputFormatter(this.min, this.max) : super();
-
-  @override
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    if (newValue.text == '') {
-      return const TextEditingValue();
-    } else if (double.parse(newValue.text) > max ||
-        double.parse(newValue.text) < min) {
-      return oldValue;
-    }
-    return newValue;
-  }
-}
+enum _NumericValueError { none, invalid, outOfRange }

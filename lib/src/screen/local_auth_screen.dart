@@ -40,6 +40,8 @@ class _LocalAuthScreenState extends State<LocalAuthScreen> {
         return isAuthenticated;
       });
     } on PlatformException catch (e) {
+      // TODO (chintanghate): fix this!
+      // ignore: use_build_context_synchronously
       ErrorScenario.displayErrorMessageWithOKAction(context,
           e.message ?? 'Something went wrong while displaying lock screen');
       return;

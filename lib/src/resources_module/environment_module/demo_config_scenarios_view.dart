@@ -16,7 +16,7 @@ class DemoConfigScenariosView extends StatefulWidget {
       : super(key: key);
 
   @override
-  _DemoConfigScenariosViewState createState() =>
+  State<DemoConfigScenariosView> createState() =>
       _DemoConfigScenariosViewState();
 }
 

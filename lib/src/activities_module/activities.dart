@@ -22,7 +22,7 @@ class Activities extends StatefulWidget {
   const Activities({Key? key}) : super(key: key);
 
   @override
-  _ActivitiesState createState() => _ActivitiesState();
+  State<Activities> createState() => _ActivitiesState();
 }
 
 class _ActivitiesState extends State<Activities> {
@@ -93,17 +93,17 @@ class _ActivitiesState extends State<Activities> {
                       ..completed = 0
                       ..missed = 0)));
         } else {
-          return CommonErrorResponse(
-              status: 404,
-              errorDescription:
-                  'Multiple states found for activity with activityId `${activity.activityId}` in this study.');
+          return CommonErrorResponse()
+            ..status = 404
+            ..errorDescription =
+                'Multiple states found for activity with activityId `${activity.activityId}` in this study.';
         }
       }
       if (pbActivityList.isEmpty) {
-        return CommonErrorResponse(
-            status: 404,
-            errorDescription:
-                'No valid states found for activities in this study.');
+        return CommonErrorResponse()
+          ..status = 404
+          ..errorDescription =
+              'No valid states found for activities in this study.';
       }
       return pbActivityList;
     });

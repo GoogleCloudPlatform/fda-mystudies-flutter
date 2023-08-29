@@ -58,5 +58,7 @@
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
 	<string>This app uses face ID to authenticate users identity</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

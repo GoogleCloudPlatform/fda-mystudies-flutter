@@ -7,7 +7,7 @@ import 'tables/db_tables.dart';
 
 class DatabaseHelper {
   static const _dbName = 'fda_mystudies.db';
-  static const _dbVersion = 1;
+  static const _dbVersion = 2;
 
   DatabaseHelper._init();
   static final DatabaseHelper shared = DatabaseHelper._init();
@@ -26,6 +26,7 @@ class DatabaseHelper {
         p.join(dbPath, _dbName),
         version: _dbVersion,
         onCreate: _onCreate,
+        onUpgrade: _onUpgrade,
         onOpen: _onOpen));
   }
 
@@ -47,8 +48,40 @@ class DatabaseHelper {
         .onError((error, stackTrace) => developer.log(error.toString()))
         .whenComplete(() => developer
             .log('DATABASE ACTIVITY_STEP_RESPONSES CREATION COMPLETED'));
+    Future<void> createActivityStatesTable = db
+        .execute('''
+      CREATE TABLE IF NOT EXISTS ${DBTables.activityStates} (
+        ${DBTables.activityStatesTable.participantStudyActivityId} INTEGER NOT NULL,
+        ${DBTables.activityStatesTable.recordedAt} DATE NOT NULL,
+        ${DBTables.activityStatesTable.state} TEXT,
+        PRIMARY KEY (${DBTables.activityStatesTable.participantStudyActivityId}, ${DBTables.activityStatesTable.recordedAt})
+      );
+    ''')
+        .onError((error, stackTrace) => developer.log(error.toString()))
+        .whenComplete(
+            () => developer.log('DATABASE ACTIVITY_STATES CREATION COMPLETED'));
 
-    return Future.wait([createActivityStepResponsesTable])
+    return Future.wait(
+            [createActivityStepResponsesTable, createActivityStatesTable])
         .then((value) => developer.log('ALL TABLE CREATION COMPLETED'));
+  }
+
+  Future _onUpgrade(Database db, int oldVersion, int newVersion) {
+    developer.log('EXECUTE ON UPDATE');
+    Future<void> createActivityStatesTable = db
+        .execute('''
+      CREATE TABLE IF NOT EXISTS ${DBTables.activityStates} (
+        ${DBTables.activityStatesTable.participantStudyActivityId} INTEGER NOT NULL,
+        ${DBTables.activityStatesTable.recordedAt} DATE NOT NULL,
+        ${DBTables.activityStatesTable.state} TEXT,
+        PRIMARY KEY (${DBTables.activityStatesTable.participantStudyActivityId}, ${DBTables.activityStatesTable.recordedAt})
+      );
+    ''')
+        .onError((error, stackTrace) => developer.log(error.toString()))
+        .whenComplete(
+            () => developer.log('DATABASE ACTIVITY_STATES CREATION COMPLETED'));
+
+    return Future.wait([createActivityStatesTable])
+        .then((value) => developer.log('ALL TABLE UPDATES COMPLETED'));
   }
 }

@@ -17,7 +17,7 @@ class _OnboardingScreenControllerState
     extends State<OnboardingScreenController> {
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final List<String> onboardingSteps = [
       l10n.onboardingScreenCreateAccountStepText,
       l10n.onboardingScreenEligibilityStepText,

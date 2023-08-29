@@ -2,6 +2,7 @@ import 'package:fda_mystudies_design_system/block/page_html_text_block.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 
+import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class InstructionTemplate extends StatefulWidget {
@@ -16,7 +17,7 @@ class InstructionTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  _InstructionTemplateState createState() => _InstructionTemplateState();
+  State<InstructionTemplate> createState() => _InstructionTemplateState();
 }
 
 class _InstructionTemplateState extends State<InstructionTemplate> {
@@ -27,7 +28,7 @@ class _InstructionTemplateState extends State<InstructionTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = QuestionnaireTemplate.currentTimeToString();
+      _startTime = LocalStorageUtil.currentTimeToString();
     });
   }
 
@@ -45,6 +46,6 @@ class _InstructionTemplateState extends State<InstructionTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? QuestionnaireTemplate.currentTimeToString());
+        _startTime ?? LocalStorageUtil.currentTimeToString());
   }
 }

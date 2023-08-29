@@ -93,7 +93,7 @@ class _ConsentAgreementScreenControllerState
   }
 
   String? _errorMessage() {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     if (_firstNameFieldController.text.isEmpty) {
       return l10n.consentAgreementScreenMissingFirstNameErrorMessage;
     } else if (_lastNameFieldController.text.isEmpty) {

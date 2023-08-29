@@ -11,6 +11,7 @@ import '../common/widget_util.dart';
 import '../provider/my_account_provider.dart';
 import '../route/route_name.dart';
 import '../screen/verification_step_screen.dart';
+import '../user/user_data.dart';
 
 class VerificationStepScreenController extends StatefulWidget {
   const VerificationStepScreenController({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _VerificationStepScreenControllerState
 
   void _verifyCode() {
     final error = _errorMessage();
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     if (error != null) {
       ErrorScenario.displayErrorMessageWithOKAction(context, error);
       return;
@@ -60,6 +61,7 @@ class _VerificationStepScreenControllerState
       if (response == successfulResponse) {
         Provider.of<MyAccountProvider>(context, listen: false)
             .updateContent(tempRegId: (value as VerifyEmailResponse).tempRegId);
+        UserData.shared.tempRegId = value.tempRegId;
         context.goNamed(RouteName.accountActivated);
         return;
       }
@@ -75,7 +77,7 @@ class _VerificationStepScreenControllerState
     final email = Provider.of<MyAccountProvider>(context, listen: false).email;
     final userId =
         Provider.of<MyAccountProvider>(context, listen: false).userId;
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     participantUserDatastore.resendConfirmation(userId, email).then((value) {
       var successfulResponse =
           l10n.verificationStepVerificationCodeResentDialogText;
@@ -111,7 +113,7 @@ class _VerificationStepScreenControllerState
   }
 
   String? _errorMessage() {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     if (_verificationCodeFieldController.text.isEmpty) {
       return l10n.verificationStepVerificationCodeFieldEmpty;
     }

@@ -1,9 +1,11 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
+import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_consent.pb.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import '../activity_builder.dart';
 import '../activity_response_processor.dart';
+import 'storage/local_storage_util.dart';
 import 'template/questionnaire_template.dart';
 import 'template/questionnaire/boolean_template.dart';
 import 'template/questionnaire/date_template.dart';
@@ -45,10 +47,10 @@ class ActivityBuilderImpl implements ActivityBuilder {
     Map<String, Widget> widgetMap = {'': activityResponseProcessor};
     for (int i = 0; i < steps.length; ++i) {
       if (steps[i].destinations.isEmpty) {
-        steps[i].destinations.add(ActivityStep_StepDestination(
-            condition: '',
-            destination: (i == steps.length - 1) ? '' : steps[i + 1].key,
-            operator: ''));
+        steps[i].destinations.add(ActivityStep_StepDestination()
+          ..condition = ''
+          ..destination = (i == steps.length - 1) ? '' : steps[i + 1].key
+          ..operator = '');
       }
       widgetMap[steps[i].key] = _generateUIForStep(
           steps[i], widgetMap, allowExit, '${i + 1} of ${steps.length}');
@@ -58,8 +60,93 @@ class ActivityBuilderImpl implements ActivityBuilder {
     return widgetMap[steps.first.key] ?? activityResponseProcessor;
   }
 
+  @override
+  Widget buildFailFastTest(
+      {required List<ActivityStep> steps,
+      required List<CorrectAnswers> answers,
+      required ActivityResponseProcessor activityResponseProcessor,
+      required String uniqueActivityId,
+      bool allowExit = false,
+      String? exitRouteName}) {
+    prefixUniqueActivityStepId = uniqueActivityId;
+    if (exitRouteName != null) {
+      exitRoute = exitRouteName;
+    }
+    if (steps.isEmpty) {
+      return activityResponseProcessor;
+    }
+    Map<String, List<String>> answerMap = {};
+    for (var answer in answers) {
+      if (answerMap[answer.key] == null) {
+        answerMap[answer.key] = [];
+      }
+      answerMap[answer.key]?.add('${answer.boolAnswer}');
+    }
+    Map<String, Widget> widgetMap = {'': activityResponseProcessor};
+    for (int i = 0; i < steps.length; ++i) {
+      if (steps[i].destinations.isEmpty) {
+        steps[i].destinations.add(ActivityStep_StepDestination()
+          ..condition = ''
+          ..destination = (i == steps.length - 1) ? '' : steps[i + 1].key
+          ..operator = '');
+        final answersFromMap = answerMap[steps[i].key] ?? [];
+        if (answersFromMap.length > 1) {
+          for (var answer in answersFromMap) {
+            steps[i].destinations.add(ActivityStep_StepDestination()
+              ..condition = answer
+              ..destination = (i == steps.length - 1) ? '' : steps[i + 1].key
+              ..operator = '');
+          }
+        } else if (answersFromMap.length == 1) {
+          steps[i].destinations.add(ActivityStep_StepDestination()
+            ..condition = answersFromMap.first
+            ..destination = ''
+            ..operator = 'ne');
+        }
+      }
+      widgetMap[steps[i].key] = _generateUIForStep(
+          steps[i], widgetMap, allowExit, '${i + 1} of ${steps.length}');
+    }
+    stepKeys.clear();
+    stepKeys.addAll(steps.map((e) => e.key).toList());
+    return widgetMap[steps.first.key] ?? activityResponseProcessor;
+  }
+
+  @override
+  Widget buildRetriableTestWithSuggtestions(
+      {required List<ActivityStep> steps,
+      required List<CorrectAnswers> answers,
+      required ActivityResponseProcessor activityResponseProcessor,
+      required String uniqueActivityId,
+      bool allowExit = false,
+      String? exitRouteName}) {
+    prefixUniqueActivityStepId = uniqueActivityId;
+    if (exitRouteName != null) {
+      exitRoute = exitRouteName;
+    }
+    if (steps.isEmpty) {
+      return activityResponseProcessor;
+    }
+    Map<String, Widget> widgetMap = {'': activityResponseProcessor};
+    for (int i = 0; i < steps.length; ++i) {
+      if (steps[i].destinations.isEmpty) {
+        steps[i].destinations.add(ActivityStep_StepDestination()
+          ..condition = ''
+          ..destination = (i == steps.length - 1) ? '' : steps[i + 1].key
+          ..operator = '');
+      }
+      widgetMap[steps[i].key] = _generateUIForStep(
+          steps[i], widgetMap, allowExit, '${i + 1} of ${steps.length}',
+          answers: answers);
+    }
+    stepKeys.clear();
+    stepKeys.addAll(steps.map((e) => e.key).toList());
+    return widgetMap[steps.first.key] ?? activityResponseProcessor;
+  }
+
   Widget _generateUIForStep(ActivityStep step, Map<String, Widget> widgetMap,
-      bool allowExit, String title) {
+      bool allowExit, String title,
+      {List<CorrectAnswers>? answers}) {
     if (step.type == 'instruction') {
       return InstructionTemplate(step, allowExit, title, widgetMap);
     } else if (step.type.toLowerCase() == 'question') {
@@ -86,7 +173,9 @@ class ActivityBuilderImpl implements ActivityBuilder {
         if (step.textChoice.selectionStyle == 'Single') {
           return SingleTextChoiceTemplate(step, allowExit, title, widgetMap);
         } else if (step.textChoice.selectionStyle == 'Multiple') {
-          return MultipleTextChoiceTemplate(step, allowExit, title, widgetMap);
+          // Comprehension tests are exclusively comprised of MutlipleTextChoice question.
+          return MultipleTextChoiceTemplate(step, allowExit, title, widgetMap,
+              answers: answers);
         }
       } else if (step.resultType == 'boolean') {
         return BooleanTemplate(step, allowExit, title, widgetMap);
@@ -110,5 +199,47 @@ class ActivityBuilderImpl implements ActivityBuilder {
           step, allowExit, title, widgetMap, const [], '');
     }
     return UnimplementedTemplate(step.key);
+  }
+
+  @override
+  void quickExitFlow(BuildContext context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext buildContext) {
+          return AlertDialog(
+            content: const Text('Your responses are stored on the app if you '
+                '`Save for Later` (unless you sign out) so you '
+                'can resume and complete the activity before it '
+                'expires.'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    LocalStorageUtil.savePastResult();
+                    Navigator.of(context).popUntil(
+                        ModalRoute.withName(ActivityBuilderImpl.exitRoute));
+                  },
+                  child: const Text('Save for Later')),
+              TextButton(
+                  onPressed: () {
+                    LocalStorageUtil.discardAllTemporaryResults();
+                    Navigator.of(context).popUntil(
+                        ModalRoute.withName(ActivityBuilderImpl.exitRoute));
+                  },
+                  child: const Text('Discard Results',
+                      style: TextStyle(color: Colors.red))),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Cancel'))
+            ],
+          );
+        });
+  }
+
+  @override
+  void makeCurrentResponsesDefaultValues() {
+    LocalStorageUtil.savePastResult();
   }
 }

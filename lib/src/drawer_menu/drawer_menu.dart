@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+import '../../main.dart';
 import '../common/widget_util.dart';
+import '../provider/local_auth_provider.dart';
 import '../route/route_name.dart';
 import '../user/user_data.dart';
 
@@ -24,6 +27,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return ListView(
         padding: const EdgeInsets.fromLTRB(0, 60, 0, 60),
         children: [
@@ -38,31 +42,31 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   height: 33,
                 ),
                 const SizedBox(width: 12),
-                Text(AppLocalizations.of(context).navigationBarTitle,
+                Text(curConfig.appName,
                     style: Theme.of(context).textTheme.headlineSmall)
               ])),
           const SizedBox(height: 30),
           _listTile(
               context,
               Icons.home,
-              AppLocalizations.of(context).homePage,
-              GoRouter.of(context)
-                  .location
+              l10n.homePage,
+              GoRouterState.of(context)
+                  .path!
                   .startsWith('/${RouteName.studyHome}'),
               () => context.goNamed(RouteName.studyHome)),
           const SizedBox(height: 8),
           _listTile(
               context,
               Icons.account_circle,
-              AppLocalizations.of(context).myAccountPage,
-              GoRouter.of(context).location == '/${RouteName.myAccount}',
+              l10n.myAccountPage,
+              GoRouterState.of(context).path == '/${RouteName.myAccount}',
               () => context.goNamed(RouteName.myAccount)),
           const SizedBox(height: 8),
           _listTile(
               context,
               Icons.mail,
-              AppLocalizations.of(context).reachOutPage,
-              GoRouter.of(context).location == '/${RouteName.reachOut}',
+              l10n.reachOutPage,
+              GoRouterState.of(context).path == '/${RouteName.reachOut}',
               () => context.goNamed(RouteName.reachOut)),
           const SizedBox(height: 50),
           Divider(
@@ -74,7 +78,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
           _listTile(
               context,
               Icons.exit_to_app,
-              AppLocalizations.of(context).signOut,
+              l10n.signOut,
               false,
               () => _showSignOutAlert(context)),
         ]);
@@ -108,22 +112,23 @@ class _DrawerMenuState extends State<DrawerMenu> {
   }
 
   void _showSignOutAlert(BuildContext context) {
-    var alertTitle = AppLocalizations.of(context).signOutAlertTitle;
-    var alertContent = AppLocalizations.of(context).signOutAlertSubtitle;
+    final l10n = AppLocalizations.of(context)!;
+    var alertTitle = l10n.signOutAlertTitle;
+    var alertContent = l10n.signOutAlertSubtitle;
     var alertDialog = AlertDialog(
       title: Text(alertTitle),
       content: Text(alertContent),
       actions: [
         TextButton(
-            child: Text(AppLocalizations.of(context).signOutAlertCancel),
             onPressed: _isLoading
                 ? null
                 : () {
                     Navigator.of(context).pop();
-                  }),
+                  },
+            child: Text(l10n.signOutAlertCancel)),
         TextButton(
-            child: Text(AppLocalizations.of(context).signOutAlertConfirm),
-            onPressed: _isLoading ? null : () => _signOut(context)),
+            onPressed: _isLoading ? null : () => _signOut(context),
+            child: Text(l10n.signOutAlertConfirm)),
       ],
     );
     showDialog(
@@ -145,6 +150,10 @@ class _DrawerMenuState extends State<DrawerMenu> {
         _isLoading = false;
         if (response == successfulResponse) {
           _clearStorageAndPreferences();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Provider.of<LocalAuthProvider>(context, listen: false)
+                .updateStatus(showLock: false);
+          });
         }
       });
       if (response == successfulResponse) {

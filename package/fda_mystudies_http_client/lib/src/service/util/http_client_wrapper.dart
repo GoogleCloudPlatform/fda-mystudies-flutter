@@ -18,11 +18,18 @@ class HTTPClientWrapper {
   }
 
   Future<http.Response> cachedGet(Uri url,
-      {Map<String, String>? headers}) async {
+      {Map<String, String>? headers, bool prioritizeCache = false}) async {
     const secureStorage = FlutterSecureStorage(
         iOptions: IOSOptions(),
         aOptions: AndroidOptions(encryptedSharedPreferences: true));
     final cacheKey = url.toString();
+    final isCached = await secureStorage.containsKey(key: cacheKey);
+    if (prioritizeCache && isCached) {
+      final responseBody = await secureStorage.read(key: cacheKey);
+      if (responseBody != null) {
+        return http.Response(responseBody, 200);
+      }
+    }
     try {
       final response = await client.get(url, headers: headers);
       if (response.statusCode == 200) {
@@ -30,7 +37,6 @@ class HTTPClientWrapper {
       }
       return response;
     } catch (e) {
-      final isCached = await secureStorage.containsKey(key: cacheKey);
       if (isCached) {
         final responseBody = await secureStorage.read(key: cacheKey);
         if (responseBody != null) {

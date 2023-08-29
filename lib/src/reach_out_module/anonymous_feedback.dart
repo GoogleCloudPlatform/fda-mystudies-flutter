@@ -10,7 +10,7 @@ class AnonymousFeedback extends StatefulWidget {
   const AnonymousFeedback({Key? key}) : super(key: key);
 
   @override
-  _AnonymousFeedbackState createState() => _AnonymousFeedbackState();
+  State<AnonymousFeedback> createState() => _AnonymousFeedbackState();
 }
 
 class _AnonymousFeedbackState extends State<AnonymousFeedback> {
@@ -33,6 +33,24 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
             FocusScope.of(context).unfocus();
           },
           child: HomeScaffold(
+              title: pageTitle,
+              showDrawer: false,
+              bottomNavigationBar: BottomAppBar(
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                                onPressed: _submitFeedback(),
+                                style: Theme.of(context).textButtonTheme.style,
+                                child: _isLoading
+                                    ? const SizedBox(
+                                        height: 16,
+                                        width: 16,
+                                        child: CircularProgressIndicator())
+                                    : const Text(submitButtonLabel))
+                          ]))),
               child: SafeArea(
                   child: ListView(
                       padding: const EdgeInsets.all(12),
@@ -73,25 +91,7 @@ class _AnonymousFeedbackState extends State<AnonymousFeedback> {
                                         border: OutlineInputBorder(),
                                         labelText: feedbackPlaceholder,
                                         hintText: feedbackHintText)))
-                          ])),
-              title: pageTitle,
-              showDrawer: false,
-              bottomNavigationBar: BottomAppBar(
-                  child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ElevatedButton(
-                                onPressed: _submitFeedback(),
-                                child: _isLoading
-                                    ? const SizedBox(
-                                        height: 16,
-                                        width: 16,
-                                        child: CircularProgressIndicator())
-                                    : const Text(submitButtonLabel),
-                                style: Theme.of(context).textButtonTheme.style)
-                          ])))))
+                          ]))))
     ]);
   }
 

@@ -24,7 +24,7 @@ class SharingOptionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
         appBar: AppBar(),
         body: ListView(

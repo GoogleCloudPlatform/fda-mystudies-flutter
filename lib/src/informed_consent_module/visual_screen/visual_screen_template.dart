@@ -68,10 +68,10 @@ class VisualScreenTemplate extends StatelessWidget {
                           Theme.of(context).colorScheme.background
                         ],
                       )),
+                      height: max(150, 90 * scaleFactor),
                       child: Column(children: <Widget>[
                         PrimaryButtonBlock(title: 'Next', onPressed: nextStep),
-                      ]),
-                      height: max(150, 90 * scaleFactor))))
+                      ]))))
         ]));
   }
 }

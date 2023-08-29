@@ -23,7 +23,7 @@ class UpdatePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: WillPopScope(

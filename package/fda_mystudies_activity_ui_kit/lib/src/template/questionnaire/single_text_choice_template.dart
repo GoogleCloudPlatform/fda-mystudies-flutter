@@ -1,6 +1,7 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 
+import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class SingleTextChoiceTemplate extends StatefulWidget {
@@ -15,7 +16,7 @@ class SingleTextChoiceTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SingleTextChoiceTemplateState createState() =>
+  State<SingleTextChoiceTemplate> createState() =>
       _SingleTextChoiceTemplateState();
 }
 
@@ -30,9 +31,9 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = QuestionnaireTemplate.currentTimeToString();
+      _startTime = LocalStorageUtil.currentTimeToString();
     });
-    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+    LocalStorageUtil.readSavedResult(widget.step.key).then((value) {
       if (value != null) {
         setState(() {
           _selectedValue = value;
@@ -79,7 +80,7 @@ class _SingleTextChoiceTemplateState extends State<SingleTextChoiceTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
+        _startTime ?? LocalStorageUtil.currentTimeToString(),
         selectedValue: _selectedValue);
   }
 }

@@ -76,7 +76,7 @@ class AppRouter {
           secureStorage.write(key: SecureKey.userId, value: 'userId');
           UserData.shared.userId = 'userId';
         }
-        if (state.location == '/') {
+        if (state.fullPath == '/') {
           final userIsVisitingFirstTime =
               await secureStorage.read(key: SecureKey.isVisitingFirstTime);
           if (userIsVisitingFirstTime == null ||
@@ -96,6 +96,8 @@ class AppRouter {
               refreshToken != null &&
               refreshToken.isNotEmpty) {
             UserData.shared.userId = userId;
+            // TODO (chintanghate): Don't use BuildContent asynchronously.
+            // ignore: use_build_context_synchronously
             Provider.of<MyAccountProvider>(context, listen: false)
                 .updateContent(userId: userId);
             var authenticationService = getIt<AuthenticationService>();
@@ -116,7 +118,7 @@ class AppRouter {
               return '/';
             });
           }
-        } else if (state.location == '/${RouteName.studyHome}') {
+        } else if (state.fullPath == '/${RouteName.studyHome}') {
           return '/${RouteName.studyHome}/${RouteName.activities}';
         }
         return null;
@@ -238,11 +240,14 @@ class AppRouter {
                   ] +
                   eligibility.tests;
               var activityBuilder = ui_kit.getIt<ActivityBuilder>();
-              return activityBuilder.buildActivity(
-                  steps,
-                  EligibilityDecision(eligibility.correctAnswers,
-                      eligibility.type.eligibilityStepType, consent),
-                  uniqueId);
+              return activityBuilder.buildFailFastTest(
+                  steps: steps,
+                  answers: eligibility.correctAnswers,
+                  activityResponseProcessor: EligibilityDecision(
+                      eligibility.correctAnswers,
+                      eligibility.type.eligibilityStepType,
+                      consent),
+                  uniqueActivityId: uniqueId);
             }),
         GoRoute(
             name: RouteName.eligibilityDecision,

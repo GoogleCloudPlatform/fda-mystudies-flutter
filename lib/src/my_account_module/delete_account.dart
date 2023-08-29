@@ -8,6 +8,8 @@ class DeleteAccount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HomeScaffold(
+        title: 'Delete Account',
+        showDrawer: false,
         child: SafeArea(
             child:
                 ListView(padding: const EdgeInsets.all(12), children: <Widget>[
@@ -17,18 +19,16 @@ class DeleteAccount extends StatelessWidget {
           const SizedBox(height: 32),
           ElevatedButton(
               onPressed: () {},
-              child: const Text('I agree, proceed to deleting my account',
-                  textAlign: TextAlign.center),
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.error)),
+                  backgroundColor: Theme.of(context).colorScheme.error),
+              child: const Text('I agree, proceed to deleting my account',
+                  textAlign: TextAlign.center)),
           const SizedBox(height: 8),
           ElevatedButton(
               onPressed: () => Navigator.of(context).pop(),
               child: const Text('I do not wish to delete my account',
                   textAlign: TextAlign.center))
-        ])),
-        title: 'Delete Account',
-        showDrawer: false);
+        ])));
   }
 
   TextStyle? _bodyStyle(BuildContext context) {

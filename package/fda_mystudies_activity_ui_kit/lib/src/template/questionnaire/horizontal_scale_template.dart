@@ -1,6 +1,7 @@
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:flutter/material.dart';
 
+import '../../storage/local_storage_util.dart';
 import '../questionnaire_template.dart';
 
 class HorizontalScaleTemplate extends StatefulWidget {
@@ -15,7 +16,7 @@ class HorizontalScaleTemplate extends StatefulWidget {
       : super(key: key);
 
   @override
-  _HorizontalScaleTemplateState createState() =>
+  State<HorizontalScaleTemplate> createState() =>
       _HorizontalScaleTemplateState();
 }
 
@@ -27,9 +28,9 @@ class _HorizontalScaleTemplateState extends State<HorizontalScaleTemplate> {
   void initState() {
     super.initState();
     setState(() {
-      _startTime = QuestionnaireTemplate.currentTimeToString();
+      _startTime = LocalStorageUtil.currentTimeToString();
     });
-    QuestionnaireTemplate.readSavedResult(widget.step.key).then((value) {
+    LocalStorageUtil.readSavedResult(widget.step.key).then((value) {
       if (value != null) {
         setState(() {
           if (value is int) {
@@ -101,7 +102,7 @@ class _HorizontalScaleTemplateState extends State<HorizontalScaleTemplate> {
         widget.title,
         widget.widgetMap,
         widgetList,
-        _startTime ?? QuestionnaireTemplate.currentTimeToString(),
+        _startTime ?? LocalStorageUtil.currentTimeToString(),
         selectedValue: widget.step.hasScaleFormat()
             ? _selectedValue?.toInt()
             : _selectedValue?.toDouble());

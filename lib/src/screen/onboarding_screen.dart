@@ -16,7 +16,7 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     List<Widget> onboardingStepsUI = [];
     for (int i = 0; i < onboardingSteps.length; ++i) {

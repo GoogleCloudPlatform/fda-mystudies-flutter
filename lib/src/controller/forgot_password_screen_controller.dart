@@ -43,7 +43,7 @@ class _ForgotPasswordScreenControllerState
     authenticationService
         .resetPassword(_emailFieldController.text)
         .then((value) {
-      var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
       var successfulResponse =
           l10n.forgotPasswordScreenTemporaryPasswordSentMessage;
       var response = processResponse(value, successfulResponse);
@@ -59,7 +59,7 @@ class _ForgotPasswordScreenControllerState
   }
 
   Future<void> _showPostForgotPasswordProcessDialog() {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return showDialog(
         context: context,
         builder: (context) {
@@ -85,7 +85,7 @@ class _ForgotPasswordScreenControllerState
   }
 
   String? _errorMessage() {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     if (_emailFieldController.text.isEmpty) {
       return l10n.forgotPasswordScreenMissingRequiredFieldsErrorMessage;
     } else if (!_emailFieldController.text.isValidEmail()) {

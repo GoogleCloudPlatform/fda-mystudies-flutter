@@ -1,0 +1,8 @@
+syntax = "proto3";
+package fda_mystudies_spec.database.model;
+
+message ActivityState {
+  int32 participant_study_activity_id = 1;
+  string recorded_at = 2;
+  string state = 3;
+}

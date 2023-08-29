@@ -8,14 +8,12 @@ import 'package:fda_mystudies_spec/common_specs/common_response.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/activity_step.pb.dart';
 import 'package:fda_mystudies_spec/study_datastore_service/fetch_activity_steps.pb.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../mixin/connectivity_actions.dart';
 import '../provider/activities_provider.dart';
 import '../provider/activity_step_provider.dart';
 import '../provider/connectivity_provider.dart';
-import '../route/route_name.dart';
 import '../screen/activity_loader_screen.dart';
 import '../user/user_data.dart';
 
@@ -53,13 +51,12 @@ class _ActivityLoaderScreenControllerState
         !_activityLoadingInProgress) {
       return;
     }
-    Future.wait([_fetchActivitySteps(), _updateActivityState()]).then((value) {
-      if (value[0] != null && value[1] != null) {
+    _fetchActivitySteps().then((value) {
+      if (value != null) {
         setState(() {
           _activityLoadingInProgress = false;
         });
-        context.pop();
-        context.pushNamed(RouteName.activitySteps);
+        _updateActivityState();
       }
     });
   }

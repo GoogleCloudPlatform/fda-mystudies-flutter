@@ -34,17 +34,19 @@ class Resources extends StatelessWidget {
             subtitle: leaveStudySubtitle,
             onTap: () => _showAlert(context)),
         const SizedBox(height: 32),
-        Divider(
-          thickness: 1,
-          indent: 24,
-          endIndent: 24,
-          color:
-              Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
-        ),
-        const SizedBox(height: 32),
-        ResourceTileBlock(
-            title: environmentTitle,
-            onTap: () => context.pushNamed(RouteName.configureEnvironment)),
+        /*
+          Divider(
+            thickness: 1,
+            indent: 24,
+            endIndent: 24,
+            color:
+                Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+          ),
+          const SizedBox(height: 32),
+          ResourceTileBlock(
+              title: environmentTitle,
+              onTap: () => context.pushNamed(RouteName.configureEnvironment)),
+        */
       ],
     );
   }

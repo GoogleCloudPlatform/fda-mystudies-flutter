@@ -5,14 +5,14 @@ homepage:
 publish_to: none
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: ">=2.17.0"
   flutter: ">=2.10.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  protobuf: ^2.0.0
-  protoc_plugin: ^20.0.0
+  protobuf: ^3.0.0
+  protoc_plugin: ^21.0.2
 
 dev_dependencies:
   flutter_test:
