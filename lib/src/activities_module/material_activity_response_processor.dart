@@ -18,7 +18,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
+import '../../config/app_config.dart';
 import '../provider/activities_provider.dart';
 import '../route/route_name.dart';
 import '../user/user_data.dart';
@@ -98,7 +98,7 @@ class MaterialActivityResponseProcessor extends StatelessWidget
         ..version = UserData.shared.activityVersion
         ..activityId = UserData.shared.activityId
         ..studyVersion = UserData.shared.curStudyVersion)
-      ..applicationId = curConfig.appId
+      ..applicationId = AppConfig.shared.currentConfig.appId
       ..data = (ActivityResponse_Data()
         ..resultType = curActivity.type
         ..startTime = userResponse.value.first.startTime

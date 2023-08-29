@@ -7,7 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
+import '../../config/app_config.dart';
 import '../common/widget_util.dart';
 import '../provider/local_auth_provider.dart';
 import '../route/route_name.dart';
@@ -42,7 +42,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   height: 33,
                 ),
                 const SizedBox(width: 12),
-                Text(curConfig.appName,
+                Text(AppConfig.shared.currentConfig.appName,
                     style: Theme.of(context).textTheme.headlineSmall)
               ])),
           const SizedBox(height: 30),

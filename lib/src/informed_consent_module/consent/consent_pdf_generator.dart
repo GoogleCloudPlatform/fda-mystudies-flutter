@@ -8,7 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
-import '../../../main.dart';
+import '../../../config/app_config.dart';
+
 
 class ConsentPdfGenerator {
   static Future<String> generateBase64EncodingPdfString(
@@ -30,7 +31,7 @@ class ConsentPdfGenerator {
             pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.stretch,
                 children: [
-                  pw.Text(curConfig.appName,
+                  pw.Text(AppConfig.shared.currentConfig.appName,
                       style: const pw.TextStyle(fontSize: 25)),
                   pw.SizedBox(height: 20),
                   pw.Text(

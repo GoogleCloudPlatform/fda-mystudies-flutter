@@ -4,7 +4,7 @@ import 'package:fda_mystudies_spec/authentication_service/refresh_token.pbserver
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../main.dart';
+import '../../config/app_config.dart';
 import '../route/route_name.dart';
 import '../user/user_data.dart';
 import 'auth_utils.dart';
@@ -67,8 +67,8 @@ extension AccountStatusExtension on AccountStatus {
       return value;
     }).then((value) {
       if (value is RefreshTokenResponse) {
-        if (curConfig.appType == AppType.standalone) {
-          UserData.shared.curStudyId = curConfig.studyId;
+        if (AppConfig.shared.currentConfig.appType == AppType.standalone) {
+          UserData.shared.curStudyId = AppConfig.shared.currentConfig.studyId;
         }
         context.goNamed(RouteName.studyStateCheck);
       } else {

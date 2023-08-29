@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
+import '../../config/app_config.dart';
 import '../mixin/connectivity_actions.dart';
 import '../provider/connectivity_provider.dart';
 import '../provider/user_study_state_provider.dart';
@@ -61,7 +61,7 @@ class _UserStateCheckScreenControllerState
         ErrorScenario.displayErrorMessageWithOKAction(
             context, response.errorDescription);
       } else if (response is GetStudyStateResponse) {
-        if (curConfig.appType == AppType.gateway) {
+        if (AppConfig.shared.currentConfig.appType == AppType.gateway) {
           for (var userState in response.studies) {
             Provider.of<UserStudyStateProvider>(context, listen: false)
                 .assignUserState(userState.studyId, userState);
@@ -88,7 +88,7 @@ class _UserStateCheckScreenControllerState
             } else {
               ErrorScenario.displayErrorMessageWithOKAction(
                   context,
-                  curConfig.appType == AppType.standalone
+                  AppConfig.shared.currentConfig.appType == AppType.standalone
                       ? l10n.studyStatusEnrollmentNotAllowedInStandaloneApp
                       : l10n.studyStatusEnrollmentNotAllowedInGatewayApp);
             }

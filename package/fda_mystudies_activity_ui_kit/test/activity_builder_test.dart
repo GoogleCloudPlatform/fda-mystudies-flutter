@@ -22,14 +22,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'actvity_response_processor_sample.dart';
-import 'config_object/android_config.dart';
 import 'test_utils.dart';
 
 void main() {
   ActivityBuilder? activityBuilder;
 
   setUpAll(() {
-    configureDependencies(AndroidConfig());
+    configureDependencies();
     activityBuilder = getIt<ActivityBuilder>();
   });
   group('Activity Builder Unimpleted Widget Tests', () {

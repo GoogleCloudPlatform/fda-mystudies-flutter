@@ -4,7 +4,7 @@ import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/mock_scenario_service.dart';
 import 'package:flutter/material.dart';
 
-import '../../../main.dart';
+import '../../../config/app_config.dart';
 import '../../common/future_loading_page.dart';
 
 class DemoConfigScenariosView extends StatefulWidget {
@@ -61,7 +61,7 @@ class _DemoConfigScenariosViewState extends State<DemoConfigScenariosView> {
   }
 
   void _selectScenario(String scenario) {
-    demoConfig.serviceMethodScenarioMap[
+    AppConfig.shared.demoConfig.serviceMethodScenarioMap[
         '${widget.serviceName}.${widget.methodName}'] = scenario;
     setState(() {
       selectedScenario = scenario;
