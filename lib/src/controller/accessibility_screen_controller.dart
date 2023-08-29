@@ -16,7 +16,7 @@ class _AccessibilityScreenControllerState
     extends State<AccessibilityScreenController> {
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return AccessibilityScreen(
         readingPassage: l10n.accessibilityScreenReadingPassage,
         goToAccessibilitySettings: _goToAccessibilitySettings);

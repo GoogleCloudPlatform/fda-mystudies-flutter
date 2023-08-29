@@ -21,7 +21,7 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Scaffold(
         appBar: AppBar(),

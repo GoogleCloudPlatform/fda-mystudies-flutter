@@ -43,7 +43,7 @@ class ActivitiesScreen extends StatelessWidget {
   }
 
   static Widget _activityTile(BuildContext context, ActivityBundle activity) {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     return ActivityTileBlock(
         title: activity.title,
         frequency: activity.frequency,

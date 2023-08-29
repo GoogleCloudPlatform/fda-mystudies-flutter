@@ -66,6 +66,7 @@ class _WelcomeScreenControllerState extends State<WelcomeScreenController>
   }
 
   Future<dynamic> _getStudyInfo() {
+    final l10n = AppLocalizations.of(context)!;
     StudyDatastoreService studyDatastoreService =
         getIt<StudyDatastoreService>();
     return studyDatastoreService
@@ -75,8 +76,7 @@ class _WelcomeScreenControllerState extends State<WelcomeScreenController>
         ErrorScenario.displayAppropriateErrorMessage(
             context, value.errorDescription,
             action: SnackBarAction(
-                label: AppLocalizations.of(context).retryErrorMessage,
-                onPressed: () => _fetchData()));
+                label: l10n.retryErrorMessage, onPressed: () => _fetchData()));
       } else if (value is StudyInfoResponse) {
         Provider.of<WelcomeProvider>(context, listen: false).updateContent(
             title: value.infos.first.title, info: value.infos.first.text);
@@ -89,6 +89,7 @@ class _WelcomeScreenControllerState extends State<WelcomeScreenController>
   }
 
   Future<dynamic> _getAppInfo() {
+    final l10n = AppLocalizations.of(context)!;
     ParticipantUserDatastoreService participantUserDatastoreService =
         getIt<ParticipantUserDatastoreService>();
     return participantUserDatastoreService.appInfo().then((value) {
@@ -96,8 +97,7 @@ class _WelcomeScreenControllerState extends State<WelcomeScreenController>
         ErrorScenario.displayAppropriateErrorMessage(
             context, value.errorDescription,
             action: SnackBarAction(
-                label: AppLocalizations.of(context).retryErrorMessage,
-                onPressed: () => _fetchData()));
+                label: l10n.retryErrorMessage, onPressed: () => _fetchData()));
       }
       return value;
     });

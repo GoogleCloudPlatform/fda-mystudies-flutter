@@ -142,7 +142,7 @@ class _SignInScreenControllerState extends State<SignInScreenController>
   }
 
   String? _errorMessage() {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     if (_emailFieldController.text.isEmpty ||
         _passwordFieldController.text.isEmpty) {
       return l10n.signInScreenMissingRequiredFieldsErrorMessage;

@@ -37,7 +37,7 @@ class _VerificationStepScreenControllerState
 
   void _verifyCode() {
     final error = _errorMessage();
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     if (error != null) {
       ErrorScenario.displayErrorMessageWithOKAction(context, error);
       return;
@@ -77,7 +77,7 @@ class _VerificationStepScreenControllerState
     final email = Provider.of<MyAccountProvider>(context, listen: false).email;
     final userId =
         Provider.of<MyAccountProvider>(context, listen: false).userId;
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     participantUserDatastore.resendConfirmation(userId, email).then((value) {
       var successfulResponse =
           l10n.verificationStepVerificationCodeResentDialogText;
@@ -113,7 +113,7 @@ class _VerificationStepScreenControllerState
   }
 
   String? _errorMessage() {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     if (_verificationCodeFieldController.text.isEmpty) {
       return l10n.verificationStepVerificationCodeFieldEmpty;
     }

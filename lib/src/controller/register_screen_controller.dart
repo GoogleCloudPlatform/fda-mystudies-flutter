@@ -48,6 +48,7 @@ class _RegisterScreenControllerState extends State<RegisterScreenController> {
   }
 
   void _register() {
+    final l10n = AppLocalizations.of(context)!;
     final error = _errorMessage();
     if (error != null) {
       ErrorScenario.displayErrorMessageWithOKAction(context, error);
@@ -61,8 +62,7 @@ class _RegisterScreenControllerState extends State<RegisterScreenController> {
     participantUserDatastoreService
         .register(_emailFieldController.text, _passwordFieldController.text)
         .then((value) {
-      var successfulResponse =
-          AppLocalizations.of(context).registrationSuccessfulMsg;
+      var successfulResponse = l10n.registrationSuccessfulMsg;
       var response = processResponse(value, successfulResponse);
       setState(() {
         _registrationInProgress = false;
@@ -83,7 +83,7 @@ class _RegisterScreenControllerState extends State<RegisterScreenController> {
   }
 
   String? _errorMessage() {
-    var l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     if (_emailFieldController.text.isEmpty ||
         _passwordFieldController.text.isEmpty ||
         _confirmPasswordController.text.isEmpty) {

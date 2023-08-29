@@ -44,7 +44,7 @@ class _UpdatePasswordScreenControllerState
 
   void _updatePassword() {
     final error = _errorMessage();
-    final l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     if (error != null) {
       ErrorScenario.displayErrorMessageWithOKAction(context, error);
       return;
@@ -76,17 +76,16 @@ class _UpdatePasswordScreenControllerState
   }
 
   void _showPasswordUpdatedSuccessfullyDialog() {
-    var alertTitle = AppLocalizations.of(context)
-        .passwordUpdatedScreenPasswordUpdatedSuccessfullyTitle;
-    var alertContent = AppLocalizations.of(context)
-        .passwordUpdatedScreenPasswordUpdatedSuccessfullyMessage;
+    final l10n = AppLocalizations.of(context)!;
+    var alertTitle = l10n.passwordUpdatedScreenPasswordUpdatedSuccessfullyTitle;
+    var alertContent =
+        l10n.passwordUpdatedScreenPasswordUpdatedSuccessfullyMessage;
     var alertDialog = AlertDialog(
       title: Text(alertTitle),
       content: Text(alertContent),
       actions: [
         TextButton(
-            child: Text(AppLocalizations.of(context)
-                .passwordUpdatedScreenPasswordReturnToSignIn),
+            child: Text(l10n.passwordUpdatedScreenPasswordReturnToSignIn),
             onPressed: () => context.goNamed(RouteName.signIn)),
       ],
     );
@@ -98,7 +97,7 @@ class _UpdatePasswordScreenControllerState
   }
 
   String? _errorMessage() {
-    final l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     if (_currentPasswordFieldController.text.isEmpty &&
         _newPasswordFieldController.text.isEmpty &&
         _repeatNewPasswordFieldController.text.isEmpty) {

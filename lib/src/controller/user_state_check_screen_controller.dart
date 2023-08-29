@@ -51,7 +51,7 @@ class _UserStateCheckScreenControllerState
         !_userStateCheckInProgress) {
       return;
     }
-    final l10n = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
     ParticipantEnrollDatastoreService participantEnrollDatastoreService =
         getIt<ParticipantEnrollDatastoreService>();
     participantEnrollDatastoreService
