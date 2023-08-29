@@ -4,7 +4,7 @@ version: 0.0.1
 homepage:
 
 environment:
-  sdk: '>=2.18.2 <3.0.0'
+  sdk: ">=2.17.0"
   flutter: ">=1.17.0"
 
 dependencies:
@@ -15,7 +15,7 @@ dependencies:
   google_fonts: ^4.0.3
   golden_toolkit: ^0.15.0
   shimmer: ^3.0.0
-  flutter_html: ^2.2.1
+  flutter_html: ^3.0.0-alpha.3
   html_unescape: ^2.0.0
   webview_flutter: ^2.0.4
   open_settings: ^2.0.2

@@ -24,7 +24,7 @@ class PageHtmlText extends StatelessWidget {
           lineHeight: LineHeight(lineHeight / fontSize),
           textAlign: textAlign,
           fontWeight: FontWeight.w400,
-          margin: EdgeInsets.zero,
+          margin: Margins.zero,
           letterSpacing: 0.5,
           color: Theme.of(context).colorScheme.onSurfaceVariant,
           textDecoration: TextDecoration.none,

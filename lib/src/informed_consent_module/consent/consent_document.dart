@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../common/widget_util.dart';
+import '../../common/widget_util.dart' as wu;
 import '../../provider/eligibility_consent_provider.dart';
 import '../../route/route_name.dart';
 import '../../widget/fda_dialog_action.dart';
@@ -68,7 +68,7 @@ class ConsentDocument extends StatelessWidget {
                     PrimaryButtonBlock(
                         title: 'Agree',
                         onPressed: () {
-                          showAdaptiveDialog(context,
+                          wu.showAdaptiveDialog(context,
                               title: 'Review',
                               text:
                                   'By tapping on Agree, you confirm that you have reviewed the consent document and agree to participating in the study.',
@@ -86,7 +86,7 @@ class ConsentDocument extends StatelessWidget {
                     TextButtonBlock(
                         title: 'Disagree',
                         onPressed: () {
-                          showAdaptiveDialog(context,
+                          wu.showAdaptiveDialog(context,
                               title: 'Review',
                               text:
                                   'By disagreeing to consent you\'ll not be allowed to proceed further. You\'ll quit to home page and you\'ll be allowed to re-enroll in the study.',
