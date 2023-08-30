@@ -1,4 +1,4 @@
-# FDA MyStudies Flutter App 
+# FDA MyStudies Flutter App
 
 ![Build Status](https://github.com/GoogleCloudPlatform/fda-mystudies-flutter/actions/workflows/main.yml/badge.svg?branch=main)
 
@@ -9,3 +9,8 @@ and [iOS](https://github.com/GoogleCloudPlatform/fda-mystudies/tree/master/iOS)
 apps for [FDA
 MyStudies](https://github.com/GoogleCloudPlatform/fda-mystudies).
 
+To setup the project, run:
+
+```
+sh tool/setup.sh
+```
