@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'main.dart';
+import 'config/app_config.dart';
 import 'src/provider/connectivity_provider.dart';
 import 'src/route/app_router.dart';
 
@@ -83,7 +83,7 @@ class _FDAMyStudiesAppState extends State<FDAMyStudiesApp>
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-        title: curConfig.appName,
+        title: AppConfig.shared.currentConfig.appName,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         theme: LightTheme.getThemeData(),

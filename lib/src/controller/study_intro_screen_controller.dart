@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
+import '../../config/app_config.dart';
 import '../mixin/connectivity_actions.dart';
 import '../provider/connectivity_provider.dart';
 import '../provider/welcome_provider.dart';
@@ -40,8 +40,8 @@ class _StudyIntroScreenControllerState extends State<StudyIntroScreenController>
   @override
   Widget build(BuildContext context) {
     return StudyIntroScreen(
-        appName: curConfig.appName,
-        orgName: curConfig.organization,
+        appName: AppConfig.shared.currentConfig.appName,
+        orgName: AppConfig.shared.currentConfig.organization,
         displayShimmer: displayShimmer,
         participate: _participate);
   }

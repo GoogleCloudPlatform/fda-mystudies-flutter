@@ -11,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
+import '../../config/app_config.dart';
 import '../mixin/connectivity_actions.dart';
 import '../extension/string_extension.dart';
 import '../provider/my_account_provider.dart';
@@ -131,8 +131,8 @@ class _SignInScreenControllerState extends State<SignInScreenController>
       return value;
     }).then((value) {
       if (value is RefreshTokenResponse) {
-        if (curConfig.appType == AppType.standalone) {
-          UserData.shared.curStudyId = curConfig.studyId;
+        if (AppConfig.shared.currentConfig.appType == AppType.standalone) {
+          UserData.shared.curStudyId = AppConfig.shared.currentConfig.studyId;
         }
         context.goNamed(RouteName.studyStateCheck);
       } else {

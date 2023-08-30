@@ -2,7 +2,7 @@ import 'package:fda_mystudies_http_client/fda_mystudies_http_client.dart';
 import 'package:fda_mystudies_http_client/mock_scenario_service.dart';
 import 'package:flutter/material.dart';
 
-import '../../../main.dart';
+import '../../../config/app_config.dart';
 import '../../common/future_loading_page.dart';
 import '../../common/widget_util.dart';
 import 'demo_config_scenarios_view.dart';
@@ -42,7 +42,7 @@ class _DemoConfigMethodsViewState extends State<DemoConfigMethodsView> {
     push(
         context,
         DemoConfigScenariosView(widget.serviceName, method,
-            selectedScenario: demoConfig
+            selectedScenario: AppConfig.shared.demoConfig
                 .serviceMethodScenarioMap['${widget.serviceName}.$method']));
   }
 }

@@ -3,7 +3,7 @@ import 'package:fda_mystudies_spec/participant_enroll_datastore_service/get_stud
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
+import '../../config/app_config.dart';
 import '../common/future_loading_page.dart';
 import '../provider/user_study_state_provider.dart';
 import '../study_module/study_tile/study_tile.dart';
@@ -15,7 +15,7 @@ class GatewayHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureLoadingPage.build(context,
-        scaffoldTitle: curConfig.appName,
+        scaffoldTitle: AppConfig.shared.currentConfig.appName,
         future: _fetchStudyListAndUserStatus(context),
         builder: (context, snapshot) {
       var userStudyStatusList = snapshot.data as List<PbUserStudyData>;

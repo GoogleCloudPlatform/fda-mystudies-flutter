@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../main.dart';
+import '../../config/app_config.dart';
 import '../route/route_name.dart';
 import '../study_module/study_tile/pb_user_study_status.dart';
 import '../user/user_data.dart';
@@ -131,7 +131,7 @@ class _EligibilityDecisionState extends State<EligibilityDecision> {
               if (isUserEligible) {
                 context.pushNamed(RouteName.visualScreen);
               } else {
-                if (curConfig.appType == AppType.standalone) {
+                if (AppConfig.shared.currentConfig.appType == AppType.standalone) {
                   context.goNamed(RouteName.studyIntro);
                 } else {
                   context.goNamed(RouteName.gatewayHome);

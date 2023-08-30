@@ -13,13 +13,13 @@ class ReachOut extends StatelessWidget {
     const reachOutTitle = 'Reach Out';
     const leaveFeedbackTitle = 'Leave feedback anonymously';
     const needHelpTitle = 'Need help? Contact us.';
-    var isIOS = isPlatformIos(context);
+
     return HomeScaffold(
         title: reachOutTitle,
         child: SafeArea(
             bottom: false,
             child: ListView(
-                padding: EdgeInsets.fromLTRB(0, isIOS ? 0 : 10, 0, 0),
+                padding: EdgeInsets.zero,
                 children: [
                   ListTile(
                       title: Text(leaveFeedbackTitle,

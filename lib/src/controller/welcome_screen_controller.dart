@@ -11,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
+import '../../config/app_config.dart';
 import '../mixin/connectivity_actions.dart';
 import '../provider/welcome_provider.dart';
 import '../route/route_name.dart';
@@ -70,7 +70,7 @@ class _WelcomeScreenControllerState extends State<WelcomeScreenController>
     StudyDatastoreService studyDatastoreService =
         getIt<StudyDatastoreService>();
     return studyDatastoreService
-        .getStudyInfo(curConfig.studyId, '')
+        .getStudyInfo(AppConfig.shared.currentConfig.studyId, '')
         .then((value) {
       if (value is CommonErrorResponse) {
         ErrorScenario.displayAppropriateErrorMessage(

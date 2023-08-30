@@ -14,7 +14,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
+import '../../config/app_config.dart';
 import '../activities_module/material_activity_response_processor.dart';
 import '../controller/accessibility_screen_controller.dart';
 import '../controller/account_activated_screen_controller.dart';
@@ -72,7 +72,7 @@ class AppRouter {
             iOptions: IOSOptions(),
             aOptions: AndroidOptions(encryptedSharedPreferences: true));
         // Setup demo environment.
-        if (curConfig.environment == demo) {
+        if (AppConfig.shared.currentConfig.environment == demo) {
           secureStorage.write(key: SecureKey.userId, value: 'userId');
           UserData.shared.userId = 'userId';
         }
@@ -110,8 +110,8 @@ class AppRouter {
               return value;
             }).then((response) {
               if (response is RefreshTokenResponse) {
-                if (curConfig.appType == AppType.standalone) {
-                  UserData.shared.curStudyId = curConfig.studyId;
+                if (AppConfig.shared.currentConfig.appType == AppType.standalone) {
+                  UserData.shared.curStudyId = AppConfig.shared.currentConfig.studyId;
                 }
                 return '/${RouteName.studyStateCheck}';
               }
@@ -149,7 +149,7 @@ class AppRouter {
                   name: RouteName.signIn,
                   path: RouteName.signIn,
                   builder: (context, state) {
-                    if (curConfig.environment == demo) {
+                    if (AppConfig.shared.currentConfig.environment == demo) {
                       return const SignInScreenController();
                     }
                     return const SignInWebScreenController();
@@ -369,7 +369,7 @@ class AppRouter {
             name: RouteName.resourceSoftwareLicenses,
             path: '/${RouteName.resourceSoftwareLicenses}',
             builder: (context, state) =>
-                LicensePage(applicationName: curConfig.appName)),
+                LicensePage(applicationName: AppConfig.shared.currentConfig.appName)),
         GoRoute(
             parentNavigatorKey: _rootKey,
             name: RouteName.resourceConsentPdf,

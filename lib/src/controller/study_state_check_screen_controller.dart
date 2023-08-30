@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../main.dart';
+import '../../config/app_config.dart';
 import '../mixin/connectivity_actions.dart';
 import '../provider/connectivity_provider.dart';
 import '../provider/user_study_state_provider.dart';
@@ -62,7 +62,7 @@ class _StudyStateCheckScreenControllerState
           _studyStateCheckInProgress = false;
         });
       } else if (response is GetStudyListResponse) {
-        if (curConfig.appType == AppType.gateway) {
+        if (AppConfig.shared.currentConfig.appType == AppType.gateway) {
           for (var studyState in response.studies) {
             Provider.of<UserStudyStateProvider>(context, listen: false)
                 .assignStudyState(studyState.studyId, studyState);

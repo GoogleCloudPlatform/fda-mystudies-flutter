@@ -5,7 +5,6 @@ import 'package:fda_mystudies_spec/study_datastore_service/get_study_dashboard.p
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../common/widget_util.dart';
 import 'statistics_tile_view.dart';
 import 'time_mode_button.dart';
 
@@ -121,7 +120,9 @@ class _StatisticsViewState extends State<StatisticsView> {
 
   Divider _divider(BuildContext context) {
     return Divider(
-        height: 1, thickness: 1, color: contrastingDividerColor(context));
+        height: 1,
+        thickness: 1,
+        color: Theme.of(context).scaffoldBackgroundColor);
   }
 
   String _timeFormat() {
