@@ -22,3 +22,8 @@ run:
 ```
 sh tool/setup.sh
 ```
+
+### Tooling setup
+
+- [Install pre-commit](https://pre-commit.com/) to perform precommit checks.
+Configs present at `.pre-commit-config.yaml`.
