@@ -9,7 +9,15 @@ and [iOS](https://github.com/GoogleCloudPlatform/fda-mystudies/tree/master/iOS)
 apps for [FDA
 MyStudies](https://github.com/GoogleCloudPlatform/fda-mystudies).
 
-To setup the project, run:
+## To setup the project
+
+### Prerequisite
+
+- [Setup Flutter](https://docs.flutter.dev/get-started/install)
+- [Install protoc](https://pub.dev/packages/protoc_plugin#hacking)
+
+### Project setup
+run:
 
 ```
 sh tool/setup.sh
