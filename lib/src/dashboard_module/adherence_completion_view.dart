@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../common/widget_util.dart';
 import 'donut_chart.dart';
 
 class AdherenceCompletionView extends StatelessWidget {
@@ -35,7 +34,7 @@ class AdherenceCompletionView extends StatelessWidget {
             VerticalDivider(
                 width: 1,
                 thickness: 1,
-                color: contrastingDividerColor(context)),
+                color: Theme.of(context).scaffoldBackgroundColor),
             Expanded(
                 child: Column(children: [
               DonutChart(activitiesCompletionPercent.toDouble()),

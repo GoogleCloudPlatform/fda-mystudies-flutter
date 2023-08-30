@@ -8,8 +8,6 @@ import 'package:fda_mystudies_spec/study_datastore_service/get_eligibility_and_c
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../widget/fda_ink_well.dart';
-
 class VisualScreenTemplate extends StatelessWidget {
   final GetEligibilityAndConsentResponse_Consent_VisualScreen visualScreen;
   final void Function() nextStep;
@@ -35,7 +33,8 @@ class VisualScreenTemplate extends StatelessWidget {
           onTap: () => bs.BottomSheet.showWebview(context,
               htmlText: visualScreen.html)));
     } else if (visualScreen.url.isNotEmpty) {
-      content.add(FDAInkWell(visualScreen.url,
+      content.add(InkWellBlock(
+          title: visualScreen.url,
           onTap: () =>
               bs.BottomSheet.showWebview(context, url: visualScreen.url)));
     }

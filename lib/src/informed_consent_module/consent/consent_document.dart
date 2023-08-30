@@ -7,10 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import '../../common/widget_util.dart' as wu;
 import '../../provider/eligibility_consent_provider.dart';
 import '../../route/route_name.dart';
-import '../../widget/fda_dialog_action.dart';
 
 class ConsentDocument extends StatelessWidget {
   const ConsentDocument({Key? key}) : super(key: key);
@@ -68,38 +66,75 @@ class ConsentDocument extends StatelessWidget {
                     PrimaryButtonBlock(
                         title: 'Agree',
                         onPressed: () {
-                          wu.showAdaptiveDialog(context,
-                              title: 'Review',
-                              text:
-                                  'By tapping on Agree, you confirm that you have reviewed the consent document and agree to participating in the study.',
-                              actions: [
-                                FDADialogAction('CANCEL', onPressed: () {
-                                  Navigator.of(context).pop();
-                                }),
-                                FDADialogAction('AGREE', isPrimary: true,
-                                    onPressed: () {
-                                  Navigator.of(context).pop();
-                                  context.pushNamed(RouteName.consentAgreement);
-                                })
-                              ]);
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Review'),
+                                  content: const Text(
+                                      'By tapping on Agree, you confirm that you have reviewed the consent document and agree to participating in the study.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                        style: TextButton.styleFrom(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge,
+                                        ),
+                                        child: const Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        }),
+                                    TextButton(
+                                        style: TextButton.styleFrom(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge,
+                                        ),
+                                        child: const Text('Agree'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          context.pushNamed(
+                                              RouteName.consentAgreement);
+                                        }),
+                                  ],
+                                );
+                              });
                         }),
                     TextButtonBlock(
                         title: 'Disagree',
                         onPressed: () {
-                          wu.showAdaptiveDialog(context,
-                              title: 'Review',
-                              text:
-                                  'By disagreeing to consent you\'ll not be allowed to proceed further. You\'ll quit to home page and you\'ll be allowed to re-enroll in the study.',
-                              actions: [
-                                FDADialogAction('CANCEL', onPressed: () {
-                                  Navigator.of(context).pop();
-                                }),
-                                FDADialogAction('CONTINUE', isPrimary: true,
-                                    onPressed: () {
-                                  Navigator.of(context).pop();
-                                  context.goNamed(RouteName.root);
-                                })
-                              ]);
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text('Review'),
+                                  content: const Text(
+                                      'By disagreeing to consent you\'ll not be allowed to proceed further. You\'ll quit to home page and you\'ll be allowed to re-enroll in the study.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                        style: TextButton.styleFrom(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge,
+                                        ),
+                                        child: const Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        }),
+                                    TextButton(
+                                        style: TextButton.styleFrom(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge,
+                                        ),
+                                        child: const Text('Continue'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          context.goNamed(RouteName.root);
+                                        }),
+                                  ],
+                                );
+                              });
                         })
                   ]))))
     ]));

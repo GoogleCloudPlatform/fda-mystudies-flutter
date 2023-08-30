@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../common/widget_util.dart';
-
 class StudyParticipationStatusView extends StatelessWidget {
   final String studyStatus;
   final String participationStatus;
@@ -34,7 +32,7 @@ class StudyParticipationStatusView extends StatelessWidget {
             VerticalDivider(
                 width: 1,
                 thickness: 1,
-                color: contrastingDividerColor(context)),
+                color: Theme.of(context).scaffoldBackgroundColor),
             Expanded(
                 child: Padding(
                     padding: const EdgeInsets.all(10),
