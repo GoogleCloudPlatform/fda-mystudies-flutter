@@ -9,8 +9,21 @@ and [iOS](https://github.com/GoogleCloudPlatform/fda-mystudies/tree/master/iOS)
 apps for [FDA
 MyStudies](https://github.com/GoogleCloudPlatform/fda-mystudies).
 
-To setup the project, run:
+## To setup the project
+
+### Prerequisite
+
+- [Setup Flutter](https://docs.flutter.dev/get-started/install)
+- [Install protoc](https://pub.dev/packages/protoc_plugin#hacking)
+
+### Project setup
+run:
 
 ```
 sh tool/setup.sh
 ```
+
+### Tooling setup
+
+- [Install pre-commit](https://pre-commit.com/) to perform precommit checks.
+Configs present at `.pre-commit-config.yaml`.
