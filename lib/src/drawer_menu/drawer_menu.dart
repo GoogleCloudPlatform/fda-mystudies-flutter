@@ -51,8 +51,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
               Icons.home,
               l10n.homePage,
               GoRouterState.of(context)
-                  .path!
-                  .startsWith('/${RouteName.studyHome}'),
+                  .fullPath?.startsWith('/${RouteName.studyHome}') == true,
               () => context.goNamed(RouteName.studyHome)),
           const SizedBox(height: 8),
           _listTile(
