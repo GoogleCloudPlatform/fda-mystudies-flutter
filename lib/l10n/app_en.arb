@@ -293,5 +293,19 @@
 
     "passwordUpdatedScreenPasswordUpdatedSuccessfullyTitle": "Password updated successfully",
     "passwordUpdatedScreenPasswordUpdatedSuccessfullyMessage": "Please sign-in using your new password.",
-    "passwordUpdatedScreenPasswordReturnToSignIn": "OK"
+    "passwordUpdatedScreenPasswordReturnToSignIn": "OK",
+
+    "myAccountUsernameLabel": "Username",
+    "myAccountPasswordLabel": "Password",
+    "myAccountChangePasswordButtonLabel": "Change password",
+    "myAccountLocalAuthUserPermissionsLabel": "Use Biometric/passcode unlock to access app",
+    "myAccountLocalPushNotificationsPermissionsLabel": "Push Notifications",
+    "myAccountLocalStudyActivityRemindersPermissionsLabel": "Study activity reminders",
+    "myAccountDeleteAppAccountButtonLabel": "Delete app account",
+    "myAccountPreferencesUpdatedSnackbarMessage": "Preferences updtated successfully",
+
+    "deleteAccountScreenTitle": "Delete Account",
+    "deleteAccountScreenSubtitle": "You have chosen to delete your app account. This will result in automatic withdrawal from the sutdies you are enrolled in.",
+    "deleteAccountScreenDeleteButtonLabel": "Delete my account",
+    "deleteAccountScreenAccountDeletionSucceededMessage": "Your account has been deleted successfully!"
 }

@@ -14,9 +14,9 @@ import '../route/route_name.dart';
 import '../user/user_data.dart';
 
 class DrawerMenu extends StatefulWidget {
-  final void Function()? close;
+  final void Function()? cleanUp;
 
-  const DrawerMenu({this.close, Key? key}) : super(key: key);
+  const DrawerMenu({this.cleanUp, Key? key}) : super(key: key);
 
   @override
   State<DrawerMenu> createState() => _DrawerMenuState();
@@ -75,11 +75,7 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
           ),
           const SizedBox(height: 8),
-          _listTile(
-              context,
-              Icons.exit_to_app,
-              l10n.signOut,
-              false,
+          _listTile(context, Icons.exit_to_app, l10n.signOut, false,
               () => _showSignOutAlert(context)),
         ]);
   }
@@ -105,6 +101,9 @@ class _DrawerMenuState extends State<DrawerMenu> {
                 Expanded(child: Text(subtitle))
               ]),
         onTap: () {
+          if (widget.cleanUp != null) {
+            widget.cleanUp!();
+          }
           if (onPressed != null) {
             onPressed();
           }

@@ -43,7 +43,7 @@ import '../informed_consent_module/comprehension_test/comprehension_test.dart';
 import '../informed_consent_module/consent/consent_document.dart';
 import '../informed_consent_module/sharing_options/sharing_options.dart';
 import '../informed_consent_module/visual_screen/visual_screen.dart';
-import '../my_account_module/my_account.dart';
+import '../my_account_module/router/my_account_module_router.dart';
 import '../provider/activity_step_provider.dart';
 import '../provider/eligibility_consent_provider.dart';
 import '../provider/my_account_provider.dart';
@@ -64,6 +64,7 @@ class AppRouter {
   static final GlobalKey<NavigatorState> _rootKey = GlobalKey<NavigatorState>();
 
   static final GoRouter _goRouter = GoRouter(
+      initialLocation: '/${RouteName.studyHome}',
       navigatorKey: _rootKey,
       debugLogDiagnostics: true,
       observers: [LocalAuthObserver()],
@@ -110,8 +111,10 @@ class AppRouter {
               return value;
             }).then((response) {
               if (response is RefreshTokenResponse) {
-                if (AppConfig.shared.currentConfig.appType == AppType.standalone) {
-                  UserData.shared.curStudyId = AppConfig.shared.currentConfig.studyId;
+                if (AppConfig.shared.currentConfig.appType ==
+                    AppType.standalone) {
+                  UserData.shared.curStudyId =
+                      AppConfig.shared.currentConfig.studyId;
                 }
                 return '/${RouteName.studyStateCheck}';
               }
@@ -368,8 +371,8 @@ class AppRouter {
             parentNavigatorKey: _rootKey,
             name: RouteName.resourceSoftwareLicenses,
             path: '/${RouteName.resourceSoftwareLicenses}',
-            builder: (context, state) =>
-                LicensePage(applicationName: AppConfig.shared.currentConfig.appName)),
+            builder: (context, state) => LicensePage(
+                applicationName: AppConfig.shared.currentConfig.appName)),
         GoRoute(
             parentNavigatorKey: _rootKey,
             name: RouteName.resourceConsentPdf,
@@ -380,10 +383,6 @@ class AppRouter {
             name: RouteName.configureEnvironment,
             path: '/${RouteName.configureEnvironment}',
             builder: (context, state) => const Environment()),
-        GoRoute(
-            name: RouteName.myAccount,
-            path: '/${RouteName.myAccount}',
-            builder: (context, state) => const MyAccount()),
         GoRoute(
             name: RouteName.reachOut,
             path: '/${RouteName.reachOut}',
@@ -416,6 +415,8 @@ class AppRouter {
             name: RouteName.consentDocument,
             path: '/${RouteName.consentDocument}',
             builder: (context, state) => const ConsentDocument())
+      ] + [
+        MyAccountModuleRouter().route
       ]);
 
   static GoRouter get routeConfig => _goRouter;
