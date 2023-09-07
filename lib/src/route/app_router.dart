@@ -64,7 +64,6 @@ class AppRouter {
   static final GlobalKey<NavigatorState> _rootKey = GlobalKey<NavigatorState>();
 
   static final GoRouter _goRouter = GoRouter(
-      initialLocation: '/${RouteName.studyHome}',
       navigatorKey: _rootKey,
       debugLogDiagnostics: true,
       observers: [LocalAuthObserver()],
