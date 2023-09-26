@@ -12,7 +12,6 @@ import 'package:injectable/injectable.dart';
 import '../../../authentication_service.dart';
 import '../session.dart';
 import '../util/common_responses.dart';
-import '../util/http_client_wrapper.dart';
 import '../util/request_header.dart';
 import '../util/response_parser.dart';
 import '../config.dart';
@@ -59,7 +58,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
   @override
   Future<http.Response> fireSignInURI({String? tempRegId}) {
     Uri uri = getSignInPageURI(tempRegId: tempRegId);
-    return HTTPClientWrapper(client).get(uri);
+    return client.get(uri);
   }
 
   @override
@@ -83,7 +82,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
     headerJson['cookie'] = cookie;
     Map<String, String> body = {'email': email, 'password': password};
     Uri uri = Uri.https(config.baseParticipantUrl, '$authServer/login');
-    return HTTPClientWrapper(client).post(uri, headers: headerJson, body: body);
+    return client.post(uri, headers: headerJson, body: body);
   }
 
   @override
@@ -93,7 +92,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
     Map<String, String> headerJson = headers.toHeaderJson();
     Map<String, String> body = {'email': email, 'password': password};
     Uri uri = Uri.https(config.baseParticipantUrl, signInPath);
-    return HTTPClientWrapper(client)
+    return client
         .post(uri, headers: headerJson, body: body)
         .then((response) => ResponseParser.parseHttpResponse('sign_in',
             response, () => SignInResponse()..fromJson(response.body)));
@@ -111,7 +110,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
     };
     Uri uri = Uri.https(config.baseParticipantUrl,
         '$authServer/users/$userId$changePasswordPath');
-    return HTTPClientWrapper(client)
+    return client
         .put(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse('change_password',
             response, () => ChangePasswordResponse()..fromJson(response.body)));
@@ -133,7 +132,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
     Uri uri = Uri.https(
         config.baseParticipantUrl, '$authServer$oauth2TokenPath', params);
 
-    return HTTPClientWrapper(client)
+    return client
         .post(uri, headers: headers.toHeaderJson())
         .then((response) => ResponseParser.parseHttpResponse(
                 'grant_verified_user', response, () {
@@ -151,7 +150,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
     Uri uri = Uri.https(
         config.baseParticipantUrl, '$authServer/users/$userId$logoutPath');
 
-    return HTTPClientWrapper(client)
+    return client
         .post(uri, headers: headers.toHeaderJson())
         .then((response) => ResponseParser.parseHttpResponse('logout', response,
             () => LogoutResponse()..fromJson(response.body)));
@@ -176,7 +175,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
     Uri uri = Uri.https(
         config.baseParticipantUrl, '$authServer$oauth2TokenPath', parameters);
 
-    return HTTPClientWrapper(client)
+    return client
         .post(uri,
             headers: headers.toHeaderJson(),
             encoding: Encoding.getByName('application/x-www-form-urlencoded'))
@@ -209,7 +208,7 @@ class AuthenticationServiceImpl implements AuthenticationService {
     var uri =
         Uri.https(config.baseParticipantUrl, '$authServer$resetPasswordPath');
 
-    return HTTPClientWrapper(client)
+    return client
         .post(uri, headers: headerJson, body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'reset_password', response, () => CommonResponses.successResponse));

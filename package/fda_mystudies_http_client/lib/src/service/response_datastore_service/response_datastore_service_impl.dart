@@ -15,7 +15,6 @@ import '../../database/activity_state_storage_service.dart';
 import '../../service/session.dart';
 import '../../service/util/common_responses.dart';
 import '../config.dart';
-import '../util/http_client_wrapper.dart';
 import '../util/request_header.dart';
 import '../util/response_parser.dart';
 
@@ -49,7 +48,7 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
     var uri = Uri.https(config.baseParticipantUrl,
         '$responseDatastore$getActivityStatePath', queryParams);
 
-    return HTTPClientWrapper(client)
+    return client
         .get(uri, headers: headers.toHeaderJson())
         .then((response) => ResponseParser.parseHttpResponse(
             'activity_state',
@@ -118,7 +117,7 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
       bodyMap['data']['results'] = updatedResults;
     }
 
-    return HTTPClientWrapper(client)
+    return client
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(bodyMap))
         .then((response) => ResponseParser.parseHttpResponse('process_response',
             response, () => CommonResponse()..fromJson(response.body)));
@@ -143,7 +142,7 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
     var uri = Uri.https(config.baseParticipantUrl,
         '$responseDatastore$updateActivityStatePath');
 
-    return HTTPClientWrapper(client)
+    return client
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'update_activity_state',

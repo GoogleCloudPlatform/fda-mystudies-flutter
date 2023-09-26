@@ -21,7 +21,6 @@ dependencies:
   path: ^1.8.0
   crypto: ^3.0.3
   sqflite:
-  flutter_secure_storage: ^9.0.0
 
 dev_dependencies:
   flutter_test:

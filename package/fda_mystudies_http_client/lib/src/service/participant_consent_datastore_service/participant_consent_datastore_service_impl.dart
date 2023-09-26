@@ -10,7 +10,6 @@ import 'package:injectable/injectable.dart';
 
 import '../config.dart';
 import '../../../participant_consent_datastore_service.dart';
-import '../util/http_client_wrapper.dart';
 import '../util/request_header.dart';
 import '../util/response_parser.dart';
 
@@ -38,7 +37,7 @@ class ParticipantConsentDatastoreServiceImpl
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantConsentDatastore$consentDocumentPath', queryParams);
 
-    return HTTPClientWrapper(client)
+    return client
         .get(uri, headers: headers.toHeaderJson())
         .then((response) => ResponseParser.parseHttpResponse(
             'consent_document',
@@ -73,7 +72,7 @@ class ParticipantConsentDatastoreServiceImpl
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantConsentDatastore$updateEligibilityConsentStatusPath');
 
-    return HTTPClientWrapper(client)
+    return client
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'update_eligibility_consent_status',
