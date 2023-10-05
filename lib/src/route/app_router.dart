@@ -126,297 +126,302 @@ class AppRouter {
         return null;
       }),
       routes: [
-        GoRoute(
-            name: RouteName.accessibilityScreen,
-            path: '/${RouteName.accessibilityScreen}',
-            builder: (context, state) => const AccessibilityScreenController()),
-        GoRoute(
-            name: RouteName.root,
-            path: '/',
-            builder: (context, state) => const WelcomeScreenController(),
-            routes: [
-              GoRoute(
-                  name: RouteName.onboardingInstructions,
-                  path: RouteName.onboardingInstructions,
-                  builder: (context, state) =>
-                      const OnboardingScreenController(),
-                  routes: [
-                    GoRoute(
-                        name: RouteName.register,
-                        path: RouteName.register,
-                        builder: ((context, state) =>
-                            const RegisterScreenController()))
-                  ]),
-              GoRoute(
-                  name: RouteName.signIn,
-                  path: RouteName.signIn,
-                  builder: (context, state) {
-                    if (AppConfig.shared.currentConfig.environment == demo) {
-                      return const SignInScreenController();
+            GoRoute(
+                name: RouteName.accessibilityScreen,
+                path: '/${RouteName.accessibilityScreen}',
+                builder: (context, state) =>
+                    const AccessibilityScreenController()),
+            GoRoute(
+                name: RouteName.root,
+                path: '/',
+                builder: (context, state) => const WelcomeScreenController(),
+                routes: [
+                  GoRoute(
+                      name: RouteName.onboardingInstructions,
+                      path: RouteName.onboardingInstructions,
+                      builder: (context, state) =>
+                          const OnboardingScreenController(),
+                      routes: [
+                        GoRoute(
+                            name: RouteName.register,
+                            path: RouteName.register,
+                            builder: ((context, state) =>
+                                const RegisterScreenController()))
+                      ]),
+                  GoRoute(
+                      name: RouteName.signIn,
+                      path: RouteName.signIn,
+                      builder: (context, state) {
+                        if (AppConfig.shared.currentConfig.environment ==
+                            demo) {
+                          return const SignInScreenController();
+                        }
+                        return const SignInWebScreenController();
+                      },
+                      routes: [
+                        GoRoute(
+                            name: RouteName.forgotPassword,
+                            path: RouteName.forgotPassword,
+                            builder: (context, state) =>
+                                const ForgotPasswordScreenController())
+                      ])
+                ]),
+            GoRoute(
+                name: RouteName.verificationStep,
+                path: '/${RouteName.verificationStep}',
+                builder: (context, state) =>
+                    const VerificationStepScreenController()),
+            GoRoute(
+                name: RouteName.accountActivated,
+                path: '/${RouteName.accountActivated}',
+                builder: (context, state) =>
+                    const AccountActivatedScreenController()),
+            GoRoute(
+                name: RouteName.updateTemporaryPassword,
+                path: '/${RouteName.updateTemporaryPassword}',
+                builder: (context, state) =>
+                    const UpdatePasswordScreenController(
+                        isChangingTemporaryPassword: true)),
+            GoRoute(
+                name: RouteName.eligibilityRouter,
+                path: '/${RouteName.eligibilityRouter}',
+                redirect: (context, state) {
+                  var studyDatastoreService = getIt<StudyDatastoreService>();
+                  return studyDatastoreService
+                      .getEligibilityAndConsent(
+                          UserData.shared.curStudyId, UserData.shared.userId)
+                      .then((value) {
+                    if (value is GetEligibilityAndConsentResponse) {
+                      Provider.of<EligibilityConsentProvider>(context,
+                              listen: false)
+                          .updateContent(
+                              eligibility: value.eligibility,
+                              consent: value.consent);
+                      var eligibility = value.eligibility;
+                      switch (eligibility.type.eligibilityStepType) {
+                        case PbEligibilityStepType.token:
+                          return '/${RouteName.eligibilityToken}';
+                        case PbEligibilityStepType.test:
+                          return '/${RouteName.eligibilityTest}';
+                        case PbEligibilityStepType.combined:
+                          return '/${RouteName.eligibilityToken}';
+                        default:
+                          break;
+                      }
+                    } else if (value is CommonErrorResponse) {
+                      ErrorScenario.displayErrorMessageWithOKAction(
+                          context, value.errorDescription);
                     }
-                    return const SignInWebScreenController();
-                  },
-                  routes: [
-                    GoRoute(
-                        name: RouteName.forgotPassword,
-                        path: RouteName.forgotPassword,
-                        builder: (context, state) =>
-                            const ForgotPasswordScreenController())
-                  ])
-            ]),
-        GoRoute(
-            name: RouteName.verificationStep,
-            path: '/${RouteName.verificationStep}',
-            builder: (context, state) =>
-                const VerificationStepScreenController()),
-        GoRoute(
-            name: RouteName.accountActivated,
-            path: '/${RouteName.accountActivated}',
-            builder: (context, state) =>
-                const AccountActivatedScreenController()),
-        GoRoute(
-            name: RouteName.updateTemporaryPassword,
-            path: '/${RouteName.updateTemporaryPassword}',
-            builder: (context, state) => const UpdatePasswordScreenController(
-                isChangingTemporaryPassword: true)),
-        GoRoute(
-            name: RouteName.eligibilityRouter,
-            path: '/${RouteName.eligibilityRouter}',
-            redirect: (context, state) {
-              var studyDatastoreService = getIt<StudyDatastoreService>();
-              return studyDatastoreService
-                  .getEligibilityAndConsent(
-                      UserData.shared.curStudyId, UserData.shared.userId)
-                  .then((value) {
-                if (value is GetEligibilityAndConsentResponse) {
-                  Provider.of<EligibilityConsentProvider>(context,
+                    return null;
+                  });
+                }),
+            GoRoute(
+                name: RouteName.eligibilityToken,
+                path: '/${RouteName.eligibilityToken}',
+                builder: (context, state) {
+                  return const EnrollmentToken();
+                }),
+            GoRoute(
+                name: RouteName.eligibilityTest,
+                path: '/${RouteName.eligibilityTest}',
+                builder: (context, state) {
+                  var eligibility = Provider.of<EligibilityConsentProvider>(
+                          context,
                           listen: false)
-                      .updateContent(
-                          eligibility: value.eligibility,
-                          consent: value.consent);
-                  var eligibility = value.eligibility;
-                  switch (eligibility.type.eligibilityStepType) {
-                    case PbEligibilityStepType.token:
-                      return '/${RouteName.eligibilityToken}';
-                    case PbEligibilityStepType.test:
-                      return '/${RouteName.eligibilityTest}';
-                    case PbEligibilityStepType.combined:
-                      return '/${RouteName.eligibilityToken}';
-                    default:
-                      break;
-                  }
-                } else if (value is CommonErrorResponse) {
-                  ErrorScenario.displayErrorMessageWithOKAction(
-                      context, value.errorDescription);
-                }
-                return null;
-              });
-            }),
-        GoRoute(
-            name: RouteName.eligibilityToken,
-            path: '/${RouteName.eligibilityToken}',
-            builder: (context, state) {
-              return const EnrollmentToken();
-            }),
-        GoRoute(
-            name: RouteName.eligibilityTest,
-            path: '/${RouteName.eligibilityTest}',
-            builder: (context, state) {
-              var eligibility = Provider.of<EligibilityConsentProvider>(context,
-                      listen: false)
-                  .eligibility;
-              var consent = Provider.of<EligibilityConsentProvider>(context,
-                      listen: false)
-                  .consent;
-              var userId = UserData.shared.userId;
-              var studyId = UserData.shared.curStudyId;
-              var activityId = 'eligibility-test';
-              var uniqueId = '$userId:$studyId:$activityId';
-              List<ActivityStep> steps = [
-                    ActivityStep.create()
-                      ..key = 'info'
-                      ..type = 'instruction'
-                      ..title = 'Eligibility Test'
-                      ..text =
-                          'Please answer the questions that follow to help ascertain your eligibility for this study'
-                  ] +
-                  eligibility.tests;
-              var activityBuilder = ui_kit.getIt<ActivityBuilder>();
-              return activityBuilder.buildFailFastTest(
-                  steps: steps,
-                  answers: eligibility.correctAnswers,
-                  activityResponseProcessor: EligibilityDecision(
-                      eligibility.correctAnswers,
-                      eligibility.type.eligibilityStepType,
-                      consent),
-                  uniqueActivityId: uniqueId);
-            }),
-        GoRoute(
-            name: RouteName.eligibilityDecision,
-            path: '/${RouteName.eligibilityDecision}',
-            builder: (context, state) {
-              var eligibility = Provider.of<EligibilityConsentProvider>(context,
-                      listen: false)
-                  .eligibility;
-              var consent = Provider.of<EligibilityConsentProvider>(context,
-                      listen: false)
-                  .consent;
-              return EligibilityDecision(eligibility.correctAnswers,
-                  eligibility.type.eligibilityStepType, consent);
-            }),
-        GoRoute(
-            name: RouteName.unknownAccountStatus,
-            path: '/${RouteName.unknownAccountStatus}',
-            builder: (context, state) {
-              return const UnknownAccountStatus();
-            }),
-        GoRoute(
-            name: RouteName.studyIntro,
-            path: '/${RouteName.studyIntro}',
-            builder: (context, state) {
-              return const StudyIntroScreenController();
-            }),
-        GoRoute(
-            name: RouteName.gatewayHome,
-            path: '/${RouteName.gatewayHome}',
-            builder: (context, state) {
-              return const GatewayHome();
-            }),
-        GoRoute(
-            name: RouteName.visualScreen,
-            path: '/${RouteName.visualScreen}',
-            builder: (context, state) {
-              GetEligibilityAndConsentResponse_Consent consent =
-                  Provider.of<EligibilityConsentProvider>(context,
+                      .eligibility;
+                  var consent = Provider.of<EligibilityConsentProvider>(context,
                           listen: false)
                       .consent;
-              return VisualScreen(
-                  consent.visualScreens, ComprehensionTest(consent));
-            }),
-        GoRoute(
-            name: RouteName.sharingOptions,
-            path: '/${RouteName.sharingOptions}',
-            builder: (context, state) {
-              GetEligibilityAndConsentResponse_Consent consent =
-                  Provider.of<EligibilityConsentProvider>(context,
+                  var userId = UserData.shared.userId;
+                  var studyId = UserData.shared.curStudyId;
+                  var activityId = 'eligibility-test';
+                  var uniqueId = '$userId:$studyId:$activityId';
+                  List<ActivityStep> steps = [
+                        ActivityStep.create()
+                          ..key = 'info'
+                          ..type = 'instruction'
+                          ..title = 'Eligibility Test'
+                          ..text =
+                              'Please answer the questions that follow to help ascertain your eligibility for this study'
+                      ] +
+                      eligibility.tests;
+                  var activityBuilder = ui_kit.getIt<ActivityBuilder>();
+                  return activityBuilder.buildFailFastTest(
+                      steps: steps,
+                      answers: eligibility.correctAnswers,
+                      activityResponseProcessor: EligibilityDecision(
+                          eligibility.correctAnswers,
+                          eligibility.type.eligibilityStepType,
+                          consent),
+                      uniqueActivityId: uniqueId);
+                }),
+            GoRoute(
+                name: RouteName.eligibilityDecision,
+                path: '/${RouteName.eligibilityDecision}',
+                builder: (context, state) {
+                  var eligibility = Provider.of<EligibilityConsentProvider>(
+                          context,
+                          listen: false)
+                      .eligibility;
+                  var consent = Provider.of<EligibilityConsentProvider>(context,
                           listen: false)
                       .consent;
-              return SharingOptions(consent.sharingScreen,
-                  consent.visualScreens, consent.version);
-            }),
-        GoRoute(
-            parentNavigatorKey: _rootKey,
-            name: RouteName.studyHome,
-            path: '/${RouteName.studyHome}',
-            builder: (context, state) => Container(),
-            routes: [
-              ShellRoute(
-                  builder: (context, state, child) {
-                    return StudyHomeScreenController(child: child);
-                  },
-                  routes: [
-                    GoRoute(
-                        name: RouteName.activities,
-                        path: RouteName.activities,
-                        pageBuilder: (context, state) => const NoTransitionPage(
-                            child: ActivitiesScreenController()),
-                        routes: [
-                          GoRoute(
-                              parentNavigatorKey: _rootKey,
-                              name: RouteName.activityLoader,
-                              path: RouteName.activityLoader,
-                              builder: (context, state) =>
-                                  const ActivityLoaderScreenController()),
-                          GoRoute(
-                              parentNavigatorKey: _rootKey,
-                              name: RouteName.activitySteps,
-                              path: RouteName.activitySteps,
-                              builder: (context, state) {
-                                var uniqueId =
-                                    '${UserData.shared.userId}:${UserData.shared.curStudyId}:${UserData.shared.activityId}';
-                                var activityBuilder =
-                                    ui_kit.getIt<ActivityBuilder>();
-                                return Consumer<ActivityStepProvider>(
-                                    builder: (context, provider, child) =>
-                                        activityBuilder.buildActivity(
-                                            provider.steps,
-                                            MaterialActivityResponseProcessor(),
-                                            uniqueId));
-                              })
-                        ]),
-                    GoRoute(
-                        name: RouteName.dashboard,
-                        path: RouteName.dashboard,
-                        pageBuilder: (context, state) =>
-                            const NoTransitionPage(child: Dashboard())),
-                    GoRoute(
-                        name: RouteName.resources,
-                        path: RouteName.resources,
-                        pageBuilder: (context, state) =>
-                            const NoTransitionPage(child: Resources()))
-                  ])
-            ]),
-        GoRoute(
-            parentNavigatorKey: _rootKey,
-            name: RouteName.dashboardTrends,
-            path: '/${RouteName.dashboardTrends}',
-            builder: (context, state) => const TrendsView()),
-        GoRoute(
-            parentNavigatorKey: _rootKey,
-            name: RouteName.resourceAboutStudy,
-            path: '/${RouteName.resourceAboutStudy}',
-            builder: (context, state) => const AboutStudy()),
-        GoRoute(
-            parentNavigatorKey: _rootKey,
-            name: RouteName.resourceSoftwareLicenses,
-            path: '/${RouteName.resourceSoftwareLicenses}',
-            builder: (context, state) => LicensePage(
-                applicationName: AppConfig.shared.currentConfig.appName)),
-        GoRoute(
-            parentNavigatorKey: _rootKey,
-            name: RouteName.resourceConsentPdf,
-            path: '/${RouteName.resourceConsentPdf}',
-            builder: (context, state) => const ViewConsentPdf()),
-        GoRoute(
-            parentNavigatorKey: _rootKey,
-            name: RouteName.configureEnvironment,
-            path: '/${RouteName.configureEnvironment}',
-            builder: (context, state) => const Environment()),
-        GoRoute(
-            name: RouteName.reachOut,
-            path: '/${RouteName.reachOut}',
-            builder: (context, state) => const ReachOut()),
-        GoRoute(
-            name: RouteName.userStateCheck,
-            path: '/${RouteName.userStateCheck}',
-            builder: (context, state) =>
-                const UserStateCheckScreenController()),
-        GoRoute(
-            name: RouteName.studyStateCheck,
-            path: '/${RouteName.studyStateCheck}',
-            builder: (context, state) =>
-                const StudyStateCheckScreenController()),
-        GoRoute(
-            name: RouteName.consentAgreement,
-            path: '/${RouteName.consentAgreement}',
-            builder: (context, state) =>
-                const ConsentAgreementScreenController()),
-        GoRoute(
-            name: RouteName.viewSignedConsentPdf,
-            path: '/${RouteName.viewSignedConsentPdf}',
-            builder: (context, state) =>
-                const ViewConsentPdfScreenController()),
-        GoRoute(
-            name: RouteName.localAuthScreen,
-            path: '/${RouteName.localAuthScreen}',
-            builder: (context, state) => const LocalAuthScreen()),
-        GoRoute(
-            name: RouteName.consentDocument,
-            path: '/${RouteName.consentDocument}',
-            builder: (context, state) => const ConsentDocument())
-      ] + [
-        MyAccountModuleRouter().route
-      ]);
+                  return EligibilityDecision(eligibility.correctAnswers,
+                      eligibility.type.eligibilityStepType, consent);
+                }),
+            GoRoute(
+                name: RouteName.unknownAccountStatus,
+                path: '/${RouteName.unknownAccountStatus}',
+                builder: (context, state) {
+                  return const UnknownAccountStatus();
+                }),
+            GoRoute(
+                name: RouteName.studyIntro,
+                path: '/${RouteName.studyIntro}',
+                builder: (context, state) {
+                  return const StudyIntroScreenController();
+                }),
+            GoRoute(
+                name: RouteName.gatewayHome,
+                path: '/${RouteName.gatewayHome}',
+                builder: (context, state) {
+                  return const GatewayHome();
+                }),
+            GoRoute(
+                name: RouteName.visualScreen,
+                path: '/${RouteName.visualScreen}',
+                builder: (context, state) {
+                  GetEligibilityAndConsentResponse_Consent consent =
+                      Provider.of<EligibilityConsentProvider>(context,
+                              listen: false)
+                          .consent;
+                  return VisualScreen(
+                      consent.visualScreens, ComprehensionTest(consent));
+                }),
+            GoRoute(
+                name: RouteName.sharingOptions,
+                path: '/${RouteName.sharingOptions}',
+                builder: (context, state) {
+                  GetEligibilityAndConsentResponse_Consent consent =
+                      Provider.of<EligibilityConsentProvider>(context,
+                              listen: false)
+                          .consent;
+                  return SharingOptions(consent.sharingScreen,
+                      consent.visualScreens, consent.version);
+                }),
+            GoRoute(
+                parentNavigatorKey: _rootKey,
+                name: RouteName.studyHome,
+                path: '/${RouteName.studyHome}',
+                builder: (context, state) => Container(),
+                routes: [
+                  ShellRoute(
+                      builder: (context, state, child) {
+                        return StudyHomeScreenController(child: child);
+                      },
+                      routes: [
+                        GoRoute(
+                            name: RouteName.activities,
+                            path: RouteName.activities,
+                            pageBuilder: (context, state) =>
+                                const NoTransitionPage(
+                                    child: ActivitiesScreenController()),
+                            routes: [
+                              GoRoute(
+                                  parentNavigatorKey: _rootKey,
+                                  name: RouteName.activityLoader,
+                                  path: RouteName.activityLoader,
+                                  builder: (context, state) =>
+                                      const ActivityLoaderScreenController()),
+                              GoRoute(
+                                  parentNavigatorKey: _rootKey,
+                                  name: RouteName.activitySteps,
+                                  path: RouteName.activitySteps,
+                                  builder: (context, state) {
+                                    var uniqueId =
+                                        '${UserData.shared.userId}:${UserData.shared.curStudyId}:${UserData.shared.activityId}';
+                                    var activityBuilder =
+                                        ui_kit.getIt<ActivityBuilder>();
+                                    return Consumer<ActivityStepProvider>(
+                                        builder: (context, provider, child) =>
+                                            activityBuilder.buildActivity(
+                                                provider.steps,
+                                                MaterialActivityResponseProcessor(),
+                                                uniqueId));
+                                  })
+                            ]),
+                        GoRoute(
+                            name: RouteName.dashboard,
+                            path: RouteName.dashboard,
+                            pageBuilder: (context, state) =>
+                                const NoTransitionPage(child: Dashboard())),
+                        GoRoute(
+                            name: RouteName.resources,
+                            path: RouteName.resources,
+                            pageBuilder: (context, state) =>
+                                const NoTransitionPage(child: Resources()))
+                      ])
+                ]),
+            GoRoute(
+                parentNavigatorKey: _rootKey,
+                name: RouteName.dashboardTrends,
+                path: '/${RouteName.dashboardTrends}',
+                builder: (context, state) => const TrendsView()),
+            GoRoute(
+                parentNavigatorKey: _rootKey,
+                name: RouteName.resourceAboutStudy,
+                path: '/${RouteName.resourceAboutStudy}',
+                builder: (context, state) => const AboutStudy()),
+            GoRoute(
+                parentNavigatorKey: _rootKey,
+                name: RouteName.resourceSoftwareLicenses,
+                path: '/${RouteName.resourceSoftwareLicenses}',
+                builder: (context, state) => LicensePage(
+                    applicationName: AppConfig.shared.currentConfig.appName)),
+            GoRoute(
+                parentNavigatorKey: _rootKey,
+                name: RouteName.resourceConsentPdf,
+                path: '/${RouteName.resourceConsentPdf}',
+                builder: (context, state) => const ViewConsentPdf()),
+            GoRoute(
+                parentNavigatorKey: _rootKey,
+                name: RouteName.configureEnvironment,
+                path: '/${RouteName.configureEnvironment}',
+                builder: (context, state) => const Environment()),
+            GoRoute(
+                name: RouteName.reachOut,
+                path: '/${RouteName.reachOut}',
+                builder: (context, state) => const ReachOut()),
+            GoRoute(
+                name: RouteName.userStateCheck,
+                path: '/${RouteName.userStateCheck}',
+                builder: (context, state) =>
+                    const UserStateCheckScreenController()),
+            GoRoute(
+                name: RouteName.studyStateCheck,
+                path: '/${RouteName.studyStateCheck}',
+                builder: (context, state) =>
+                    const StudyStateCheckScreenController()),
+            GoRoute(
+                name: RouteName.consentAgreement,
+                path: '/${RouteName.consentAgreement}',
+                builder: (context, state) =>
+                    const ConsentAgreementScreenController()),
+            GoRoute(
+                name: RouteName.viewSignedConsentPdf,
+                path: '/${RouteName.viewSignedConsentPdf}',
+                builder: (context, state) =>
+                    const ViewConsentPdfScreenController()),
+            GoRoute(
+                name: RouteName.localAuthScreen,
+                path: '/${RouteName.localAuthScreen}',
+                builder: (context, state) => const LocalAuthScreen()),
+            GoRoute(
+                name: RouteName.consentDocument,
+                path: '/${RouteName.consentDocument}',
+                builder: (context, state) => const ConsentDocument())
+          ] +
+          [MyAccountModuleRouter().route]);
 
   static GoRouter get routeConfig => _goRouter;
 }

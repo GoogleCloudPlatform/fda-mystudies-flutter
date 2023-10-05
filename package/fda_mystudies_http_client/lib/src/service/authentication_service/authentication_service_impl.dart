@@ -92,10 +92,9 @@ class AuthenticationServiceImpl implements AuthenticationService {
     Map<String, String> headerJson = headers.toHeaderJson();
     Map<String, String> body = {'email': email, 'password': password};
     Uri uri = Uri.https(config.baseParticipantUrl, signInPath);
-    return client
-        .post(uri, headers: headerJson, body: body)
-        .then((response) => ResponseParser.parseHttpResponse('sign_in',
-            response, () => SignInResponse()..fromJson(response.body)));
+    return client.post(uri, headers: headerJson, body: body).then((response) =>
+        ResponseParser.parseHttpResponse('sign_in', response,
+            () => SignInResponse()..fromJson(response.body)));
   }
 
   @override
@@ -132,15 +131,13 @@ class AuthenticationServiceImpl implements AuthenticationService {
     Uri uri = Uri.https(
         config.baseParticipantUrl, '$authServer$oauth2TokenPath', params);
 
-    return client
-        .post(uri, headers: headers.toHeaderJson())
-        .then((response) => ResponseParser.parseHttpResponse(
-                'grant_verified_user', response, () {
-              var refreshTokenResponse = RefreshTokenResponse()
-                ..fromJson(response.body);
-              _updateSessionProperties(refreshTokenResponse);
-              return refreshTokenResponse;
-            }));
+    return client.post(uri, headers: headers.toHeaderJson()).then((response) =>
+        ResponseParser.parseHttpResponse('grant_verified_user', response, () {
+          var refreshTokenResponse = RefreshTokenResponse()
+            ..fromJson(response.body);
+          _updateSessionProperties(refreshTokenResponse);
+          return refreshTokenResponse;
+        }));
   }
 
   @override
@@ -150,9 +147,8 @@ class AuthenticationServiceImpl implements AuthenticationService {
     Uri uri = Uri.https(
         config.baseParticipantUrl, '$authServer/users/$userId$logoutPath');
 
-    return client
-        .post(uri, headers: headers.toHeaderJson())
-        .then((response) => ResponseParser.parseHttpResponse('logout', response,
+    return client.post(uri, headers: headers.toHeaderJson()).then((response) =>
+        ResponseParser.parseHttpResponse('logout', response,
             () => LogoutResponse()..fromJson(response.body)));
   }
 
@@ -208,9 +204,8 @@ class AuthenticationServiceImpl implements AuthenticationService {
     var uri =
         Uri.https(config.baseParticipantUrl, '$authServer$resetPasswordPath');
 
-    return client
-        .post(uri, headers: headerJson, body: jsonEncode(body))
-        .then((response) => ResponseParser.parseHttpResponse(
+    return client.post(uri, headers: headerJson, body: jsonEncode(body)).then(
+        (response) => ResponseParser.parseHttpResponse(
             'reset_password', response, () => CommonResponses.successResponse));
   }
 

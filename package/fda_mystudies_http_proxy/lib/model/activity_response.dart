@@ -1,3 +1,1 @@
-class ActivityResponse {
-
-}
+class ActivityResponse {}

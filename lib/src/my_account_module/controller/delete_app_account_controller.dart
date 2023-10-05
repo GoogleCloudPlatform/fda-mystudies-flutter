@@ -28,8 +28,7 @@ class _DeleteAppAccountControllerState
   @override
   Widget build(BuildContext context) {
     return DeleteAppAccountScreen(
-      isLoading: isLoading,
-      deleteAppAccount: deleteAppAccount);
+        isLoading: isLoading, deleteAppAccount: deleteAppAccount);
   }
 
   void deleteAppAccount() {
@@ -43,7 +42,8 @@ class _DeleteAppAccountControllerState
         .deactivate(UserData.shared.userId, UserData.shared.curStudyId,
             UserData.shared.curParticipantId)
         .then((value) {
-      final successfulResponse = l10n.deleteAccountScreenAccountDeletionSucceededMessage;
+      final successfulResponse =
+          l10n.deleteAccountScreenAccountDeletionSucceededMessage;
       var response = processResponse(value, successfulResponse);
       if (successfulResponse != response) {
         setState(() {
@@ -62,8 +62,8 @@ class _DeleteAppAccountControllerState
 
   void cleanupLocalStorage() {
     const secureStorage = FlutterSecureStorage(
-            iOptions: IOSOptions(),
-            aOptions: AndroidOptions(encryptedSharedPreferences: true));
+        iOptions: IOSOptions(),
+        aOptions: AndroidOptions(encryptedSharedPreferences: true));
     secureStorage.deleteAll();
   }
 }

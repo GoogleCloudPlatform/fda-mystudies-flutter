@@ -27,6 +27,8 @@ class PrimaryButtonBlock extends StatelessWidget {
                 padding: const MaterialStatePropertyAll<EdgeInsets>(
                     EdgeInsets.fromLTRB(24, 8, 24, 8))),
             onPressed: isLoading ? null : onPressed,
-            child: isLoading ? const CircularProgressIndicator.adaptive() : Text(title, textAlign: TextAlign.center)));
+            child: isLoading
+                ? const CircularProgressIndicator.adaptive()
+                : Text(title, textAlign: TextAlign.center)));
   }
 }

@@ -18,23 +18,21 @@ class ReachOut extends StatelessWidget {
         title: reachOutTitle,
         child: SafeArea(
             bottom: false,
-            child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  ListTile(
-                      title: Text(leaveFeedbackTitle,
-                          style: Theme.of(context).textTheme.bodyLarge),
-                      trailing: const Icon(Icons.arrow_forward_ios_outlined,
-                          size: 16),
-                      onTap: () => push(context, const AnonymousFeedback())),
-                  const Divider(),
-                  ListTile(
-                      title: Text(needHelpTitle,
-                          style: Theme.of(context).textTheme.bodyLarge),
-                      trailing: const Icon(Icons.arrow_forward_ios_outlined,
-                          size: 16),
-                      onTap: () => push(context, const ContactUs())),
-                  const Divider(),
-                ])));
+            child: ListView(padding: EdgeInsets.zero, children: [
+              ListTile(
+                  title: Text(leaveFeedbackTitle,
+                      style: Theme.of(context).textTheme.bodyLarge),
+                  trailing:
+                      const Icon(Icons.arrow_forward_ios_outlined, size: 16),
+                  onTap: () => push(context, const AnonymousFeedback())),
+              const Divider(),
+              ListTile(
+                  title: Text(needHelpTitle,
+                      style: Theme.of(context).textTheme.bodyLarge),
+                  trailing:
+                      const Icon(Icons.arrow_forward_ios_outlined, size: 16),
+                  onTap: () => push(context, const ContactUs())),
+              const Divider(),
+            ])));
   }
 }

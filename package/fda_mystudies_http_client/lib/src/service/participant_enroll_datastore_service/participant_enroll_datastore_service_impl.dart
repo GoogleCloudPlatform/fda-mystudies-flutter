@@ -58,10 +58,9 @@ class ParticipantEnrollDatastoreServiceImpl
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantEnrollDatastore$studyStatePath');
 
-    return client
-        .get(uri, headers: headers.toHeaderJson())
-        .then((response) => ResponseParser.parseHttpResponse('study_state',
-            response, () => GetStudyStateResponse()..fromJson(response.body)));
+    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
+        ResponseParser.parseHttpResponse('study_state', response,
+            () => GetStudyStateResponse()..fromJson(response.body)));
   }
 
   @override

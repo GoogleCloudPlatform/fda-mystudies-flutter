@@ -99,14 +99,16 @@ class _MyAccountControllerState extends State<MyAccountController> {
     context.goNamed(MyAccountModuleRouter.deleteAppAccount);
   }
 
-  void updateSetting(GetUserProfileResponse_UserProfileSettings? oldSettings, GetUserProfileResponse_UserProfileSettings? settings) {
+  void updateSetting(GetUserProfileResponse_UserProfileSettings? oldSettings,
+      GetUserProfileResponse_UserProfileSettings? settings) {
     if (oldSettings != null && settings != null) {
-    final l10n = AppLocalizations.of(context)!;
+      final l10n = AppLocalizations.of(context)!;
       final participantUserDatastore = getIt<ParticipantUserDatastoreService>();
       participantUserDatastore
           .updateUserProfile(UserData.shared.userId, settings)
           .then((value) {
-        final successfulResponse = l10n.myAccountPreferencesUpdatedSnackbarMessage;
+        final successfulResponse =
+            l10n.myAccountPreferencesUpdatedSnackbarMessage;
         var response = processResponse(value, successfulResponse);
         if (successfulResponse != response) {
           setState(() {
@@ -123,8 +125,6 @@ class _MyAccountControllerState extends State<MyAccountController> {
         }
         ErrorScenario.displayAppropriateErrorMessage(context, response);
       });
-    } else {
-
-    }
+    } else {}
   }
 }

@@ -48,11 +48,8 @@ class ResponseDatastoreServiceImpl implements ResponseDatastoreService {
     var uri = Uri.https(config.baseParticipantUrl,
         '$responseDatastore$getActivityStatePath', queryParams);
 
-    return client
-        .get(uri, headers: headers.toHeaderJson())
-        .then((response) => ResponseParser.parseHttpResponse(
-            'activity_state',
-            response,
+    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
+        ResponseParser.parseHttpResponse('activity_state', response,
             () => GetActivityStateResponse()..fromJson(response.body)));
   }
 

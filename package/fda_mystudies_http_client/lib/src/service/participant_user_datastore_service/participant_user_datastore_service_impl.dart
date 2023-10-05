@@ -128,10 +128,9 @@ class ParticipantUserDatastoreServiceImpl
     var uri = Uri.https(
         config.baseParticipantUrl, '$participantUserDatastore$userProfilePath');
 
-    return client
-        .get(uri, headers: headers.toHeaderJson())
-        .then((response) => ResponseParser.parseHttpResponse('user_profile',
-            response, () => GetUserProfileResponse()..fromJson(response.body)));
+    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
+        ResponseParser.parseHttpResponse('user_profile', response,
+            () => GetUserProfileResponse()..fromJson(response.body)));
   }
 
   @override

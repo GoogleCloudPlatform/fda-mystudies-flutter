@@ -10,7 +10,6 @@ import 'package:pdf/widgets.dart' as pw;
 
 import '../../../config/app_config.dart';
 
-
 class ConsentPdfGenerator {
   static Future<String> generateBase64EncodingPdfString(
       String firstName,

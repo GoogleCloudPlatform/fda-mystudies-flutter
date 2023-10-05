@@ -7,7 +7,11 @@ abstract class UserPreferencesAndCommunicationsJourney {
   DBUser? getUserPreferences();
 
   // If firstName & email are missing, we record feedback anonymously.
-  Future<void> recordFeedback({String feedbackTitle, String feedbackContent, String? firstName, String? email});
+  Future<void> recordFeedback(
+      {String feedbackTitle,
+      String feedbackContent,
+      String? firstName,
+      String? email});
 
   Future<void> deactivateAccountAndWithdrawFromAllStudie();
 }

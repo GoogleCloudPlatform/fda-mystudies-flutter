@@ -37,11 +37,8 @@ class ParticipantConsentDatastoreServiceImpl
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantConsentDatastore$consentDocumentPath', queryParams);
 
-    return client
-        .get(uri, headers: headers.toHeaderJson())
-        .then((response) => ResponseParser.parseHttpResponse(
-            'consent_document',
-            response,
+    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
+        ResponseParser.parseHttpResponse('consent_document', response,
             () => GetConsentDocumentResponse()..fromJson(response.body)));
   }
 
