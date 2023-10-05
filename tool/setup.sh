@@ -7,6 +7,7 @@ DIR="${BASH_SOURCE%/*}"
 declare -ar PROJECT_NAMES=(
     "package/fda_mystudies_spec"
     "package/fda_mystudies_http_client"
+    "package/fda_mystudies_http_proxy"
     "package/fda_mystudies_design_system"
     "package/fda_mystudies_activity_ui_kit"
     "."
@@ -28,6 +29,11 @@ function ci_projects () {
         if [ "${PROJECT_NAME}" == "package/fda_mystudies_http_client" ]
         then
             flutter pub run build_runner build --delete-conflicting-outputs
+        fi
+
+        if [ "${PROJECT_NAME}" == "package/fda_mystudies_http_proxy" ]
+        then
+            dart run realm generate
         fi
 
         if [ "${PROJECT_NAME}" == "package/fda_mystudies_design_system" ]

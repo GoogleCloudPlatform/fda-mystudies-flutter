@@ -11,7 +11,6 @@ import 'package:injectable/injectable.dart';
 import '../../../participant_enroll_datastore_service.dart';
 import '../../service/session.dart';
 import '../util/common_responses.dart';
-import '../util/http_client_wrapper.dart';
 import '../util/request_header.dart';
 import '../util/response_parser.dart';
 import '../config.dart';
@@ -46,7 +45,7 @@ class ParticipantEnrollDatastoreServiceImpl
     var uri = Uri.https(
         config.baseParticipantUrl, '$participantEnrollDatastore$enrollPath');
 
-    return HTTPClientWrapper(client)
+    return client
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse('enroll', response,
             () => EnrollInStudyResponse()..fromJson(response.body)));
@@ -59,10 +58,9 @@ class ParticipantEnrollDatastoreServiceImpl
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantEnrollDatastore$studyStatePath');
 
-    return HTTPClientWrapper(client)
-        .get(uri, headers: headers.toHeaderJson())
-        .then((response) => ResponseParser.parseHttpResponse('study_state',
-            response, () => GetStudyStateResponse()..fromJson(response.body)));
+    return client.get(uri, headers: headers.toHeaderJson()).then((response) =>
+        ResponseParser.parseHttpResponse('study_state', response,
+            () => GetStudyStateResponse()..fromJson(response.body)));
   }
 
   @override
@@ -97,7 +95,7 @@ class ParticipantEnrollDatastoreServiceImpl
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantEnrollDatastore$updateStudyStatePath', queryParams);
 
-    return HTTPClientWrapper(client)
+    return client
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'update_study_state',
@@ -117,7 +115,7 @@ class ParticipantEnrollDatastoreServiceImpl
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantEnrollDatastore$validateEnrollmentTokenPath');
 
-    return HTTPClientWrapper(client)
+    return client
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'validate_enrollment_token',
@@ -141,7 +139,7 @@ class ParticipantEnrollDatastoreServiceImpl
     var uri = Uri.https(config.baseParticipantUrl,
         '$participantEnrollDatastore$withdrawFromStudyPath');
 
-    return HTTPClientWrapper(client)
+    return client
         .post(uri, headers: headers.toHeaderJson(), body: jsonEncode(body))
         .then((response) => ResponseParser.parseHttpResponse(
             'withdraw_from_study',

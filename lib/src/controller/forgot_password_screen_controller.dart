@@ -43,7 +43,7 @@ class _ForgotPasswordScreenControllerState
     authenticationService
         .resetPassword(_emailFieldController.text)
         .then((value) {
-    final l10n = AppLocalizations.of(context)!;
+      final l10n = AppLocalizations.of(context)!;
       var successfulResponse =
           l10n.forgotPasswordScreenTemporaryPasswordSentMessage;
       var response = processResponse(value, successfulResponse);
