@@ -31,11 +31,6 @@ function ci_projects () {
             flutter pub run build_runner build --delete-conflicting-outputs
         fi
 
-        if [ "${PROJECT_NAME}" == "package/fda_mystudies_http_proxy" ]
-        then
-            flutter pub run build_runner build --delete-conflicting-outputs
-        fi
-
         if [ "${PROJECT_NAME}" == "package/fda_mystudies_design_system" ]
         then
             flutter gen-l10n
