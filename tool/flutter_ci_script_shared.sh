@@ -22,6 +22,17 @@ function ci_projects () {
             find . -name "*.dart" ! -path './package/fda_mystudies_spec/*' | xargs dart format --set-exit-if-changed
         fi
 
+        if [ "${PROJECT_NAME}" == "package/fda_mystudies_http_proxy" ]
+        then
+            flutter pub run build_runner build --delete-conflicting-outputs
+
+            # Run the analyzer to find any static analysis issues.
+            dart analyze
+
+            # Run the formatter on all the dart files to make sure everything's linted.
+            find . -name "*.dart" ! -path './package/fda_mystudies_spec/*' | xargs dart format --set-exit-if-changed
+        fi
+
         if [ "${PROJECT_NAME}" == "package/fda_mystudies_design_system" ]
         then
             flutter gen-l10n

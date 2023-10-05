@@ -173,7 +173,7 @@ class ActivityBuilderImpl implements ActivityBuilder {
         if (step.textChoice.selectionStyle == 'Single') {
           return SingleTextChoiceTemplate(step, allowExit, title, widgetMap);
         } else if (step.textChoice.selectionStyle == 'Multiple') {
-          // Comprehension tests are exclusively comprised of MutlipleTextChoice question.
+          // Comprehension tests are exclusively comprised of MultipleTextChoice question.
           return MultipleTextChoiceTemplate(step, allowExit, title, widgetMap,
               answers: answers);
         }
