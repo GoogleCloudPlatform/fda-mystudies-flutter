@@ -47,7 +47,7 @@ dependencies:
   cached_network_image: ^3.2.0
   intl: ^0.18.1
   clock: ^1.1.0
-  fl_chart: ^0.62.0
+  fl_chart: ^0.64.0
   flutter_inappwebview: ^5.7.1+2
   webview_flutter: ^2.6.0
   html: ^0.15.0
