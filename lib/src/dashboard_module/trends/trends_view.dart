@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/future_loading_page.dart';
+import '../../dashboard_module/trends/chart_time_range.dart';
 import '../../provider/dashboard_provider.dart';
 import '../../user/user_data.dart';
 import 'chart_tile.dart';
@@ -32,6 +33,7 @@ class TrendsView extends StatelessWidget {
               padding: EdgeInsets.zero,
               itemBuilder: (context, index) => ChartTile(
                   charts[index].title,
+                  charts[index].dataSource.timeRangeType.chartTimeRange,
                   charts[index].displayName,
                   recordedValues[
                           '${charts[index].dataSource.activity.activityId}${charts[index].dataSource.key}'] ??
@@ -60,8 +62,8 @@ class TrendsView extends StatelessWidget {
                   .where((element) =>
                       element.participantStudyActivityStepId ==
                       participantStudyActivityStepId)
-                  .map((e) =>
-                      RecordedValue(DateTime.parse(e.recordedAt), e.value))
+                  .map((e) => RecordedValue(
+                      DateTime.parse(e.recordedAt), double.parse(e.value)))
                   .toList();
         }
         return map;

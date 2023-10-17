@@ -1,6 +1,6 @@
 class RecordedValue {
   final DateTime recordedAt;
-  final String value;
+  final double value;
 
   RecordedValue(this.recordedAt, this.value);
 }
