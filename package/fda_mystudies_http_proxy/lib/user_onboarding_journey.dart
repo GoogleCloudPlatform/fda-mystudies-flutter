@@ -1,19 +1,24 @@
+import 'model/error_response.dart';
+
 abstract class UserOnboardingJourney {
   Uri getSignInPageUri();
 
-  Future<Object> registerNewUser({String emailId, String password});
+  Future<ErrorResponse?> registerNewUser(
+      {required String emailId, required String password});
 
-  Future<Object> verifyEmail({String verificationCode});
+  Future<ErrorResponse?> verifyEmail({required String verificationCode});
 
-  Future<Object> resendVerificationCode();
+  Future<ErrorResponse?> resendVerificationCode();
 
-  Future<Object> signIn({String email, String password});
+  // Q: Only required for demo environment?
+  Future<Object> demoSignIn({required String email, required String password});
 
-  Future<Object> reSignIn();
+  Future<ErrorResponse?> reSignIn({bool shouldRefreshToken = false});
 
-  Future<Object> requestHelpForForgottenPassword();
+  Future<ErrorResponse?> requestHelpForForgottenPassword({required String emailId});
 
-  Future<Object> logout();
+  Future<ErrorResponse?> logout();
 
-  Future<Object> updatePassword({String currentPassword, String newPassword});
+  Future<ErrorResponse?> updatePassword(
+      {required String currentPassword, required String newPassword});
 }

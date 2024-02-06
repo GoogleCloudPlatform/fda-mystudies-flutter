@@ -8,6 +8,11 @@ class _DBUser {
   String userId = '';
   String emailId = '';
 
+  String tempRegId = '';
+  String authToken = '';
+  String refreshToken = '';
+  String code = '';
+
   // Preferences
   bool passcodeEnabled = false;
   bool biometricEnabled = true;

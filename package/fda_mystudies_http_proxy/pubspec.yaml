@@ -2,6 +2,7 @@ name: fda_mystudies_http_proxy
 description: Flutter HTTP Proxy layer that sits on HTTP Client to support offline mode.
 version: 0.0.1
 homepage:
+publish_to: none
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
@@ -11,6 +12,12 @@ dependencies:
   flutter:
     sdk: flutter
   realm: ^1.5.0
+  injectable: ^2.1.0
+  get_it: ^7.2.0
+  fda_mystudies_http_client:
+    path: '../fda_mystudies_http_client'
+  fda_mystudies_spec:
+    path: '../fda_mystudies_spec'
 
 dev_dependencies:
   flutter_test:
