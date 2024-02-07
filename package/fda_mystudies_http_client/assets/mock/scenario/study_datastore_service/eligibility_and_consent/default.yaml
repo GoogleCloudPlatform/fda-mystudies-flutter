@@ -11,8 +11,62 @@ response: |
               {
                   "type": "Question",
                   "resultType": "boolean",
-                  "key": "age",
-                  "title": "Are you 18 years or older?",
+                  "key": "eligibility-lang",
+                  "title": "Are you able to provide consent in English?",
+                  "text": "Answer these questions to determine your eligibility for the study",
+                  "skippable": false,
+                  "repeatable": false
+              },
+              {
+                  "type": "Question",
+                  "resultType": "boolean",
+                  "key": "loc",
+                  "title": "Are you located in Accra?",
+                  "text": "Answer these questions to determine your eligibility for the study",
+                  "skippable": false,
+                  "repeatable": false
+              },
+              {
+                  "type": "Question",
+                  "resultType": "boolean",
+                  "key": "adult",
+                  "title": "Are you 18 years of age or greater?",
+                  "text": "Answer these questions to determine your eligibility for the study",
+                  "skippable": false,
+                  "repeatable": false
+              },
+              {
+                  "type": "Question",
+                  "resultType": "boolean",
+                  "key": "pregnant",
+                  "title": "Are you pregnant?",
+                  "text": "Answer these questions to determine your eligibility for the study",
+                  "skippable": false,
+                  "repeatable": false
+              },
+              {
+                  "type": "Question",
+                  "resultType": "boolean",
+                  "key": "15weeks",
+                  "title": "Are you past 15 weeks of pregnancy?",
+                  "text": "Answer these questions to determine your eligibility for the study",
+                  "skippable": false,
+                  "repeatable": false
+              },
+              {
+                  "type": "Question",
+                  "resultType": "boolean",
+                  "key": "fitbit",
+                  "title": "Are you comfortable with wearing and using the provided Fitbit activity tracker?",
+                  "text": "Answer these questions to determine your eligibility for the study",
+                  "skippable": false,
+                  "repeatable": false
+              },
+              {
+                  "type": "Question",
+                  "resultType": "boolean",
+                  "key": "visit",
+                  "title": "Are you able to attend prenatal and postnatal visits at the University of Ghana Medical Center (UGMC)?",
                   "text": "Answer these questions to determine your eligibility for the study",
                   "skippable": false,
                   "repeatable": false
@@ -21,7 +75,31 @@ response: |
           "correctAnswers": [
               {
                   "answer": true,
-                  "key": "age"
+                  "key": "eligibility-lang"
+              },
+              {
+                  "answer": true,
+                  "key": "loc"
+              },
+              {
+                  "answer": true,
+                  "key": "adult"
+              },
+              {
+                  "answer": true,
+                  "key": "pregnant"
+              },
+              {
+                  "answer": false,
+                  "key": "15weeks"
+              },
+              {
+                  "answer": true,
+                  "key": "fitbit"
+              },
+              {
+                  "answer": true,
+                  "key": "visit"
               }
           ]
       },
@@ -37,15 +115,15 @@ response: |
               }
           ],
           "sharing" : {
-            "longDesc" : "Share my data with the host and qualified researchers worldwide.",
-            "shortDesc" : "Only Share my data with the host and partners",
+            "longDesc" : "Share my data with UGMC and qualified researchers worldwide.",
+            "shortDesc" : "Only Share my data with UGMC and partners",
             "title" : "Sharing Options",
             "learnMore" : "",
             "allowWithoutSharing" : false,
             "text" : "The host and its partners will receive your study data from participation in this study. Sharing your coded data more broadly (without information such as your name) may benefit this and future research."
           },
           "comprehension": {
-              "passScore": 1,
+              "passScore": 2,
               "questions": [
                   {
                       "type": "Question",
@@ -71,6 +149,41 @@ response: |
                           ],
                           "selectionStyle": "Multiple"
                       }
+                  },
+                  {
+                      "type": "Question",
+                      "resultType": "textChoice",
+                      "key": "234",
+                      "title": "Which are all the statements that represent the objectives of the study?",
+                      "text": "Take this comprehension test to assess your understanding of the study",
+                      "skippable": false,
+                      "repeatable": false,
+                      "destinations": [],
+                      "format": {
+                          "textChoices": [
+                              {
+                                  "text": "Understand how physiological metrics may change during pregnancy.",
+                                  "value": "1",
+                                  "exclusive": false
+                              },
+                              {
+                                  "text": "Determine whether physiological changes can be leveraged by machine learning algorithms to detect or predict pregnancy outcomes.",
+                                  "value": "2",
+                                  "exclusive": false
+                              },
+                              {
+                                  "text": "Understand the correlation between diet and stress.",
+                                  "value": "3",
+                                  "exclusive": false
+                              },
+                              {
+                                  "text": "Determine whether wearable devices enable behavioural changes which may improve pregnancy outcomes.",
+                                  "value": "4",
+                                  "exclusive": false
+                              }
+                          ],
+                          "selectionStyle": "Multiple"
+                      }
                   }
               ],
               "correctAnswers": [
@@ -78,6 +191,15 @@ response: |
                       "key": "123",
                       "answer": [
                           "Yes"
+                      ],
+                      "evaluation": "all"
+                  },
+                  {
+                      "key": "234",
+                      "answer": [
+                          "1",
+                          "2",
+                          "4"
                       ],
                       "evaluation": "all"
                   }

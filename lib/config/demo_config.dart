@@ -17,10 +17,10 @@ class DemoConfig implements Config {
   String get appId => 'fda-mystudies-flutter';
 
   @override
-  String get appName => 'FDA MyStudies';
+  String get appName => 'Akuba Maternal Health Study';
 
   @override
-  String get organization => 'Google Cloud Platform';
+  String get organization => 'University of Ghana Medical Centre';
 
   @override
   String get baseParticipantUrl => 'participants.fda-mystudies.test-url.com';
