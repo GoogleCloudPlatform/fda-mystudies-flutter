@@ -1,0 +1,918 @@
+title: Default Response
+description: Demographic One Time survey
+code: 200
+response: |
+  {
+      "message": "SUCCESS",
+      "activity": {
+          "type": "questionnaire",
+          "metadata": {
+              "studyId": "demo-study",
+              "activityId": "demographic-info",
+              "name": "Demographic Info",
+              "version": "1.1",
+              "lastModified": "2021-05-06T10:23:29.000+0000",
+              "startDate": "2021-05-06T07:00:00.000+0000",
+              "endDate": "2024-01-29T23:59:59.000+0000"
+          },
+          "steps": [
+              {
+                  "type": "question",
+                  "resultType": "textChoice",
+                  "key": "marital-status",
+                  "title": "Martial Status",
+                  "text": "What best describes you?",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                      {
+                          "condition": "never-married",
+                          "operator": "",
+                          "destination": "race"
+                      },
+                      {
+                          "condition": "married",
+                          "operator": "",
+                          "destination": "race"
+                      },
+                      {
+                          "condition": "divorced",
+                          "operator": "",
+                          "destination": "race"
+                      },
+                      {
+                          "condition": "separated",
+                          "operator": "",
+                          "destination": "race"
+                      },
+                      {
+                          "condition": "widowed",
+                          "operator": "",
+                          "destination": "race"
+                      },
+                      {
+                          "condition": "none",
+                          "operator": "",
+                          "destination": "race"
+                      },
+                      {
+                          "condition": "",
+                          "operator": "",
+                          "destination": "race"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                    "textChoices": [
+                          {
+                              "text": "Never married",
+                              "value": "never-married",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Married",
+                              "value": "married",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Divorced",
+                              "value": "divorced",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Separated",
+                              "value": "separated",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Widowed",
+                              "value": "widowed",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "None of these apply",
+                              "value": "none",
+                              "detail": "",
+                              "exclusive": false
+                          }
+                      ],
+                      "selectionStyle": "Single"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "textChoice",
+                  "key": "race",
+                  "title": "What race do you identify with?",
+                  "text": "What best describes you?",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                    {
+                        "condition": "black",
+                        "operator": "",
+                        "destination": "ethnic-group"
+                    },
+                    {
+                        "condition": "white",
+                        "operator": "",
+                        "destination": "ethnic-group"
+                    },
+                    {
+                        "condition": "asian",
+                        "operator": "",
+                        "destination": "ethnic-group"
+                    },
+                    {
+                        "condition": "mixed-race",
+                        "operator": "",
+                        "destination": "ethnic-group"
+                    },
+                    {
+                        "condition": "other",
+                        "operator": "",
+                        "destination": "ethnic-group"
+                    },
+                      {
+                          "condition": "",
+                          "operator": "",
+                          "destination": "ethnic-group"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "textChoices": [
+                          {
+                              "text": "Black",
+                              "value": "black",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "White",
+                              "value": "white",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Asian",
+                              "value": "asian",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Mixed Race",
+                              "value": "mixed-race",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Other",
+                              "value": "other",
+                              "detail": "Race that best describes you",
+                              "exclusive": false,
+                              "other": {
+                                  "placeholder": "other race",
+                                  "isMandatory": false,
+                                  "textfieldReq": true
+                              }
+                          }
+                      ],
+                      "selectionStyle": "Single"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "textChoice",
+                  "key": "ethnic-group",
+                  "title": "What ethnic group do you identify with?",
+                  "text": "What best describes you?",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                    {
+                        "condition": "akan",
+                        "operator": "",
+                        "destination": "religion"
+                    },
+                    {
+                        "condition": "mole-dagbon",
+                        "operator": "",
+                        "destination": "religion"
+                    },
+                    {
+                        "condition": "ewe",
+                        "operator": "",
+                        "destination": "religion"
+                    },
+                    {
+                        "condition": "ga-dangme",
+                        "operator": "",
+                        "destination": "religion"
+                    },
+                    {
+                        "condition": "gurma",
+                        "operator": "",
+                        "destination": "religion"
+                    },
+                      {
+                          "condition": "guan",
+                          "operator": "",
+                        "destination": "religion"
+                      },
+                    {
+                        "condition": "grusi",
+                        "operator": "",
+                        "destination": "religion"
+                    },
+                    {
+                        "condition": "bikpakpaam",
+                        "operator": "",
+                        "destination": ""
+                    },
+                      {
+                          "condition": "other",
+                          "operator": "",
+                        "destination": "religion"
+                      },
+                      {
+                          "condition": "",
+                          "operator": "",
+                        "destination": "religion"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "textChoices": [
+                          {
+                              "text": "Akan",
+                              "value": "akan",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Mole-Dagbon",
+                              "value": "mole-dagbon",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Ewe",
+                              "value": "ewe",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Ga-Dangme",
+                              "value": "ga-dangme",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Gurma",
+                              "value": "gurma",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Guan",
+                              "value": "guan",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Grusi",
+                              "value": "grusi",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Bikpakpaam",
+                              "value": "bikpakpaam",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Other",
+                              "value": "other",
+                              "detail": "Race that best describes you",
+                              "exclusive": false,
+                              "other": {
+                                  "placeholder": "other race",
+                                  "isMandatory": false,
+                                  "textfieldReq": true
+                              }
+                          }
+                      ],
+                      "selectionStyle": "Single"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "textChoice",
+                  "key": "religion",
+                  "title": "What religion do you practice?",
+                  "text": "What best describes you?",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                    {
+                        "condition": "christianity",
+                        "operator": "",
+                        "destination": "language"
+                    },
+                    {
+                        "condition": "islam",
+                        "operator": "",
+                        "destination": "language"
+                    },
+                    {
+                        "condition": "traditional",
+                        "operator": "",
+                        "destination": "language"
+                    },
+                      {
+                          "condition": "other",
+                          "operator": "",
+                        "destination": "language"
+                      },
+                      {
+                          "condition": "",
+                          "operator": "",
+                        "destination": "language"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "textChoices": [
+                          {
+                              "text": "Christianity",
+                              "value": "christianity",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Islam",
+                              "value": "islam",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Traditional",
+                              "value": "traditional",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Other",
+                              "value": "other",
+                              "detail": "Religion that defines you the best",
+                              "exclusive": false,
+                              "other": {
+                                  "placeholder": "other religion",
+                                  "isMandatory": false,
+                                  "textfieldReq": true
+                              }
+                          }
+                      ],
+                      "selectionStyle": "Single"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "textChoice",
+                  "key": "language",
+                  "title": "What languages do you speak in addtition to English?",
+                  "text": "",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                    {
+                        "condition": "akan",
+                        "operator": "",
+                        "destination": "education"
+                    },
+                    {
+                        "condition": "Ewe",
+                        "operator": "",
+                        "destination": "education"
+                    },
+                    {
+                        "condition": "hausa",
+                        "operator": "",
+                        "destination": "education"
+                    },
+                    {
+                        "condition": "dagbani",
+                        "operator": "",
+                        "destination": "education"
+                    },
+                    {
+                        "condition": "dangme",
+                        "operator": "",
+                        "destination": "education"
+                    },
+                    {
+                        "condition": "gonja",
+                        "operator": "",
+                        "destination": "education"
+                    },
+                    {
+                        "condition": "nzema",
+                        "operator": "",
+                        "destination": "education"
+                    },
+                    {
+                        "condition": "kasem",
+                        "operator": "",
+                        "destination": "education"
+                    },
+                      {
+                          "condition": "other",
+                          "operator": "",
+                        "destination": "education"
+                      },
+                      {
+                          "condition": "",
+                          "operator": "",
+                        "destination": "education"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "textChoices": [
+                          {
+                              "text": "Akan",
+                              "value": "akan",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Ewe",
+                              "value": "ewe",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Hausa",
+                              "value": "hausa",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Dagbani",
+                              "value": "dagbani",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Dangme",
+                              "value": "dangme",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Gonja",
+                              "value": "gonja",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Nzema",
+                              "value": "nzema",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Kasem",
+                              "value": "kasem",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Other",
+                              "value": "other",
+                              "detail": "Religion that defines you the best",
+                              "exclusive": false,
+                              "other": {
+                                  "placeholder": "other religion",
+                                  "isMandatory": false,
+                                  "textfieldReq": true
+                              }
+                          }
+                      ],
+                      "selectionStyle": "Multiple"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "textChoice",
+                  "key": "education",
+                  "title": "What is the highest degree or level of school you have completed?",
+                  "text": "If currently enrolled, the highest degree received",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                    {
+                        "condition": "no-formal",
+                        "operator": "",
+                        "destination": "work-status"
+                    },
+                    {
+                        "condition": "primary-school",
+                        "operator": "",
+                        "destination": "work-status"
+                    },
+                    {
+                        "condition": "junior-high",
+                        "operator": "",
+                        "destination": "work-status"
+                    },
+                    {
+                        "condition": "senior-high",
+                        "operator": "",
+                        "destination": "work-status"
+                    },
+                    {
+                        "condition": "vocational-training",
+                        "operator": "",
+                        "destination": "work-status"
+                    },
+                    {
+                        "condition": "bachelors-degree",
+                        "operator": "",
+                        "destination": "work-status"
+                    },
+                    {
+                        "condition": "masters-degree",
+                        "operator": "",
+                        "destination": "work-status"
+                    },
+                    {
+                        "condition": "doctorate",
+                        "operator": "",
+                        "destination": "work-status"
+                    },
+                      {
+                          "condition": "other",
+                          "operator": "",
+                        "destination": "work-status"
+                      },
+                      {
+                          "condition": "",
+                          "operator": "",
+                        "destination": "work-status"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "textChoices": [
+                          {
+                              "text": "No formal education",
+                              "value": "no-formal",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Primary School",
+                              "value": "primary-school",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Junior High",
+                              "value": "junior-high",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Senior High",
+                              "value": "senior-high",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Vocational Training",
+                              "value": "vacational-training",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Bachelor's Degree",
+                              "value": "bachelors-degree",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Master's Degree",
+                              "value": "masters-degree",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Doctorate",
+                              "value": "doctorate",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Other",
+                              "value": "other",
+                              "detail": "Religion that defines you the best",
+                              "exclusive": false,
+                              "other": {
+                                  "placeholder": "other religion",
+                                  "isMandatory": false,
+                                  "textfieldReq": true
+                              }
+                          }
+                      ],
+                      "selectionStyle": "Single"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "textChoice",
+                  "key": "work-status",
+                  "title": "What is your work status?",
+                  "text": "",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                    {
+                        "condition": "full-time",
+                        "operator": "",
+                        "destination": "monthly-income"
+                    },
+                    {
+                        "condition": "part-time",
+                        "operator": "",
+                        "destination": "monthly-income"
+                    },
+                    {
+                        "condition": "self-employeed",
+                        "operator": "",
+                        "destination": "monthly-income"
+                    },
+                    {
+                        "condition": "unemployed",
+                        "operator": "",
+                        "destination": "monthly-income"
+                    },
+                    {
+                        "condition": "homemaker",
+                        "operator": "",
+                        "destination": "monthly-income"
+                    },
+                    {
+                        "condition": "student",
+                        "operator": "",
+                        "destination": "monthly-income"
+                    },
+                    {
+                        "condition": "retired",
+                        "operator": "",
+                        "destination": "monthly-income"
+                    },
+                      {
+                          "condition": "",
+                          "operator": "",
+                        "destination": "monthly-income"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "textChoices": [
+                          {
+                              "text": "Full-time employee",
+                              "value": "full-time",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Part-time employee",
+                              "value": "part-time",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Self-employeed",
+                              "value": "self-employeed",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Unemployed",
+                              "value": "unemployed",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Homemaker",
+                              "value": "homemaker",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Student",
+                              "value": "student",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Retired",
+                              "value": "retired",
+                              "detail": "",
+                              "exclusive": false
+                          }
+                      ],
+                      "selectionStyle": "Single"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "textChoice",
+                  "key": "monthly-income",
+                  "title": "What is your monthly income range in GHC?",
+                  "text": "",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                    {
+                        "condition": "<1000",
+                        "operator": "",
+                        "destination": "location"
+                    },
+                    {
+                        "condition": "1000-1999",
+                        "operator": "",
+                        "destination": "location"
+                    },
+                    {
+                        "condition": "2000-2999",
+                        "operator": "",
+                        "destination": "location"
+                    },
+                    {
+                        "condition": "3000-3999",
+                        "operator": "",
+                        "destination": "location"
+                    },
+                    {
+                        "condition": ">4000",
+                        "operator": "",
+                        "destination": "location"
+                    },
+                      {
+                          "condition": "",
+                          "operator": "",
+                        "destination": "location"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "textChoices": [
+                          {
+                              "text": "Less than 1000",
+                              "value": "<1000",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "1000-1999",
+                              "value": "1000-1999",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "2000-2999",
+                              "value": "2000-2999",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "3000-3999",
+                              "value": "3000-3999",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "4000 and above",
+                              "value": ">4000",
+                              "detail": "",
+                              "exclusive": false
+                          }
+                      ],
+                      "selectionStyle": "Single"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "textChoice",
+                  "key": "location",
+                  "title": "What best describes the location where you reside?",
+                  "text": "",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                    {
+                        "condition": "village",
+                        "operator": "",
+                        "destination": ""
+                    },
+                    {
+                        "condition": "city",
+                        "operator": "",
+                        "destination": ""
+                    },
+                    {
+                        "condition": "suburban",
+                        "operator": "",
+                        "destination": ""
+                    },
+                    {
+                        "condition": "town",
+                        "operator": "",
+                        "destination": ""
+                    },
+                      {
+                          "condition": "",
+                          "operator": "",
+                        "destination": ""
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "textChoices": [
+                          {
+                              "text": "Rural/village",
+                              "value": "village",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Urban/city",
+                              "value": "city",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Suburban",
+                              "value": "suburban",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "Town",
+                              "value": "town",
+                              "detail": "",
+                              "exclusive": false
+                          }
+                      ],
+                      "selectionStyle": "Single"
+                  },
+                  "steps": [],
+                  "options": []
+              }
+          ]
+      }
+  }

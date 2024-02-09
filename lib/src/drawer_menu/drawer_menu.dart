@@ -41,9 +41,11 @@ class _DrawerMenuState extends State<DrawerMenu> {
                   width: 36,
                   height: 33,
                 ),
-                const SizedBox(width: 12),
-                Text(AppConfig.shared.currentConfig.appName,
-                    style: Theme.of(context).textTheme.headlineSmall)
+                const SizedBox(width: 24),
+                Expanded(
+                child:Text(AppConfig.shared.currentConfig.appName,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                    maxLines: 2,))
               ])),
           const SizedBox(height: 30),
           _listTile(

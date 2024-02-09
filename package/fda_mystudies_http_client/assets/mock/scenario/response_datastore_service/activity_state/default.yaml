@@ -6,26 +6,26 @@ response: |
     "message": "success",
     "activities": [
         {
-            "activityId": "ui-test",
+            "activityId": "health-history",
             "activityRun": {
-              "completed": 15,
-              "missed": 2,
-              "total": 100
-            },
-            "activityRunId": "18",
-            "activityState": "inProgress",
-            "activityVersion": "1.1"
-        },
-        {
-            "activityId": "default",
-            "activityRun": {
-              "completed": 1,
+              "completed": 0,
               "missed": 0,
               "total": 1
             },
             "activityRunId": "1",
-            "activityState": "inProgress",
-            "activityVersion": "1.2"
+            "activityState": "yetToJoin",
+            "activityVersion": "1.1"
+        },
+        {
+            "activityId": "demographic-info",
+            "activityRun": {
+              "completed": 0,
+              "missed": 0,
+              "total": 1
+            },
+            "activityRunId": "1",
+            "activityState": "yetToJoin",
+            "activityVersion": "1.1"
         }
     ]
   }

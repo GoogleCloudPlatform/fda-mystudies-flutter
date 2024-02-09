@@ -1,0 +1,307 @@
+title: Default Response
+description: Health History One Time survey
+code: 200
+response: |
+  {
+      "message": "SUCCESS",
+      "activity": {
+          "type": "questionnaire",
+          "metadata": {
+              "studyId": "demo-study",
+              "activityId": "test-activity",
+              "name": "Test Activity",
+              "version": "1.1",
+              "lastModified": "2021-05-06T10:23:29.000+0000",
+              "startDate": "2021-05-06T07:00:00.000+0000",
+              "endDate": "2024-01-29T23:59:59.000+0000"
+          },
+          "steps": [
+              {
+                  "type": "question",
+                  "resultType": "textChoice",
+                  "key": "skin-tone",
+                  "title": "Select the colour that best suits your skin type",
+                  "text": "",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                      {
+                          "condition": "A",
+                          "operator": "",
+                          "destination": "current-weight"
+                      },
+                      {
+                          "condition": "B",
+                          "operator": "",
+                          "destination": "current-weight"
+                      },
+                      {
+                          "condition": "C",
+                          "operator": "",
+                          "destination": "current-weight"
+                      },
+                      {
+                          "condition": "D",
+                          "operator": "",
+                          "destination": "current-weight"
+                      },
+                      {
+                          "condition": "E",
+                          "operator": "",
+                          "destination": "current-weight"
+                      },
+                      {
+                          "condition": "F",
+                          "operator": "",
+                          "destination": "current-weight"
+                      },
+                      {
+                          "condition": "G",
+                          "operator": "",
+                          "destination": "current-weight"
+                      },
+                      {
+                          "condition": "H",
+                          "operator": "",
+                          "destination": "current-weight"
+                      },
+                      {
+                          "condition": "I",
+                          "operator": "",
+                          "destination": "current-weight"
+                      },
+                      {
+                          "condition": "J",
+                          "operator": "",
+                          "destination": "current-weight"
+                      },
+                      {
+                          "condition": "",
+                          "operator": "",
+                          "destination": "current-weight"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                    "textChoices": [
+                          {
+                              "text": "A",
+                              "value": "A",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "B",
+                              "value": "B",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "C",
+                              "value": "C",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "D",
+                              "value": "D",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "E",
+                              "value": "E",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "F",
+                              "value": "F",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "G",
+                              "value": "G",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "H",
+                              "value": "H",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "I",
+                              "value": "I",
+                              "detail": "",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "J",
+                              "value": "J",
+                              "detail": "",
+                              "exclusive": false
+                          }
+                      ],
+                      "selectionStyle": "Single"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "numeric",
+                  "key": "current-weight",
+                  "title": "Current Weight",
+                  "text": "For this time you are allowed to fetch data via HealthKit",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                      {
+                          "condition": "",
+                          "operator": "",
+                          "destination": "pre-pregnancy-weight"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "style": "Decimal",
+                      "unit": "kg",
+                      "minValue": 0.0,
+                      "maxValue": 600.0,
+                      "placeholder": "Current Weight"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "numeric",
+                  "key": "pre-pregnancy-weight",
+                  "title": "Pre Pregnancy Weight",
+                  "text": "For this time you are allowed to fetch data via HealthKit",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                      {
+                          "condition": "",
+                          "operator": "",
+                          "destination": "height"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "style": "Decimal",
+                      "unit": "kg",
+                      "minValue": 0.0,
+                      "maxValue": 600.0,
+                      "placeholder": "Pre Pregnancy Weight"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "numeric",
+                  "key": "height",
+                  "title": "Current Height",
+                  "text": "For this time you are allowed to fetch data via HealthKit",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                      {
+                          "condition": "",
+                          "operator": "",
+                          "destination": "age"
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "style": "Decimal",
+                      "unit": "cm",
+                      "minValue": 0.0,
+                      "maxValue": 300.0,
+                      "placeholder": "Height"
+                  },
+                  "steps": [],
+                  "options": []
+              },
+              {
+                  "type": "question",
+                  "resultType": "textChoice",
+                  "key": "age",
+                  "title": "Current Age Range",
+                  "text": "",
+                  "skippable": true,
+                  "groupName": "",
+                  "repeatable": false,
+                  "repeatableText": "",
+                  "destinations": [
+                      {
+                          "condition": "18-20",
+                          "operator": "",
+                          "destination": ""
+                      },
+                      {
+                          "condition": "21-25",
+                          "operator": "",
+                          "destination": ""
+                      },
+                      {
+                          "condition": "26-30",
+                          "operator": "",
+                          "destination": ""
+                      },
+                      {
+                          "condition": "31-35",
+                          "operator": "",
+                          "destination": ""
+                      },
+                      {
+                          "condition": "",
+                          "operator": "",
+                          "destination": ""
+                      }
+                  ],
+                  "healthDataKey": "",
+                  "format": {
+                      "textChoices": [
+                          {
+                              "text": "18-20",
+                              "value": "18-20",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "21-25",
+                              "value": "21-25",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "26-30",
+                              "value": "26-30",
+                              "exclusive": false
+                          },
+                          {
+                              "text": "31-35",
+                              "value": "31-35",
+                              "exclusive": false
+                          }
+                      ],
+                      "selectionStyle": "Single"
+                  },
+                  "steps": [],
+                  "options": []
+              }
+          ]
+      }
+  }
