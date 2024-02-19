@@ -23,6 +23,7 @@ class RouteName {
   static const activities = 'activities';
   static const dashboard = 'dashboard';
   static const dashboardTrends = 'dashboard_trends';
+  static const dashboardFitbitTrends = 'dashboard_fitbit_trends';
   static const resources = 'resources';
   static const resourceAboutStudy = 'resource_about_study';
   static const resourceSoftwareLicenses = 'resource_software_license';

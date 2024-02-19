@@ -9,6 +9,7 @@ import '../common/future_loading_page.dart';
 import '../provider/dashboard_provider.dart';
 import '../user/user_data.dart';
 import 'adherence_completion_view.dart';
+import 'fitbit/fitbit_dashboard_tile.dart';
 import 'statistics/statistics_view.dart';
 import 'study_participation_status_view.dart';
 import 'trends/trends_dashboard_tile.dart';
@@ -36,6 +37,7 @@ class Dashboard extends StatelessWidget {
             activitiesCompletionPercent: UserData.shared.curStudyAdherence),
         StatisticsView(statistics),
         const TrendsDashboardTile(),
+        const FitbitDashboardTile(),
         const SizedBox(height: 8)
       ];
       return SafeArea(

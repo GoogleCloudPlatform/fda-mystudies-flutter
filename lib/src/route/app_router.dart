@@ -35,6 +35,7 @@ import '../controller/verification_step_screen_controller.dart';
 import '../controller/view_consent_pdf_screen_controller.dart';
 import '../controller/welcome_screen_controller.dart';
 import '../dashboard_module/dashboard.dart';
+import '../dashboard_module/fitbit/fitbit_view.dart';
 import '../dashboard_module/trends/trends_view.dart';
 import '../eligibility_module/eligibility_decision.dart';
 import '../eligibility_module/enrollment_token.dart';
@@ -367,6 +368,11 @@ class AppRouter {
                 name: RouteName.dashboardTrends,
                 path: '/${RouteName.dashboardTrends}',
                 builder: (context, state) => const TrendsView()),
+            GoRoute(
+                parentNavigatorKey: _rootKey,
+                name: RouteName.dashboardFitbitTrends,
+                path: '/${RouteName.dashboardFitbitTrends}',
+                builder: (context, state) => const FitbitView()),
             GoRoute(
                 parentNavigatorKey: _rootKey,
                 name: RouteName.resourceAboutStudy,
