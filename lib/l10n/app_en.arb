@@ -307,5 +307,7 @@
     "deleteAccountScreenTitle": "Delete Account",
     "deleteAccountScreenSubtitle": "You have chosen to delete your app account. This will result in automatic withdrawal from the sutdies you are enrolled in.",
     "deleteAccountScreenDeleteButtonLabel": "Delete my account",
-    "deleteAccountScreenAccountDeletionSucceededMessage": "Your account has been deleted successfully!"
+    "deleteAccountScreenAccountDeletionSucceededMessage": "Your account has been deleted successfully!",
+
+    "fitbitConnectionTitle": "Connect Fitbit Account"
 }

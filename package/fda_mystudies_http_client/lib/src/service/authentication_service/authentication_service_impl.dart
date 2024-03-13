@@ -8,6 +8,7 @@ import 'package:fda_mystudies_spec/common_specs/common_request_header.pb.dart';
 import 'package:fda_mystudies_spec/fda_mystudies_spec.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
+import 'package:fitbitter/fitbitter.dart';
 
 import '../../../authentication_service.dart';
 import '../session.dart';
@@ -220,5 +221,15 @@ class AuthenticationServiceImpl implements AuthenticationService {
     String authToken =
         '${tokenType[0].toUpperCase()}${tokenType.substring(1)} $accessToken';
     return authToken;
+  }
+
+  @override
+  Future<FitbitCredentials?> fitbitSignIn() {
+        return FitbitConnector.authorize(
+            clientID: config.fitbitClientId,
+            clientSecret: config.fitbitClientSecret,
+            redirectUri: config.fitbitRedirectUri,
+            callbackUrlScheme: config.fitbitCallbackScheme
+        );
   }
 }

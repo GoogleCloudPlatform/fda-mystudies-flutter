@@ -1,3 +1,4 @@
+import 'package:fda_mystudies/src/controller/fitbit_screen_controller.dart';
 import 'package:fda_mystudies_activity_ui_kit/activity_builder.dart';
 import 'package:fda_mystudies_activity_ui_kit/fda_mystudies_activity_ui_kit.dart'
     as ui_kit;
@@ -127,6 +128,11 @@ class AppRouter {
         return null;
       }),
       routes: [
+         GoRoute(
+                name: RouteName.fitbitConnection,
+                path: '/${RouteName.fitbitConnection}',
+                builder: (context, state) =>
+                    const FitbitScreenController()),
             GoRoute(
                 name: RouteName.accessibilityScreen,
                 path: '/${RouteName.accessibilityScreen}',
