@@ -6,6 +6,7 @@ class RouteName {
   static const forgotPassword = 'forgot_password';
   static const verificationStep = 'verification_step';
   static const accountActivated = 'account_activated';
+  static const fitbitConnection = 'fitbit_connection';
   static const updateTemporaryPassword = 'update_temporary_password';
   static const unknownAccountStatus = 'unknown_account_status';
   static const gatewayHome = 'gateway_home';

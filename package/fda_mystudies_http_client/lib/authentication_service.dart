@@ -6,6 +6,8 @@ import 'package:fda_mystudies_spec/authentication_service/change_password.pb.dar
 import 'package:fda_mystudies_spec/authentication_service/refresh_token.pb.dart';
 import 'package:fda_mystudies_spec/authentication_service/sign_in.pb.dart';
 
+import 'package:fitbitter/fitbitter.dart';
+
 /// Service for communicating to auth-server
 abstract class AuthenticationService {
   /// Returns OAuth SignIn page URI.
@@ -47,4 +49,7 @@ abstract class AuthenticationService {
   /// [CommonErrorResponse] for failed response.
   Future<Object> changePassword(String authToken, String userId,
       String currentPassword, String newPassword);
+
+  /// Sign-in and link FitBit account.
+  Future<FitbitCredentials?> fitbitSignIn();
 }

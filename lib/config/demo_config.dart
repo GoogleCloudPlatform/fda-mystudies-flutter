@@ -51,4 +51,17 @@ class DemoConfig implements Config {
 
   @override
   int get delayInSeconds => delay;
+
+  @override
+  String get fitbitClientId => '';
+
+  @override
+  String get fitbitClientSecret => '';
+
+  @override
+  String get fitbitRedirectUri => 'app://com.google.fda_mystudies/mystudies';
+
+  @override
+  String get fitbitCallbackScheme => 'app';
+  
 }

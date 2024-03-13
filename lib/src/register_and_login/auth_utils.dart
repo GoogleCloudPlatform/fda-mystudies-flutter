@@ -34,4 +34,21 @@ class AuthUtils {
       return Future.error(error ?? 'ERROR', stackTrace);
     });
   }
+
+  static Future<void> saveFitbitUserToDB(
+      String fitbitAccessToken , String fitbitRefreshToken, String userId) {
+    const secureStorage = FlutterSecureStorage(
+        iOptions: IOSOptions(),
+        aOptions: AndroidOptions(encryptedSharedPreferences: true));
+    return Future.wait([
+      secureStorage.write(key: SecureKey.fitbitUserId, value: userId),
+      secureStorage.write(key: SecureKey.fitbitAccessToken, value: fitbitAccessToken),
+      secureStorage.write(key: SecureKey.fitbitRefreshToken, value: fitbitRefreshToken)
+    ])
+        .then((value) => {developer.log('SAVED FITBIT CREDENTIALS TO DB')})
+        .onError((error, stackTrace) {
+      developer.log(error.toString());
+      return Future.error(error ?? 'ERROR', stackTrace);
+    });
+  }
 }

@@ -11,4 +11,10 @@ class SecureKey {
       '${AppConfig.shared.currentConfig.appId}.refresh_token';
   static final String enrollmentToken =
       '${AppConfig.shared.currentConfig.appId}.enrollment_token';
+  static final String fitbitUserId =
+      '${AppConfig.shared.currentConfig.appId}.fb_user_id';
+  static final String fitbitAccessToken =
+      '${AppConfig.shared.currentConfig.appId}.fb_access_token';
+  static final String fitbitRefreshToken =
+      '${AppConfig.shared.currentConfig.appId}.fb_refresh_token';
 }
